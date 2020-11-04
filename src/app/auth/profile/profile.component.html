@@ -130,13 +130,6 @@
                                     </div>
                                 </fieldset>
 
-
-
-                                <div class="form-check text-left ml-1 mb-2">
-                                    <input type="checkbox" class="form-check-input" id="terminos_aceptados" formControlName="terminos_aceptados">
-                                    <label class="form-check-label">Acepto las <a href="javascript:void(0)" target="_blank" [routerLink]="['/registro/condiciones-de-uso']">Condiciones de Uso</a></label>
-                                </div>
-
                                 <div class="d-flex">
                                     <div class="flex-fill alert alert-danger mr-3" role="alert" *ngIf="this.profileForm.invalid">
                                         <div *ngIf="campoNoValido('rol')" class="col">{{ campoNoValido('rol') }}</div>
@@ -149,7 +142,6 @@
                                         <div *ngIf="campoNoValido('titulacion') && ['ROL_ESTUDIANTE'].includes(usuario.rol)" class="col">{{ campoNoValido('titulacion') }}</div>
                                         <div *ngIf="campoNoValido('facultad') && ['ROL_PROFESOR'].includes(usuario.rol)" class="col">{{ campoNoValido('facultad') }}</div>
                                         <div *ngIf="campoNoValido('sector')" class="col">{{ campoNoValido('sector') }}</div>
-                                        <div *ngIf="campoNoValido('terminos_aceptados')" class="col">{{ campoNoValido('terminos_aceptados') }}</div>
                                     </div>
 
                                     <div class="ml-auto mb-2">
