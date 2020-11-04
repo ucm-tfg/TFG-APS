@@ -129,6 +129,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "portal-aps"
+    }
+  },
+  "defaultProject": "portal-aps",
+  "cli": {
+    "analytics": false
+  }
 }
