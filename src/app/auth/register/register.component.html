@@ -40,7 +40,7 @@
 
                                     <div class="form-group">
                                         <label for="email">Correo electrónico (se usará como login)</label>
-                                        <input name="email" type="email" id="email" class="form-control" autocorrect="off" autocapitalize="none" spellcheck="false" placeholder="Introduzca su Usuario" formControlName="email">
+                                        <input name="email" type="email" id="email" class="form-control" autocorrect="off" autocapitalize="none" spellcheck="false" placeholder="Introduzca su Correo" formControlName="email">
                                     </div>
 
                                     <div class="d-flex">
@@ -51,7 +51,7 @@
 
                                         <div class="form-group flex-fill ml-2">
                                             <label for="password_2">Repetir Contraseña</label>
-                                            <input name="password_2" type="password" id="password_2" class="form-control" autocorrect="off" autocapitalize="none" spellcheck="false" placeholder="Introduzca su Contraseña" formControlName="password_2">
+                                            <input name="password_2" type="password" id="password_2" class="form-control" autocorrect="off" autocapitalize="none" spellcheck="false" placeholder="Repita su Contraseña" formControlName="password_2">
                                         </div>
                                     </div>
                                 </fieldset>
@@ -64,12 +64,12 @@
                                     <div class="d-flex">
                                         <div class="form-group flex-fill mr-2">
                                             <label for="nombre">Nombre</label>
-                                            <input name="nombre" type="text" id="nombre" class="form-control" autocorrect="off" autocapitalize="none" spellcheck="false" placeholder="Introduzca su Usuario" formControlName="nombre">
+                                            <input name="nombre" type="text" id="nombre" class="form-control" autocorrect="off" autocapitalize="none" spellcheck="false" placeholder="Introduzca su Nombre" formControlName="nombre">
                                         </div>
 
                                         <div class="form-group flex-fill ml-2">
                                             <label for="apellidos">Apellidos</label>
-                                            <input name="apellidos" type="text" id="apellidos" class="form-control" autocorrect="off" autocapitalize="none" spellcheck="false" placeholder="Introduzca su Usuario" formControlName="apellidos">
+                                            <input name="apellidos" type="text" id="apellidos" class="form-control" autocorrect="off" autocapitalize="none" spellcheck="false" placeholder="Introduzca su(s) Apellido(s)" formControlName="apellidos">
                                         </div>
                                     </div>
 
@@ -111,6 +111,7 @@
                                         <div *ngIf="campoNoValido('email')" class="col">{{ campoNoValido('email') }}</div>
                                         <div *ngIf="campoNoValido('password')" class="col">{{ campoNoValido('passwordsCoinciden') }}</div>
                                         <div *ngIf="passwordsNoCoinciden() || passwordsVacias()" class="col">Las contraseñas no coinciden o están en blanco</div>
+                                        <div *ngIf="contraseniaNoRobusta() " class="col">La contraseña no es robusta, debe tener de 8 a 20 caracteres, debe contener al menos una letra , un número y un carácter especial de ! @ # $% ^ & * () _ + y no debe comenzar con un carácter especial</div>
                                         <div *ngIf="campoNoValido('nombre')" class="col">{{ campoNoValido('nombre') }}</div>
                                         <div *ngIf="campoNoValido('apellidos')" class="col">{{ campoNoValido('apellidos') }}</div>
                                         <div *ngIf="campoNoValido('universidad')" class="col">{{ campoNoValido('universidad') }}</div>
