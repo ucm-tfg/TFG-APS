@@ -33,6 +33,7 @@ export class RegisterComponent implements OnInit {
       this.validarUniversidad(),
       this.validarTitulacion(),
       this.validarSector(),
+      this.validarEmailCorrecto(),
     ]
   });
 
@@ -176,6 +177,23 @@ export class RegisterComponent implements OnInit {
       } 
       else {
         formGroup.get('password').setErrors(null);
+      }
+    }
+  }
+
+  emailNoValido(): Boolean {
+    const regex = new RegExp(/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i);
+    return this.formSubmitted && !regex.test(this.registerForm.get('email').value);
+    
+  }
+
+  validarEmailCorrecto(){
+    return ( formGroup: FormGroup ) => {
+      if(this.emailNoValido()) {
+        formGroup.get('email').setErrors({ required: true});
+      } 
+      else {
+        formGroup.get('email').setErrors(null);
       }
     }
   }
