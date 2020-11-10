@@ -42,9 +42,11 @@ export class RegisterComponent implements OnInit {
       this.validarUniversidad(),
       this.validarTitulacion(),
       this.validarSector(),
+      this.match('password', 'password_2', 'password-mismatch')
     ]
   }); 
 
+  
     ngOnInit(): void {
     }
   
@@ -55,7 +57,8 @@ export class RegisterComponent implements OnInit {
       get GetPassword(){
         return this.registerForm.get('password')
       }
- get GetPasswordConfirm(){
+      
+     get GetPasswordConfirm(){
       return this.registerForm.get('password_2')
      }
      get getUniveridad(){
@@ -101,6 +104,12 @@ export class RegisterComponent implements OnInit {
     ];
   }
 
+  match(firstControlName, secondControlName, customError = 'mismatch') {
+    return (fg: FormGroup) => {
+        return fg.get(firstControlName).value === fg.get(secondControlName).value ? null : { [customError]: true };
+    };
+
+  }
 
   passwordsNoCoinciden(): Boolean {
     return this.formSubmitted && (this.registerForm.get('password').value !== this.registerForm.get('password_2').value);

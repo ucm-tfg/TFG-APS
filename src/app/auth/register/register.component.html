@@ -62,12 +62,14 @@
 
                                         <div class="form-group flex-fill ml-2">
                                             <label for="password_2">Repetir Contraseña</label>
-                                            <input name="password_2" type="password" id="password_2" class="form-control" autocorrect="off" [class.is-invalid] = "registerForm.get('password_2').invalid && registerForm.get('password_2').touched" autocapitalize="none" spellcheck="false" placeholder="Repita su Contraseña" formControlName="password_2">
+                                            <input name="password_2" type="password" id="password_2" class="form-control" autocorrect="off" [class.is-invalid] = "registerForm.get('password_2').invalid && registerForm.get('password_2').touched " autocapitalize="none" spellcheck="false" placeholder="Repita su Contraseña" formControlName="password_2">
                                             <div *ngIf="(GetPasswordConfirm.invalid && GetPasswordConfirm.touched)">
                                             <small *ngIf="GetPasswordConfirm.errors?.required" class="text-danger">Confirmar contraseña es un campo requerido</small>
                                             </div>
-                                            <div *ngIf="passwordsNoCoinciden() " class="col">
-                                            <small class="text-danger">Las contraseñas no coinciden</small>
+                                            <div *ngIf="registerForm.errors">
+                                                <small class="text-danger" *ngIf="registerForm.errors['password-mismatch']">
+                                                    Las contraseñas no coinciden.
+                                                </small>
                                             </div>
                                         </div>
                                     </div>
@@ -136,7 +138,6 @@
                                         <div class="col">Debes completar/seleccionar correctamente todos los campos</div>
                                         <div *ngIf="passwordsVacias()" class="col">Las contraseñas están en blanco</div>
                                         
-                                    
                                     </div>
 
                                     <div class="ml-auto mb-2">
