@@ -64,9 +64,11 @@
                                             <label for="password_2">Repetir Contraseña</label>
                                             <input name="password_2" type="password" id="password_2" class="form-control" autocorrect="off" [class.is-invalid] = "registerForm.get('password_2').invalid && registerForm.get('password_2').touched" autocapitalize="none" spellcheck="false" placeholder="Repita su Contraseña" formControlName="password_2">
                                             <div *ngIf="(GetPasswordConfirm.invalid && GetPasswordConfirm.touched)">
-                                                <small *ngIf="GetPasswordConfirm.errors?.required" class="text-danger">Confirmar contraseña es un campo requerido</small>
-                                              </div>
-                                         
+                                            <small *ngIf="GetPasswordConfirm.errors?.required" class="text-danger">Confirmar contraseña es un campo requerido</small>
+                                            </div>
+                                            <div *ngIf="passwordsNoCoinciden() " class="col">
+                                            <small class="text-danger">Las contraseñas no coinciden</small>
+                                            </div>
                                         </div>
                                     </div>
                                 </fieldset>
@@ -101,9 +103,7 @@
                                     <div class="form-group" *ngIf="['ROL_ESTUDIANTE', 'ROL_PROFESOR'].includes(this.registerForm.get('rol').value)">
                                         <label for="universidad">Universidad</label>
                                         <input name="universidad" type="text" id="universidad" class="form-control" autocorrect="off" autocapitalize="none" spellcheck="false" placeholder="Introduzca su universidad" [class.is-invalid] = "registerForm.get('universidad').invalid && registerForm.get('universidad').touched" formControlName="universidad">
-                                        <div *ngIf="(getUniversidad.invalid && getUniversidad.touched)">
-                                            <small *ngIf="getUniversidad.errors?.required" class="text-danger">La universidad es un campo requerido</small>
-                                          </div>
+                                      
                                     </div>
 
                                     <div class="form-group" *ngIf="['ROL_ESTUDIANTE', 'ROL_PROFESOR'].includes(this.registerForm.get('rol').value)">
@@ -116,17 +116,13 @@
                                             </ng-template>
                                         </label>
                                         <input name="titulacion" type="text" id="titulacion" class="form-control" autocorrect="off" autocapitalize="none" spellcheck="false" placeholder="Introduzca su titulación" [class.is-invalid] = "registerForm.get('titulacion').invalid && registerForm.get('titulacion').touched"  formControlName="titulacion">
-                                        <div *ngIf="(getTitulacion.invalid && getTitulacion.touched)">
-                                            <small *ngIf="getTitulacion.errors?.required" class="text-danger">La titulacion es un campo requerido</small>
-                                          </div>
+                        
                                     </div>
 
                                     <div class="form-group" *ngIf="['ROL_ENTIDAD'].includes(this.registerForm.get('rol').value)">
                                         <label for="sector">Sector</label>
                                         <input name="sector" type="text" id="sector" class="form-control" autocorrect="off" autocapitalize="none" spellcheck="false" placeholder="Introduzca su sector" [class.is-invalid] = "registerForm.get('sector').invalid && registerForm.get('sector').touched"  formControlName="sector">
-                                        <div *ngIf="(getSector.invalid && getSector.touched)">
-                                            <small *ngIf="getSector.errors?.required" class="text-danger">El sector es un campo requerido</small>
-                                          </div>
+                                       
                                     </div>
                                 </fieldset>
 
@@ -138,8 +134,9 @@
                                 <div class="d-flex">
                                     <div class="flex-fill alert alert-danger mr-3" role="alert" *ngIf="this.registerForm.invalid && this.formSubmitted">
                                         <div class="col">Debes completar/seleccionar correctamente todos los campos</div>
-                                        <div *ngIf="passwordsNoCoinciden() || passwordsVacias()" class="col">Las contraseñas no coinciden o están en blanco</div>
-                                        <div *ngIf="campoNoValido('terminos_aceptados')" class="col">{{ campoNoValido('terminos_aceptados') }}</div>
+                                        <div *ngIf="passwordsVacias()" class="col">Las contraseñas están en blanco</div>
+                                        
+                                    
                                     </div>
 
                                     <div class="ml-auto mb-2">
