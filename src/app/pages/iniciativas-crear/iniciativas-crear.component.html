@@ -142,7 +142,7 @@
                             </div>
                           </div>
 
-                            <div class="col">
+                            <div class="col" *ngIf = "!this.iniciativa_id">
                                 <div class="form-check text-right m-4">
                                     <input type="checkbox" class="form-check-input" id="terminos_aceptados" formControlName="terminos_aceptados">
                                     <label class="form-check-label">Entiendo <a href="javascript:void(0)" target="_blank" [routerLink]="['/que-es-ApS']">Qué es un Proyecto ApS</a></label>
