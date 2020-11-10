@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { FormBuilder, Validators, FormGroup,FormControl, AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { ROL_ENTIDAD, ROL_PROFESOR, ROL_ESTUDIANTE } from './../../../../server/models/rol.model';
 import { UsuarioService } from '../../services/usuario.service';
 import Swal from 'sweetalert2'
 import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-register',
@@ -14,35 +15,65 @@ export class RegisterComponent implements OnInit {
 
   public formSubmitted = false;
 
+  constructor( private fb: FormBuilder, private usuarioService: UsuarioService, private router: Router) {}
+
   public registerForm = this.fb.group({
-    rol: ['', Validators.required ],
-    email: ['', [Validators.required, Validators.email] ],
-    password: ['', Validators.required ],
-    password_2: ['', Validators.required ],
-    nombre: ['', Validators.required ],
-    apellidos: ['', Validators.required ],
-    universidad: ['' ],
-    titulacion: ['' ],
-    sector: ['' ],
-    terminos_aceptados: [false, Validators.requiredTrue ],
+    email: new FormControl('',[
+      Validators.required,
+      Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]),
+    rol: new FormControl('', Validators.required ),
+    password: new FormControl('',[   
+      Validators.required,
+      Validators.pattern("^(?=.*[A-Z])(?=.*[!@#$&*<>()-])(?=.*[0-9])(?=.*[a-z]).{8,15}$")
+    ]),
+    password_2: new FormControl('',
+      Validators.required
+      ),
+  
+    nombre: new FormControl('', Validators.required ),
+    apellidos: new FormControl('', Validators.required ),
+    universidad: new FormControl('' ),
+    titulacion: new FormControl('' ),
+    sector: new FormControl('' ),
+    terminos_aceptados: new FormControl(false, Validators.requiredTrue ),
+             
   }, {
     validators: [
-      this.validacionPasswordsVacias(),
-      this.validarRobustezContrasenia(),
-      this.validacionPasswordsNoCoinciden(),
       this.validarUniversidad(),
       this.validarTitulacion(),
       this.validarSector(),
-      this.validarEmailCorrecto(),
     ]
-  });
+  }); 
 
-  public roles = this.getRoles();
+    ngOnInit(): void {
+    }
+  
+    get primEmail(){
+      return this.registerForm.get('email')
+      }
 
-  constructor( private fb: FormBuilder, private usuarioService: UsuarioService, private router: Router) {}
-
-  ngOnInit(): void {
-  }
+      get GetPassword(){
+        return this.registerForm.get('password')
+      }
+ get GetPasswordConfirm(){
+      return this.registerForm.get('password_2')
+     }
+     get getUniveridad(){
+      return this.registerForm.get('universidad')
+     }
+     get getSector(){
+      return this.registerForm.get('sector')
+     }
+     get getTitulacion(){
+      return this.registerForm.get('titulacion')
+     }
+     get getNombre(){
+      return this.registerForm.get('nombre')
+     }
+     get getApellidos(){
+      return this.registerForm.get('apellidos')
+     }
+      public roles = this.getRoles();
 
 
   register(): void {
@@ -69,6 +100,7 @@ export class RegisterComponent implements OnInit {
       { id: ROL_ESTUDIANTE, name: 'Estudiante' },
     ];
   }
+
 
   passwordsNoCoinciden(): Boolean {
     return this.formSubmitted && (this.registerForm.get('password').value !== this.registerForm.get('password_2').value);
@@ -98,47 +130,6 @@ export class RegisterComponent implements OnInit {
     }
   }
 
-
-
-
-  campoNoValido(campo): String {
-
-    // para mostrar diferentes nombres en el mensaje de error
-    let campo_real = campo === 'facultad' ? 'titulacion' : campo;
-
-    let invalido = this.formSubmitted && this.registerForm.get(campo_real) && this.registerForm.get(campo_real).invalid;
-
-    if(invalido) {
-      switch (campo) {
-        case 'rol':
-          return 'Debe elegir un tipo de perfil con el que será registrado en la aplicación: Estudiante, Profesor o Entidad';
-          break;
-
-        case 'email':
-          return 'El campo correo electrónico es obligatorio y debe ser un correo válido';
-          break;
-
-        case 'titulacion':
-          return `El campo titulación es obligatorio`;
-          break;
-
-        case 'facultad':
-          return `El campo facultad/escuela es obligatorio`;
-          break;
-
-        case 'terminos_aceptados':
-          return 'Es obligatorio aceptar las condiciones de uso';
-          break;
-
-        default:
-          return `El campo ${ campo } es obligatorio`;
-          break;
-      }
-    }
-
-    return '';
-  }
-
   validarCampoSegunPerfil(campo, roles) {
     return ( formGroup: FormGroup ) => {
       const control_rol = formGroup.get('rol');
@@ -162,40 +153,6 @@ export class RegisterComponent implements OnInit {
 
   validarSector() {
     return this.validarCampoSegunPerfil('sector', [ROL_ENTIDAD]);
-  }
-
-  contraseniaNoRobusta(): Boolean {
-    const regex = new RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])([A-Za-z\d$@$!%*?&]|[^ ]){8,15}$/);
-    return this.formSubmitted && !regex.test(this.registerForm.get('password').value);
-    
-  }
-
-  validarRobustezContrasenia(){
-    return ( formGroup: FormGroup ) => {
-      if(this.contraseniaNoRobusta()) {
-        formGroup.get('password').setErrors({ required: true});
-      } 
-      else {
-        formGroup.get('password').setErrors(null);
-      }
-    }
-  }
-
-  emailNoValido(): Boolean {
-    const regex = new RegExp(/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i);
-    return this.formSubmitted && !regex.test(this.registerForm.get('email').value);
-    
-  }
-
-  validarEmailCorrecto(){
-    return ( formGroup: FormGroup ) => {
-      if(this.emailNoValido()) {
-        formGroup.get('email').setErrors({ required: true});
-      } 
-      else {
-        formGroup.get('email').setErrors(null);
-      }
-    }
   }
 
 }
