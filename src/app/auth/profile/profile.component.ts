@@ -194,10 +194,6 @@ export class ProfileComponent {
           return `El campo facultad/escuela es obligatorio`;
           break;
 
-        case 'terminos_aceptados':
-          return 'Es obligatorio aceptar las condiciones de uso';
-          break;
-
         default:
           return `El campo ${ campo } es obligatorio`;
           break;
