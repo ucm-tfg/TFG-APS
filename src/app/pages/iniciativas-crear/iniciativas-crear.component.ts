@@ -78,7 +78,7 @@ export class IniciativasCrearComponent implements OnInit {
 
             this.router.routeReuseStrategy.shouldReuseRoute = () => false;
             this.router.onSameUrlNavigation = 'reload';
-            this.router.navigate(['/iniciativas/editar/' + resp.iniciativa._id]);
+            this.router.navigate(['/iniciativas']);
 
             this.formSubmitted = false;
             this.formSending = false;
