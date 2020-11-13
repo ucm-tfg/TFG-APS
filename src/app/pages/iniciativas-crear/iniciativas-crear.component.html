@@ -43,7 +43,7 @@
                         <div class="row">
                             <div class="col-6">
                                 <div class="form-group">
-                                    <label for="ciudad">Rama de Conocimiento</label>
+                                    <label for="ciudad">Localización de desarrollo de la iniciativa</label>
                                     <select id="ciudad" name="ciudad" class="form-control" formControlName="ciudad">
                                         <option value="">Elije una ciudad de desarrollo de la iniciativa</option>
                                         <option *ngFor="let CIUDAD of CIUDADES" [selected]="this.iniciativa.ciudad == CIUDAD" value="{{ CIUDAD }}">{{ CIUDAD }}</option>
