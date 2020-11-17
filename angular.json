@@ -133,6 +133,6 @@
   },
   "defaultProject": "portal-aps",
   "cli": {
-    "analytics": false
+    "analytics": "c6ea7214-a103-445c-bd98-7fab09d510f2"
   }
 }

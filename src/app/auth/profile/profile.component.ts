@@ -8,6 +8,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Usuario } from '../../models/usuario.model';
 import { take, tap, first } from 'rxjs/operators';
 import { AuthService } from 'src/app/services/auth.service';
+//Para usar jQuery -> import * as $ from "jquery";
 
 @Component({
   selector: 'app-profile',
@@ -99,6 +100,9 @@ export class ProfileComponent {
     reader.onloadend = () => {
       this.imagenPreview = reader.result;
     }
+    var inputImage = document.getElementById("file-upload");
+  
+    
   }
 
   actualizarImagen() {
@@ -141,8 +145,10 @@ export class ProfileComponent {
             Swal.fire('Error', msg, 'error');
           }
         });
+        //En jQuery ->$("#file-upload").val("");
+        (<HTMLInputElement>document.getElementById("file-upload")).value="";
   }
-
+ 
 
 
   getRoles() {

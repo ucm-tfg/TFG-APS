@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { ValidateEqualModule } from 'ng-validate-equal';
 
 // Routes
 import { AppRoutingModule } from './app-routing.module';
@@ -151,6 +152,8 @@ import { Code404Component } from './errors/code404/code404.component';
 
     // app routing
     AppRoutingModule,
+    
+    ValidateEqualModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
