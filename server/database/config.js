@@ -1,19 +1,11 @@
-const mongoose = require('mongoose');
-
-const dbConnection = async() => {
-    try {
-        await mongoose.connect(process.env.DB_CONNECTION, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-            useCreateIndex: true,
-            useFindAndModify: false,
-        });
-
-        console.info('Conectado a la base de datos');
-    } catch (error) {
-        console.error(error);
-        throw new Error('Error al conectar a la base de datos');
-    }
-}
-
-module.exports = { dbConnection }
+const knex = require('knex')({
+    client: "mysql",
+    connection: {
+        hots: process.env.DB_HOST,
+        user: process.env.DB_USER,
+        password: process.env.DB_PASSWORD,
+        database: process.env.DB_NAME,
+    },
+    pool: { min: 0, max: 10 },
+});
+module.exports = { knex }
