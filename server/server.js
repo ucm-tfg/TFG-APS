@@ -32,6 +32,6 @@ app.use( express.static(__dirname + '/../dist/portal-aps') );
 app.listen(process.env.PORT || 8080, () => {
     console.info("Servidor escuchando en puerto " + process.env.PORT || 8080);
 });
-
-const usr = require('./database/services/daos/ejem');
-console.log(usr.usuario());
+// const bd = require('./database/config');
+require('./database/services/daos/daoEjem');
+// console.log(usr.usuario());
