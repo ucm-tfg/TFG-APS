@@ -7,6 +7,7 @@
     "start:dev": "nodemon server/server.js",
     "build": "ng build",
     "heroku-postbuild": "ng build --prod",
+    "db": "mysql -u root -p",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",

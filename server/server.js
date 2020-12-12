@@ -4,8 +4,6 @@ const express = require("express");
 const cors = require('cors');
 const path = require("path");
 
-const { dbConnection } = require('./database/config');
-
 // Creo app express
 const app = express();
 
@@ -13,10 +11,7 @@ const app = express();
 app.use( cors() );
 
 // lectura y parsear json
-app.use( express.json() );
-
-// conectar a database
-dbConnection();
+app.use( express.json());
 
 // Rutas
 app.use('/api/auth', require('./routes/auth'));
@@ -37,3 +32,6 @@ app.use( express.static(__dirname + '/../dist/portal-aps') );
 app.listen(process.env.PORT || 8080, () => {
     console.info("Servidor escuchando en puerto " + process.env.PORT || 8080);
 });
+// const bd = require('./database/config');
+require('./database/services/daos/daoEjem');
+// console.log(usr.usuario());
