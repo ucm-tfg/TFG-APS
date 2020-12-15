@@ -8,3 +8,5 @@ class TAdmin extends TUsuario{
 
     
 }
+
+module.exports= TAdmin;

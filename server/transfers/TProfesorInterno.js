@@ -17,3 +17,4 @@ class TProfesorInterno extends TProfesor{
         this.universidad=universidad;
     }
 }
+module.exports= TProfesorInterno;

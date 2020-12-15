@@ -8,3 +8,5 @@ class TProfesor extends TUsuario{
 
     
 }
+
+module.exports= TProfesor;

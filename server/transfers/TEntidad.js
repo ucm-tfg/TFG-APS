@@ -1,4 +1,4 @@
-class TEstudiante extends TUsuario{
+class TEntidad extends TUsuario{
     constructor(correo,nombre,apellidos,password,origin_login,origin_img,createdAt,updatedAt,terminos_aceptados,sector,nombre_entidad){
         super(correo,nombre,apellidos,password,origin_login,origin_img,createdAt,updatedAt,terminos_aceptados);
         this.sector=sector;
@@ -26,3 +26,6 @@ class TEstudiante extends TUsuario{
         this.nombre_entidad=nombre_entidad;
     }
 }
+
+
+module.exports= TEntidad;

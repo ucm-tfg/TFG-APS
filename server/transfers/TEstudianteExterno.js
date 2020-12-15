@@ -26,3 +26,5 @@ class TEstudianteExterno extends TEstudiante{
         this.titulacion=titulacion;
     }
 }
+
+module.exports= TEstudianteExterno;

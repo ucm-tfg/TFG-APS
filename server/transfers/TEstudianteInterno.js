@@ -16,3 +16,5 @@ class TEstudianteInterno extends TEstudiante{
         this.titulacion_local=titulacion_local;
     }
 }
+
+module.exports= TEstudianteInterno;

@@ -104,3 +104,5 @@ class TUsuario{
            this.terminos_aceptados=term;
      }
 }
+
+module.exports= TUsuario;

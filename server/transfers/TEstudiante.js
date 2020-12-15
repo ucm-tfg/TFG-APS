@@ -8,3 +8,5 @@ class TEstudiante extends TUsuario{
 
     
 }
+
+module.exports= TEstudiante;

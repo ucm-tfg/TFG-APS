@@ -8,3 +8,5 @@ class TProfesorExterno extends TProfesor{
     }
 
 }
+
+module.exports= TProfesorExterno;
