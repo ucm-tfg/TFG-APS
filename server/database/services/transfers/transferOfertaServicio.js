@@ -1,89 +1,32 @@
+const transferAnuncioServicio = require('./transferAnuncioServicio');
 
-class transferOfertaServicio {
-    id_oferta;
-    titulo;
-    descripcion;
-    imagen;
-    created_at;
-    updated_at;
-    _v;
+class transferOfertaServicio extends transferAnuncioServicio{
     asignatura_objetivo;
     cuatrimestre;
     anio_academico;
     fecha_limite;
     observaciones_temporales;
     creador;
+    area_servicio;
+    mensajes;
+    uploads;
+    profesores;
+
     constructor( id_oferta, titulo, descripcion, imagen, created_at, updated_at, _v, asignatura_objetivo,
-         cuatrimestre, anio_academico, fecha_limite, observaciones_temporales, creador) 
+         cuatrimestre, anio_academico, fecha_limite, observaciones_temporales, creador, area_servicio, mensajes,
+         uploads, profesores) 
     {
-        this.id_oferta = id_oferta;
-        this.titulo = titulo;
-        this.descripcion = descripcion;
-        this.imagen = imagen ;
-        this.created_at = created_at;
-        this.updated_at = updated_at;
-        this._v = _v;
+        super(id_oferta, titulo, descripcion, imagen, created_at, updated_at, _v);
         this.asignatura_objetivo = asignatura_objetivo;
         this.cuatrimestre = cuatrimestre;
         this.anio_academico = anio_academico;
         this.fecha_limite = fecha_limite;
         this.observaciones_temporales = observaciones_temporales;
         this.creador = creador;
-    }
-    getId_oferta() {
-        return this.id_oferta;
-    }
-
-    setId_oferta(id_oferta) {
-        this.id_oferta = id_oferta;
-    }
-
-    getTitulo() {
-        return this.titulo;
-    }
-
-    setTitulo(titulo) {
-        this.titulo = titulo;
-    }
-
-    getDescripcion() {
-        return this.descripcion;
-    }
-
-    setDescripcion(descripcion) {
-        this.descripcion = descripcion;
-    }
-
-    getImagen() {
-        return this.imagen;
-    }
-
-    setImagen(imagen) {
-        this.imagen = imagen;
-    }
-
-    getCreated_at() {
-        return this.created_at;
-    }
-
-    setCreated_at(created_at) {
-        this.created_at = created_at;
-    }
-
-    getUpdated_at() {
-        return this.updated_at;
-    }
-
-    setUpdated_at(updated_at) {
-        this.updated_at = updated_at;
-    }
-
-    get_v() {
-        return this._v;
-    }
-
-    set_v(_v) {
-        this._v = _v;
+        this.area_servicio = area_servicio;
+        this.mensajes = mensajes;
+        this.uploads = uploads;
+        this.profesores = profesores;
     }
 
     getAsignatura_objetivo() {
@@ -132,6 +75,38 @@ class transferOfertaServicio {
 
     setCreador(creador) {
         this.creador = creador;
+    }
+
+    getArea_servicio() {
+        return this.area_servicio;
+    }
+
+    setArea_servicio(area_servicio) {
+        this.area_servicio = area_servicio;
+    }
+
+    getMensajes() {
+        return this.mensajes;
+    }
+
+    setMensajes(mensajes) {
+        this.mensajes = mensajes;
+    }
+
+    getUploads() {
+        return this.uploads;
+    }
+
+    setUploads(uploads) {
+        this.uploads = uploads;
+    }
+
+    getProfesores() {
+        return this.profesores;
+    }
+
+    setProfesores(profesores) {
+        this.profesores = profesores;
     }
 }
 
