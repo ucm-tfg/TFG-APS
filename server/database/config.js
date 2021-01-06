@@ -3,4 +3,4 @@ const knex = require("knex")({
     client: "mysql",
     connection: "postgres://root:@localhost:3306/aps"
     });
-module.exports = {knex};
+module.exports = knex;

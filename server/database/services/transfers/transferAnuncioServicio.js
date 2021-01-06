@@ -1,25 +1,33 @@
-const transferOfertaServicio = require("./transferOfertaServicio");
-
 class transferAnuncioServicio {
-    id_oferta;
+    id;
     titulo;
     descripcion;
     imagen;
     created_at;
     updated_at;
     _v;
-    constructor( id_oferta, titulo, descripcion, imagen, created_at, updated_at, _v) {
-        this.id_oferta = id_oferta;
+    area_servicio;
+    mensajes;
+    uploads;
+    constructor(id, titulo, descripcion, imagen, created_at, updated_at, _v, area_servicio, mensajes, uploads) {
+        this.id = id;
         this.titulo = titulo;
         this.descripcion = descripcion;
         this.imagen = imagen ;
         this.created_at = created_at;
         this.updated_at = updated_at;
         this._v = _v;
+        this.area_servicio = area_servicio;
+        this.mensajes = mensajes;
+        this.uploads = uploads;
     }
 
-    getId_oferta() {
-        return this.id_oferta;
+    getId() {
+        return this.id;
+    }
+
+    setId(id_anuncio) {
+        return this.id = id_anuncio;
     }
 
     getTitulo() {
@@ -68,6 +76,29 @@ class transferAnuncioServicio {
 
     set_v(_v) {
         this._v = _v;
+    }
+    getArea_servicio() {
+        return this.area_servicio;
+    }
+
+    setArea_servicio(area_servicio) {
+        this.area_servicio = area_servicio;
+    }
+
+    getMensajes() {
+        return this.mensajes;
+    }
+
+    setMensajes(mensajes) {
+        this.mensajes = mensajes;
+    }
+
+    getUploads() {
+        return this.uploads;
+    }
+
+    setUploads(uploads) {
+        this.uploads = uploads;
     }
 }
 module.exports = transferAnuncioServicio;
