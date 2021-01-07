@@ -53,8 +53,16 @@ let profesores = 5;
 let oferta1 = new transferOfertaServicio(null, titulo, descripcion, imagen, "", "", 0.9, asignatura,
     cuatrimestre, anio, fecha_limite, observaciones, creador, area, null,
     null, profesores); 
-dao_tentativa.obtenerOfertaServicio(46).then(function(oferta){console.log(oferta);});
+// dao_tentativa.obtenerOfertaServicio(46).then(function(oferta){console.log(oferta);});
 //  dao_tentativa.crearOferta(oferta1);
+
+anio = 2022;
+asignatura = ["Ampliación de Matemáticas"]; 
+oferta1 = new transferOfertaServicio(46, titulo, descripcion, imagen, "", "", 0.9, asignatura,
+    cuatrimestre, anio, fecha_limite, observaciones, creador, area, null,
+    null, profesores);
+// dao_tentativa.actualizarOfertaServicio(oferta1).then(function(oferta){});
+// dao_tentativa.obtenerOfertaServicio(46).then(function(oferta){console.log(oferta);});
 //  dao_tentativa.limpiarAnuncioServicios(); //Elimina todos los elementos de la tabla
 // dao_tentativa.crearAnuncio(titulo, descripcion, imagen);
 
@@ -76,3 +84,11 @@ let demanda = new transferDemandaServicio(null, titulo, descripcion, imagen, "",
 
 // dao_tentativa.crearDemanda(demanda);
 // dao_tentativa.obtenerDemandaServicio(41).then(function(oferta){console.log(oferta);});
+ciudad = "Barcelona"; 
+area_servicio = [2];
+titulacionlocal_demandada = [1, 3];
+demanda = new transferDemandaServicio(36, titulo, descripcion, imagen, "", "", 0.9,
+    7, ciudad, finalidad, periodo_definicion_ini, periodo_definicion_fin, periodo_ejecucion_ini,
+    periodo_ejecucion_fin, fecha_fin, observaciones_temporales, necesidad_social, titulacionlocal_demandada,
+    area_servicio, 0, 0);
+    dao_tentativa.actualizarDemanda(demanda);
