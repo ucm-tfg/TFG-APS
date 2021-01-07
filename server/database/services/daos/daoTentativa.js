@@ -262,7 +262,7 @@ function actualizarDemanda(demanda) {
                     const fieldsToInsert = titulaciones.map(titulacion =>
                         ({ id_titulacion: titulacion, id_demanda: demanda.getId() }));
                     return knex('titulacionlocal_demanda').insert(fieldsToInsert).then(() => {
-                        console.log("Se ha actualizado la demanda con id ", demanda.getId());     // respond back to request
+                        console.log("Se ha actualizado la demanda con id ", demanda.getId());
                     });
                 });
             });
@@ -276,8 +276,29 @@ function actualizarDemanda(demanda) {
     });
 }
 
+function eliminarAnuncio(id){
+    return knex('anuncio_servicio').where('id', id).del().then((result) =>{
+        if(result > 0){
+            console.log("Se ha eliminado de la base de datos el anuncio con id ", id);
+        }else{
+            console.log("No existe el anuncio de servicio con id ", id);
+        }
+    })
+    .catch((err) => {
+        console.log(err);
+        console.log("Se ha producido un error al intentar eliminar de la base de datos el anuncio de servicio con id ", id);
+    })
+}
+
 function eliminarOferta(id_oferta){
-    return knex('titulacionlocal_demanda').where('id_demanda', demanda.getId()).del().then(() =>{
+    return knex('oferta_servicio').where('id', id_oferta).del().then((result) =>{
+        return eliminarAnuncio(id_oferta).then(() => {
+            if(result > 0){
+                console.log("Se ha eliminado de la base de datos la oferta con id ", id_oferta);
+            }else{
+                console.log("No existe la oferta de servicio con id ", id_oferta);
+            }
+        });
     })
     .catch((err) => {
         console.log(err);
@@ -287,9 +308,29 @@ function eliminarOferta(id_oferta){
         knex.destroy();
     });
 }
+
+function eliminarDemanda(id_demanda){
+    return knex('demanda_servicio').where('id', id_demanda).del().then((result) =>{
+        return eliminarAnuncio(id_demanda).then(() => {
+            if(result > 0){
+                console.log("Se ha eliminado de la base de datos la demanda con id ", id_demanda);
+            }else{
+                console.log("No existe la demanda de servicio con id ", id_demanda);
+            }
+        });
+    })
+    .catch((err) => {
+        console.log(err);
+        console.log("Se ha producido un error al intentar eliminar de la base de datos la demanda de servicio con id ", id_demanda);
+    })
+    .finally(() => {
+        knex.destroy();
+    });
+}
+
 function obtenerAsignaturaObjetivo(id_oferta) {
     return knex('asignatura_objetivo').where({ id_oferta: id_oferta }).select('nombre')
-        .catch((err) => { console.log("No se ha encontrado titulación perteneciente al anuncio de servicio con id ", id_demanda); throw err });
+        .catch((err) => { console.log("No se ha encontrado la asignatura objetivo perteneciente a la oferta de servicio con id ", id_demanda); throw err });
 }
 
 function obtenerTitulacionLocal(id_demanda) {
@@ -302,7 +343,7 @@ function obtenerTitulacionLocal(id_demanda) {
             return knex.select('nombre').from('titulacion_local').whereIn('id', titulaciones);
 
         })
-        .catch((err) => { console.log("No se ha encontrado titulación perteneciente al anuncio de servicio con id ", id_demanda); throw err });
+        .catch((err) => { console.log("No se ha encontrado titulación perteneciente a la demanda de servicio con id ", id_demanda); throw err });
 }
 
 // Obtiene el area de servicio correspondiente al id de un anuncio de servicio
@@ -354,6 +395,7 @@ function limpiarAnuncioServicios() {
 module.exports = { 
     crearOferta, crearAnuncio, crearDemanda, 
     actualizarDemanda, actualizarOfertaServicio,
-    obtenerOfertaServicio, obtenerDemandaServicio, obtenerMensajesPorAnuncio, 
+    obtenerOfertaServicio, obtenerDemandaServicio, obtenerMensajesPorAnuncio,
+    eliminarOferta, eliminarDemanda,
     limpiarAnuncioServicios, 
 };

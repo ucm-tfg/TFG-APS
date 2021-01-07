@@ -38,6 +38,7 @@ const dao_tentativa = require('./database/services/daos/daoTentativa');
 const transferOfertaServicio = require('./database/services/transfers/transferOfertaServicio');
 const transferDemandaServicio = require('./database/services/transfers/transferDemandaServicio');
 
+// OFERTAS-----------------------------------------------------------------------
 let titulo = "Anuncio 1";
 let descripcion = "Prueba 1";
 let imagen = "Prueba, aquí va la dirección de la imagen";
@@ -65,7 +66,9 @@ oferta1 = new transferOfertaServicio(46, titulo, descripcion, imagen, "", "", 0.
 // dao_tentativa.obtenerOfertaServicio(46).then(function(oferta){console.log(oferta);});
 //  dao_tentativa.limpiarAnuncioServicios(); //Elimina todos los elementos de la tabla
 // dao_tentativa.crearAnuncio(titulo, descripcion, imagen);
+// dao_tentativa.eliminarOferta(44);
 
+// DEMANDAS----------------------------------------------------------------------------------------
 let ciudad = "Madrid"; 
 let finalidad = "Crear un videojuego para niños de primaria";
 let periodo_definicion_ini = new Date (2020, 5, 04);
@@ -91,4 +94,5 @@ demanda = new transferDemandaServicio(36, titulo, descripcion, imagen, "", "", 0
     7, ciudad, finalidad, periodo_definicion_ini, periodo_definicion_fin, periodo_ejecucion_ini,
     periodo_ejecucion_fin, fecha_fin, observaciones_temporales, necesidad_social, titulacionlocal_demandada,
     area_servicio, 0, 0);
-    dao_tentativa.actualizarDemanda(demanda);
+// dao_tentativa.actualizarDemanda(demanda);
+// dao_tentativa.eliminarDemanda(41);
