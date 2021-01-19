@@ -15,9 +15,6 @@ app.use( cors() );
 // lectura y parsear json
 app.use( express.json() );
 
-// conectar a database
-dbConnection();
-
 // Rutas
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/mails', require('./routes/mails'));
