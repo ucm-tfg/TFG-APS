@@ -15,4 +15,24 @@ function obtenerMensajes(idMensajes){
     return 0;
 }
 
+//Devuelve todos los mensajes de un anuncio
+function obtenerMensajesAnuncio(idAnuncio){
+
+}
+
+//Devuelve todos los mensajes de una colaboración
+function obtenerMensajesColab(idColab){
+    
+}
+
+//crea un nuevo mensaje
+function crearMensaje(){
+
+}
+
+//crea un nuevo upload
+function crearUpload(){
+
+}
+
 module.exports = {knex, obtenerUploads, obtenerMensajes};
