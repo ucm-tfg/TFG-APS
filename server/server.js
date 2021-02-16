@@ -96,3 +96,32 @@ demanda = new transferDemandaServicio(36, titulo, descripcion, imagen, "", "", 0
     area_servicio, 0, 0);
 // dao_tentativa.actualizarDemanda(demanda);
 // dao_tentativa.eliminarDemanda(41);
+//--------------------------------------Pruebas del DAO comunicacion
+const dao_comunicacion = require('./database/services/daos/daoComunicacion');
+const transferUpload = require('./database/services/transfers/transferUpload');
+const transferMensajes = require('./database/services/transfers/transferMensajes');
+const { date } = require('faker');
+
+let texto = "texto de prueba para mensaje de colaboracion";
+let fecha = new Date(2021, 2, 16);//pone horas minutos y segundos todo a ceros, arreglar
+let usuario = 5;
+//dao_comunicacion.crearMensajeAnuncio(texto, fecha, usuario, 9);
+//dao_comunicacion.crearMensajeColab(texto, fecha, usuario, 1);
+//dao_comunicacion.obtenerMensajes(10).then(function(mensaje){console.log(mensaje);});
+dao_comunicacion.obtenerMensajesAnuncio(9).then(function(resultado){console.log(resultado);});
+
+
+let almacenamiento = "almacenamiento de prueba";
+let campo = "campo de prueba"; 
+let tipo = "prueba"; 
+let tipo_id = "tipo_id prueba"; 
+let camino = "probando probando"; 
+let client_name = "Juan el pruebas"; 
+let nombre = "La prueba";  
+let createdAt = new Date(); 
+let updatedAt = new Date();
+let _v = 0.5; 
+
+//dao_comunicacion.crearUploadAnuncio(almacenamiento, campo, tipo, tipo_id, camino, client_name, nombre, creador, createdAt, updatedAt, _v, 9);
+//dao_comunicacion.crearUploadColab(almacenamiento, campo, tipo, tipo_id, camino, client_name, nombre, creador, createdAt, updatedAt, _v, 1)
+//dao_comunicacion.obtenerUploads(6).then(function(upload){console.log(upload);});
