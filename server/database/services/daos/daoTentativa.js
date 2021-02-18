@@ -215,36 +215,103 @@ function obtenerTodasOfertasServicio() {
     .join('datos_personales_interno', 'profesor_interno.datos_personales_Id','=', 'datos_personales_interno.id')
     .select('anuncio_servicio.id','anuncio_servicio.titulo', 'anuncio_servicio.descripcion', 'anuncio_servicio.imagen', 
     'anuncio_servicio.created_at', 'anuncio_servicio.updated_at', 'anuncio_servicio._v','area_servicio.nombre as area',
-    'oferta_servicio.cuatrimestre', 'oferta_servicio.anio_academico', 'oferta_servicio.fecha_limite', 
+    'oferta_servicio.cuatrimestre', 'oferta_servicio.anio_academico', 'oferta_servicio.fecha_limite',
     'oferta_servicio.observaciones_temporales', 'datos_personales_interno.nombre', 'datos_personales_interno.apellidos')
     .then((datos_ofertas) => {
-        let transfer_ofertas = [];
-        datos_ofertas.forEach(datos => {
+        id_ofertas = [];
+        for (dato of datos_ofertas) {
+            id_ofertas.push(dato['id']);
+        }
+        return knex.select('*').from('asignatura_objetivo').whereIn('id_oferta', id_ofertas).then((asignaturas) =>{
+            let transfer_ofertas = [];
+            datos_ofertas.forEach(datos => {
+                let nombre = datos['nombre'];
+                let apellidos = datos['apellidos'];
+                let creador = {nombre, apellidos};
+                let asignaturas_objetivo = [];
+                asignaturas.forEach(asignatura => {
+                    if(datos['id'] === asignatura['id_oferta']){
+                        asignaturas_objetivo.push(asignatura['nombre']);
+                    }
+                });
+                let transfer_oferta = new transferOfertaServicio(
+                    datos['id'],
+                    datos['titulo'],
+                    datos['descripcion'],
+                    datos['imagen'],
+                    datos['created_at'],
+                    datos['updated_at'],
+                    datos['_v'],
+                    asignaturas_objetivo,
+                    datos['cuatrimestre'],
+                    datos['anio_academico'],
+                    datos['fecha_limite'],
+                    datos['observaciones_temporales'],
+                    creador,
+                    datos['area'],
+                    0,
+                    0,
+                    0
+                );
+                transfer_ofertas.push(transfer_oferta);
+            });
+            return transfer_ofertas;
+        });
+    })
+    .catch((err) => {
+        console.log(err);
+        console.log("Se ha producido un error al intentar obtener de la base de datos todas las ofertas de servicio ");
+    })
+    .finally(() => {
+        knex.destroy();
+    });
+}
+
+function obtenerTodasDemandasServicio() {
+    return obtenerTodosAnunciosServicio()
+    .join('demanda_servicio', 'anuncio_servicio.id', '=', 'demanda_servicio.id')
+    .join('necesidad_social', 'demanda_servicio.necesidad_social', '=', 'necesidad_social.id')
+    .join('entidad', 'demanda_servicio.creador','=', 'entidad.id')
+    .join('datos_personales_externo', 'entidad.datos_personales_Id','=', 'datos_personales_externo.id')
+    .select('anuncio_servicio.id','anuncio_servicio.titulo', 'anuncio_servicio.descripcion', 'anuncio_servicio.imagen', 
+    'anuncio_servicio.created_at', 'anuncio_servicio.updated_at', 'anuncio_servicio._v','area_servicio.nombre as area',
+    'demanda_servicio.ciudad', 'demanda_servicio.anio_finalidad', 'demanda_servicio.fecha_fin', 'demanda_servicio.observaciones_temporales',
+    'demanda_servicio.periodo_definicion_ini', 'demanda_servicio.periodo_definicion_fin', 
+    'demanda_servicio.periodo_ejecucion_ini', 'demanda_servicio.periodo_ejecucion_fin',
+    'necesidad_social.nombre as necesidad', 
+    'datos_personales_externo.nombre', 'datos_personales_externo.apellidos')
+    .then((datos_demandas) => {
+        let transfer_demandas = [];
+        datos_demandas.forEach(datos => {
             let nombre = datos['nombre'];
             let apellidos = datos['apellidos'];
             let creador = {nombre, apellidos};
-            let transfer_oferta = new transferOfertaServicio(
-                datos['id'],
-                datos['titulo'],
-                datos['descripcion'],
-                datos['imagen'],
-                datos['created_at'],
-                datos['updated_at'],
-                datos['_v'],
-                0,
-                datos['cuatrimestre'],
-                datos['anio_academico'],
-                datos['fecha_limite'],
-                datos['observaciones_temporales'],
-                creador,
-                datos['area'],
-                0,
-                0,
-                0
+            let transfer_demanda = new transferDemandaServicio(
+                    datos['id'],
+                    datos['titulo'],
+                    datos['descripcion'],
+                    datos['imagen'],
+                    datos['created_at'],
+                    datos['updated_at'],
+                    datos['_v'],
+                    datos['creador'],
+                    datos['ciudad'],
+                    datos['finalidad'],
+                    datos['periodo_definicion_ini'],
+                    datos['periodo_definicion_fin'],
+                    datos['periodo_ejecucion_ini'],
+                    datos['periodo_ejecucion_fin'],
+                    datos['fecha_fin'],
+                    datos['observaciones_temporales'],
+                    datos['necesidad'],
+                    0,
+                    datos['area'],
+                    0,
+                    0
             );
-            transfer_ofertas.push(transfer_oferta);
+            transfer_demandas.push(transfer_demanda);
         });
-        return transfer_ofertas;
+        return transfer_demandas;
     })
     .catch((err) => {
         console.log(err);
@@ -458,7 +525,7 @@ module.exports = {
     crearOferta, crearAnuncio, crearDemanda, 
     actualizarDemanda, actualizarOfertaServicio,
     obtenerOfertaServicio, obtenerDemandaServicio, obtenerMensajesPorAnuncio,
-    obtenerTodasOfertasServicio,
+    obtenerTodasOfertasServicio, obtenerTodasDemandasServicio,
     eliminarOferta, eliminarDemanda,
     limpiarAnuncioServicios, 
 };
