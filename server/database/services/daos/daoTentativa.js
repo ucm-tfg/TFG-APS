@@ -21,10 +21,10 @@ function crearAnuncio(titulo, descripcion, imagen, _v, areasServicio) {
             return id_anuncio;
         });
     })
-    .catch((err) => {
-        console.log(err);
-        console.log("Se ha producido un error al intentar crear el anuncio con titulo ", titulo);
-    });
+        .catch((err) => {
+            console.log(err);
+            console.log("Se ha producido un error al intentar crear el anuncio con titulo ", titulo);
+        });
 }
 
 // Inserta en la base de datos una nueva oferta de servicio
@@ -45,18 +45,18 @@ function crearOferta(oferta) {
                 });
             });
     })
-    .catch((err) => {
-        console.log(err);
-        console.log("Se ha producido un error al crear en la base de datos la oferta de servicio con id ", oferta.getId());
-    })
-    .finally(() => {
-        knex.destroy();
-    });
+        .catch((err) => {
+            console.log(err);
+            console.log("Se ha producido un error al crear en la base de datos la oferta de servicio con id ", oferta.getId());
+        })
+        .finally(() => {
+            knex.destroy();
+        });
 }
 
-// Inserta en la base de datos una nueva oferta de servicio
+// Inserta en la base de datos una nueva demanda de servicio
 function crearDemanda(demanda) {
-    return crearAnuncio(demanda.getTitulo(), demanda.getDescripcion(), demanda.getImagen(), oferta.get_v(), demanda.getArea_servicio()).then(function (id_anuncio) {
+    return crearAnuncio(demanda.getTitulo(), demanda.getDescripcion(), demanda.getImagen(), demanda.get_v(), demanda.getArea_servicio()).then(function (id_anuncio) {
         return knex('demanda_servicio').insert({
             id: id_anuncio[0], creador: demanda.getCreador(), ciudad: demanda.getCiudad(),
             finalidad: demanda.getFinalidad(), periodo_definicion_ini: demanda.getPeriodo_definicion_ini(), periodo_definicion_fin: demanda.getPeriodo_definicion_fin(),
@@ -72,13 +72,13 @@ function crearDemanda(demanda) {
                 });
             });
     })
-    .catch((err) => {
-        console.log(err);
-        console.log("Se ha producido un error al crear en la base de datos la demanda de servicio con id ", demanda.getId());
-    })
-    .finally(() => {
-        knex.destroy();
-    });
+        .catch((err) => {
+            console.log(err);
+            console.log("Se ha producido un error al crear en la base de datos la demanda de servicio con id ", demanda.getId());
+        })
+        .finally(() => {
+            knex.destroy();
+        });
 }
 
 //LEER UNO----------------------------------------------------------------------------------------------------
@@ -148,13 +148,13 @@ function obtenerDemandaServicio(id_demanda) {
             });
         });
     })
-    .catch((err) => {
-        console.log(err);
-        console.log("Se ha producido un error al intentar obtener de la base de datos la demanda de servicio con id ", id_demanda);
-    })
-    .finally(() => {
-        knex.destroy();
-    });
+        .catch((err) => {
+            console.log(err);
+            console.log("Se ha producido un error al intentar obtener de la base de datos la demanda de servicio con id ", id_demanda);
+        })
+        .finally(() => {
+            knex.destroy();
+        });
 
 }
 
@@ -192,134 +192,155 @@ function obtenerOfertaServicio(id_oferta) {
             });
         });
     })
-    .catch((err) => {
-        console.log(err);
-        console.log("Se ha producido un error al intentar obtener de la base de datos la oferta de servicio con id ", id_oferta);
-    })
-    .finally(() => {
-        knex.destroy();
-    });
+        .catch((err) => {
+            console.log(err);
+            console.log("Se ha producido un error al intentar obtener de la base de datos la oferta de servicio con id ", id_oferta);
+        })
+        .finally(() => {
+            knex.destroy();
+        });
 }
 
 //LEER VARIOS------------------------------------------------------------------------------------------------
-function obtenerTodosAnunciosServicio() {
-    return knex('anuncio_servicio')
-    .join('areaservicio_anuncioservicio', 'anuncio_servicio.id', '=', 'areaservicio_anuncioservicio.id_anuncio')
-    .join('area_servicio', 'areaservicio_anuncioservicio.id_area', '=', 'area_servicio.id')
-}
 
 function obtenerTodasOfertasServicio() {
-    return obtenerTodosAnunciosServicio()
-    .join('oferta_servicio', 'anuncio_servicio.id', '=', 'oferta_servicio.id')
-    .join('profesor_interno', 'oferta_servicio.creador','=', 'profesor_interno.id')
-    .join('datos_personales_interno', 'profesor_interno.datos_personales_Id','=', 'datos_personales_interno.id')
-    .select('anuncio_servicio.id','anuncio_servicio.titulo', 'anuncio_servicio.descripcion', 'anuncio_servicio.imagen', 
-    'anuncio_servicio.created_at', 'anuncio_servicio.updated_at', 'anuncio_servicio._v','area_servicio.nombre as area',
-    'oferta_servicio.cuatrimestre', 'oferta_servicio.anio_academico', 'oferta_servicio.fecha_limite',
-    'oferta_servicio.observaciones_temporales', 'datos_personales_interno.nombre', 'datos_personales_interno.apellidos')
-    .then((datos_ofertas) => {
-        id_ofertas = [];
-        for (dato of datos_ofertas) {
-            id_ofertas.push(dato['id']);
-        }
-        return knex.select('*').from('asignatura_objetivo').whereIn('id_oferta', id_ofertas).then((asignaturas) =>{
-            let transfer_ofertas = [];
-            datos_ofertas.forEach(datos => {
-                let nombre = datos['nombre'];
-                let apellidos = datos['apellidos'];
-                let creador = {nombre, apellidos};
-                let asignaturas_objetivo = [];
-                asignaturas.forEach(asignatura => {
-                    if(datos['id'] === asignatura['id_oferta']){
-                        asignaturas_objetivo.push(asignatura['nombre']);
-                    }
+    return knex('anuncio_servicio')
+        .join('oferta_servicio', 'anuncio_servicio.id', '=', 'oferta_servicio.id')
+        .join('profesor_interno', 'oferta_servicio.creador', '=', 'profesor_interno.id')
+        .join('datos_personales_interno', 'profesor_interno.datos_personales_Id', '=', 'datos_personales_interno.id')
+        .select('anuncio_servicio.id', 'anuncio_servicio.titulo', 'anuncio_servicio.descripcion', 'anuncio_servicio.imagen',
+            'anuncio_servicio.created_at', 'anuncio_servicio.updated_at', 'anuncio_servicio._v',
+            'oferta_servicio.cuatrimestre', 'oferta_servicio.anio_academico', 'oferta_servicio.fecha_limite',
+            'oferta_servicio.observaciones_temporales', 'datos_personales_interno.nombre', 'datos_personales_interno.apellidos')
+        .then((datos_ofertas) => {
+            return knex('areaservicio_anuncioservicio')
+                .join('area_servicio', 'areaservicio_anuncioservicio.id_area', '=', 'area_servicio.id')
+                .select('areaservicio_anuncioservicio.id_anuncio', 'area_servicio.nombre as area').then((areas) => {
+                    return knex.select('*').from('asignatura_objetivo').then((asignaturas) => {
+                        let transfer_ofertas = [];
+                        datos_ofertas.forEach(datos => {
+                            let nombre = datos['nombre'];
+                            let apellidos = datos['apellidos'];
+                            let creador = { nombre, apellidos };
+                            let areas_servicio = [];
+                            areas.forEach(area => {
+                                if (area['id_anuncio'] === datos['id']) {
+                                    areas_servicio.push(area['area']);
+                                }
+                            });
+                            let asignaturas_objetivo = [];
+                            asignaturas.forEach(asignatura => {
+                                if (datos['id'] === asignatura['id_oferta']) {
+                                    asignaturas_objetivo.push(asignatura['nombre']);
+                                }
+                            });
+                            let transfer_oferta = new transferOfertaServicio(
+                                datos['id'],
+                                datos['titulo'],
+                                datos['descripcion'],
+                                datos['imagen'],
+                                datos['created_at'],
+                                datos['updated_at'],
+                                datos['_v'],
+                                asignaturas_objetivo,
+                                datos['cuatrimestre'],
+                                datos['anio_academico'],
+                                datos['fecha_limite'],
+                                datos['observaciones_temporales'],
+                                creador,
+                                areas_servicio,
+                                0,
+                                0,
+                                0
+                            );
+                            transfer_ofertas.push(transfer_oferta);
+                        });
+                        return transfer_ofertas;
+                    });
                 });
-                let transfer_oferta = new transferOfertaServicio(
-                    datos['id'],
-                    datos['titulo'],
-                    datos['descripcion'],
-                    datos['imagen'],
-                    datos['created_at'],
-                    datos['updated_at'],
-                    datos['_v'],
-                    asignaturas_objetivo,
-                    datos['cuatrimestre'],
-                    datos['anio_academico'],
-                    datos['fecha_limite'],
-                    datos['observaciones_temporales'],
-                    creador,
-                    datos['area'],
-                    0,
-                    0,
-                    0
-                );
-                transfer_ofertas.push(transfer_oferta);
-            });
-            return transfer_ofertas;
+        })
+        .catch((err) => {
+            console.log(err);
+            console.log("Se ha producido un error al intentar obtener de la base de datos todas las ofertas de servicio ");
+        })
+        .finally(() => {
+            knex.destroy();
         });
-    })
-    .catch((err) => {
-        console.log(err);
-        console.log("Se ha producido un error al intentar obtener de la base de datos todas las ofertas de servicio ");
-    })
-    .finally(() => {
-        knex.destroy();
-    });
 }
 
 function obtenerTodasDemandasServicio() {
-    return obtenerTodosAnunciosServicio()
-    .join('demanda_servicio', 'anuncio_servicio.id', '=', 'demanda_servicio.id')
-    .join('necesidad_social', 'demanda_servicio.necesidad_social', '=', 'necesidad_social.id')
-    .join('entidad', 'demanda_servicio.creador','=', 'entidad.id')
-    .join('datos_personales_externo', 'entidad.datos_personales_Id','=', 'datos_personales_externo.id')
-    .select('anuncio_servicio.id','anuncio_servicio.titulo', 'anuncio_servicio.descripcion', 'anuncio_servicio.imagen', 
-    'anuncio_servicio.created_at', 'anuncio_servicio.updated_at', 'anuncio_servicio._v','area_servicio.nombre as area',
-    'demanda_servicio.ciudad', 'demanda_servicio.anio_finalidad', 'demanda_servicio.fecha_fin', 'demanda_servicio.observaciones_temporales',
-    'demanda_servicio.periodo_definicion_ini', 'demanda_servicio.periodo_definicion_fin', 
-    'demanda_servicio.periodo_ejecucion_ini', 'demanda_servicio.periodo_ejecucion_fin',
-    'necesidad_social.nombre as necesidad', 
-    'datos_personales_externo.nombre', 'datos_personales_externo.apellidos')
-    .then((datos_demandas) => {
-        let transfer_demandas = [];
-        datos_demandas.forEach(datos => {
-            let nombre = datos['nombre'];
-            let apellidos = datos['apellidos'];
-            let creador = {nombre, apellidos};
-            let transfer_demanda = new transferDemandaServicio(
-                    datos['id'],
-                    datos['titulo'],
-                    datos['descripcion'],
-                    datos['imagen'],
-                    datos['created_at'],
-                    datos['updated_at'],
-                    datos['_v'],
-                    datos['creador'],
-                    datos['ciudad'],
-                    datos['finalidad'],
-                    datos['periodo_definicion_ini'],
-                    datos['periodo_definicion_fin'],
-                    datos['periodo_ejecucion_ini'],
-                    datos['periodo_ejecucion_fin'],
-                    datos['fecha_fin'],
-                    datos['observaciones_temporales'],
-                    datos['necesidad'],
-                    0,
-                    datos['area'],
-                    0,
-                    0
-            );
-            transfer_demandas.push(transfer_demanda);
+    return knex('anuncio_servicio')
+        .join('demanda_servicio', 'anuncio_servicio.id', '=', 'demanda_servicio.id')
+        .join('necesidad_social', 'demanda_servicio.necesidad_social', '=', 'necesidad_social.id')
+        .join('entidad', 'demanda_servicio.creador', '=', 'entidad.id')
+        .join('datos_personales_externo', 'entidad.datos_personales_Id', '=', 'datos_personales_externo.id')
+        .select('anuncio_servicio.id', 'anuncio_servicio.titulo', 'anuncio_servicio.descripcion', 'anuncio_servicio.imagen',
+            'anuncio_servicio.created_at', 'anuncio_servicio.updated_at', 'anuncio_servicio._v',
+            'demanda_servicio.ciudad', 'demanda_servicio.finalidad', 'demanda_servicio.fecha_fin', 'demanda_servicio.observaciones_temporales',
+            'demanda_servicio.periodo_definicion_ini', 'demanda_servicio.periodo_definicion_fin',
+            'demanda_servicio.periodo_ejecucion_ini', 'demanda_servicio.periodo_ejecucion_fin',
+            'necesidad_social.nombre as necesidad',
+            'datos_personales_externo.nombre', 'datos_personales_externo.apellidos')
+        .then((datos_demandas) => {
+            return knex('areaservicio_anuncioservicio')
+                .join('area_servicio', 'areaservicio_anuncioservicio.id_area', '=', 'area_servicio.id')
+                .select('areaservicio_anuncioservicio.id_anuncio', 'area_servicio.nombre as area').then((areas) => {
+                    return knex('titulacionlocal_demanda')
+                        .join('titulacion_local', 'titulacionlocal_demanda.id_titulacion', '=', 'titulacion_local.id')
+                        .select('titulacionlocal_demanda.id_demanda', 'titulacion_local.nombre as titulacion').then((titulaciones) => {
+                            let transfer_demandas = [];
+                            datos_demandas.forEach(datos => {
+                                let nombre = datos['nombre'];
+                                let apellidos = datos['apellidos'];
+                                let creador = { nombre, apellidos };
+                                let areas_servicio = [];
+                                areas.forEach(area => {
+                                    if (area['id_anuncio'] === datos['id']) {
+                                        areas_servicio.push(area['area']);
+                                    }
+                                });
+                                let titulaciones_objetivo = [];
+                                titulaciones.forEach(titulacion => {
+                                    if (titulacion['id_demanda'] === datos['id']) {
+                                        titulaciones_objetivo.push(titulacion['titulacion']);
+                                    }
+                                });
+                                let transfer_demanda = new transferDemandaServicio(
+                                    datos['id'],
+                                    datos['titulo'],
+                                    datos['descripcion'],
+                                    datos['imagen'],
+                                    datos['created_at'],
+                                    datos['updated_at'],
+                                    datos['_v'],
+                                    creador,
+                                    datos['ciudad'],
+                                    datos['finalidad'],
+                                    datos['periodo_definicion_ini'],
+                                    datos['periodo_definicion_fin'],
+                                    datos['periodo_ejecucion_ini'],
+                                    datos['periodo_ejecucion_fin'],
+                                    datos['fecha_fin'],
+                                    datos['observaciones_temporales'],
+                                    datos['necesidad'],
+                                    titulaciones_objetivo,
+                                    areas_servicio,
+                                    0,
+                                    0
+                                );
+                                transfer_demandas.push(transfer_demanda);
+                            });
+                            return transfer_demandas;
+                        });
+                });
+        })
+        .catch((err) => {
+            console.log(err);
+            console.log("Se ha producido un error al intentar obtener de la base de datos todas las ofertas de servicio ");
+        })
+        .finally(() => {
+            knex.destroy();
         });
-        return transfer_demandas;
-    })
-    .catch((err) => {
-        console.log(err);
-        console.log("Se ha producido un error al intentar obtener de la base de datos todas las ofertas de servicio ");
-    })
-    .finally(() => {
-        knex.destroy();
-    });
 }
 
 //ACTUALIZAR--------------------------------------------------------------------------------------------------
@@ -327,23 +348,23 @@ function obtenerTodasDemandasServicio() {
 function actualizarAnuncio(id, titulo, descripcion, imagen, _v, areasServicio) {
     return knex('anuncio_servicio').where('id', id).update({
         titulo: titulo, descripcion: descripcion, imagen: imagen, _v: _v
-        }).then(() => {
-            // Elimina todas las relaciones del anuncio de servicio con cualquier area
-            return knex('areaservicio_anuncioservicio').where('id_anuncio', id).del().then(() =>{
-                // Crear todas las relaciones entre areas de servicio y el anuncio
-                const fieldsToInsert = areasServicio.map(area => ({ id_area: area, id_anuncio: id }));
-                return knex('areaservicio_anuncioservicio').insert(fieldsToInsert).then(() => {
-                    return id;
-                });
+    }).then(() => {
+        // Elimina todas las relaciones del anuncio de servicio con cualquier area
+        return knex('areaservicio_anuncioservicio').where('id_anuncio', id).del().then(() => {
+            // Crear todas las relaciones entre areas de servicio y el anuncio
+            const fieldsToInsert = areasServicio.map(area => ({ id_area: area, id_anuncio: id }));
+            return knex('areaservicio_anuncioservicio').insert(fieldsToInsert).then(() => {
+                return id;
             });
+        });
     })
-    .catch((err) => {
-        console.log(err);
-        console.log("Se ha producido un error al intentar crear el anuncio con titulo ", titulo);
-    });
+        .catch((err) => {
+            console.log(err);
+            console.log("Se ha producido un error al intentar crear el anuncio con titulo ", titulo);
+        });
 }
 
-function actualizarOfertaServicio(oferta){
+function actualizarOfertaServicio(oferta) {
     return actualizarAnuncio(oferta.getId(), oferta.getTitulo(), oferta.getDescripcion(), oferta.getImagen(), oferta.get_v(), oferta.getArea_servicio()).then(function () {
         return knex('oferta_servicio').where('id', oferta.getId()).update({
             cuatrimestre: oferta.getCuatrimestre(), anio_academico: oferta.getAnio_academico(),
@@ -352,7 +373,7 @@ function actualizarOfertaServicio(oferta){
         })
             .then(function (result) {
                 // Elimina todas las relaciones del anuncio de servicio con cualquier area
-                return knex('asignatura_objetivo').where('id_oferta', oferta.getId()).del().then(() =>{
+                return knex('asignatura_objetivo').where('id_oferta', oferta.getId()).del().then(() => {
                     asignaturas = oferta.getAsignatura_objetivo();
                     const fieldsToInsert = asignaturas.map(asignatura => ({ id_oferta: oferta.getId(), nombre: asignatura }));
                     return knex('asignatura_objetivo').insert(fieldsToInsert).then(() => {
@@ -362,14 +383,14 @@ function actualizarOfertaServicio(oferta){
                 });
             });
     })
-    .catch((err) => {
-        console.log(err);
-        console.log("Se ha producido un error al intentar actualizar en la base de datos la oferta de servicio con id ", oferta.getId());
-    })
-    .finally(() => {
-        knex.destroy();
-    });
-    
+        .catch((err) => {
+            console.log(err);
+            console.log("Se ha producido un error al intentar actualizar en la base de datos la oferta de servicio con id ", oferta.getId());
+        })
+        .finally(() => {
+            knex.destroy();
+        });
+
 }
 
 function actualizarDemanda(demanda) {
@@ -382,7 +403,7 @@ function actualizarDemanda(demanda) {
         })
             .then(function () {
                 // Elimina todas las relaciones de la demanda de servicio con cualquier titulación
-                return knex('titulacionlocal_demanda').where('id_demanda', demanda.getId()).del().then(() =>{
+                return knex('titulacionlocal_demanda').where('id_demanda', demanda.getId()).del().then(() => {
                     // Crear las nuevas relaciones entre la demanda de servicio y las titulaciones
                     const titulaciones = demanda.getTitulacionlocal_demandada();
                     const fieldsToInsert = titulaciones.map(titulacion =>
@@ -393,66 +414,66 @@ function actualizarDemanda(demanda) {
                 });
             });
     })
-    .catch((err) => {
-        console.log(err);
-        console.log("Se ha producido un error al intentar actualizar en la base de datos la demanda de servicio con id ", demanda.getId());
-    })
-    .finally(() => {
-        knex.destroy();
-    });
+        .catch((err) => {
+            console.log(err);
+            console.log("Se ha producido un error al intentar actualizar en la base de datos la demanda de servicio con id ", demanda.getId());
+        })
+        .finally(() => {
+            knex.destroy();
+        });
 }
 
 //ELIMINAR UNO---------------------------------------------------------------------------------------------------
-function eliminarAnuncio(id){
-    return knex('anuncio_servicio').where('id', id).del().then((result) =>{
-        if(result > 0){
+function eliminarAnuncio(id) {
+    return knex('anuncio_servicio').where('id', id).del().then((result) => {
+        if (result > 0) {
             console.log("Se ha eliminado de la base de datos el anuncio con id ", id);
-        }else{
+        } else {
             console.log("No existe el anuncio de servicio con id ", id);
         }
     })
-    .catch((err) => {
-        console.log(err);
-        console.log("Se ha producido un error al intentar eliminar de la base de datos el anuncio de servicio con id ", id);
-    })
+        .catch((err) => {
+            console.log(err);
+            console.log("Se ha producido un error al intentar eliminar de la base de datos el anuncio de servicio con id ", id);
+        })
 }
 
-function eliminarOferta(id_oferta){
-    return knex('oferta_servicio').where('id', id_oferta).del().then((result) =>{
+function eliminarOferta(id_oferta) {
+    return knex('oferta_servicio').where('id', id_oferta).del().then((result) => {
         return eliminarAnuncio(id_oferta).then(() => {
-            if(result > 0){
+            if (result > 0) {
                 console.log("Se ha eliminado de la base de datos la oferta con id ", id_oferta);
-            }else{
+            } else {
                 console.log("No existe la oferta de servicio con id ", id_oferta);
             }
         });
     })
-    .catch((err) => {
-        console.log(err);
-        console.log("Se ha producido un error al intentar eliminar de la base de datos la oferta de servicio con id ", id_oferta);
-    })
-    .finally(() => {
-        knex.destroy();
-    });
+        .catch((err) => {
+            console.log(err);
+            console.log("Se ha producido un error al intentar eliminar de la base de datos la oferta de servicio con id ", id_oferta);
+        })
+        .finally(() => {
+            knex.destroy();
+        });
 }
 
-function eliminarDemanda(id_demanda){
-    return knex('demanda_servicio').where('id', id_demanda).del().then((result) =>{
+function eliminarDemanda(id_demanda) {
+    return knex('demanda_servicio').where('id', id_demanda).del().then((result) => {
         return eliminarAnuncio(id_demanda).then(() => {
-            if(result > 0){
+            if (result > 0) {
                 console.log("Se ha eliminado de la base de datos la demanda con id ", id_demanda);
-            }else{
+            } else {
                 console.log("No existe la demanda de servicio con id ", id_demanda);
             }
         });
     })
-    .catch((err) => {
-        console.log(err);
-        console.log("Se ha producido un error al intentar eliminar de la base de datos la demanda de servicio con id ", id_demanda);
-    })
-    .finally(() => {
-        knex.destroy();
-    });
+        .catch((err) => {
+            console.log(err);
+            console.log("Se ha producido un error al intentar eliminar de la base de datos la demanda de servicio con id ", id_demanda);
+        })
+        .finally(() => {
+            knex.destroy();
+        });
 }
 
 function obtenerAsignaturaObjetivo(id_oferta) {
@@ -521,11 +542,11 @@ function limpiarAnuncioServicios() {
         })
 }
 
-module.exports = { 
-    crearOferta, crearAnuncio, crearDemanda, 
+module.exports = {
+    crearOferta, crearAnuncio, crearDemanda,
     actualizarDemanda, actualizarOfertaServicio,
     obtenerOfertaServicio, obtenerDemandaServicio, obtenerMensajesPorAnuncio,
     obtenerTodasOfertasServicio, obtenerTodasDemandasServicio,
     eliminarOferta, eliminarDemanda,
-    limpiarAnuncioServicios, 
+    limpiarAnuncioServicios,
 };
