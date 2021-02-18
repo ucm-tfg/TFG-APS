@@ -51,11 +51,11 @@ let creador = 5; //Profesor con id 1
 let area = [1];
 let profesores = 5;
 
-let oferta1 = new transferOfertaServicio(null, titulo, descripcion, imagen, "", "", 0.9, asignatura,
-    cuatrimestre, anio, fecha_limite, observaciones, creador, area, null,
-    null, profesores); 
+// let oferta1 = new transferOfertaServicio(null, titulo, descripcion, imagen, "", "", 0.9, asignatura,
+//     cuatrimestre, anio, fecha_limite, observaciones, creador, area, null,
+//     null, profesores); 
 // dao_tentativa.obtenerOfertaServicio(46).then(function(oferta){console.log(oferta);});
-//  dao_tentativa.crearOferta(oferta1);
+// dao_tentativa.crearOferta(oferta1);
 
 anio = 2022;
 asignatura = ["Ampliación de Matemáticas"]; 
@@ -69,30 +69,33 @@ oferta1 = new transferOfertaServicio(46, titulo, descripcion, imagen, "", "", 0.
 // dao_tentativa.eliminarOferta(44);
 
 // DEMANDAS----------------------------------------------------------------------------------------
-let ciudad = "Madrid"; 
-let finalidad = "Crear un videojuego para niños de primaria";
-let periodo_definicion_ini = new Date (2020, 5, 04);
-let periodo_definicion_fin  = new Date (2020, 6, 04);
-let periodo_ejecucion_ini = new Date (2020, 6, 05);
-let periodo_ejecucion_fin = new Date (2021, 2, 11);
-let fecha_fin  = new Date (2021, 7, 01);
-let observaciones_temporales = "NADA";
-let necesidad_social = 1;
-let titulacionlocal_demandada = [1, 2, 3];
-let area_servicio = [1,2];
-let demanda = new transferDemandaServicio(null, titulo, descripcion, imagen, "", "", 0.9,
-    7, ciudad, finalidad, periodo_definicion_ini, periodo_definicion_fin, periodo_ejecucion_ini,
-    periodo_ejecucion_fin, fecha_fin, observaciones_temporales, necesidad_social, titulacionlocal_demandada,
-    area_servicio, 0, 0);
+// let ciudad = "Madrid"; 
+// let finalidad = "Crear un videojuego para niños de primaria";
+// let periodo_definicion_ini = new Date (2020, 5, 04);
+// let periodo_definicion_fin  = new Date (2020, 6, 04);
+// let periodo_ejecucion_ini = new Date (2020, 6, 05);
+// let periodo_ejecucion_fin = new Date (2021, 2, 11);
+// let fecha_fin  = new Date (2021, 7, 01);
+// let observaciones_temporales = "NADA";
+// let necesidad_social = 1;
+// let titulacionlocal_demandada = [1, 2, 3];
+// let area_servicio = [1,2];
+// let demanda = new transferDemandaServicio(null, titulo, descripcion, imagen, "", "", 0.9,
+//     7, ciudad, finalidad, periodo_definicion_ini, periodo_definicion_fin, periodo_ejecucion_ini,
+//     periodo_ejecucion_fin, fecha_fin, observaciones_temporales, necesidad_social, titulacionlocal_demandada,
+//     area_servicio, 0, 0);
 
 // dao_tentativa.crearDemanda(demanda);
 // dao_tentativa.obtenerDemandaServicio(41).then(function(oferta){console.log(oferta);});
 ciudad = "Barcelona"; 
 area_servicio = [2];
 titulacionlocal_demandada = [1, 3];
-demanda = new transferDemandaServicio(36, titulo, descripcion, imagen, "", "", 0.9,
-    7, ciudad, finalidad, periodo_definicion_ini, periodo_definicion_fin, periodo_ejecucion_ini,
-    periodo_ejecucion_fin, fecha_fin, observaciones_temporales, necesidad_social, titulacionlocal_demandada,
-    area_servicio, 0, 0);
+// demanda = new transferDemandaServicio(36, titulo, descripcion, imagen, "", "", 0.9,
+//     7, ciudad, finalidad, periodo_definicion_ini, periodo_definicion_fin, periodo_ejecucion_ini,
+//     periodo_ejecucion_fin, fecha_fin, observaciones_temporales, necesidad_social, titulacionlocal_demandada,
+//     area_servicio, 0, 0);
+dao_tentativa.obtenerTodasOfertasServicio().then((datos) => {
+    console.log(datos);
+})
 // dao_tentativa.actualizarDemanda(demanda);
 // dao_tentativa.eliminarDemanda(41);

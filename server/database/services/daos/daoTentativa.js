@@ -8,6 +8,8 @@ const daoUsuario = require('./daoUsuario');
 const mysql = require('mysql');
 const knex = require('../../config');
 
+//INSERTAR------------------------------------------------------------------------------------------------
+
 // Inserta en la base de datos un nuevo anuncio de servicio
 // areasServicio es un array de ids de areas de servicio
 function crearAnuncio(titulo, descripcion, imagen, _v, areasServicio) {
@@ -79,6 +81,7 @@ function crearDemanda(demanda) {
     });
 }
 
+//LEER UNO----------------------------------------------------------------------------------------------------
 // Devuelve el anuncio de servicio que corresponda al id = id_anuncio
 function obtenerAnuncioServicio(id_anuncio) {
     return knex('anuncio_servicio').where({ id: id_anuncio }).select('*').then((anuncio) => {
@@ -198,6 +201,62 @@ function obtenerOfertaServicio(id_oferta) {
     });
 }
 
+//LEER VARIOS------------------------------------------------------------------------------------------------
+function obtenerTodosAnunciosServicio() {
+    return knex('anuncio_servicio')
+    .join('areaservicio_anuncioservicio', 'anuncio_servicio.id', '=', 'areaservicio_anuncioservicio.id_anuncio')
+    .join('area_servicio', 'areaservicio_anuncioservicio.id_area', '=', 'area_servicio.id')
+}
+
+function obtenerTodasOfertasServicio() {
+    return obtenerTodosAnunciosServicio()
+    .join('oferta_servicio', 'anuncio_servicio.id', '=', 'oferta_servicio.id')
+    .join('profesor_interno', 'oferta_servicio.creador','=', 'profesor_interno.id')
+    .join('datos_personales_interno', 'profesor_interno.datos_personales_Id','=', 'datos_personales_interno.id')
+    .select('anuncio_servicio.id','anuncio_servicio.titulo', 'anuncio_servicio.descripcion', 'anuncio_servicio.imagen', 
+    'anuncio_servicio.created_at', 'anuncio_servicio.updated_at', 'anuncio_servicio._v','area_servicio.nombre as area',
+    'oferta_servicio.cuatrimestre', 'oferta_servicio.anio_academico', 'oferta_servicio.fecha_limite', 
+    'oferta_servicio.observaciones_temporales', 'datos_personales_interno.nombre', 'datos_personales_interno.apellidos')
+    .then((datos_ofertas) => {
+        let transfer_ofertas = [];
+        datos_ofertas.forEach(datos => {
+            let nombre = datos['nombre'];
+            let apellidos = datos['apellidos'];
+            let creador = {nombre, apellidos};
+            let transfer_oferta = new transferOfertaServicio(
+                datos['id'],
+                datos['titulo'],
+                datos['descripcion'],
+                datos['imagen'],
+                datos['created_at'],
+                datos['updated_at'],
+                datos['_v'],
+                0,
+                datos['cuatrimestre'],
+                datos['anio_academico'],
+                datos['fecha_limite'],
+                datos['observaciones_temporales'],
+                creador,
+                datos['area'],
+                0,
+                0,
+                0
+            );
+            transfer_ofertas.push(transfer_oferta);
+        });
+        return transfer_ofertas;
+    })
+    .catch((err) => {
+        console.log(err);
+        console.log("Se ha producido un error al intentar obtener de la base de datos todas las ofertas de servicio ");
+    })
+    .finally(() => {
+        knex.destroy();
+    });
+}
+
+//ACTUALIZAR--------------------------------------------------------------------------------------------------
+
 function actualizarAnuncio(id, titulo, descripcion, imagen, _v, areasServicio) {
     return knex('anuncio_servicio').where('id', id).update({
         titulo: titulo, descripcion: descripcion, imagen: imagen, _v: _v
@@ -276,6 +335,7 @@ function actualizarDemanda(demanda) {
     });
 }
 
+//ELIMINAR UNO---------------------------------------------------------------------------------------------------
 function eliminarAnuncio(id){
     return knex('anuncio_servicio').where('id', id).del().then((result) =>{
         if(result > 0){
@@ -360,6 +420,8 @@ function obtenerAreaServicio(id_anuncio) {
         .catch((err) => { console.log("No se ha encontrado el area de servicio perteneciente al anuncio de servicio con id ", id_anuncio); throw err });
 }
 
+//AUXILIARES----------------------------------------------------------------------------------------------------
+
 // Devuelve todos los mensajes pertenecientes al anuncio de servicio con id=id_anuncio
 function obtenerMensajesPorAnuncio(id_anuncio) {
     return knex('mensaje_anuncioservicio').where({ id_anuncio: id_anuncio }).select('id_mensaje')
@@ -396,6 +458,7 @@ module.exports = {
     crearOferta, crearAnuncio, crearDemanda, 
     actualizarDemanda, actualizarOfertaServicio,
     obtenerOfertaServicio, obtenerDemandaServicio, obtenerMensajesPorAnuncio,
+    obtenerTodasOfertasServicio,
     eliminarOferta, eliminarDemanda,
     limpiarAnuncioServicios, 
 };
