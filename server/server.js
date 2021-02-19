@@ -37,19 +37,20 @@ app.listen(process.env.PORT || 8080, () => {
 const dao_tentativa = require('./database/services/daos/daoTentativa');
 const transferOfertaServicio = require('./database/services/transfers/transferOfertaServicio');
 const transferDemandaServicio = require('./database/services/transfers/transferDemandaServicio');
+const transferIniciativa = require('./database/services/transfers/transferIniciativa');
 
 // OFERTAS-----------------------------------------------------------------------
-let titulo = "Anuncio 1";
-let descripcion = "Prueba 1";
-let imagen = "Prueba, aquí va la dirección de la imagen";
-let asignatura = ["Ampliación de Matemáticas", "Matemáticas"]; 
-let cuatrimestre = 1;
-let anio = 2020;
-let fecha_limite = new Date (2021, 10, 04);
-let observaciones = "URGENTE";
-let creador = 5; //Profesor con id 1
-let area = [1, 0, 2];
-let profesores = 5;
+// let titulo = "Anuncio 1";
+// let descripcion = "Prueba 1";
+// let imagen = "Prueba, aquí va la dirección de la imagen";
+// let asignatura = ["Ampliación de Matemáticas", "Matemáticas"]; 
+// let cuatrimestre = 1;
+// let anio = 2020;
+// let fecha_limite = new Date (2021, 10, 04);
+// let observaciones = "URGENTE";
+// let creador = 5; //Profesor con id 1
+// let area = [1, 0, 2];
+// let profesores = 5;
 
 // let oferta1 = new transferOfertaServicio(null, titulo, descripcion, imagen, "", "", 0.9, asignatura,
 //     cuatrimestre, anio, fecha_limite, observaciones, creador, area, null,
@@ -57,11 +58,11 @@ let profesores = 5;
 // dao_tentativa.obtenerOfertaServicio(46).then(function(oferta){console.log(oferta);});
 // dao_tentativa.crearOferta(oferta1);
 
-anio = 2022;
-asignatura = ["Ampliación de Matemáticas"]; 
-oferta1 = new transferOfertaServicio(46, titulo, descripcion, imagen, "", "", 0.9, asignatura,
-    cuatrimestre, anio, fecha_limite, observaciones, creador, area, null,
-    null, profesores);
+// anio = 2022;
+// asignatura = ["Ampliación de Matemáticas"]; 
+// oferta1 = new transferOfertaServicio(46, titulo, descripcion, imagen, "", "", 0.9, asignatura,
+//     cuatrimestre, anio, fecha_limite, observaciones, creador, area, null,
+//     null, profesores);
 // dao_tentativa.actualizarOfertaServicio(oferta1).then(function(oferta){});
 // dao_tentativa.obtenerOfertaServicio(46).then(function(oferta){console.log(oferta);});
 //  dao_tentativa.limpiarAnuncioServicios(); //Elimina todos los elementos de la tabla
@@ -87,15 +88,24 @@ oferta1 = new transferOfertaServicio(46, titulo, descripcion, imagen, "", "", 0.
 // dao_tentativa.crearDemanda(demanda);
 
 // dao_tentativa.obtenerDemandaServicio(41).then(function(oferta){console.log(oferta);});
-ciudad = "Barcelona"; 
-area_servicio = [2];
-titulacionlocal_demandada = [1, 3];
+// ciudad = "Barcelona"; 
+// area_servicio = [2];
+// titulacionlocal_demandada = [1, 3];
 // demanda = new transferDemandaServicio(36, titulo, descripcion, imagen, "", "", 0.9,
 //     7, ciudad, finalidad, periodo_definicion_ini, periodo_definicion_fin, periodo_ejecucion_ini,
 //     periodo_ejecucion_fin, fecha_fin, observaciones_temporales, necesidad_social, titulacionlocal_demandada,
 //     area_servicio, 0, 0);
-dao_tentativa.obtenerTodasDemandasServicio().then((datos) => {
-    console.log(datos);
-})
+// dao_tentativa.obtenerTodasDemandasServicio().then((datos) => {
+//     console.log(datos);
+// })
 // dao_tentativa.actualizarDemanda(demanda);
 // dao_tentativa.eliminarDemanda(41);
+
+//INICIATIVAS
+let titulo = "Iniciativa 1";
+let descripcion = "Descripción de la iniciativa número 1";
+let necesidad_social = 1;
+let area_servicio = [1,2];
+let estudiante = 8;
+let iniciativa = new transferIniciativa(null, titulo, descripcion, necesidad_social, null, area_servicio, estudiante);
+dao_tentativa.crearIniciativa(iniciativa);

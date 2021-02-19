@@ -21,10 +21,10 @@ function crearAnuncio(titulo, descripcion, imagen, _v, areasServicio) {
             return id_anuncio;
         });
     })
-        .catch((err) => {
-            console.log(err);
-            console.log("Se ha producido un error al intentar crear el anuncio con titulo ", titulo);
-        });
+    .catch((err) => {
+        console.log(err);
+        console.log("Se ha producido un error al intentar crear el anuncio con titulo ", titulo);
+    });
 }
 
 // Inserta en la base de datos una nueva oferta de servicio
@@ -79,6 +79,26 @@ function crearDemanda(demanda) {
         .finally(() => {
             knex.destroy();
         });
+}
+
+// iniciativa.getArea_servicio() devuelve una array con las ids de los areas de servicio
+function crearIniciativa(iniciativa){
+    return knex('iniciativa').insert({
+        titulo: iniciativa.getTitulo(), descripcion: iniciativa.getDescripcion(), 
+        necesidad_social: iniciativa.getNecesidad_social(), id_estudiante: iniciativa.getEstudiante(),
+    }).then((id_iniciativa) => {
+        const fieldsToInsert = iniciativa.getArea_servicio().map(area => ({ id_area: area, id_iniciativa: id_iniciativa }));
+        return knex('areaservicio_iniciativa').insert(fieldsToInsert).then(() => {
+            console.log("Se ha introducido en la base de datos una iniciativa con id", id_iniciativa);
+        });
+    })
+    .catch((err) => {
+        console.log(err);
+        console.log("Se ha producido un error al crear la iniciativa");
+    })
+    .finally(() => {
+        knex.destroy();
+    });
 }
 
 //LEER UNO----------------------------------------------------------------------------------------------------
@@ -543,7 +563,7 @@ function limpiarAnuncioServicios() {
 }
 
 module.exports = {
-    crearOferta, crearAnuncio, crearDemanda,
+    crearOferta, crearAnuncio, crearDemanda, crearIniciativa,
     actualizarDemanda, actualizarOfertaServicio,
     obtenerOfertaServicio, obtenerDemandaServicio, obtenerMensajesPorAnuncio,
     obtenerTodasOfertasServicio, obtenerTodasDemandasServicio,
