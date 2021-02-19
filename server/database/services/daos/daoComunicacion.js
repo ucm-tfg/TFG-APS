@@ -4,8 +4,8 @@ const mysql = require ('mysql');
 const transferMensajes = require('../transfers/transferMensajes');
 const knex = require('../../config');
 
-// Devuelve todos los uploads que coincidan con los ids idUploads
-function obtenerUploads(idUploads){
+// Devuelve el upload correspondiente
+function obtenerUploads(idUploads){//funciona
     return knex('upload').where({
         id: idUploads
     }).select('*').then((upload) => {
@@ -26,8 +26,8 @@ function obtenerUploads(idUploads){
     });
 }
 
-// Devuelve todos los mensajes que coincidan con los ids idMensajes
-function obtenerMensajes(idMensajes){
+// Devuelve el mensaje correspondiente
+function obtenerMensajes(idMensajes){//funciona
     return knex('mensaje').where({
         id: idMensajes
     }).select('*').then((mensaje) =>{
@@ -41,30 +41,101 @@ function obtenerMensajes(idMensajes){
 }
 
 //Devuelve todos los mensajes de un anuncio
-function obtenerMensajesAnuncio(idAnuncio){
+function obtenerMensajesAnuncio(idAnuncio){//NO FUNCIONA
     return knex('mensaje_anuncioservicio').where({
         id_anuncio: idAnuncio
-    }).select('id_mensaje').then((men) =>{
-       // console.log(men);
+    }).join('mensaje', 'id_mensaje', '=', 'id').select('mensaje.id', 'mensaje.texto', 'mensaje.fecha', 'mensaje.usuario').then((mensaje)=> {
         mensajes = [];
-        for(m of men){
-            m2 = Object.assign({}, m);
-            id = m2['id_mensaje'];
-           // console.log(id);
-            obtenerMensajes(id).then(function(mensaje){
-                mensajes.push(mensaje);
-                //console.log(mensajes);
-            });
+        for(men of mensaje){
+            m2 = Object.assign({}, men);
+            m3 = new transferMensajes(
+                m2['id'],
+                m2['texto'],
+                m2['fecha'],
+                m2['usuario']
+            );
+            mensajes.push(m3);
         }
-    }).catch((err) => {
-        console.log(err);
-        console.log("Se ha producido un error al intentar sacar todos los mensajes del anuncio ", idAnuncio);
-    });
+        return mensajes;
+    });// hacer join con tabla de mensajes para sollucionar porblema de cuello de botella.
 }
 
 //Devuelve todos los mensajes de una colaboración
 function obtenerMensajesColab(idColab){
-    return 0;
+    return knex('mensaje_colaboracion').where({
+        id_colaboracion: idColab
+    }).join('mensaje', 'id_mensaje', '=', 'id').select('mensaje.id', 'mensaje.texto', 'mensaje.fecha', 'mensaje.usuario').then((mensaje)=> {
+        mensajes = [];
+        for(men of mensaje){
+            m2 = Object.assign({}, men);
+            m3 = new transferMensajes(
+                m2['id'],
+                m2['texto'],
+                m2['fecha'],
+                m2['usuario']
+            );
+            mensajes.push(m3);
+        }
+        return mensajes;
+    });
+}
+
+//Devuelve todos los uploads de un anuncio
+function obtenerUploadsAnuncio(idAnuncio){
+    return knex('upload_anuncioservicio').where({
+        id_anuncio: idAnuncio
+    }).join('upload', 'id_upload', '=', 'id').select('upload.id', 'upload.almacenamiento', 'upload.campo', 'upload.tipo', 'upload.tipo_id', 'upload.path', 
+    'upload.client_name', 'upload.nombre', 'upload.creador', 'upload.createdAt', 'upload.updatedAt', 'upload._v').then((upload) => {
+        uploads = [];
+        for(u of upload){
+            u2 = Object.assign({}, u);
+            u3 = new transferUpload(
+                u2['id'],
+                u2['almacenamiento'],
+                u2['campo'],
+                u2['tipo'],
+                u2['tipo_id'],
+                u2['path'],
+                u2['client_name'],
+                u2['nombre'],
+                u2['creador'],
+                u2['createdAt'],
+                u2['updatedAt'],
+                u2['_v']
+            );
+            uploads.push(u3);
+        }   
+        return uploads; 
+    });
+}
+
+//Devuelve todos los uploads de una colaboracion
+function obtenerUploadsColab(idColab){
+    return knex('uploads_colaboracion').where({
+        id_colaboracion: idColab
+    }).join('upload', 'id_upload', '=', 'id').select('upload.id', 'upload.almacenamiento', 'upload.campo', 'upload.tipo', 'upload.tipo_id', 'upload.path', 
+    'upload.client_name', 'upload.nombre', 'upload.creador', 'upload.createdAt', 'upload.updatedAt', 'upload._v').then((upload) => {
+        uploads = [];
+        for(u of upload){
+            u2 = Object.assign({}, u);
+            u3 = new transferUpload(
+                u2['id'],
+                u2['almacenamiento'],
+                u2['campo'],
+                u2['tipo'],
+                u2['tipo_id'],
+                u2['path'],
+                u2['client_name'],
+                u2['nombre'],
+                u2['creador'],
+                u2['createdAt'],
+                u2['updatedAt'],
+                u2['_v']
+            );
+            uploads.push(u3);
+        }   
+        return uploads; 
+    });
 }
 
 //crea un nuevo mensaje
@@ -100,7 +171,7 @@ function crearMensajeColab(texto, fecha, usuario, colaboracion){//funciona
 }
 
 //crea un nuevo upload
-function crearUploadAnuncio(almacenamiento, campo, tipo, tipo_id, path, client_name, nombre, creador, createdAt, updatedAt, _v, anuncio){
+function crearUploadAnuncio(almacenamiento, campo, tipo, tipo_id, path, client_name, nombre, creador, createdAt, updatedAt, _v, anuncio){//funciona
     return knex('upload').insert({
         almacenamiento: almacenamiento, campo: campo, tipo: tipo, tipo_id: tipo_id, path: path, client_name: client_name, nombre: nombre, creador: creador, createdAt: createdAt, updatedAt: updatedAt, _v: _v
     }).then((id_upload) =>{
@@ -115,7 +186,7 @@ function crearUploadAnuncio(almacenamiento, campo, tipo, tipo_id, path, client_n
     });
 }
 
-function crearUploadColab(almacenamiento, campo, tipo, tipo_id, path, client_name, nombre, creador, createdAt, updatedAt, _v, colaboracion){
+function crearUploadColab(almacenamiento, campo, tipo, tipo_id, path, client_name, nombre, creador, createdAt, updatedAt, _v, colaboracion){//funciona
     return knex('upload').insert({
         almacenamiento: almacenamiento, campo: campo, tipo: tipo, tipo_id: tipo_id, path: path, client_name: client_name, nombre: nombre, creador: creador, createdAt: createdAt, updatedAt: updatedAt, _v: _v
     }).then((id_upload) =>{
@@ -130,4 +201,28 @@ function crearUploadColab(almacenamiento, campo, tipo, tipo_id, path, client_nam
     });
 }
 
-module.exports = {knex, obtenerUploads, obtenerMensajes, obtenerMensajesAnuncio, obtenerMensajesColab, crearMensajeAnuncio, crearMensajeColab, crearUploadAnuncio, crearUploadColab};
+function eliminarMensaje(id_mensaje){//Funciona
+    return knex('mensaje').where({
+        id: id_mensaje
+    }).del().then((result) =>{
+        if(result > 0){
+            console.log("Se ha eliminado de la base de datos el mensaje con id ", id_mensaje);
+        }else{
+            console.log("No existe el mensaje  con id ", id_mensaje);
+        }
+    });
+}
+
+function eliminarUpload(id_upload){//Funciona
+    return knex('upload').where({
+        id: id_upload
+    }).del().then((result)=>{
+        if(result > 0){
+            console.log("Se ha eliminado de la base de datos el upload con id ", id_upload);
+        }else{
+            console.log("No existe el upload con id ", id_upload);
+        }
+    });
+}
+
+module.exports = {knex, obtenerUploads, obtenerMensajes, obtenerMensajesAnuncio, obtenerMensajesColab, obtenerUploadsAnuncio, obtenerUploadsColab, crearMensajeAnuncio, crearMensajeColab, crearUploadAnuncio, crearUploadColab, eliminarMensaje, eliminarUpload};

@@ -108,8 +108,7 @@ let usuario = 5;
 //dao_comunicacion.crearMensajeAnuncio(texto, fecha, usuario, 9);
 //dao_comunicacion.crearMensajeColab(texto, fecha, usuario, 1);
 //dao_comunicacion.obtenerMensajes(10).then(function(mensaje){console.log(mensaje);});
-dao_comunicacion.obtenerMensajesAnuncio(9).then(function(resultado){console.log(resultado);});
-
+//dao_comunicacion.obtenerMensajesAnuncio(9).then(function(resultado){console.log(resultado);});
 
 let almacenamiento = "almacenamiento de prueba";
 let campo = "campo de prueba"; 
@@ -125,3 +124,5 @@ let _v = 0.5;
 //dao_comunicacion.crearUploadAnuncio(almacenamiento, campo, tipo, tipo_id, camino, client_name, nombre, creador, createdAt, updatedAt, _v, 9);
 //dao_comunicacion.crearUploadColab(almacenamiento, campo, tipo, tipo_id, camino, client_name, nombre, creador, createdAt, updatedAt, _v, 1)
 //dao_comunicacion.obtenerUploads(6).then(function(upload){console.log(upload);});
+//dao_comunicacion.eliminarUpload(6).then();
+dao_comunicacion.obtenerUploadsAnuncio(9).then(function(upload){console.log(upload);});
