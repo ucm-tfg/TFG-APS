@@ -1,6 +1,7 @@
 const transferOfertaServicio = require('../transfers/transferOfertaServicio');
 const transferAnuncioServicio = require('../transfers/transferAnuncioServicio');
 const transferDemandaServicio = require('../transfers/transferDemandaServicio');
+const transferIniciativa = require('../transfers/transferIniciativa');
 const transferMensaje = require('../transfers/transferMensajes');
 const transferUpload = require('../transfers/transferUpload');
 const daoComunicacion = require('./daoComunicacion');
@@ -21,10 +22,10 @@ function crearAnuncio(titulo, descripcion, imagen, _v, areasServicio) {
             return id_anuncio;
         });
     })
-    .catch((err) => {
-        console.log(err);
-        console.log("Se ha producido un error al intentar crear el anuncio con titulo ", titulo);
-    });
+        .catch((err) => {
+            console.log(err);
+            console.log("Se ha producido un error al intentar crear el anuncio con titulo ", titulo);
+        });
 }
 
 // Inserta en la base de datos una nueva oferta de servicio
@@ -82,9 +83,9 @@ function crearDemanda(demanda) {
 }
 
 // iniciativa.getArea_servicio() devuelve una array con las ids de los areas de servicio
-function crearIniciativa(iniciativa){
+function crearIniciativa(iniciativa) {
     return knex('iniciativa').insert({
-        titulo: iniciativa.getTitulo(), descripcion: iniciativa.getDescripcion(), 
+        titulo: iniciativa.getTitulo(), descripcion: iniciativa.getDescripcion(),
         necesidad_social: iniciativa.getNecesidad_social(), id_estudiante: iniciativa.getEstudiante(),
     }).then((id_iniciativa) => {
         const fieldsToInsert = iniciativa.getArea_servicio().map(area => ({ id_area: area, id_iniciativa: id_iniciativa }));
@@ -92,13 +93,13 @@ function crearIniciativa(iniciativa){
             console.log("Se ha introducido en la base de datos una iniciativa con id", id_iniciativa);
         });
     })
-    .catch((err) => {
-        console.log(err);
-        console.log("Se ha producido un error al crear la iniciativa");
-    })
-    .finally(() => {
-        knex.destroy();
-    });
+        .catch((err) => {
+            console.log(err);
+            console.log("Se ha producido un error al crear la iniciativa");
+        })
+        .finally(() => {
+            knex.destroy();
+        });
 }
 
 //LEER UNO----------------------------------------------------------------------------------------------------
@@ -221,6 +222,41 @@ function obtenerOfertaServicio(id_oferta) {
         });
 }
 
+function obtenerIniciativa(id) {
+    return knex('iniciativa').where({ id: id }).select('*').then((datos) => {
+        return knex('areaservicio_iniciativa').where({ id_iniciativa: id }).select('id_area')
+            .then((id_areas) => {
+                return knex('necesidad_social').where({ id: datos[0]['necesidad_social'] }).select('nombre').then((necesidad_social) =>{
+                    id_areas_array = [];
+                    for (id_area of id_areas) {
+                        id_areas_array.push(id_area['id_area']);
+                    }
+                    return knex.select('nombre').from('area_servicio').whereIn('id', id_areas_array).then((areas_servicio) => {
+                        areas = [];
+                        for (area of areas_servicio) {
+                            areas.push(area['nombre']);
+                        }
+                        return new transferIniciativa(
+                            id = datos[0]['id'],
+                            titulo = datos[0]['titulo'],
+                            descripcion = datos[0]['descripcion'],
+                            necesidad_social = necesidad_social[0]['nombre'],
+                            demanda = datos[0]['id_demanda'],
+                            area_servicio = areas,
+                            estudiante = datos[0]['id_estudiante']
+                        );
+                    });
+                });
+            });
+    })
+        .catch((err) => {
+            console.log(err);
+            tconsole.log("Se ha producido un error al intentar obtener de la base de datos la iniciativa con id ", id);
+        })
+        .finally(() => {
+            knex.destroy();
+        });
+}
 //LEER VARIOS------------------------------------------------------------------------------------------------
 
 function obtenerTodasOfertasServicio() {
@@ -496,6 +532,39 @@ function eliminarDemanda(id_demanda) {
         });
 }
 
+function eliminarAnuncio(id) {
+    return knex('anuncio_servicio').where('id', id).del().then((result) => {
+        if (result > 0) {
+            console.log("Se ha eliminado de la base de datos el anuncio con id ", id);
+        } else {
+            console.log("No existe el anuncio de servicio con id ", id);
+        }
+    })
+        .catch((err) => {
+            console.log(err);
+            console.log("Se ha producido un error al intentar eliminar de la base de datos el anuncio de servicio con id ", id);
+        })
+}
+
+function eliminarIniciativa(id) {
+    return knex('iniciativa').where('id', id).del().then((result) => {
+        if (result > 0) {
+            console.log("Se ha eliminado de la base de datos la inciativa con id ", id);
+        } else {
+            console.log("No existe la iniciativa con id ", id);
+        }
+    })
+    .catch((err) => {
+        console.log(err);
+        console.log("Se ha producido un error al intentar eliminar de la base de datos la iniciativa con id ", id);
+    })
+    .finally(() => {
+        knex.destroy();
+    });
+}
+
+//AUXILIARES----------------------------------------------------------------------------------------------------
+
 function obtenerAsignaturaObjetivo(id_oferta) {
     return knex('asignatura_objetivo').where({ id_oferta: id_oferta }).select('nombre')
         .catch((err) => { console.log("No se ha encontrado la asignatura objetivo perteneciente a la oferta de servicio con id ", id_demanda); throw err });
@@ -528,7 +597,6 @@ function obtenerAreaServicio(id_anuncio) {
         .catch((err) => { console.log("No se ha encontrado el area de servicio perteneciente al anuncio de servicio con id ", id_anuncio); throw err });
 }
 
-//AUXILIARES----------------------------------------------------------------------------------------------------
 
 // Devuelve todos los mensajes pertenecientes al anuncio de servicio con id=id_anuncio
 function obtenerMensajesPorAnuncio(id_anuncio) {
@@ -565,8 +633,8 @@ function limpiarAnuncioServicios() {
 module.exports = {
     crearOferta, crearAnuncio, crearDemanda, crearIniciativa,
     actualizarDemanda, actualizarOfertaServicio,
-    obtenerOfertaServicio, obtenerDemandaServicio, obtenerMensajesPorAnuncio,
+    obtenerOfertaServicio, obtenerDemandaServicio, obtenerMensajesPorAnuncio, obtenerIniciativa,
     obtenerTodasOfertasServicio, obtenerTodasDemandasServicio,
-    eliminarOferta, eliminarDemanda,
+    eliminarOferta, eliminarDemanda, eliminarIniciativa,
     limpiarAnuncioServicios,
 };
