@@ -102,14 +102,17 @@ const transferIniciativa = require('./database/services/transfers/transferInicia
 // dao_tentativa.eliminarDemanda(41);
 
 //INICIATIVAS
-// let titulo = "Iniciativa 1";
-// let descripcion = "Descripción de la iniciativa número 1";
+// let titulo = "Iniciativa 2";
+// let descripcion = "Descripción de la iniciativa número 2";
 // let necesidad_social = 1;
-// let area_servicio = [1,2];
-// let estudiante = 8;
+// let area_servicio = [2];
+// let estudiante = 9;
 // let iniciativa = new transferIniciativa(null, titulo, descripcion, necesidad_social, null, area_servicio, estudiante);
 // dao_tentativa.crearIniciativa(iniciativa);
 // dao_tentativa.obtenerIniciativa(2).then((datos) => {
 //     console.log(datos);
 // })
 // dao_tentativa.eliminarIniciativa(2);
+dao_tentativa.obtenerTodasIniciativas().then((datos) =>{
+    console.log(datos);
+})

@@ -226,7 +226,7 @@ function obtenerIniciativa(id) {
     return knex('iniciativa').where({ id: id }).select('*').then((datos) => {
         return knex('areaservicio_iniciativa').where({ id_iniciativa: id }).select('id_area')
             .then((id_areas) => {
-                return knex('necesidad_social').where({ id: datos[0]['necesidad_social'] }).select('nombre').then((necesidad_social) =>{
+                return knex('necesidad_social').where({ id: datos[0]['necesidad_social'] }).select('nombre').then((necesidad_social) => {
                     id_areas_array = [];
                     for (id_area of id_areas) {
                         id_areas_array.push(id_area['id_area']);
@@ -398,6 +398,78 @@ function obtenerTodasDemandasServicio() {
             knex.destroy();
         });
 }
+function obtenerIniciativasInternos() {
+    return knex('iniciativa')
+        .join('necesidad_social', 'iniciativa.necesidad_social', '=', 'necesidad_social.id')
+        .join('estudiante_interno', 'iniciativa.id_estudiante', '=', 'estudiante_interno.id')
+        .join('datos_personales_interno', 'estudiante_interno.datos_personales_Id', '=', 'datos_personales_interno.id')
+        .select('iniciativa.id', 'iniciativa.titulo', 'iniciativa.descripcion', 'necesidad_social.nombre as necesidad',
+            'iniciativa.id_demanda as demanda', 'datos_personales_interno.nombre as estudiante')
+}
+function obtenerIniciativasExternos() {
+    return knex('iniciativa')
+        .join('necesidad_social', 'iniciativa.necesidad_social', '=', 'necesidad_social.id')
+        .join('estudiante_externo', 'iniciativa.id_estudiante', '=', 'estudiante_externo.id')
+        .join('datos_personales_externo', 'estudiante_externo.datos_personales_Id', '=', 'datos_personales_externo.id')
+        .select('iniciativa.id', 'iniciativa.titulo', 'iniciativa.descripcion', 'necesidad_social.nombre as necesidad',
+            'iniciativa.id_demanda as demanda', 'datos_personales_externo.nombre as estudiante');
+}
+function obtenerTodasIniciativas() {
+    return obtenerIniciativasInternos().then((internos) => {
+        return obtenerIniciativasExternos().then((externos) => {
+            return knex('areaservicio_iniciativa')
+                .join('area_servicio', 'areaservicio_iniciativa.id_area', '=', 'area_servicio.id')
+                .select('areaservicio_iniciativa.id_iniciativa', 'area_servicio.nombre as area').then((areas) => {
+                    let transfersIniciativas = [];
+                    internos.forEach(dato => {
+                        let areas_servicio = [];
+                        areas.forEach(area => {
+                            if (area['id_iniciativa'] === dato['id']) {
+                                areas_servicio.push(area['area']);
+                            }
+                        });
+                        let transfer = new transferIniciativa(
+                            dato['id'],
+                            dato['titulo'],
+                            dato['descripcion'],
+                            dato['necesidad'],
+                            dato['demanda'],
+                            areas_servicio,
+                            dato['estudiante']
+                        );
+                        transfersIniciativas.push(transfer);
+                    });
+                    externos.forEach(dato => {
+                        areas_servicio = [];
+                        areas.forEach(area => {
+                            if (area['id_iniciativa'] === dato['id']) {
+                                areas_servicio.push(area['area']);
+                            }
+                        });
+                        transfer = new transferIniciativa(
+                            dato['id'],
+                            dato['titulo'],
+                            dato['descripcion'],
+                            dato['necesidad'],
+                            dato['demanda'],
+                            areas_servicio,
+                            dato['estudiante']
+                        );
+                        transfersIniciativas.push(transfer);
+                    });
+                    return transfersIniciativas;
+                });
+        });
+    })
+    .catch((err) => {
+        console.log(err);
+        console.log("Se ha producido un error al intentar obtener de la base de datos todas las iniciativas ");
+    })
+    .finally(() => {
+        knex.destroy();
+    });
+
+}
 
 //ACTUALIZAR--------------------------------------------------------------------------------------------------
 
@@ -554,13 +626,13 @@ function eliminarIniciativa(id) {
             console.log("No existe la iniciativa con id ", id);
         }
     })
-    .catch((err) => {
-        console.log(err);
-        console.log("Se ha producido un error al intentar eliminar de la base de datos la iniciativa con id ", id);
-    })
-    .finally(() => {
-        knex.destroy();
-    });
+        .catch((err) => {
+            console.log(err);
+            console.log("Se ha producido un error al intentar eliminar de la base de datos la iniciativa con id ", id);
+        })
+        .finally(() => {
+            knex.destroy();
+        });
 }
 
 //AUXILIARES----------------------------------------------------------------------------------------------------
@@ -634,7 +706,7 @@ module.exports = {
     crearOferta, crearAnuncio, crearDemanda, crearIniciativa,
     actualizarDemanda, actualizarOfertaServicio,
     obtenerOfertaServicio, obtenerDemandaServicio, obtenerMensajesPorAnuncio, obtenerIniciativa,
-    obtenerTodasOfertasServicio, obtenerTodasDemandasServicio,
+    obtenerTodasOfertasServicio, obtenerTodasDemandasServicio, obtenerTodasIniciativas,
     eliminarOferta, eliminarDemanda, eliminarIniciativa,
     limpiarAnuncioServicios,
 };
