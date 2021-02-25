@@ -38,17 +38,29 @@ function crearOferta(oferta) {
             creador: oferta.getCreador()
         })
             .then(function (result) {
+                id = id_anuncio[0];
                 asignaturas = oferta.getAsignatura_objetivo();
                 const fieldsToInsert = asignaturas.map(asignatura => ({ id_oferta: id_anuncio[0], nombre: asignatura }));
                 return knex('asignatura_objetivo').insert(fieldsToInsert).then(() => {
-                    // TO DO: obtener el id de todos los profesores que participan en la oferta e insertarlo en la tabla "profesorinterno_oferta"
-                    console.log("Se ha introducido la oferta con id ", id_anuncio[0]);     // respond back to request
+                    profesores = oferta.getProfesores();
+                    const fieldsToInsert2 = profesores.map(profesor => ({ id_profesor: profesor, id_oferta: id_anuncio[0] }));
+                    return knex('profesorinterno_oferta').insert(fieldsToInsert2).then(() => {
+                        console.log("Se ha introducido la oferta con id ", id_anuncio[0]);
+                    });
                 });
+            })
+            .catch((err) => {
+                console.log(err);
+                console.log("Se ha producido un error al crear en la base de datos la oferta de servicio ", id_anuncio[0]);
+                return knex('anuncio_servicio').where('id', id_anuncio[0]).del();
+            })
+            .finally(() => {
+                knex.destroy();
             });
     })
         .catch((err) => {
             console.log(err);
-            console.log("Se ha producido un error al crear en la base de datos la oferta de servicio con id ", oferta.getId());
+            console.log("Se ha producido un error al crear en la base de datos la oferta de servicio");
         })
         .finally(() => {
             knex.destroy();
@@ -64,14 +76,22 @@ function crearDemanda(demanda) {
             periodo_ejecucion_ini: demanda.getPeriodo_ejecucion_ini(), periodo_ejecucion_fin: demanda.getPeriodo_ejecucion_fin(),
             fecha_fin: demanda.getFecha_fin(), observaciones_temporales: demanda.getObservaciones_temporales(), necesidad_social: demanda.getNecesidad_social()
         })
-            .then(function () {
-                const titulaciones = demanda.getTitulacionlocal_demandada();
-                const fieldsToInsert = titulaciones.map(titulacion =>
-                    ({ id_titulacion: titulacion, id_demanda: id_anuncio[0] }));
-                return knex('titulacionlocal_demanda').insert(fieldsToInsert).then(() => {
-                    console.log("Se ha introducido la demanda con id ", id_anuncio[0]);     // respond back to request
-                });
+        .then(function () {
+            const titulaciones = demanda.getTitulacionlocal_demandada();
+            const fieldsToInsert = titulaciones.map(titulacion =>
+                ({ id_titulacion: titulacion, id_demanda: id_anuncio[0] }));
+            return knex('titulacionlocal_demanda').insert(fieldsToInsert).then(() => {
+                console.log("Se ha introducido la demanda con id ", id_anuncio[0]);     // respond back to request
             });
+        })
+        .catch((err) => {
+            console.log(err);
+            console.log("Se ha producido un error al crear en la base de datos la demanda de servicio ", id_anuncio[0]);
+            return knex('anuncio_servicio').where('id', id_anuncio[0]).del();
+        })
+        .finally(() => {
+            knex.destroy();
+        });
     })
         .catch((err) => {
             console.log(err);

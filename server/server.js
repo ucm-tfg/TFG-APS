@@ -40,23 +40,23 @@ const transferDemandaServicio = require('./database/services/transfers/transferD
 const transferIniciativa = require('./database/services/transfers/transferIniciativa');
 
 // OFERTAS-----------------------------------------------------------------------
-// let titulo = "Anuncio 1";
-// let descripcion = "Prueba 1";
-// let imagen = "Prueba, aquí va la dirección de la imagen";
-// let asignatura = ["Ampliación de Matemáticas", "Matemáticas"]; 
-// let cuatrimestre = 1;
-// let anio = 2020;
-// let fecha_limite = new Date (2021, 10, 04);
-// let observaciones = "URGENTE";
-// let creador = 5; //Profesor con id 1
-// let area = [1, 0, 2];
-// let profesores = 5;
+let titulo = "Anuncio 4";
+let descripcion = "Prueba 4";
+let imagen = "Prueba, aquí va la dirección de la imagen";
+let asignatura = ["Ampliación de Matemáticas", "Matemáticas"]; 
+let cuatrimestre = 1;
+let anio = 2020;
+let fecha_limite = new Date (2021, 10, 04);
+let observaciones = "URGENTE";
+let creador = [5, 10];
+let area = [1, 0, 2];
+let profesores = [5, 10];
 
-// let oferta1 = new transferOfertaServicio(null, titulo, descripcion, imagen, "", "", 0.9, asignatura,
-//     cuatrimestre, anio, fecha_limite, observaciones, creador, area, null,
-//     null, profesores); 
+let oferta1 = new transferOfertaServicio(null, titulo, descripcion, imagen, "", "", 0.9, asignatura,
+    cuatrimestre, anio, fecha_limite, observaciones, creador, area, null,
+    null, profesores); 
 // dao_tentativa.obtenerOfertaServicio(46).then(function(oferta){console.log(oferta);});
-// dao_tentativa.crearOferta(oferta1);
+dao_tentativa.crearOferta(oferta1);
 
 // anio = 2022;
 // asignatura = ["Ampliación de Matemáticas"]; 
