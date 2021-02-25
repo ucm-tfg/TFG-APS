@@ -551,6 +551,28 @@ function actualizarDemanda(demanda) {
         });
 }
 
+function actualizarIniciativa(iniciativa){
+    return knex('iniciativa').where('id', iniciativa.getId()).update({
+        titulo: iniciativa.getTitulo(), descripcion: iniciativa.getDescripcion(), id_demanda: iniciativa.getDemanda(),
+         necesidad_social:iniciativa.getNecesidad_social()}).then(() => {
+             // Elimina todas las relaciones del iniciativa con cualquier area
+            return knex('areaservicio_iniciativa').where('id_iniciativa', iniciativa.getId()).del().then(() => {
+                // Crear todas las relaciones entre areas de servicio y el iniciativa
+                areasServicio = iniciativa.getArea_servicio();
+                const fieldsToInsert = areasServicio.map(area => ({ id_area: area, id_iniciativa: iniciativa.getId() }));
+                return knex('areaservicio_iniciativa').insert(fieldsToInsert).then(() => {
+                    return iniciativa.getId();
+                });
+            });
+         })
+         .catch((err) => {
+            console.log(err);
+            console.log("Se ha producido un error al intentar actualizar en la base de datos la iniciativa con id ", iniciativa.getId());
+        })
+        .finally(() => {
+            knex.destroy();
+        });
+}
 //ELIMINAR UNO---------------------------------------------------------------------------------------------------
 function eliminarAnuncio(id) {
     return knex('anuncio_servicio').where('id', id).del().then((result) => {
@@ -704,7 +726,7 @@ function limpiarAnuncioServicios() {
 
 module.exports = {
     crearOferta, crearAnuncio, crearDemanda, crearIniciativa,
-    actualizarDemanda, actualizarOfertaServicio,
+    actualizarDemanda, actualizarOfertaServicio, actualizarIniciativa,
     obtenerOfertaServicio, obtenerDemandaServicio, obtenerMensajesPorAnuncio, obtenerIniciativa,
     obtenerTodasOfertasServicio, obtenerTodasDemandasServicio, obtenerTodasIniciativas,
     eliminarOferta, eliminarDemanda, eliminarIniciativa,
