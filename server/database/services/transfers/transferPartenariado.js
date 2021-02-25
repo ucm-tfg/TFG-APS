@@ -1,4 +1,5 @@
-class transferPartenariado{
+const transferColaboracion = require('./transferColaboracion');
+class transferPartenariado extends transferColaboracion {
     id;
     id_demanda;
     id_oferta;

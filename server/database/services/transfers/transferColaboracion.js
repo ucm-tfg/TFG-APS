@@ -4,12 +4,14 @@ class transferColaboracion{
     descripcion;
     admite_externos;
     responsable;
-    constructor(id, titulo, descripcion, admite_externos, responsable){
+    profesores;
+    constructor(id, titulo, descripcion, admite_externos, responsable, profesores){
         this.id = id;
         this.titulo = titulo;
         this.descripcion = descripcion;
         this.admite_externos = admite_externos;
         this.responsable = responsable;
+        this.profesores = profesores;
     }
     getId(){
         return this.id;
@@ -41,6 +43,13 @@ class transferColaboracion{
     setResponsable(responsable_colab){
         this.responsable = responsable_colab;
     }
+    getProfesores() {
+        return this.profesores;
+    }
 
+    setProfesores(profesores) {
+        this.profesores = profesores;
+    }
+    
 }
 module.exports = transferColaboracion;
