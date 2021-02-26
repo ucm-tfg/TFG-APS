@@ -3,11 +3,13 @@ class transferMensajes {
     texto;
     fecha;
     usuario;
-    constructor(id, texto, fecha, usuario){
+    nombre_user;
+    constructor(id, texto, fecha, usuario, nombre_user){
         this.id = id;
         this.texto = texto;
         this.fecha = fecha;
         this.usuario = usuario;
+        this.nombre_user = nombre_user;
     }
     getId(){
         return this.id;
@@ -32,6 +34,12 @@ class transferMensajes {
     }
     setUsuario(usuario_mensaje){
         this.usuario = usuario_mensaje;
+    }
+    getNombreUser(){
+        return this.nombre_user;
+    }
+    setNombreUser(Nombre_user){
+        this.nombre_user = Nombre_user;
     }
 }
 module.exports = transferMensajes

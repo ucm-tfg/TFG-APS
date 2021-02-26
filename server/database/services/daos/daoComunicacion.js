@@ -1,4 +1,3 @@
-const transferMensaje = require('../transfers/transferMensajes');
 const transferUpload = require('../transfers/transferUpload');
 const mysql = require ('mysql');
 const transferMensajes = require('../transfers/transferMensajes');
@@ -23,28 +22,50 @@ function obtenerUploads(idUploads){//funciona
             upload[0]['updatedAt'],
             upload[0]['_v']
         );
+    }).catch((err) => {
+        console.log(err);
+        console.log("Se ha producido un error al intentar obtener el upload con id ", idUploads);
+    }).finally(()=>{
+        knex.destroy();
     });
 }
 
 // Devuelve el mensaje correspondiente
 function obtenerMensajes(idMensajes){//funciona
+    console.log('comienza la ejecucion ');
     return knex('mensaje').where({
         id: idMensajes
     }).select('*').then((mensaje) =>{
-        return new transferMensajes(
-            idMensajes,
-            mensaje[0]['texto'],
-            mensaje[0]['fecha'],
-            mensaje[0]['usuario']
-        );
+        return knex('usuario').where({
+            id: mensaje[0]['usuario']
+        }).select('origin_login').then((nombre) =>{
+            return new transferMensajes(
+                idMensajes,
+                mensaje[0]['texto'],
+                mensaje[0]['fecha'],
+                mensaje[0]['usuario'],
+                nombre[0]['origin_login']
+            );
+        }).catch((err) => {
+            console.log(err);
+            console.log("Se ha producido un error al intentar obtener el usuario con id ",  mensaje[0]['usuario']);
+        }).finally(()=>{
+            knex.destroy();
+        });
+       
+    }).catch((err) => {
+        console.log(err);
+        console.log("Se ha producido un error al intentar obtener el mensaje con id ", idMensajes);
+    }).finally(()=>{
+        knex.destroy();
     });
 }
 
 //Devuelve todos los mensajes de un anuncio
-function obtenerMensajesAnuncio(idAnuncio){//NO FUNCIONA
+function obtenerMensajesAnuncio(idAnuncio){// FUNCIONA
     return knex('mensaje_anuncioservicio').where({
         id_anuncio: idAnuncio
-    }).join('mensaje', 'id_mensaje', '=', 'id').select('mensaje.id', 'mensaje.texto', 'mensaje.fecha', 'mensaje.usuario').then((mensaje)=> {
+    }).join('mensaje', 'id_mensaje', '=', 'id').join('usuario', 'usuario.id', '=', 'usuario').select('mensaje.id', 'mensaje.texto', 'mensaje.fecha', 'mensaje.usuario', 'usuario.origin_login').then((mensaje)=> {
         mensajes = [];
         for(men of mensaje){
             m2 = Object.assign({}, men);
@@ -52,11 +73,17 @@ function obtenerMensajesAnuncio(idAnuncio){//NO FUNCIONA
                 m2['id'],
                 m2['texto'],
                 m2['fecha'],
-                m2['usuario']
+                m2['usuario'],
+                m2['origin_login']
             );
             mensajes.push(m3);
         }
         return mensajes;
+    }).catch((err) => {
+        console.log(err);
+        console.log("Se ha producido un error al intentar obtener los mensajes del anuncio ", idAnuncio);
+    }).finally(()=>{
+        knex.destroy();
     });// hacer join con tabla de mensajes para sollucionar porblema de cuello de botella.
 }
 
@@ -64,7 +91,7 @@ function obtenerMensajesAnuncio(idAnuncio){//NO FUNCIONA
 function obtenerMensajesColab(idColab){
     return knex('mensaje_colaboracion').where({
         id_colaboracion: idColab
-    }).join('mensaje', 'id_mensaje', '=', 'id').select('mensaje.id', 'mensaje.texto', 'mensaje.fecha', 'mensaje.usuario').then((mensaje)=> {
+    }).join('mensaje', 'id_mensaje', '=', 'id').join('usuario', 'usuario.id', '=', 'usuario').select('mensaje.id', 'mensaje.texto', 'mensaje.fecha', 'mensaje.usuario', 'usuario.origin_login').then((mensaje)=> {
         mensajes = [];
         for(men of mensaje){
             m2 = Object.assign({}, men);
@@ -72,11 +99,17 @@ function obtenerMensajesColab(idColab){
                 m2['id'],
                 m2['texto'],
                 m2['fecha'],
-                m2['usuario']
+                m2['usuario'],
+                m2['origin_login']
             );
             mensajes.push(m3);
         }
         return mensajes;
+    }).catch((err) => {
+        console.log(err);
+        console.log("Se ha producido un error al intentar obtener los mensajes de la colaboracion con id ", idColab);
+    }).finally(()=>{
+        knex.destroy();
     });
 }
 
@@ -106,6 +139,11 @@ function obtenerUploadsAnuncio(idAnuncio){
             uploads.push(u3);
         }   
         return uploads; 
+    }).catch((err) => {
+        console.log(err);
+        console.log("Se ha producido un error al intentar obtener los uploads del anuncio con id ", idAnuncio);
+    }).finally(()=>{
+        knex.destroy();
     });
 }
 
@@ -135,6 +173,11 @@ function obtenerUploadsColab(idColab){
             uploads.push(u3);
         }   
         return uploads; 
+    }).catch((err) => {
+        console.log(err);
+        console.log("Se ha producido un error al intentar obtener los uploads de la colaboracion con id ", idColab);
+    }).finally(()=>{
+        knex.destroy();
     });
 }
 
@@ -151,6 +194,8 @@ function crearMensajeAnuncio(texto, fecha, usuario, anuncio){//funciona
     }).catch((err) => {
         console.log(err);
         console.log("Se ha producido un error al intentar crear el mensaje con texto ", texto);
+    }).finally(()=>{
+        knex.destroy();
     });
 }
 
@@ -167,6 +212,8 @@ function crearMensajeColab(texto, fecha, usuario, colaboracion){//funciona
     .catch((err) => {
         console.log(err);
         console.log("Se ha producido un error al intentar crear el mensaje con texto ", texto);
+    }).finally(()=>{
+        knex.destroy();
     });
 }
 
@@ -183,6 +230,8 @@ function crearUploadAnuncio(almacenamiento, campo, tipo, tipo_id, path, client_n
     }).catch((err) => {
         console.log(err);
         console.log("Se ha producido un error al intentar crear el upload con nombre ", nombre);
+    }).finally(()=>{
+        knex.destroy();
     });
 }
 
@@ -198,6 +247,9 @@ function crearUploadColab(almacenamiento, campo, tipo, tipo_id, path, client_nam
     }).catch((err) => {
         console.log(err);
         console.log("Se ha producido un error al intentar crear el upload con nombre ", nombre);
+    })
+    .finally(()=>{
+        knex.destroy();
     });
 }
 
@@ -210,6 +262,11 @@ function eliminarMensaje(id_mensaje){//Funciona
         }else{
             console.log("No existe el mensaje  con id ", id_mensaje);
         }
+    }).catch((err) => {
+        console.log(err);
+        console.log("Se ha producido un error al intentar eliminar el mensaje con id ", id_mensaje);
+    }).finally(()=>{
+        knex.destroy();
     });
 }
 
@@ -222,7 +279,48 @@ function eliminarUpload(id_upload){//Funciona
         }else{
             console.log("No existe el upload con id ", id_upload);
         }
+    }).catch((err) => {
+        console.log(err);
+        console.log("Se ha producido un error al intentar crear el upload con id ", id_upload);
+    }).finally(()=>{
+        knex.destroy();
+    });
+}
+function ActualizarUpload(Upload){
+    return knex('upload').where('id', Upload.getId()).update({
+        almacenamiento: Upload.getAlmacenamiento(), 
+        campo: Upload.getCampo(), 
+        tipo: Upload.getTipo(), 
+        tipo_id: Upload.getTipoId(),
+        path: Upload.getPath(),
+        client_name: Upload.getClientName(),
+        nombre: Upload.getNombre(), 
+        updatedAt: new Date()
+    }).then(()=>{
+        console.log("Se ha actualizado el upload con id ", Upload.getId())
+    }).catch((err) => {
+        console.log(err);
+        console.log("Se ha producido un error al intentar actualizar el upload con id ", id_upload);
+    }).finally(()=>{
+        knex.destroy();
     });
 }
 
-module.exports = {knex, obtenerUploads, obtenerMensajes, obtenerMensajesAnuncio, obtenerMensajesColab, obtenerUploadsAnuncio, obtenerUploadsColab, crearMensajeAnuncio, crearMensajeColab, crearUploadAnuncio, crearUploadColab, eliminarMensaje, eliminarUpload};
+function ActualizarMensaje(id, texto){
+    return knex('mensaje').where({
+        id: id
+    }).update({
+        texto: texto,
+        fecha: new Date()
+    }).then(()=>{
+        console.log("Se ha actualizado el mensaje con id ", id)
+    }).catch((err) => {
+        console.log(err);
+        console.log("Se ha producido un error al intentar actualizar el upload con id ", id_upload);
+    }).finally(()=>{
+        knex.destroy();
+    });
+}
+
+module.exports = {knex, obtenerUploads, obtenerMensajes, obtenerMensajesAnuncio, obtenerMensajesColab, obtenerUploadsAnuncio, obtenerUploadsColab, crearMensajeAnuncio, crearMensajeColab, 
+    crearUploadAnuncio, crearUploadColab, eliminarMensaje, eliminarUpload, ActualizarUpload, ActualizarMensaje};
