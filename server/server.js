@@ -30,7 +30,7 @@ app.use("/api/upload", require("./routes/uploads"));
 // cuando la peticion no es para el backend, servimos el frontend
 app.use(express.static(__dirname + "/../dist/portal-aps"));
 
-// Pruebas DAO tentativa
+// Pruebas DAO Usuario
 const dao_usuario = require("./database/services/daos/dao");
 const tUsuario = require("./database/services/transfers/TUsuario");
 const tAdmin = require("./database/services/transfers/TAdmin");
@@ -42,6 +42,9 @@ const tEntidad = require("./database/services/transfers/TEntidad");
 const tProfesorInterno = require("./database/services/transfers/TProfesorInterno");
 const tEstudianteExterno = require("./database/services/transfers/TEstudianteExterno");
 const tProfesorExterno = require("./database/services/transfers/TProfesorExterno");
+
+//OJOOOOOO METED VOSOTROS LOS DATOS CORRESPONDIENTES( ID, ATRIBUTOS...)
+
 
 //BORRAR-------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // dao_usuario.borrarUsuario(140);
