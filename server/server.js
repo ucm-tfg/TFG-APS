@@ -43,17 +43,17 @@ const tProfesorInterno = require("./database/services/transfers/TProfesorInterno
 const tEstudianteExterno = require("./database/services/transfers/TEstudianteExterno");
 const tProfesorExterno = require("./database/services/transfers/TProfesorExterno");
 
-
-//BORRAR
+//BORRAR-------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // dao_usuario.borrarUsuario(140);
 // dao_usuario.borrarEstudianteInterno(101);
 // dao_usuario.borrarProfesorInterno(136);
 // dao_usuario.borrarOficinaAPS(123);
 //dao_usuario.borrarAdmin(107);
- //dao_usuario.borrarEntidad();
- //dao_usuario.borrarProfesorExterno(122)
- dao_usuario.borrarProfesorInterno(123)
+//dao_usuario.borrarEntidad();
+//dao_usuario.borrarProfesorExterno(122)
+//dao_usuario.borrarProfesorInterno(123)
 
+//INSERTAR-----------------------------------------------------------------------------------------------------------------------------------------------------------------
 //nuevo estudiante interno
 /* let idtitulacion_local=48;
 let estudinateInterno1 = new tEstInterno(
@@ -161,7 +161,7 @@ let profesorExterno = new tProfesorExterno(
   null
 );
 dao_usuario.insertarProfesorExterno(profesorExterno); */
- 
+
 /* let usuario1 = new tUsuario(
   null,
   "origin_login",
@@ -220,9 +220,9 @@ let profesor1 = new tProfesor(
 );
 dao_usuario.insertarProfesor(profesor1);
 
-let value = dao_usuario.obtenerEstudianteExterno(87);
-console.log(value);
+//OBTENER-------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+dao_usuario.obtenerEstudianteExterno(87);
 dao_usuario.obtenerAdmin(107);
 dao_usuario.obtenerOficinaAps(108);
 dao_usuario.obtenerEntidad(120);
@@ -230,50 +230,103 @@ dao_usuario.obtenerEstudianteExterno(133);
 dao_usuario.obtenerEstudianteInterno(117);
 dao_usuario.obtenerProfesorExterno(134);
 dao_usuario.obtenerProfesorInterno(140);
+dao_usuario.obtenerEstudianteInterno(100);
 
 
-let value = dao_usuario.obtenerEstudianteInterno(100);
-console.log(value);
-*\
-// let usuario1 = new tUsuario(555,"nuevo","nuevo","nuevocreatedAt","nuevoupdatedAt",1)
-// dao_usuario.actualizarUsuario(usuario1)
-// let estudiante1 = new TEstudiante(116,"origin_login","origin_img","createdAt","updatedAt",1);
-// dao_usuario.actualizarEstudiante(estudiante1)
+*/
 
-// let admin1 = new tAdmin(106,"admin3@ucm.es","gudaielaaajgu", "minnn","1234","nuevorigin_login","origin_img","createdAt","updatedAt",1)
-// dao_usuario.actualizarAdmin(admin1);
+//ACTUALIZAR----------------------------------------------------------------------------------------------------------------------------------------------------------------
+/* let usuario1 = new tUsuario(
+  555,
+  "nuevo",
+  "nuevo",
+  "nuevocreatedAt",
+  "nuevoupdatedAt",
+  1
+);
+dao_usuario.actualizarUsuario(usuario1); */
 
-/* let entidad1 = new tEntidad(120,"entidad2@ucm.es","qwe3", "min","1234","nuevorigin_login","origin_img","createdAt","updatedAt",1,"a","b");
-dao_usuario.actualizarEntidad(entidad1);
+/* 
+let estudiante1 = new TEstudiante(
+  116,
+  "origin_login",
+  "origin_img",
+  "createdAt",
+  "updatedAt",
+  1
+);
+dao_usuario.actualizarEstudiante(estudiante1); */
 
-let oficinaAPS= new tOficinaAps(108,"aps1@ucm.es","ad", "min","1234","nuevorigin_login","123","23","updatedAt",1);
-dao_usuario.actualizarOficinaAPS(oficinaAPS);  */
+/* 
+let admin1 = new tAdmin(
+  106,
+  "admin3@ucm.es",
+  "gudaielaaajgu",
+  "minnn",
+  "1234",
+  "nuevorigin_login",
+  "origin_img",
+  "createdAt",
+  "updatedAt",
+  1
+);
+dao_usuario.actualizarAdmin(admin1); */
 
-/* let area_conocimiento =[4,5]
-let titulacion_local=[48,49]
-let profesorInterno = new tProfesorInterno(null,"holaaa.cfoo","nombre","apellidos","password","origin_login","origin_img","createdAt","updatedAt",1,null,null);
-dao_usuario.insertarProfesorInterno(profesorInterno,titulacion_local,area_conocimiento); 
- 
- */
+/* let entidad1 = new tEntidad(
+  120,
+  "entidad2@ucm.es",
+  "qwe3",
+  "min",
+  "1234",
+  "nuevorigin_login",
+  "origin_img",
+  "createdAt",
+  "updatedAt",
+  1,
+  "a",
+  "b"
+);
+dao_usuario.actualizarEntidad(entidad1); */
 
-let arrayPrf = [559, 560];
-//dao_usuario.prueba(arrayPrf);
+/* let oficinaAPS = new tOficinaAps(
+  108,
+  "aps1@ucm.es",
+  "ad",
+  "min",
+  "1234",
+  "nuevorigin_login",
+  "123",
+  "23",
+  "updatedAt",
+  1
+);
+dao_usuario.actualizarOficinaAPS(oficinaAPS); */
 
-// OFERTAS-----------------------------------------------------------------------
-let titulo = "Anuncio 1";
-let descripcion = "Prueba 1";
-let imagen = "Prueba, aquí va la dirección de la imagen";
-let asignatura = ["Ampliación de Matemáticas", "Matemáticas"];
-let cuatrimestre = 1;
-let anio = 2020;
-let fecha_limite = new Date(2021, 10, 04);
-let observaciones = "URGENTE";
-let creador = 5; //Profesor con id 1
-let area = [1];
-let profesores = 5; 
+/* let area_conocimiento = [4, 5];
+let titulacion_local = [48, 49];
+let profesorInterno = new tProfesorInterno(
+  null,
+  "holaaa.cfoo",
+  "nombre",
+  "apellidos",
+  "password",
+  "origin_login",
+  "origin_img",
+  "createdAt",
+  "updatedAt",
+  1,
+  null,
+  null
+);
+dao_usuario.insertarProfesorInterno(
+  profesorInterno,
+  titulacion_local,
+  area_conocimiento
+); */
 
-// dao_tentativa.obtenerOfertaServicio(46).then(function(oferta){console.log(oferta);});
-//  dao_tentativa.crearOferta(oferta1);
+//AUXILIARES------------------------------------------------------------------------------------------------------------------------------------------------------------------
+/* let arrayPrf = [559, 560];
+dao_usuario.obtenerProfesoresInternos(arrayPrf); */
 
 // Lanzo servidor escuchando en puerto 8080 por defecto
 app.listen(process.env.PORT || 8080, () => {
