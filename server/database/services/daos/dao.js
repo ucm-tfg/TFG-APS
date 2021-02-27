@@ -293,7 +293,6 @@ function insertarProfesorInterno(usuario, idTitulaciones, idAreasC) {
       })
       .catch((err) => {
         borrarUsuario(idF[0])
-        borrarDatosPersonalesInternos(result[0])
         console.log(err);
         console.log("Se ha producido un error");
       })
@@ -952,6 +951,7 @@ function obtenerEstudianteExterno(id) {
           .where({ id: id })
           .select("*")
           .then(function (estudianteExterno) {
+            console.log(estudianteExterno)
             return obtenerDatosPersonalesExterno(
               estudianteExterno[0]["datos_personales_Id"]
             ).then(function (datos) {
@@ -959,7 +959,7 @@ function obtenerEstudianteExterno(id) {
                 .where({ id: estudianteExterno[0]["universidad"] })
                 .select("*")
                 .then(function (uni) {
-                  let value = new TEstudianteExterno(
+                  return new TEstudianteExterno(
                     usuario["id"],
                     datos["correo"],
                     datos["nombre"],
@@ -1260,7 +1260,7 @@ function actualizarEstudianteExterno(usuario) {
 }
 
 function actualizarProfesorExterno(usuario) {
-  return obtenerEstudianteExterno(usuario.getId())
+  return obtenerProfesorExterno(usuario.getId())
     .then(function (ruser) {
       if (ruser["correo"] === usuario.getCorreo()) {
         return actualizarUsuario(usuario).then(function (res) {
@@ -1325,7 +1325,7 @@ function actualizarProfesorExterno(usuario) {
 
 function actualizarProfesorInterno(usuario, areas, titulaciones) {
   return actualizarUsuario(usuario).then(function () {
-    return knex("datos_personales_internos")
+    return knex("datos_personales_interno")
       .where("correo", usuario.getCorreo())
       .update({
         nombre: usuario.getNombre(),
@@ -1333,15 +1333,18 @@ function actualizarProfesorInterno(usuario, areas, titulaciones) {
         password: usuario.getPassword(),
       })
       .then(() => {
+        console.log("entra1")
         return knex("areaconocimiento_profesor")
           .where("id_profesor", usuario.getId())
           .del()
           .then(() => {
+            console.log("entra2")
             let areasconocimiento = areas;
             const fieldsToInsert = areasconocimiento.map((area) => ({
               id_area: area,
               id_profesor: usuario.getId(),
             }));
+            console.log(fieldsToInsert)
             return knex("areaconocimiento_profesor")
               .insert(fieldsToInsert)
               .then(() => {
@@ -1349,9 +1352,10 @@ function actualizarProfesorInterno(usuario, areas, titulaciones) {
                   .where("id_profesor", usuario.getId())
                   .del()
                   .then(() => {
+
                     let titlocal = titulaciones;
                     const fieldsToInsertT = titlocal.map((loc) => ({
-                      id_area: loc,
+                      id_titulacion: loc,
                       id_profesor: usuario.getId(),
                     }));
                     return knex("titulacionlocal_profesor")
@@ -1479,6 +1483,7 @@ function obtenerProfesoresInternos(arrayProfesores) {
         }
       });
       return resultadoF;
+      
     });
 }
 module.exports = {

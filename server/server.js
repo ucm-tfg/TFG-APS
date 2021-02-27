@@ -260,25 +260,25 @@ let estudiante1 = new TEstudiante(
 );
 dao_usuario.actualizarEstudiante(estudiante1); */
 
-/* 
-let admin1 = new tAdmin(
-  106,
+
+/* let admin1 = new tAdmin(
+  124,
   "admin3@ucm.es",
   "gudaielaaajgu",
   "minnn",
   "1234",
   "nuevorigin_login",
-  "origin_img",
-  "createdAt",
-  "updatedAt",
+  "fff",
+  "sss",
+  "bvx",
   1
 );
 dao_usuario.actualizarAdmin(admin1); */
 
-/* let entidad1 = new tEntidad(
-  120,
-  "entidad2@ucm.es",
-  "qwe3",
+/*  let entidad1 = new tEntidad(
+  105,
+  "nuevaentidad2@ucm.es",
+  "asdf",
   "min",
   "1234",
   "nuevorigin_login",
@@ -289,28 +289,61 @@ dao_usuario.actualizarAdmin(admin1); */
   "a",
   "b"
 );
-dao_usuario.actualizarEntidad(entidad1); */
+dao_usuario.actualizarEntidad(entidad1);  */
 
 /* let oficinaAPS = new tOficinaAps(
-  108,
-  "aps1@ucm.es",
-  "ad",
+ 125,
+ "aps1@ucm.es",
+ "aholad",
+ "min",
+ "1234",
+ "fidus",
+ "123",
+ "23",
+ "updatedAt",
+ 1
+);
+dao_usuario.actualizarOficinaAPS(oficinaAPS);  */
+
+/* let idtitulacion_local = 48;
+let estudinateInterno1 = new tEstInterno(
+  127,
+  "prueba1@ucm.es",
+  "denuevo",
   "min",
   "1234",
-  "nuevorigin_login",
-  "123",
-  "23",
-  "updatedAt",
-  1
+  "origenblablabla",
+  "imag",
+  "creado",
+  "actualizado",
+  1,
+  idtitulacion_local
 );
-dao_usuario.actualizarOficinaAPS(oficinaAPS); */
+dao_usuario.actualizarEstudianteInterno(estudinateInterno1); */
 
-/* let area_conocimiento = [4, 5];
-let titulacion_local = [48, 49];
-let profesorInterno = new tProfesorInterno(
+/*  let estudianteExterno = new tEstudianteExterno(
+  128,
+  "estudianteExterno7.com",
+  "otro",
+  "apellidos",
+  "password",
+  "ihaaa",
+  "origin_img",
+  "createdAt",
+  "updatedAt",
+  1,
+  1,
+  "titulacion",
   null,
-  "holaaa.cfoo",
-  "nombre",
+  null
+);
+dao_usuario.actualizarEstudianteExterno(estudianteExterno);  */
+
+/* 
+let profesorExterno = new tProfesorExterno(
+  130,
+  "profesorExterno9.com",
+  "hola",
   "apellidos",
   "password",
   "origin_login",
@@ -318,18 +351,40 @@ let profesorInterno = new tProfesorInterno(
   "createdAt",
   "updatedAt",
   1,
+  1,
   null,
   null
 );
-dao_usuario.insertarProfesorInterno(
+dao_usuario.actualizarProfesorExterno(profesorExterno); */
+
+/* let area_conocimiento = [4, 5];
+let titulacion_local = [48, 49];
+let profesorInterno = new tProfesorInterno(
+  134,
+  "holaaa94.com",
+  "nonono",
+  "apellidos",
+  "password",
+  "pipa",
+  "origin_img",
+  "createdAt",
+  "updatedAt",
+  1,
+  null,
+  null
+);
+dao_usuario.actualizarProfesorInterno(
   profesorInterno,
-  titulacion_local,
-  area_conocimiento
+  area_conocimiento,
+  titulacion_local
+
 ); */
 
 //AUXILIARES------------------------------------------------------------------------------------------------------------------------------------------------------------------
-/* let arrayPrf = [559, 560];
-dao_usuario.obtenerProfesoresInternos(arrayPrf); */
+/* let arrayPrf = [136, 137,138,139];
+dao_usuario.obtenerProfesoresInternos(arrayPrf);  */
+
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 // Lanzo servidor escuchando en puerto 8080 por defecto
 app.listen(process.env.PORT || 8080, () => {
