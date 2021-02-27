@@ -1,13 +1,15 @@
 const TEstudiante =require("./TEstudiante")
 class TEstudianteExterno extends TEstudiante{
-    constructor(id,correo,nombre,apellidos,password,origin_login,origin_img,createdAt,updatedAt,terminos_aceptados,universidad,titulacion){
+    constructor(id,correo,nombre,apellidos,password,origin_login,origin_img,createdAt,updatedAt,terminos_aceptados,iduniversidad,titulacion,nombreUniversidad,provinciaUniversidad){
         super(id,origin_login,origin_img,createdAt,updatedAt,terminos_aceptados);
         this.correo=correo;
         this.nombre=nombre;
         this.apellidos=apellidos;
         this.password=password;
-        this.universidad=universidad;
+        this.iduniversidad=iduniversidad;
         this.titulacion=titulacion;
+        this.nombreUniversidad=nombreUniversidad;
+        this.provinciaUniversidad=provinciaUniversidad;
     }
     getNombre(){
         return this.nombre;
@@ -40,11 +42,11 @@ class TEstudianteExterno extends TEstudiante{
           this.password=password;
       } 
     getUniversidad(){
-        return this.universidad;
+        return this.iduniversidad;
     }
 
-    setUniversidad(universidad){
-        this.universidad=universidad;
+    setUniversidad(iduniversidad){
+        this.iduniversidad=iduniversidad;
     }
 
     getTitulacion(){
@@ -54,6 +56,23 @@ class TEstudianteExterno extends TEstudiante{
     setTitulacion(titulacion){
         this.titulacion=titulacion;
     }
+
+    getnombreUniversidad(){
+        return this.nombreUniversidad;
+    }
+
+    setnombreUniversidad(nombreUniversidad){
+        this.nombreUniversidad=nombreUniversidad;
+    }
+
+    getprovinciaUniversidad(){
+        return this.provinciaUniversidad;
+    }
+
+    setprovinciaUniversidad(provinciaUniversidad){
+        this.provinciaUniversidad=provinciaUniversidad;
+    }
 }
+
 
 module.exports= TEstudianteExterno;

@@ -1,14 +1,14 @@
 var TProfesor=require("./TProfesor");
-class TProfesorExterno extends TProfesor{
+class TProfesorInterno extends TProfesor{
 
-    constructor(id,correo,nombre,apellidos,password,origin_login,origin_img,createdAt,updatedAt,terminos_aceptados,universidad){
+    constructor(id,correo,nombre,apellidos,password,origin_login,origin_img,createdAt,updatedAt,terminos_aceptados,area_conocimiento,titulacion_local){
         super(id,origin_login,origin_img,createdAt,updatedAt,terminos_aceptados);
+        this.area_conocimiento=area_conocimiento;
+        this.titulacion_local=titulacion_local;
         this.correo=correo;
         this.nombre=nombre;
         this.apellidos=apellidos;
         this.password=password;
-        this.universidad=universidad;
- 
     }
     getNombre(){
         return this.nombre;
@@ -40,13 +40,20 @@ class TProfesorExterno extends TProfesor{
       setPassword(password){
           this.password=password;
       } 
-
-    getUniversidad(){
-        return this.universidad;
-    }
-
-    setUniversidad(universidad){
-        this.universidad=universidad;
-    }
+      getAreaConocimiento(){
+        return this.area_conocimiento;
+     }
+ 
+     setPassword(area_conocimiento){
+         this.area_conocimiento=area_conocimiento;
+     } 
+     getTitulacionLocal(){
+        return this.titulacion_local;
+     }
+ 
+     setPassword(titulacion_local){
+         this.titulacion_local=titulacion_local;
+     } 
 }
-module.exports= TProfesorExterno;
+
+module.exports= TProfesorInterno;

@@ -8,6 +8,7 @@ class TAdmin extends TUsuario{
       this.apellidos=apellidos;
       this.password=password;
 
+
     }
 
      getNombre(){
