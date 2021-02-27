@@ -100,11 +100,13 @@ demanda = new transferDemandaServicio(36, titulo, descripcion, imagen, "", "", 0
 const dao_comunicacion = require('./database/services/daos/daoComunicacion');
 const transferUpload = require('./database/services/transfers/transferUpload');
 const transferMensajes = require('./database/services/transfers/transferMensajes');
+const transferMail = require('./database/services/transfers/transferMail');
+const transferNewsletter = require('./database/services/transfers/transferNewsletter');
 const { date } = require('faker');
 
 let texto = "texto de prueba para mensaje de colaboracion";
 let fecha = new Date(2021, 2, 16);//pone horas minutos y segundos todo a ceros, arreglar
-let usuario = 5;
+//let usuario = 5;
 //dao_comunicacion.crearMensajeAnuncio(texto, fecha, usuario, 34);
 //dao_comunicacion.crearMensajeColab(texto, fecha, usuario, 1);
 //dao_comunicacion.obtenerMensajes(6).then(function(mensaje){console.log(mensaje);});
@@ -117,13 +119,39 @@ let tipo_id = "tipo_id prueba";
 let camino = "probando probando"; 
 let client_name = "Juan el pruebas"; 
 let nombre = "La prueba";  
-let createdAt = new Date(); 
-let updatedAt = new Date();
+//let createdAt = new Date(); 
+//let updatedAt = new Date();
 let _v = 0.5; 
-prueba = new transferUpload(2, almacenamiento, campo, tipo, tipo_id, camino, client_name, nombre, createdAt, updatedAt, _v);
-dao_comunicacion.ActualizarUpload(prueba).then(function(upload){});
+//prueba = new transferUpload(2, almacenamiento, campo, tipo, tipo_id, camino, client_name, nombre, createdAt, updatedAt, _v);
+//dao_comunicacion.ActualizarUpload(prueba).then(function(upload){});
 //dao_comunicacion.crearUploadAnuncio(almacenamiento, campo, tipo, tipo_id, camino, client_name, nombre, creador, createdAt, updatedAt, _v, 9);
 //dao_comunicacion.crearUploadColab(almacenamiento, campo, tipo, tipo_id, camino, client_name, nombre, creador, createdAt, updatedAt, _v, 1)
 //dao_comunicacion.obtenerUploads(6).then(function(upload){console.log(upload);});
 //dao_comunicacion.eliminarUpload(6).then();
 //dao_comunicacion.obtenerUploadsAnuncio(9).then(function(upload){console.log(upload);});
+
+//let mail_to =  "Se lo enviamos a jose";
+//let type = "prueba 2";
+//let mail_name = "La Gran Prueba";
+//let mail_from= "Un servidor";
+//let subject = "Testeaar la actualizacion";
+//let html = "patata";
+//let _to = "juan ";
+//let usuario = "Juanillo el pruebas";
+//let createdAt = new Date();
+//let updatedAt = new Date();
+
+//email = new transferMail(1, mail_to, type, mail_name, mail_from, subject, html, _to, usuario, createdAt, updatedAt);
+//dao_comunicacion.CrearMail(mail_to, type, mail_name, mail_from, subject, html, _to, usuario, createdAt, updatedAt);
+//dao_comunicacion.ObtenerMail(1).then(function(mail){console.log(mail);});
+//dao_comunicacion.ActualizarMail(email)
+//dao_comunicacion.EliminarMail(1);
+
+let mail_to = "JOEMAMA";
+let createdAt = new Date();
+let updatedAt = new Date();
+
+//dao_comunicacion.CrearNewsletter(mail_to, createdAt, updatedAt);
+//dao_comunicacion.ObtenerNewsletter(1).then(function(news){console.log(news)});
+//dao_comunicacion.ActualizarNewsletter(1, mail_to);
+dao_comunicacion.EliminarNewsletter(1);
