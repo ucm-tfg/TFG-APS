@@ -158,13 +158,13 @@ const { date } = require('faker');
 //dao_comunicacion.ActualizarNewsletter(1, mail_to);
 //dao_comunicacion.EliminarNewsletter(1);
 
-let titulo = "Colaboracion de prueba pero cambiada";
-let descripcion = "Esto es una prueba de actualizacion";
+let titulo = "Colaboracion de prueba pero cambiada otra veh";
+let descripcion = "Esto es una prueba de actualizacion otra veh";
 let admite_externos = 1;
 let responsable = 5;
 let profesores = [5, 9, 10];
 colab = new transferColaboracion(14, titulo, descripcion, admite_externos, responsable, profesores);
-//dao_colaboracion.CrearColaboracion(titulo, descripcion, admite_externos, responsable, profesores);
+dao_colaboracion.CrearColaboracion(titulo, descripcion, admite_externos, responsable, profesores);
 //dao_colaboracion.ObtenerColaboracion(13).then(function(colab){console.log(colab);});
 //dao_colaboracion.EliminarColaboracion(13);
-dao_colaboracion.ActualizarColaboracion(colab);
+//dao_colaboracion.ActualizarColaboracion(colab);
