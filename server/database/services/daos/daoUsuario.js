@@ -183,7 +183,7 @@ function insertarProfesor(usuario) {
       .catch((err) => {
         console.log(err);
         console.log("Se ha producido un error");
-        borrarUsuario[idF[0]]
+        borrarUsuario[id[0]]
       });
   });
 }
