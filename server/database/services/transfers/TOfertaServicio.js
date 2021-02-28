@@ -1,4 +1,4 @@
-const transferAnuncioServicio = require('./transferAnuncioServicio');
+const transferAnuncioServicio = require('./TAnuncioServicio');
 class transferOfertaServicio extends transferAnuncioServicio{
     asignatura_objetivo;
     cuatrimestre;

@@ -1,7 +1,7 @@
-const transferOfertaServicio = require('../transfers/transferOfertaServicio');
-const transferAnuncioServicio = require('../transfers/transferAnuncioServicio');
-const transferDemandaServicio = require('../transfers/transferDemandaServicio');
-const transferIniciativa = require('../transfers/transferIniciativa');
+const transferOfertaServicio = require('../transfers/TOfertaServicio');
+const transferAnuncioServicio = require('../transfers/TAnuncioServicio');
+const transferDemandaServicio = require('../transfers/TDemandaServicio');
+const transferIniciativa = require('../transfers/TIniciativa');
 const daoUsuario = require('./daoUsuario');
 const mysql = require('mysql');
 const knex = require('../../config');
@@ -190,7 +190,12 @@ function obtenerDemandaServicio(id_demanda) {
 function obtenerOfertaServicio(id_oferta) {
     return obtenerAnuncioServicio(id_oferta).then(function (anuncio) {
         return knex('oferta_servicio').where({ id: id_oferta }).select('*').then(function (oferta) {
-            return obtenerProfesoresPorOferta(id_oferta).then(function (profesores) {
+            return knex('profesorinterno_oferta').where({ id_oferta: id_oferta }).select('id_profesor').then((datos_profesores) => {
+                let arrayProfesores =[];
+                datos_profesores.forEach(profesor => {
+                    arrayProfesores.push(profesor['id_profesor']);
+                });
+            return daoUsuario.obtenerProfesoresInternos(arrayProfesores).then(function (profesores) {
                 return obtenerAsignaturaObjetivo(id_oferta).then((asignaturas) => {
                     asignaturas_ref = [];
                     for (asignatura of asignaturas) {
@@ -211,10 +216,10 @@ function obtenerOfertaServicio(id_oferta) {
                         oferta[0]['observaciones_temporales'],
                         oferta[0]['creador'],
                         anuncio.getArea_servicio(),
-                        // TO DO: terminar de implementar cuando esten listo el DAO de usuario
                         profesores
                     );
                 });
+            });
             });
         });
     })

@@ -43,10 +43,6 @@ const tEntidad = require("./database/services/transfers/TEntidad");
 const tProfesorInterno = require("./database/services/transfers/TProfesorInterno");
 const tEstudianteExterno = require("./database/services/transfers/TEstudianteExterno");
 const tProfesorExterno = require("./database/services/transfers/TProfesorExterno");
-
-//OJOOOOOO METED VOSOTROS LOS DATOS CORRESPONDIENTES( ID, ATRIBUTOS...)
-
-
 //BORRAR-------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // dao_usuario.borrarUsuario(140);
 // dao_usuario.borrarEstudianteInterno(101);
@@ -387,16 +383,11 @@ dao_usuario.obtenerProfesoresInternos(arrayPrf);  */
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-// Lanzo servidor escuchando en puerto 8080 por defecto
-app.listen(process.env.PORT || 8080, () => {
-  console.info("Servidor escuchando en puerto " + process.env.PORT || 8080);
-});
-
 // PRUEBAS DAO TENTATIVA
 const dao_tentativa = require('./database/services/daos/daoTentativa');
-const transferOfertaServicio = require('./database/services/transfers/transferOfertaServicio');
-const transferDemandaServicio = require('./database/services/transfers/transferDemandaServicio');
-const transferIniciativa = require('./database/services/transfers/transferIniciativa');
+const transferOfertaServicio = require('./database/services/transfers/TOfertaServicio');
+const transferDemandaServicio = require('./database/services/transfers/TDemandaServicio');
+const transferIniciativa = require('./database/services/transfers/TIniciativa');
 
 // OFERTAS-----------------------------------------------------------------------
 // let titulo = "Anuncio 9";
@@ -413,9 +404,8 @@ const transferIniciativa = require('./database/services/transfers/transferInicia
 
 // let oferta1 = new transferOfertaServicio(null, titulo, descripcion, imagen, "", "", 0.9, asignatura,
 //     cuatrimestre, anio, fecha_limite, observaciones, creador, area, profesores); 
-// dao_tentativa.obtenerOfertaServicio(46).then(function(oferta){console.log(oferta);});
+dao_tentativa.obtenerOfertaServicio(49).then(function(oferta){console.log(oferta);});
 // dao_tentativa.crearOferta(oferta1);
-
 // anio = 2022;
 // asignatura = ["Ampliación de Matemáticas"]; 
 // oferta1 = new transferOfertaServicio(69, titulo, descripcion, imagen, "", "", 0.9, asignatura,
