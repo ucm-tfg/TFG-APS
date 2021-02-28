@@ -7,9 +7,7 @@ class transferAnuncioServicio {
     updated_at;
     _v;
     area_servicio;
-    mensajes;
-    uploads;
-    constructor(id, titulo, descripcion, imagen, created_at, updated_at, _v, area_servicio, mensajes, uploads) {
+    constructor(id, titulo, descripcion, imagen, created_at, updated_at, _v, area_servicio) {
         this.id = id;
         this.titulo = titulo;
         this.descripcion = descripcion;
@@ -18,8 +16,6 @@ class transferAnuncioServicio {
         this.updated_at = updated_at;
         this._v = _v;
         this.area_servicio = area_servicio;
-        this.mensajes = mensajes;
-        this.uploads = uploads;
     }
 
     getId() {
@@ -85,20 +81,5 @@ class transferAnuncioServicio {
         this.area_servicio = area_servicio;
     }
 
-    getMensajes() {
-        return this.mensajes;
-    }
-
-    setMensajes(mensajes) {
-        this.mensajes = mensajes;
-    }
-
-    getUploads() {
-        return this.uploads;
-    }
-
-    setUploads(uploads) {
-        this.uploads = uploads;
-    }
 }
 module.exports = transferAnuncioServicio;

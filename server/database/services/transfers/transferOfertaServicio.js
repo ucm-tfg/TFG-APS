@@ -1,5 +1,4 @@
 const transferAnuncioServicio = require('./transferAnuncioServicio');
-
 class transferOfertaServicio extends transferAnuncioServicio{
     asignatura_objetivo;
     cuatrimestre;
@@ -10,10 +9,9 @@ class transferOfertaServicio extends transferAnuncioServicio{
     profesores;
 
     constructor(id, titulo, descripcion, imagen, created_at, updated_at, _v, asignatura_objetivo,
-         cuatrimestre, anio_academico, fecha_limite, observaciones_temporales, creador, area_servicio, mensajes,
-         uploads, profesores) 
+         cuatrimestre, anio_academico, fecha_limite, observaciones_temporales, creador, area_servicio, profesores) 
     {
-        super(id, titulo, descripcion, imagen, created_at, updated_at, _v, area_servicio, mensajes, uploads);
+        super(id, titulo, descripcion, imagen, created_at, updated_at, _v, area_servicio);
         this.asignatura_objetivo = asignatura_objetivo;
         this.cuatrimestre = cuatrimestre;
         this.anio_academico = anio_academico;

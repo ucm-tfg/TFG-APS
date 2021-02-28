@@ -17,9 +17,9 @@ class transferDemandaServicio extends transferAnuncioServicio{
     constructor( id_oferta, titulo, descripcion, imagen, created_at, updated_at, _v,
         creador, ciudad, finalidad, periodo_definicion_ini, periodo_definicion_fin, periodo_ejecucion_ini,
         periodo_ejecucion_fin, fecha_fin, observaciones_temporales, necesidad_social, titulacionlocal,
-        area_servicio, mensajes, uploads ) 
+        area_servicio) 
     {
-        super(id_oferta, titulo, descripcion, imagen, created_at, updated_at, _v, area_servicio, mensajes, uploads);
+        super(id_oferta, titulo, descripcion, imagen, created_at, updated_at, _v, area_servicio);
         this.creador = creador; 
         this.ciudad = ciudad; 
         this.finalidad = finalidad; 

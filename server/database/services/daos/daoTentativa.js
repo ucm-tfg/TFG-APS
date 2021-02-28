@@ -2,15 +2,11 @@ const transferOfertaServicio = require('../transfers/transferOfertaServicio');
 const transferAnuncioServicio = require('../transfers/transferAnuncioServicio');
 const transferDemandaServicio = require('../transfers/transferDemandaServicio');
 const transferIniciativa = require('../transfers/transferIniciativa');
-const transferMensaje = require('../transfers/transferMensajes');
-const transferUpload = require('../transfers/transferUpload');
-const daoComunicacion = require('./daoComunicacion');
 const daoUsuario = require('./daoUsuario');
 const mysql = require('mysql');
 const knex = require('../../config');
 
 //INSERTAR------------------------------------------------------------------------------------------------
-
 // Inserta en la base de datos un nuevo anuncio de servicio
 // areasServicio es un array de ids de areas de servicio
 function crearAnuncio(titulo, descripcion, imagen, _v, areasServicio) {
@@ -76,22 +72,22 @@ function crearDemanda(demanda) {
             periodo_ejecucion_ini: demanda.getPeriodo_ejecucion_ini(), periodo_ejecucion_fin: demanda.getPeriodo_ejecucion_fin(),
             fecha_fin: demanda.getFecha_fin(), observaciones_temporales: demanda.getObservaciones_temporales(), necesidad_social: demanda.getNecesidad_social()
         })
-        .then(function () {
-            const titulaciones = demanda.getTitulacionlocal_demandada();
-            const fieldsToInsert = titulaciones.map(titulacion =>
-                ({ id_titulacion: titulacion, id_demanda: id_anuncio[0] }));
-            return knex('titulacionlocal_demanda').insert(fieldsToInsert).then(() => {
-                console.log("Se ha introducido la demanda con id ", id_anuncio[0]);     // respond back to request
+            .then(function () {
+                const titulaciones = demanda.getTitulacionlocal_demandada();
+                const fieldsToInsert = titulaciones.map(titulacion =>
+                    ({ id_titulacion: titulacion, id_demanda: id_anuncio[0] }));
+                return knex('titulacionlocal_demanda').insert(fieldsToInsert).then(() => {
+                    console.log("Se ha introducido la demanda con id ", id_anuncio[0]);     // respond back to request
+                });
+            })
+            .catch((err) => {
+                console.log(err);
+                console.log("Se ha producido un error al crear en la base de datos la demanda de servicio ", id_anuncio[0]);
+                return knex('anuncio_servicio').where('id', id_anuncio[0]).del();
+            })
+            .finally(() => {
+                knex.destroy();
             });
-        })
-        .catch((err) => {
-            console.log(err);
-            console.log("Se ha producido un error al crear en la base de datos la demanda de servicio ", id_anuncio[0]);
-            return knex('anuncio_servicio').where('id', id_anuncio[0]).del();
-        })
-        .finally(() => {
-            knex.destroy();
-        });
     })
         .catch((err) => {
             console.log(err);
@@ -122,32 +118,25 @@ function crearIniciativa(iniciativa) {
         });
 }
 
-//LEER UNO----------------------------------------------------------------------------------------------------
+//LEER UN ELEMENTO----------------------------------------------------------------------------------------------------
 // Devuelve el anuncio de servicio que corresponda al id = id_anuncio
 function obtenerAnuncioServicio(id_anuncio) {
     return knex('anuncio_servicio').where({ id: id_anuncio }).select('*').then((anuncio) => {
         return obtenerAreaServicio(id_anuncio).then((areas_servicio) => {
-            return obtenerMensajesPorAnuncio(id_anuncio).then((mensajes) => {
-                return obtenerUploadsPorAnuncio(id_anuncio).then((uploads) => {
-                    areas = [];
-                    for (area of areas_servicio) {
-                        areas.push(area['nombre']);
-                    }
-                    return new transferAnuncioServicio(
-                        id_anuncio,
-                        anuncio[0]['titulo'],
-                        anuncio[0]['descripcion'],
-                        anuncio[0]['imagen'],
-                        anuncio[0]['created_at'],
-                        anuncio[0]['updated_at'],
-                        anuncio[0]['_v'],
-                        areas,
-                        // TO DO: terminar de implementar cuando este listo el DAO de comunicación
-                        mensajes,
-                        uploads
-                    );
-                });
-            });
+            areas = [];
+            for (area of areas_servicio) {
+                areas.push(area['nombre']);
+            }
+            return new transferAnuncioServicio(
+                id_anuncio,
+                anuncio[0]['titulo'],
+                anuncio[0]['descripcion'],
+                anuncio[0]['imagen'],
+                anuncio[0]['created_at'],
+                anuncio[0]['updated_at'],
+                anuncio[0]['_v'],
+                areas
+            );
         });
     });
 }
@@ -181,9 +170,7 @@ function obtenerDemandaServicio(id_demanda) {
                         demanda[0]['observaciones_temporales'],
                         necesidad_social,
                         titulaciones_ref,
-                        anuncio.getArea_servicio(),
-                        anuncio.getMensajes(),
-                        anuncio.getUploads()
+                        anuncio.getArea_servicio()
                     );
                 });
             });
@@ -224,8 +211,6 @@ function obtenerOfertaServicio(id_oferta) {
                         oferta[0]['observaciones_temporales'],
                         oferta[0]['creador'],
                         anuncio.getArea_servicio(),
-                        anuncio.getMensajes(),
-                        anuncio.getUploads(),
                         // TO DO: terminar de implementar cuando esten listo el DAO de usuario
                         profesores
                     );
@@ -277,8 +262,8 @@ function obtenerIniciativa(id) {
             knex.destroy();
         });
 }
-//LEER VARIOS------------------------------------------------------------------------------------------------
 
+//LEER TODOS LOS ELEMENTOS------------------------------------------------------------------------------------------------
 function obtenerTodasOfertasServicio() {
     return knex('anuncio_servicio')
         .join('oferta_servicio', 'anuncio_servicio.id', '=', 'oferta_servicio.id')
@@ -325,8 +310,6 @@ function obtenerTodasOfertasServicio() {
                                 datos['observaciones_temporales'],
                                 creador,
                                 areas_servicio,
-                                0,
-                                0,
                                 0
                             );
                             transfer_ofertas.push(transfer_oferta);
@@ -400,9 +383,7 @@ function obtenerTodasDemandasServicio() {
                                     datos['observaciones_temporales'],
                                     datos['necesidad'],
                                     titulaciones_objetivo,
-                                    areas_servicio,
-                                    0,
-                                    0
+                                    areas_servicio
                                 );
                                 transfer_demandas.push(transfer_demanda);
                             });
@@ -481,18 +462,17 @@ function obtenerTodasIniciativas() {
                 });
         });
     })
-    .catch((err) => {
-        console.log(err);
-        console.log("Se ha producido un error al intentar obtener de la base de datos todas las iniciativas ");
-    })
-    .finally(() => {
-        knex.destroy();
-    });
+        .catch((err) => {
+            console.log(err);
+            console.log("Se ha producido un error al intentar obtener de la base de datos todas las iniciativas ");
+        })
+        .finally(() => {
+            knex.destroy();
+        });
 
 }
 
 //ACTUALIZAR--------------------------------------------------------------------------------------------------
-
 function actualizarAnuncio(id, titulo, descripcion, imagen, _v, areasServicio) {
     return knex('anuncio_servicio').where('id', id).update({
         titulo: titulo, descripcion: descripcion, imagen: imagen, _v: _v
@@ -501,91 +481,120 @@ function actualizarAnuncio(id, titulo, descripcion, imagen, _v, areasServicio) {
         return knex('areaservicio_anuncioservicio').where('id_anuncio', id).del().then(() => {
             // Crear todas las relaciones entre areas de servicio y el anuncio
             const fieldsToInsert = areasServicio.map(area => ({ id_area: area, id_anuncio: id }));
-            return knex('areaservicio_anuncioservicio').insert(fieldsToInsert).then(() => {
-                return id;
-            });
+            return knex('areaservicio_anuncioservicio').insert(fieldsToInsert);
         });
     })
         .catch((err) => {
             console.log(err);
-            console.log("Se ha producido un error al intentar crear el anuncio con titulo ", titulo);
+            console.log("Se ha producido un error al intentar actualizar el anuncio con titulo ", titulo);
         });
 }
 
 function actualizarOfertaServicio(oferta) {
-    return actualizarAnuncio(oferta.getId(), oferta.getTitulo(), oferta.getDescripcion(), oferta.getImagen(), oferta.get_v(), oferta.getArea_servicio()).then(function () {
-        return knex('oferta_servicio').where('id', oferta.getId()).update({
-            cuatrimestre: oferta.getCuatrimestre(), anio_academico: oferta.getAnio_academico(),
-            fecha_limite: oferta.getFecha_limite(), observaciones_temporales: oferta.getObservaciones_temporales(),
-            creador: oferta.getCreador()
-        })
-            .then(function (result) {
-                // Elimina todas las relaciones del anuncio de servicio con cualquier area
-                return knex('asignatura_objetivo').where('id_oferta', oferta.getId()).del().then(() => {
-                    asignaturas = oferta.getAsignatura_objetivo();
-                    const fieldsToInsert = asignaturas.map(asignatura => ({ id_oferta: oferta.getId(), nombre: asignatura }));
-                    return knex('asignatura_objetivo').insert(fieldsToInsert).then(() => {
-                        // TO DO: Actualizar todos los profesores que participan en la oferta e insertarlo en la tabla "profesorinterno_oferta"
-                        console.log("Se ha actualizado la oferta con id ", oferta.getId());     // respond back to request
+    return obtenerAnuncioServicio(oferta.getId()).then((copia_anuncio) => {
+        return actualizarAnuncio(oferta.getId(), oferta.getTitulo(), oferta.getDescripcion(), oferta.getImagen(), oferta.get_v(), oferta.getArea_servicio()).then(function () {
+            return knex('oferta_servicio').where('id', oferta.getId()).update({
+                cuatrimestre: oferta.getCuatrimestre(), anio_academico: oferta.getAnio_academico(),
+                fecha_limite: oferta.getFecha_limite(), observaciones_temporales: oferta.getObservaciones_temporales(),
+                creador: oferta.getCreador()
+            })
+                .then(function (result) {
+                    // Elimina todas las relaciones del anuncio de servicio con cualquier area
+                    return knex('asignatura_objetivo').where('id_oferta', oferta.getId()).del().then(() => {
+                        asignaturas = oferta.getAsignatura_objetivo();
+                        const fieldsToInsert = asignaturas.map(asignatura => ({ id_oferta: oferta.getId(), nombre: asignatura }));
+                        return knex('asignatura_objetivo').insert(fieldsToInsert).then(() => {
+                            return knex('profesorinterno_oferta').where('id_oferta', oferta.getId()).del().then(() => {
+                                profesores = oferta.getProfesores();
+                                const fieldsToInsert2 = profesores.map(profesor => ({ id_profesor: profesor, id_oferta: oferta.getId() }));
+                                return knex('profesorinterno_oferta').insert(fieldsToInsert2).then(() => {
+                                    console.log("Se ha actualizado la oferta con id ", oferta.getId());
+                                })
+                            })
+                        })
+                    })
+                })
+                .catch((err) => {
+                    console.log(err);
+                    let nombre_areas = copia_anuncio.getArea_servicio();
+                    return obtenerIdsAreas(nombre_areas).then((ids_areas) => {
+                        // Restaura el anuncio_servicio si se ha fallado en actualizar la oferta_servicio
+                        return actualizarAnuncio(copia_anuncio.getId(), copia_anuncio.getTitulo(),
+                            copia_anuncio.getDescripcion(), copia_anuncio.getImagen(), copia_anuncio.get_v(), ids_areas).then(() => {
+                                console.log("Se ha producido un error al intentar actualizar en la base de datos la oferta de servicio con id ", oferta.getId());
+                            });
                     });
-                });
-            });
-    })
-        .catch((err) => {
-            console.log(err);
-            console.log("Se ha producido un error al intentar actualizar en la base de datos la oferta de servicio con id ", oferta.getId());
+                })
         })
-        .finally(() => {
-            knex.destroy();
-        });
-
+            .catch((err) => {
+                console.log(err);
+                console.log("Se ha producido un error al intentar actualizar en la base de datos la oferta de servicio con id ", oferta.getId());
+            })
+            .finally(() => {
+                knex.destroy();
+            });
+    });
 }
 
 function actualizarDemanda(demanda) {
-    return actualizarAnuncio(demanda.getId(), demanda.getTitulo(), demanda.getDescripcion(), demanda.getImagen(), demanda.get_v(), demanda.getArea_servicio()).then(function (id_anuncio) {
-        return knex('demanda_servicio').where('id', demanda.getId()).update({
-            creador: demanda.getCreador(), ciudad: demanda.getCiudad(),
-            finalidad: demanda.getFinalidad(), periodo_definicion_ini: demanda.getPeriodo_definicion_ini(), periodo_definicion_fin: demanda.getPeriodo_definicion_fin(),
-            periodo_ejecucion_ini: demanda.getPeriodo_ejecucion_ini(), periodo_ejecucion_fin: demanda.getPeriodo_ejecucion_fin(),
-            fecha_fin: demanda.getFecha_fin(), observaciones_temporales: demanda.getObservaciones_temporales(), necesidad_social: demanda.getNecesidad_social()
-        })
-            .then(function () {
-                // Elimina todas las relaciones de la demanda de servicio con cualquier titulación
-                return knex('titulacionlocal_demanda').where('id_demanda', demanda.getId()).del().then(() => {
-                    // Crear las nuevas relaciones entre la demanda de servicio y las titulaciones
-                    const titulaciones = demanda.getTitulacionlocal_demandada();
-                    const fieldsToInsert = titulaciones.map(titulacion =>
-                        ({ id_titulacion: titulacion, id_demanda: demanda.getId() }));
-                    return knex('titulacionlocal_demanda').insert(fieldsToInsert).then(() => {
-                        console.log("Se ha actualizado la demanda con id ", demanda.getId());
+    return obtenerAnuncioServicio(demanda.getId()).then((copia_anuncio) => {
+        return actualizarAnuncio(demanda.getId(), demanda.getTitulo(), demanda.getDescripcion(), demanda.getImagen(), demanda.get_v(), demanda.getArea_servicio()).then(function (id_anuncio) {
+            return knex('demanda_servicio').where('id', demanda.getId()).update({
+                creador: demanda.getCreador(), ciudad: demanda.getCiudad(),
+                finalidad: demanda.getFinalidad(), periodo_definicion_ini: demanda.getPeriodo_definicion_ini(), periodo_definicion_fin: demanda.getPeriodo_definicion_fin(),
+                periodo_ejecucion_ini: demanda.getPeriodo_ejecucion_ini(), periodo_ejecucion_fin: demanda.getPeriodo_ejecucion_fin(),
+                fecha_fin: demanda.getFecha_fin(), observaciones_temporales: demanda.getObservaciones_temporales(), necesidad_social: demanda.getNecesidad_social()
+            })
+                .then(function () {
+                    // Elimina todas las relaciones de la demanda de servicio con cualquier titulación
+                    return knex('titulacionlocal_demanda').where('id_demanda', demanda.getId()).del().then(() => {
+                        // Crear las nuevas relaciones entre la demanda de servicio y las titulaciones
+                        const titulaciones = demanda.getTitulacionlocal_demandada();
+                        const fieldsToInsert = titulaciones.map(titulacion =>
+                            ({ id_titulacion: titulacion, id_demanda: demanda.getId() }));
+                        return knex('titulacionlocal_demanda').insert(fieldsToInsert).then(() => {
+                            console.log("Se ha actualizado la demanda con id ", demanda.getId());
+                        });
                     });
-                });
-            });
-    })
-        .catch((err) => {
-            console.log(err);
-            console.log("Se ha producido un error al intentar actualizar en la base de datos la demanda de servicio con id ", demanda.getId());
+                })
+                .catch((err) => {
+                    console.log(err);
+                    let nombre_areas = copia_anuncio.getArea_servicio();
+                    return obtenerIdsAreas(nombre_areas).then((ids_areas) => {
+                        // Restaura el anuncio_servicio si se ha fallado en actualizar la demanda_servicio
+                        return actualizarAnuncio(copia_anuncio.getId(), copia_anuncio.getTitulo(),
+                            copia_anuncio.getDescripcion(), copia_anuncio.getImagen(), copia_anuncio.get_v(), ids_areas).then(() => {
+                                console.log("Se ha producido un error al intentar actualizar en la base de datos la demanda de servicio con id ", demanda.getId());
+                            });
+                    });
+                })
         })
-        .finally(() => {
-            knex.destroy();
-        });
+            .catch((err) => {
+                console.log(err);
+                console.log("Se ha producido un error al intentar actualizar en la base de datos la demanda de servicio con id ", demanda.getId());
+            })
+            .finally(() => {
+                knex.destroy();
+            });
+    });
 }
 
-function actualizarIniciativa(iniciativa){
+function actualizarIniciativa(iniciativa) {
     return knex('iniciativa').where('id', iniciativa.getId()).update({
         titulo: iniciativa.getTitulo(), descripcion: iniciativa.getDescripcion(), id_demanda: iniciativa.getDemanda(),
-         necesidad_social:iniciativa.getNecesidad_social()}).then(() => {
-             // Elimina todas las relaciones del iniciativa con cualquier area
-            return knex('areaservicio_iniciativa').where('id_iniciativa', iniciativa.getId()).del().then(() => {
-                // Crear todas las relaciones entre areas de servicio y el iniciativa
-                areasServicio = iniciativa.getArea_servicio();
-                const fieldsToInsert = areasServicio.map(area => ({ id_area: area, id_iniciativa: iniciativa.getId() }));
-                return knex('areaservicio_iniciativa').insert(fieldsToInsert).then(() => {
-                    return iniciativa.getId();
-                });
+        necesidad_social: iniciativa.getNecesidad_social()
+    }).then(() => {
+        // Elimina todas las relaciones del iniciativa con cualquier area
+        return knex('areaservicio_iniciativa').where('id_iniciativa', iniciativa.getId()).del().then(() => {
+            // Crear todas las relaciones entre areas de servicio y el iniciativa
+            areasServicio = iniciativa.getArea_servicio();
+            const fieldsToInsert = areasServicio.map(area => ({ id_area: area, id_iniciativa: iniciativa.getId() }));
+            return knex('areaservicio_iniciativa').insert(fieldsToInsert).then(() => {
+                return iniciativa.getId();
             });
-         })
-         .catch((err) => {
+        });
+    })
+        .catch((err) => {
             console.log(err);
             console.log("Se ha producido un error al intentar actualizar en la base de datos la iniciativa con id ", iniciativa.getId());
         })
@@ -593,7 +602,8 @@ function actualizarIniciativa(iniciativa){
             knex.destroy();
         });
 }
-//ELIMINAR UNO---------------------------------------------------------------------------------------------------
+
+//ELIMINAR UN ELEMENTO---------------------------------------------------------------------------------------------------
 function eliminarAnuncio(id) {
     return knex('anuncio_servicio').where('id', id).del().then((result) => {
         if (result > 0) {
@@ -677,8 +687,7 @@ function eliminarIniciativa(id) {
         });
 }
 
-//AUXILIARES----------------------------------------------------------------------------------------------------
-
+// MÉTODOS AUXILIARES----------------------------------------------------------------------------------------------------
 function obtenerAsignaturaObjetivo(id_oferta) {
     return knex('asignatura_objetivo').where({ id_oferta: id_oferta }).select('nombre')
         .catch((err) => { console.log("No se ha encontrado la asignatura objetivo perteneciente a la oferta de servicio con id ", id_demanda); throw err });
@@ -712,27 +721,11 @@ function obtenerAreaServicio(id_anuncio) {
 }
 
 
-// Devuelve todos los mensajes pertenecientes al anuncio de servicio con id=id_anuncio
-function obtenerMensajesPorAnuncio(id_anuncio) {
-    return knex('mensaje_anuncioservicio').where({ id_anuncio: id_anuncio }).select('id_mensaje')
-        .then(function (id_mensajes) {
-            return daoComunicacion.obtenerMensajes(id_mensajes); //Esto devuelve un array de transferMensaje
-        });
-}
-
-// Devuelve todos los mensajes pertenecientes al anuncio de servicio con id=id_anuncio
-function obtenerUploadsPorAnuncio(id_anuncio) {
-    return knex('upload_anuncioservicio').where({ id_anuncio: id_anuncio }).select('id_upload')
-        .then(function (id_uploads) {
-            return daoComunicacion.obtenerUploads(id_uploads); //Esto devuelve un array de transferUpload
-        });
-}
-
 // Devuelve todos los profesores pertenecientes al anuncio de servicio con id=id_anuncio
 function obtenerProfesoresPorOferta(id_oferta) {
     return knex('profesorinterno_oferta').where({ id_oferta: id_oferta }).select('id_profesor')
         .then(function (id_profesores) {
-            return daoUsuario.obtenerProfesoresInternos(id_profesores); //Esto devuelve un array de transferUpload
+            return daoUsuario.obtenerProfesoresInternos(id_profesores);
         });
 }
 
@@ -744,10 +737,25 @@ function limpiarAnuncioServicios() {
         })
 }
 
+function obtenerIdsAreas(nombre_areas) {
+    return knex('area_servicio').whereIn('nombre', nombre_areas).select('id').then((ids) => {
+        let ids_areas = [];
+        ids.forEach(id => {
+            ids_areas.push(id['id']);
+        });
+        return ids_areas;
+    })
+        .catch((err) => {
+            console.log(err);
+            console.log("Se ha producido un error al intentar obtener las ids a partir de los nombres de area");
+        })
+}
+
+
 module.exports = {
     crearOferta, crearAnuncio, crearDemanda, crearIniciativa,
     actualizarDemanda, actualizarOfertaServicio, actualizarIniciativa,
-    obtenerOfertaServicio, obtenerDemandaServicio, obtenerMensajesPorAnuncio, obtenerIniciativa,
+    obtenerOfertaServicio, obtenerDemandaServicio, obtenerIniciativa,
     obtenerTodasOfertasServicio, obtenerTodasDemandasServicio, obtenerTodasIniciativas,
     eliminarOferta, eliminarDemanda, eliminarIniciativa,
     limpiarAnuncioServicios,
