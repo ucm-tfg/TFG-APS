@@ -31,7 +31,7 @@ app.use("/api/upload", require("./routes/uploads"));
 app.use(express.static(__dirname + "/../dist/portal-aps"));
 
 // Pruebas DAO Usuario
-const dao_usuario = require("./database/services/daos/dao");
+const dao_usuario = require("./database/services/daos/daoUsuario");
 const tUsuario = require("./database/services/transfers/TUsuario");
 const tAdmin = require("./database/services/transfers/TAdmin");
 const tOficinaAps = require("./database/services/transfers/TOficinaAps");
