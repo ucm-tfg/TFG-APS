@@ -86,7 +86,6 @@ function ObtenerColaboracion(id_colab){
     });// hacer join con tabla de mensajes para sollucionar porblema de cuello de botella.
 }*/
 function ActualizarColaboracion(colaboracion){
-    copia = ObtenerColaboracion(colaboracion.getId());
     return knex('colaboracion').where('id', colaboracion.getId()).update({
         titulo: colaboracion.getTitulo(),
         descripcion: colaboracion.getDescripcion(),
@@ -101,8 +100,6 @@ function ActualizarColaboracion(colaboracion){
     }).catch((err) => {
         console.log(err);
         console.log("Se ha producido un error al intentar actualizar la colaboracion con id ", colaboracion.getId());
-        ActualizarColaboracion(copia);
-        console.log(" se procederá a su restauracion");
     }).finally(()=>{
         knex.destroy();
     });
