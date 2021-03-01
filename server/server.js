@@ -520,4 +520,7 @@ id_oferta = 50;
 estado = 1;
 _v = 0.9;
 let partenariado = new transferPartenariado(null, titulo, descripcion, admite_externos, responsable, profesores, id_demanda, id_oferta, estado, _v);
-dao_colaboracion.crearPartenariado(partenariado);
+// dao_colaboracion.crearPartenariado(partenariado);
+return dao_colaboracion.obtenerPartenariado(4).then((datos) =>{
+  console.log(datos);
+})

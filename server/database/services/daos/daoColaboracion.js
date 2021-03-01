@@ -61,13 +61,11 @@ function ObtenerColaboracion(id_colab) {
         return knex('profesor_colaboracion').where({
             id_colaboracion: id_colab
         }).select('id_profesor').then((profe) => {
-            //console.log("los datos obtenidos de colaboracion son ", colab);
             p = [];
             for (prof of profe) {
                 p2 = Object.assign({}, prof);
                 p.push(p2['id_profesor']);
             }
-            // console.log("los datos obtenidos de profesor_colaboracion son ", p);
             return new transferColaboracion(
                 id_colab,
                 colab[0]['titulo'],
@@ -84,7 +82,7 @@ function ObtenerColaboracion(id_colab) {
 }
 
 function obtenerPartenariado(id) {
-    return obtenerColaboracion(id).then((colaboracion) => {
+    return ObtenerColaboracion(id).then((colaboracion) => {
         return knex('partenariado').where({ id: id }).select('*').then((partenariado) => {
             return new transferPartenariado(
                 id = colaboracion.getId(),
@@ -93,10 +91,10 @@ function obtenerPartenariado(id) {
                 admite_externos = colaboracion.getAdmite(),
                 responsable = colaboracion.getResponsable(),
                 profesores = colaboracion.getProfesores(),
-                id_demanda = partenariado.getId_Demanda(),
-                id_oferta = partenariado.getId_Oferta(),
-                estado = partenariado.getEstado,
-                _v = partenariado.getV()
+                id_demanda = partenariado[0]['id_demanda'],
+                id_oferta = partenariado[0]['id_oferta'],
+                estado = partenariado[0]['estado'],
+                _v = partenariado[0]['_v']
             );
         })
             .catch((err) => {
