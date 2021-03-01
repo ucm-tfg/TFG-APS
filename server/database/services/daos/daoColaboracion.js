@@ -8,9 +8,9 @@ const { ModuleResolutionKind } = require('typescript');
 // CREAR ---------------------------------------------------------------------------------------------------------
 function CrearColaboracion(colaboracion) {
     return knex('colaboracion').insert({
-        titulo: colaboracion.getTitulo(), 
-        descripcion: colaboracion.getDescripcion(), 
-        admite_externos: colaboracion.getAdmite(), 
+        titulo: colaboracion.getTitulo(),
+        descripcion: colaboracion.getDescripcion(),
+        admite_externos: colaboracion.getAdmite(),
         responsable: colaboracion.getResponsable()
     }).then((id_colab) => {
         let profesores = colaboracion.getProfesores();
@@ -32,7 +32,7 @@ function crearPartenariado(partenariado) {
             id_oferta: partenariado.getId_Oferta(),
             estado: partenariado.getEstado(),
             _v: partenariado.getV()
-        }).then(() =>{
+        }).then(() => {
             console.log("Se ha creado un partenariado con id ", id);
         })
             .catch((err) => {
@@ -140,13 +140,13 @@ function eliminarPartenariado(id) {
                 console.log("Se ha producido un error al intentar eliminar el partenariado con id ", id);
             })
     })
-    .catch((err) => {
-        console.log(err);
-        console.log("Se ha producido un error al intentar eliminar la colaboracion con id ", id);
-    })
-    .finally(() => {
-        knex.destroy();
-    });
+        .catch((err) => {
+            console.log(err);
+            console.log("Se ha producido un error al intentar eliminar la colaboracion con id ", id);
+        })
+        .finally(() => {
+            knex.destroy();
+        });
 }
 
 // ACTUALIZAR ----------------------------------------------------------------------------------------------------
@@ -172,13 +172,15 @@ function ActualizarColaboracion(colaboracion) {
 }
 
 function actualizarPartenariado(partenariado) {
-    return obtenerColaboracion(partenariado.getId()).then((copia_colaboracion) => {
-        return actualizarColaboracion(partenariado).then(() => {
+    return ObtenerColaboracion(partenariado.getId()).then((copia_colaboracion) => {
+        return ActualizarColaboracion(partenariado).then(() => {
             return knex('partenariado').where('id', partenariado.getId()).update({
                 id_demanda: partenariado.getId_Demanda(),
                 id_oferta: partenariado.getId_Oferta(),
                 estado: partenariado.getEstado(),
                 _v: partenariado.getV()
+            }).then(() => {
+                console.log("Se ha actualizado correctamente el partenariado con id ", partenariado.getId());
             })
                 .catch((err) => {
                     console.log(err);
@@ -207,8 +209,8 @@ function actualizarPartenariado(partenariado) {
     });
 }
 module.exports = {
-     CrearColaboracion, crearPartenariado,
-     ObtenerColaboracion, obtenerPartenariado,
-     ActualizarColaboracion, actualizarPartenariado,
-     EliminarColaboracion, eliminarPartenariado
-    }
+    CrearColaboracion, crearPartenariado,
+    ObtenerColaboracion, obtenerPartenariado,
+    ActualizarColaboracion, actualizarPartenariado,
+    EliminarColaboracion, eliminarPartenariado
+}
