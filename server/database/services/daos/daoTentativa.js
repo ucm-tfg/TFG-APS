@@ -103,6 +103,7 @@ function crearIniciativa(iniciativa) {
     return knex('iniciativa').insert({
         titulo: iniciativa.getTitulo(), descripcion: iniciativa.getDescripcion(),
         necesidad_social: iniciativa.getNecesidad_social(), id_estudiante: iniciativa.getEstudiante(),
+        id_demanda: iniciativa.getDemanda()
     }).then((id_iniciativa) => {
         const fieldsToInsert = iniciativa.getArea_servicio().map(area => ({ id_area: area, id_iniciativa: id_iniciativa }));
         return knex('areaservicio_iniciativa').insert(fieldsToInsert).then(() => {
