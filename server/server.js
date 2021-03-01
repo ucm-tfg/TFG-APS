@@ -32,6 +32,9 @@ app.use(express.static(__dirname + "/../dist/portal-aps"));
 
 // Pruebas DAO Usuario
 const dao_usuario = require("./database/services/daos/daoUsuario");
+const dao_proyecto = require("./database/services/daos/daoColaboracion");
+const tNotas = require("./database/services/transfers/TNotas");
+const tProyecto =require("./database/services/transfers/transferProyecto");
 const tUsuario = require("./database/services/transfers/TUsuario");
 const tAdmin = require("./database/services/transfers/TAdmin");
 const tOficinaAps = require("./database/services/transfers/TOficinaAps");
@@ -45,6 +48,44 @@ const tProfesorExterno = require("./database/services/transfers/TProfesorExterno
 
 //OJOOOOOO METED VOSOTROS LOS DATOS CORRESPONDIENTES( ID, ATRIBUTOS...)
 
+//DAO PROYECTO---------------------------------------------------------------------------------------------------------------------------
+
+//Crear proyecto y notas------------------------------------------------------------------------------------------------------------------
+
+/* let proyecto1 = new tProyecto(null,"hola","hehe",1,105,[107],1,1,[112])
+dao_proyecto.crearProyecto(proyecto1) */
+
+/* let nota1 = new tNotas(null,112,9,20);
+dao_proyecto.crearNota(nota1) */
+
+//Obtener proyecto y nota
+
+/* dao_proyecto.obtenerProyecto(20) */
+// dao_proyecto.obtenerNota(1)
+
+//Actualizar 
+
+/* let proyecto1 = new tProyecto(20,"nono","hehe",1,105,[107],1,1,[112])
+dao_proyecto.actualizarProyecto(proyecto1)  */
+/* 
+let nota1 = new tNotas(1,112,7,20);
+dao_proyecto.actualizarNota(nota1) */
+
+//Borrar
+
+/* dao_proyecto.eliminarNota(1) */
+
+dao_proyecto.eliminarProyecto(10)
+
+
+
+
+
+
+
+
+
+//DAO USUARIO--------------------------------------------------------------------------------------------------------------------
 
 //BORRAR-------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // dao_usuario.borrarUsuario(140);
@@ -61,7 +102,7 @@ const tProfesorExterno = require("./database/services/transfers/TProfesorExterno
 /* let idtitulacion_local=48;
 let estudinateInterno1 = new tEstInterno(
   null,
-  "correoestu@ucm.es",
+  "correoestuuu@ucm.es",
   "ad",
   "min",
   "1234",
@@ -72,7 +113,7 @@ let estudinateInterno1 = new tEstInterno(
   1,
   idtitulacion_local
 );
-dao_usuario.insertarEstudianteInterno(estudinateInterno1); */
+dao_usuario.insertarEstudianteInterno(estudinateInterno1);  */
 
 //Insertar entidad
 /* let entidad1 = new tEntidad(
