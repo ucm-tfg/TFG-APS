@@ -1,22 +1,17 @@
 const transferColaboracion = require('./transferColaboracion');
 class transferPartenariado extends transferColaboracion {
-    id;
+    
     id_demanda;
     id_oferta;
     estado;
     _v;
-    constructor(id, id_demanda, id_oferta, estado, _v){
-        this.id = id;
+
+    constructor(id, titulo, descripcion, admite_externos, responsable, profesores, id_demanda, id_oferta, estado, _v){
+        super(id, titulo, descripcion, admite_externos, responsable, profesores);
         this.id_demanda = id_demanda;
         this.id_oferta = id_oferta;
         this.estado = estado;
         this._v = _v;
-    }
-    getId(){
-        return this.id;
-    }
-    setId(id_part){
-        this.id = id_part;
     }
     getId_Demanda(){
         return this.id_demanda;
