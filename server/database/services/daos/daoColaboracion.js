@@ -131,7 +131,7 @@ function EliminarColaboracion(id_colab) {
 }
 
 function eliminarPartenariado(id) {
-    return eliminarColaboracion().then(() => {
+    return EliminarColaboracion(id).then(() => {
         return knex('partenariado').where('id', id).del().then(() => {
             console.log("Se ha eliminado correctamente el partenariado con id ", id);
         })
@@ -140,13 +140,13 @@ function eliminarPartenariado(id) {
                 console.log("Se ha producido un error al intentar eliminar el partenariado con id ", id);
             })
     })
-        .catch((err) => {
-            console.log(err);
-            console.log("Se ha producido un error al intentar eliminar la colaboracion con id ", id);
-        })
-        .finally(() => {
-            knex.destroy();
-        });
+    .catch((err) => {
+        console.log(err);
+        console.log("Se ha producido un error al intentar eliminar la colaboracion con id ", id);
+    })
+    .finally(() => {
+        knex.destroy();
+    });
 }
 
 // ACTUALIZAR ----------------------------------------------------------------------------------------------------
