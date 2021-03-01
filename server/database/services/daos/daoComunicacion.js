@@ -2,6 +2,8 @@ const transferUpload = require('../transfers/transferUpload');
 const mysql = require ('mysql');
 const transferMensajes = require('../transfers/transferMensajes');
 const knex = require('../../config');
+const transferMail = require('../transfers/transferMail');
+const transferNewsletter = require('../transfers/transferNewsletter');
 
 // Devuelve el upload correspondiente
 function obtenerUploads(idUploads){//funciona
@@ -281,7 +283,7 @@ function eliminarUpload(id_upload){//Funciona
         }
     }).catch((err) => {
         console.log(err);
-        console.log("Se ha producido un error al intentar crear el upload con id ", id_upload);
+        console.log("Se ha producido un error al intentar eliminar el upload con id ", id_upload);
     }).finally(()=>{
         knex.destroy();
     });
@@ -322,5 +324,156 @@ function ActualizarMensaje(id, texto){
     });
 }
 
+function CrearMail(mail_to, type, mail_name, mail_from, subject, html, _to, usuario, createdAt, updatedAt){
+    return knex('mail').insert({
+        mail_to: mail_to, 
+        type: type, 
+        mail_name: mail_name, 
+        mail_from: mail_from, 
+        subject: subject, 
+        html: html, 
+        _to: _to,
+        usuario: usuario, 
+        createdAt: createdAt, 
+        updatedAt: updatedAt
+    }).then((id_mail) =>{
+        return id_mail;
+    }).catch((err) => {
+        console.log(err);
+        console.log("Se ha producido un error al intentar crear el mail con subject ", subject);
+    }).finally(()=>{
+        knex.destroy();
+    });
+}
+
+function ObtenerMail(id_mail){
+    return knex('mail').where({
+        id: id_mail
+    }).select('*').then((mail) =>{
+        return new transferMail(
+            mail[0]['id'],
+            mail[0]['mail_to'],
+            mail[0]['type'],
+            mail[0]['mail_name'],
+            mail[0]['mail_from'],
+            mail[0]['subject'],
+            mail[0]['html'],
+            mail[0]['_to'],
+            mail[0]['usuario'],
+            mail[0]['createdAt'],
+            mail[0]['updatedAt']
+            );
+    }).catch((err) => {
+        console.log(err);
+        console.log("Se ha producido un error al intentar obtener el mail con id ", id_mail);
+    }).finally(()=>{
+        knex.destroy();
+    });
+}
+
+function ActualizarMail(Mail){
+    return knex('mail').where('id', Mail.getId()).update({
+        mail_to: Mail.getMail_to(), 
+        type: Mail.getType(), 
+        mail_name: Mail.getMailName(), 
+        mail_from: Mail.getMailFrom(), 
+        subject: Mail.getSubject(), 
+        html: Mail.getHtml(), 
+        _to: Mail.getTo(), 
+        updatedAt: new Date()
+    }).then(()=>{
+        console.log("Se ha actualizado el mail con id ", Mail.getId())
+    }).catch((err) => {
+        console.log(err);
+        console.log("Se ha producido un error al intentar actualizar el mail con id ", Mail.getId());
+    }).finally(()=>{
+        knex.destroy();
+    });
+}
+
+function EliminarMail(id_mail){
+    return knex('mail').where({
+        id: id_mail
+    }).del().then((result)=>{
+        if(result > 0){
+            console.log("Se ha eliminado de la base de datos el mail con id ", id_mail);
+        }else{
+            console.log("No existe el upload con id ", id_mail);
+        }
+    }).catch((err) => {
+        console.log(err);
+        console.log("Se ha producido un error al intentar eliminar el mail con id ", id_mail);
+    }).finally(()=>{
+        knex.destroy();
+    });
+}
+
+function CrearNewsletter(mail_to, CreatedAt, UpdatedAt){
+    return knex('newsletter').insert({
+        mail_to: mail_to,
+        created_at: CreatedAt,
+        updated_at: UpdatedAt
+    }).then((id_news) =>{
+        return id_news;
+    }).catch((err) => {
+        console.log(err);
+        console.log("Se ha producido un error al intentar crear el newsletter con destino", mail_to);
+    }).finally(()=>{
+        knex.destroy();
+    });
+}
+
+function ObtenerNewsletter(id_news){
+    return knex('newsletter').where({
+        id: id_news
+    }).select('*').then((news) =>{
+        return new transferNewsletter(
+            news[0]['id'],
+            news[0]['mail_to'],
+            news[0]['created_at'],
+            news[0]['updated_at']
+        );
+    }).catch((err) => {
+        console.log(err);
+        console.log("Se ha producido un error al intentar obtener la newsletter con id ", id_news);
+    }).finally(()=>{
+        knex.destroy();
+    });
+}
+
+function ActualizarNewsletter(id, mail_to){
+    return knex('newsletter').where({
+        id: id
+    }).update({
+        mail_to: mail_to,
+        updated_at: new Date()
+    }).then(()=>{
+        console.log("Se ha actualizado la newsletter con id ", id)
+    }).catch((err) => {
+        console.log(err);
+        console.log("Se ha producido un error al intentar actualizar la newsletter con id ", id);
+    }).finally(()=>{
+        knex.destroy();
+    });
+}
+
+function EliminarNewsletter(id){
+    return knex('newsletter').where({
+        id: id
+    }).del().then((result)=>{
+        if(result > 0){
+            console.log("Se ha eliminado de la base de datos la newsletter con id ", id);
+        }else{
+            console.log("No existe la newsletter con id ", id);
+        }
+    }).catch((err) => {
+        console.log(err);
+        console.log("Se ha producido un error al intentar eliminar la newsletter con id ", id);
+    }).finally(()=>{
+        knex.destroy();
+    });
+}
+
+
 module.exports = {knex, obtenerUploads, obtenerMensajes, obtenerMensajesAnuncio, obtenerMensajesColab, obtenerUploadsAnuncio, obtenerUploadsColab, crearMensajeAnuncio, crearMensajeColab, 
-    crearUploadAnuncio, crearUploadColab, eliminarMensaje, eliminarUpload, ActualizarUpload, ActualizarMensaje};
+    crearUploadAnuncio, crearUploadColab, eliminarMensaje, eliminarUpload, ActualizarUpload, ActualizarMensaje, CrearMail, ObtenerMail, ActualizarMail, EliminarMail, CrearNewsletter, ObtenerNewsletter, ActualizarNewsletter, EliminarNewsletter};

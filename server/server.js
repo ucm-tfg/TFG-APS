@@ -476,6 +476,10 @@ const transferIniciativa = require('./database/services/transfers/TIniciativa');
 const dao_comunicacion = require('./database/services/daos/daoComunicacion');
 const transferUpload = require('./database/services/transfers/transferUpload');
 const transferMensajes = require('./database/services/transfers/transferMensajes');
+const transferMail = require('./database/services/transfers/transferMail');
+const transferNewsletter = require('./database/services/transfers/transferNewsletter');
+const dao_colaboracion = require('./database/services/daos/daoColaboracion');
+const transferColaboracion = require('./database/services/transfers/transferColaboracion');
 const { date } = require('faker');
 
 // let texto = "texto de prueba para mensaje de colaboracion";
