@@ -480,6 +480,7 @@ const transferMail = require('./database/services/transfers/transferMail');
 const transferNewsletter = require('./database/services/transfers/transferNewsletter');
 const dao_colaboracion = require('./database/services/daos/daoColaboracion');
 const transferColaboracion = require('./database/services/transfers/transferColaboracion');
+const transferPartenariado = require('./database/services/transfers/transferPartenariado');
 const { date } = require('faker');
 
 // let texto = "texto de prueba para mensaje de colaboracion";
@@ -509,3 +510,14 @@ const { date } = require('faker');
 //dao_comunicacion.obtenerUploadsAnuncio(9).then(function(upload){console.log(upload);});
 
 // PRUEBAS DAO COLABORACIÓN----------------------------------------------------------------------------------------
+titulo  = "Partenariado 1";
+descripcion = "Descripción partenariado 1";
+admite_externos = 1;
+responsable = 105;
+profesores =[105, 107];
+id_demanda = 52;
+id_oferta = 50;
+estado = 1;
+_v = 0.9;
+let partenariado = new transferPartenariado(null, titulo, descripcion, admite_externos, responsable, profesores, id_demanda, id_oferta, estado, _v);
+dao_colaboracion.crearPartenariado(partenariado);
