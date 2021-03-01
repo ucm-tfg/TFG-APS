@@ -114,6 +114,54 @@ function obtenerPartenariado(id) {
         });
 }
 
+// OBTENER TODOS LOS ELEMENTOS ----------------------------------------------------------------------
+function obtenerTodosPartenariados(){
+    return knex('colaboracion')
+    .join('partenariado', 'colaboracion.id', '=', 'partenariado.id')
+    .select('*')
+    .then((datos) => {
+        return knex('profesor_colaboracion').select('*').then((datos_profesores) => {
+            let transfers = [];
+            datos.forEach(partenariado => {
+                let profesores = [];
+                datos_profesores.forEach(profesor => {
+                    if (profesor['id_colaboracion'] === partenariado['id']) {
+                        profesores.push(profesor['id_profesor']);
+                    }
+                });
+                let transfer = new transferPartenariado(
+                    id = partenariado['id'],
+                    titulo = partenariado['titulo'],
+                    descripcion = partenariado['descripcion'],
+                    admite_externos = partenariado['admite_externos'],
+                    responsable = partenariado['responsable'],
+                    profesores = profesores,
+                    id_demanda = partenariado['id_demanda'],
+                    id_oferta = partenariado['id_oferta'],
+                    estado = partenariado['estado'],
+                    _v  = partenariado['_v']
+                );
+                transfers.push(transfer);
+            });
+            return transfers;
+        })
+        .catch((err) => {
+            console.log(err);
+            console.log("Se ha producido un error al intentar obtener de la base de datos los profesores");
+        })
+        .finally(() => {
+            knex.destroy();
+        });
+    })
+    .catch((err) => {
+        console.log(err);
+        console.log("Se ha producido un error al intentar obtener todos los partenariados");
+    })
+    .finally(() => {
+        knex.destroy();
+    });
+}
+
 // ELIMINAR ------------------------------------------------------------------------------------------------------
 function EliminarColaboracion(id_colab) {
     return knex('colaboracion').where({
@@ -208,9 +256,12 @@ function actualizarPartenariado(partenariado) {
             });
     });
 }
+
+
 module.exports = {
     CrearColaboracion, crearPartenariado,
     ObtenerColaboracion, obtenerPartenariado,
+    obtenerTodosPartenariados,
     ActualizarColaboracion, actualizarPartenariado,
     EliminarColaboracion, eliminarPartenariado
 }

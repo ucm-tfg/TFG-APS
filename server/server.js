@@ -514,15 +514,18 @@ titulo  = "Partenariado 1 editado";
 descripcion = "Descripción partenariado 1";
 admite_externos = 1;
 responsable = 105;
-profesores =[107];
+profesores =[105, 107, 109];
 id_demanda = 52;
 id_oferta = 50;
 estado = 1;
 _v = 11;
-let partenariado = new transferPartenariado(100, titulo, descripcion, admite_externos, responsable, profesores, id_demanda, id_oferta, estado, _v);
+let partenariado = new transferPartenariado(null, titulo, descripcion, admite_externos, responsable, profesores, id_demanda, id_oferta, estado, _v);
 // dao_colaboracion.crearPartenariado(partenariado);
 // return dao_colaboracion.obtenerPartenariado(4).then((datos) =>{
 //   console.log(datos);
 // })
 // dao_colaboracion.eliminarPartenariado(2);
-dao_colaboracion.actualizarPartenariado(partenariado);
+// dao_colaboracion.actualizarPartenariado(partenariado);
+dao_colaboracion.obtenerTodosPartenariados().then((datos) =>{
+  console.log(datos);
+})
