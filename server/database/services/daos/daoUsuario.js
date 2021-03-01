@@ -951,7 +951,6 @@ function obtenerEstudianteExterno(id) {
           .where({ id: id })
           .select("*")
           .then(function (estudianteExterno) {
-            console.log(estudianteExterno)
             return obtenerDatosPersonalesExterno(
               estudianteExterno[0]["datos_personales_Id"]
             ).then(function (datos) {
