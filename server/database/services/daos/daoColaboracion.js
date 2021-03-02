@@ -9,7 +9,6 @@ const TNotas = require("../transfers/TNotas");
 //INSERTAR-----------------------------------------------------------------------------------------------------------------------------
 
 function crearProyecto(proyecto) {
-  console.log(proyecto);
   return CrearColaboracion(proyecto).then((id) => {
     return knex("proyecto")
       .insert({
@@ -527,7 +526,6 @@ function eliminarPartenariado(id) {
 
 // ACTUALIZAR ----------------------------------------------------------------------------------------------------
 function ActualizarColaboracion(colaboracion) {
-  console.log(colaboracion);
   return ObtenerColaboracion(colaboracion.getId()).then((copia) => {
     return knex("colaboracion")
       .where("id", colaboracion.getId())
