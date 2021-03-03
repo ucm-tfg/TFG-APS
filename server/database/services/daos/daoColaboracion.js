@@ -123,7 +123,7 @@ function crearNota(nota) {
       console.log(err);
       console.log("Se ha producido un error al intentar crear la nota ");
     });
-  }
+}
 
 //LEER UNO---------------------------------------------------------------------------------------------------------------------------
 function ObtenerColaboracion(id_colab) {
@@ -403,7 +403,7 @@ function ActualizarColaboracion(colaboracion) {
               }));
             return knex("profesor_colaboracion")
               .insert(fieldsToInsert)
-              .then(() => {});
+              .then(() => { });
           });
       })
       .catch((err) => {
