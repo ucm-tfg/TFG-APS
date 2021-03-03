@@ -29,7 +29,7 @@ class transferUpload{
         return this.id;
     }
     setId(id_upload){
-        this.id = id;
+        this.id = id_upload;
     }
     getAlmacenamiento(){
         return this.almacenamiento;

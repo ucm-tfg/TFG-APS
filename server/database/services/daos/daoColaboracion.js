@@ -61,6 +61,31 @@ function crearNota(nota) {
     .catch((err) => {
       console.log(err);
       console.log("Se ha producido un error al intentar crear la nota ");
+function CrearColaboracion(colaboracion) {
+  return knex("colaboracion")
+    .insert({
+      titulo: colaboracion.getTitulo(),
+      descripcion: colaboracion.getDescripcion(),
+      admite_externos: colaboracion.getAdmite(),
+      responsable: colaboracion.getResponsable(),
+    })
+    .then((id_colab) => {
+      let profesores = colaboracion.getProfesores();
+      const fieldsToInsert = profesores.map((profesor) => ({
+        id_profesor: profesor,
+        id_colaboracion: id_colab,
+      }));
+      return knex("profesor_colaboracion")
+        .insert(fieldsToInsert)
+        .then(() => {
+          return id_colab;
+        });
+    })
+    .catch((err) => {
+      console.log(err);
+      console.log(
+        "Se ha producido un error al intentar crear la colaboracion con id "
+      );
     });
 }
 
@@ -525,6 +550,24 @@ function eliminarPartenariado(id) {
 }
 
 // ACTUALIZAR ----------------------------------------------------------------------------------------------------
+function ActualizarColaboracion(colaboracion) {
+  return ObtenerColaboracion(colaboracion.getId()).then((copia) => {
+    return knex("colaboracion")
+      .where("id", colaboracion.getId())
+      .update({
+/*function ObtenerColaboracion(id_colab){
+    return knex('colaboracion').where({
+        id: id_colab
+    }).join('profesor_colaboracion', 'id_colaboracion', '=', 'id').select('colaboracion.id', 'colaboracion.titulo', 'colaboracion.descripcion',
+    'colaboracion.admite_externos', 'colaboracion.responsable', 'profesor_colaboracion.id_profesor').then((colab) =>{
+        console.log(colab);
+    }).catch((err) => {
+        console.log(err);
+        console.log("Se ha producido un error al intentar obtener la colaboracion con id ", id_colab);
+    }).finally(()=>{
+        knex.destroy();
+    });// hacer join con tabla de mensajes para sollucionar porblema de cuello de botella.
+}*/
 function ActualizarColaboracion(colaboracion) {
   return ObtenerColaboracion(colaboracion.getId()).then((copia) => {
     return knex("colaboracion")

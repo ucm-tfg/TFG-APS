@@ -34,7 +34,6 @@ function obtenerUploads(idUploads){//funciona
 
 // Devuelve el mensaje correspondiente
 function obtenerMensajes(idMensajes){//funciona
-    console.log('comienza la ejecucion ');
     return knex('mensaje').where({
         id: idMensajes
     }).select('*').then((mensaje) =>{
@@ -184,9 +183,9 @@ function obtenerUploadsColab(idColab){
 }
 
 //crea un nuevo mensaje
-function crearMensajeAnuncio(texto, fecha, usuario, anuncio){//funciona
+function crearMensajeAnuncio(mensaje, anuncio){
     return knex('mensaje').insert({
-        texto: texto, fecha: fecha, usuario: usuario
+        texto: mensaje.getTexto(), fecha: mensaje.getFecha(), usuario: mensaje.getUsuario()
     }).then((id_mensaje) =>{
         return knex('mensaje_anuncioservicio').insert({
             id_mensaje: id_mensaje, id_anuncio: anuncio
@@ -195,15 +194,15 @@ function crearMensajeAnuncio(texto, fecha, usuario, anuncio){//funciona
         });
     }).catch((err) => {
         console.log(err);
-        console.log("Se ha producido un error al intentar crear el mensaje con texto ", texto);
+        console.log("Se ha producido un error al intentar crear el mensaje con texto ", mensaje.getTexto());
     }).finally(()=>{
         knex.destroy();
     });
 }
 
-function crearMensajeColab(texto, fecha, usuario, colaboracion){//funciona
+function crearMensajeColab(mensaje, colaboracion){//funciona
     return knex('mensaje').insert({
-        texto: texto, fecha: fecha, usuario: usuario
+        texto: mensaje.getTexto(), fecha: mensaje.getFecha(), usuario: mensaje.getUsuario()
     }).then((id_mensaje) =>{
         return knex('mensaje_colaboracion').insert({
             id_mensaje: id_mensaje, id_colaboracion: colaboracion
@@ -213,16 +212,26 @@ function crearMensajeColab(texto, fecha, usuario, colaboracion){//funciona
     })
     .catch((err) => {
         console.log(err);
-        console.log("Se ha producido un error al intentar crear el mensaje con texto ", texto);
+        console.log("Se ha producido un error al intentar crear el mensaje con texto ", mensaje.getTexto());
     }).finally(()=>{
         knex.destroy();
     });
 }
 
 //crea un nuevo upload
-function crearUploadAnuncio(almacenamiento, campo, tipo, tipo_id, path, client_name, nombre, creador, createdAt, updatedAt, _v, anuncio){//funciona
+function crearUploadAnuncio(upload, anuncio){//funciona
     return knex('upload').insert({
-        almacenamiento: almacenamiento, campo: campo, tipo: tipo, tipo_id: tipo_id, path: path, client_name: client_name, nombre: nombre, creador: creador, createdAt: createdAt, updatedAt: updatedAt, _v: _v
+        almacenamiento: upload.getAlmacenamiento(), 
+        campo: upload.getCampo(), 
+        tipo: upload.getTipo(), 
+        tipo_id: upload.getTipoId(), 
+        path: upload.getPath(), 
+        client_name: upload.getClientName(), 
+        nombre: upload.getNombre(), 
+        creador: upload.getCreador(), 
+        createdAt: upload.getCreatedAt(), 
+        updatedAt: upload.getUpdatedAt(), 
+        _v: upload.get_v()
     }).then((id_upload) =>{
         return knex('upload_anuncioservicio').insert({
             id_upload: id_upload, id_anuncio: anuncio
@@ -231,15 +240,25 @@ function crearUploadAnuncio(almacenamiento, campo, tipo, tipo_id, path, client_n
         });
     }).catch((err) => {
         console.log(err);
-        console.log("Se ha producido un error al intentar crear el upload con nombre ", nombre);
+        console.log("Se ha producido un error al intentar crear el upload con nombre ", upload.getNombre());
     }).finally(()=>{
         knex.destroy();
     });
 }
 
-function crearUploadColab(almacenamiento, campo, tipo, tipo_id, path, client_name, nombre, creador, createdAt, updatedAt, _v, colaboracion){//funciona
+function crearUploadColab(upload, colaboracion){//funciona
     return knex('upload').insert({
-        almacenamiento: almacenamiento, campo: campo, tipo: tipo, tipo_id: tipo_id, path: path, client_name: client_name, nombre: nombre, creador: creador, createdAt: createdAt, updatedAt: updatedAt, _v: _v
+        almacenamiento: upload.getAlmacenamiento(), 
+        campo: upload.getCampo(), 
+        tipo: upload.getTipo(), 
+        tipo_id: upload.getTipoId(), 
+        path: upload.getPath(), 
+        client_name: upload.getClientName(), 
+        nombre: upload.getNombre(), 
+        creador: upload.getCreador(), 
+        createdAt: upload.getCreatedAt(), 
+        updatedAt: upload.getUpdatedAt(), 
+        _v: upload.get_v()
     }).then((id_upload) =>{
         return knex('uploads_colaboracion').insert({
             id_upload: id_upload, id_colaboracion: colaboracion
@@ -248,7 +267,7 @@ function crearUploadColab(almacenamiento, campo, tipo, tipo_id, path, client_nam
         });
     }).catch((err) => {
         console.log(err);
-        console.log("Se ha producido un error al intentar crear el upload con nombre ", nombre);
+        console.log("Se ha producido un error al intentar crear el upload con nombre ", upload.getNombre());
     })
     .finally(()=>{
         knex.destroy();
@@ -302,20 +321,20 @@ function ActualizarUpload(Upload){
         console.log("Se ha actualizado el upload con id ", Upload.getId())
     }).catch((err) => {
         console.log(err);
-        console.log("Se ha producido un error al intentar actualizar el upload con id ", id_upload);
+        console.log("Se ha producido un error al intentar actualizar el upload con id ", Upload.getId());
     }).finally(()=>{
         knex.destroy();
     });
 }
 
-function ActualizarMensaje(id, texto){
+function ActualizarMensaje(mensaje){
     return knex('mensaje').where({
-        id: id
+        id: mensaje.getId()
     }).update({
-        texto: texto,
+        texto: mensaje.getTexto(),
         fecha: new Date()
     }).then(()=>{
-        console.log("Se ha actualizado el mensaje con id ", id)
+        console.log("Se ha actualizado el mensaje con id ", mensaje.getId())
     }).catch((err) => {
         console.log(err);
         console.log("Se ha producido un error al intentar actualizar el upload con id ", id_upload);
@@ -324,18 +343,18 @@ function ActualizarMensaje(id, texto){
     });
 }
 
-function CrearMail(mail_to, type, mail_name, mail_from, subject, html, _to, usuario, createdAt, updatedAt){
+function CrearMail(Mail){
     return knex('mail').insert({
-        mail_to: mail_to, 
-        type: type, 
-        mail_name: mail_name, 
-        mail_from: mail_from, 
-        subject: subject, 
-        html: html, 
-        _to: _to,
-        usuario: usuario, 
-        createdAt: createdAt, 
-        updatedAt: updatedAt
+        mail_to: Mail.getMail_to(), 
+        type: Mail.getType(), 
+        mail_name: Mail.getMailName(), 
+        mail_from: Mail.getMailFrom(), 
+        subject: Mail.getSubject(), 
+        html: Mail.getHtml(), 
+        _to: Mail.getTo(), 
+        usuario: Mail.getUsuario(),
+        createdAt: Mail.getCreatedAt(), 
+        updatedAt: Mail.getUpdatedAt()
     }).then((id_mail) =>{
         return id_mail;
     }).catch((err) => {
@@ -408,11 +427,11 @@ function EliminarMail(id_mail){
     });
 }
 
-function CrearNewsletter(mail_to, CreatedAt, UpdatedAt){
+function CrearNewsletter(news){
     return knex('newsletter').insert({
-        mail_to: mail_to,
-        created_at: CreatedAt,
-        updated_at: UpdatedAt
+        mail_to: news.getMail_to(),
+        created_at: news.getCreatedAt(),
+        updated_at: news.getUpdatedAt()
     }).then((id_news) =>{
         return id_news;
     }).catch((err) => {
@@ -441,17 +460,17 @@ function ObtenerNewsletter(id_news){
     });
 }
 
-function ActualizarNewsletter(id, mail_to){
+function ActualizarNewsletter(news){
     return knex('newsletter').where({
-        id: id
+        id: news.getId()
     }).update({
-        mail_to: mail_to,
+        mail_to: news.getMail_to(),
         updated_at: new Date()
     }).then(()=>{
-        console.log("Se ha actualizado la newsletter con id ", id)
+        console.log("Se ha actualizado la newsletter con id ", news.getId())
     }).catch((err) => {
         console.log(err);
-        console.log("Se ha producido un error al intentar actualizar la newsletter con id ", id);
+        console.log("Se ha producido un error al intentar actualizar la newsletter con id ", news.getId());
     }).finally(()=>{
         knex.destroy();
     });
