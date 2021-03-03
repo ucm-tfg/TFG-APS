@@ -85,24 +85,42 @@ function ObtenerColaboracion(id_colab){
         knex.destroy();
     });// hacer join con tabla de mensajes para sollucionar porblema de cuello de botella.
 }*/
-function ActualizarColaboracion(colaboracion){
-    return knex('colaboracion').where('id', colaboracion.getId()).update({
+function ActualizarColaboracion(colaboracion) {
+  return ObtenerColaboracion(colaboracion.getId()).then((copia) => {
+    return knex("colaboracion")
+      .where("id", colaboracion.getId())
+      .update({
         titulo: colaboracion.getTitulo(),
         descripcion: colaboracion.getDescripcion(),
         admite_externos: colaboracion.getAdmite(),
-        responsable: colaboracion.getResponsable()
-    }).then(() =>{
-        return knex('profesor_colaboracion').where('id_colaboracion', colaboracion.getId()).del().then(() =>{
-            const fieldsToInsert = colaboracion.getProfesores().map(profes =>({id_profesor: profes, id_colaboracion: colaboracion.getId()}));
-            return knex('profesor_colaboracion').insert(fieldsToInsert).then(()=>{
-            });
-        });
-    }).catch((err) => {
+        responsable: colaboracion.getResponsable(),
+      })
+      .then(() => {
+        return knex("profesor_colaboracion")
+          .where("id_colaboracion", colaboracion.getId())
+          .del()
+          .then(() => {
+            const fieldsToInsert = colaboracion
+              .getProfesores()
+              .map((profes) => ({
+                id_profesor: profes,
+                id_colaboracion: colaboracion.getId(),
+              }));
+            return knex("profesor_colaboracion")
+              .insert(fieldsToInsert)
+              .then(() => {});
+          });
+      })
+      .catch((err) => {
         console.log(err);
-        console.log("Se ha producido un error al intentar actualizar la colaboracion con id ", colaboracion.getId());
-    }).finally(()=>{
-        knex.destroy();
-    });
+        console.log(
+          "Se ha producido un error al intentar actualizar la colaboracion con id ",
+          colaboracion.getId()
+        );
+        ActualizarColaboracion(copia);
+        console.log(" se procederá a su restauracion");
+      });
+  });
 }
 function EliminarColaboracion(id_colab){
     return knex('colaboracion').where({
