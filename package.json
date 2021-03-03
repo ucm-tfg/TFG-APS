@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "node server/server.js",
-    "start:dev": "nodemon server/server.js",
+    "start": "nodemon server/server.js",
+    "start:dev": "node server/server.js",
     "build": "ng build",
     "heroku-postbuild": "ng build --prod",
     "db": "mysql -u root -p",
@@ -49,6 +49,7 @@
     "mysql": "^2.18.1",
     "ng-validate-equal": "^1.0.4",
     "nodemailer": "^6.4.15",
+    "nodemon": "^2.0.6",
     "popper.js": "^1.16.1",
     "rxjs": "~6.5.5",
     "sanitize-html": "^1.27.5",
