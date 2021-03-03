@@ -5,34 +5,31 @@ const transferProyecto = require('../transfers/transferProyecto');
 const knex = require('../../config');
 const { ModuleResolutionKind } = require('typescript');
 
-function CrearColaboracion(titulo, descripcion, admite_externos, responsable, profesores){//Revisar porque cuando falla no se borra
-    return knex('colaboracion').insert({
-        titulo: titulo, descripcion: descripcion, admite_externos: admite_externos, responsable: responsable
-    }).then((id_colab) =>{
-        const fieldsToInsert = profesores.map(profesor => ({ id_profesor: profesor, id_colaboracion: id_colab }));
-        return knex('profesor_colaboracion').insert(fieldsToInsert).then(()=>{
-            return id_colab;
+function CrearColaboracion(colaboracion) {
+  return knex("colaboracion")
+    .insert({
+      titulo: colaboracion.getTitulo(),
+      descripcion: colaboracion.getDescripcion(),
+      admite_externos: colaboracion.getAdmite(),
+      responsable: colaboracion.getResponsable(),
+    })
+    .then((id_colab) => {
+      let profesores = colaboracion.getProfesores();
+      const fieldsToInsert = profesores.map((profesor) => ({
+        id_profesor: profesor,
+        id_colaboracion: id_colab,
+      }));
+      return knex("profesor_colaboracion")
+        .insert(fieldsToInsert)
+        .then(() => {
+          return id_colab;
         });
-       // }
-    }).catch((err) => {
-        console.log(err);
-        console.log("Se ha producido un error al intentar crear la colaboracion con id ", id_colab);
-        return knex('colaboracion').where({
-            id: id_colab
-        }).del().then((result)=>{
-            if(result > 0){
-                console.log("Se ha eliminado de la base de datos la colaboracion con id ", id_colab);
-            }else{
-                console.log("No existe el la colaboracion con id ", id_colab);
-            }
-        }).catch((err) => {
-            console.log(err);
-            console.log("Se ha producido un error al intentar eliminar la colaboracion con id ", id_colab);
-        }).finally(()=>{
-            knex.destroy();
-        });
-    }).finally(()=>{
-        knex.destroy();
+    })
+    .catch((err) => {
+      console.log(err);
+      console.log(
+        "Se ha producido un error al intentar crear la colaboracion con id "
+      );
     });
 }
 function ObtenerColaboracion(id_colab){
