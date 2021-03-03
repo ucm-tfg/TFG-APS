@@ -31,6 +31,10 @@ app.use("/api/upload", require("./routes/uploads"));
 // cuando la peticion no es para el backend, servimos el frontend
 app.use(express.static(__dirname + "/../dist/portal-aps"));
 
+app.listen(process.env.PORT || 8080, () => {
+  console.info("Servidor escuchando en puerto " + process.env.PORT || 8080);
+});
+
 // Pruebas DAO Usuario
 const dao_usuario = require("./database/services/daos/daoUsuario");
 const dao_proyecto = require("./database/services/daos/daoColaboracion");
@@ -76,7 +80,7 @@ dao_proyecto.actualizarNota(nota1) */
 
 /* dao_proyecto.eliminarNota(1) */
 
-dao_proyecto.eliminarProyecto(10)
+// dao_proyecto.eliminarProyecto(10)
 
 
 
@@ -515,8 +519,6 @@ const transferIniciativa = require('./database/services/transfers/TIniciativa');
 //     console.log("Se ha actualizado la iniciativa número ", datos);
 // });
 
-
-
 //--------------------------------------Pruebas del DAO comunicacion
 const dao_comunicacion = require('./database/services/daos/daoComunicacion');
 const transferUpload = require('./database/services/transfers/transferUpload');
@@ -565,12 +567,12 @@ id_oferta = 50;
 estado = 1;
 _v = 11;
 let partenariado = new transferPartenariado(null, titulo, descripcion, admite_externos, responsable, profesores, id_demanda, id_oferta, estado, _v);
-// dao_colaboracion.crearPartenariado(partenariado);
+dao_colaboracion.crearPartenariado(partenariado);
 // return dao_colaboracion.obtenerPartenariado(4).then((datos) =>{
 //   console.log(datos);
 // })
 // dao_colaboracion.eliminarPartenariado(2);
 // dao_colaboracion.actualizarPartenariado(partenariado);
-dao_colaboracion.obtenerTodosPartenariados().then((datos) =>{
-  console.log(datos);
-})
+// dao_colaboracion.obtenerTodosPartenariados().then((datos) =>{
+//   console.log(datos);
+// })
