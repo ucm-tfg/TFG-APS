@@ -4,18 +4,18 @@ class transferProyecto extends transferColaboracion {
     id_partenariado;
     estado;
     estudiantes;
-    constructor(id, id_partenariado, estado, estudiantes){
+    constructor(id, titulo, descripcion, admite_externos, responsable, profesores, id_partenariado, estado, estudiantes){
+        super(id, titulo, descripcion, admite_externos, responsable, profesores);
         this.id = id;
         this.id_partenariado = id_partenariado;
         this.estado = estado;
         this.estudiantes = estudiantes;
     }
+
     getId(){
         return this.id;
     }
-    setId(id_pro){
-        this.id = id_pro;
-    }
+
     getId_Partenariado(){
         return this.id_partenariado;
     }
