@@ -5,7 +5,7 @@ const transferMail = require('../transfers/TMail');
 const transferNewsletter = require('../transfers/TNewsletter');
 
 // Devuelve el upload correspondiente
-function obtenerUploads(idUploads){//funciona
+function obtenerUploads(idUploads){
     return knex('upload').where({
         id: idUploads
     }).select('*').then((upload) => {
@@ -32,7 +32,7 @@ function obtenerUploads(idUploads){//funciona
 }
 
 // Devuelve el mensaje correspondiente
-function obtenerMensajes(idMensajes){//funciona
+function obtenerMensajes(idMensajes){
     return knex('mensaje').where({
         id: idMensajes
     }).select('*').then((mensaje) =>{
@@ -62,10 +62,13 @@ function obtenerMensajes(idMensajes){//funciona
 }
 
 //Devuelve todos los mensajes de un anuncio
-function obtenerMensajesAnuncio(idAnuncio){// FUNCIONA
+function obtenerMensajesAnuncio(idAnuncio){
     return knex('mensaje_anuncioservicio').where({
         id_anuncio: idAnuncio
-    }).join('mensaje', 'id_mensaje', '=', 'id').join('usuario', 'usuario.id', '=', 'usuario').select('mensaje.id', 'mensaje.texto', 'mensaje.fecha', 'mensaje.usuario', 'usuario.origin_login').then((mensaje)=> {
+    }).join('mensaje', 'id_mensaje', '=', 'id')
+    .join('usuario', 'usuario.id', '=', 'usuario')
+    .select('mensaje.id', 'mensaje.texto', 'mensaje.fecha', 'mensaje.usuario', 'usuario.origin_login')
+    .then((mensaje)=> {
         mensajes = [];
         for(men of mensaje){
             m2 = Object.assign({}, men);
@@ -84,14 +87,17 @@ function obtenerMensajesAnuncio(idAnuncio){// FUNCIONA
         console.log("Se ha producido un error al intentar obtener los mensajes del anuncio ", idAnuncio);
     }).finally(()=>{
         knex.destroy();
-    });// hacer join con tabla de mensajes para sollucionar porblema de cuello de botella.
+    });
 }
 
 //Devuelve todos los mensajes de una colaboración
 function obtenerMensajesColab(idColab){
     return knex('mensaje_colaboracion').where({
         id_colaboracion: idColab
-    }).join('mensaje', 'id_mensaje', '=', 'id').join('usuario', 'usuario.id', '=', 'usuario').select('mensaje.id', 'mensaje.texto', 'mensaje.fecha', 'mensaje.usuario', 'usuario.origin_login').then((mensaje)=> {
+    }).join('mensaje', 'id_mensaje', '=', 'id')
+    .join('usuario', 'usuario.id', '=', 'usuario')
+    .select('mensaje.id', 'mensaje.texto', 'mensaje.fecha', 'mensaje.usuario', 'usuario.origin_login')
+    .then((mensaje)=> {
         mensajes = [];
         for(men of mensaje){
             m2 = Object.assign({}, men);
@@ -117,8 +123,10 @@ function obtenerMensajesColab(idColab){
 function obtenerUploadsAnuncio(idAnuncio){
     return knex('upload_anuncioservicio').where({
         id_anuncio: idAnuncio
-    }).join('upload', 'id_upload', '=', 'id').select('upload.id', 'upload.almacenamiento', 'upload.campo', 'upload.tipo', 'upload.tipo_id', 'upload.path', 
-    'upload.client_name', 'upload.nombre', 'upload.creador', 'upload.createdAt', 'upload.updatedAt', 'upload._v').then((upload) => {
+    }).join('upload', 'id_upload', '=', 'id')
+    .select('upload.id', 'upload.almacenamiento', 'upload.campo', 'upload.tipo', 'upload.tipo_id', 'upload.path', 
+    'upload.client_name', 'upload.nombre', 'upload.creador', 'upload.createdAt', 'upload.updatedAt', 'upload._v')
+    .then((upload) => {
         uploads = [];
         for(u of upload){
             u2 = Object.assign({}, u);
@@ -151,8 +159,10 @@ function obtenerUploadsAnuncio(idAnuncio){
 function obtenerUploadsColab(idColab){
     return knex('uploads_colaboracion').where({
         id_colaboracion: idColab
-    }).join('upload', 'id_upload', '=', 'id').select('upload.id', 'upload.almacenamiento', 'upload.campo', 'upload.tipo', 'upload.tipo_id', 'upload.path', 
-    'upload.client_name', 'upload.nombre', 'upload.creador', 'upload.createdAt', 'upload.updatedAt', 'upload._v').then((upload) => {
+    }).join('upload', 'id_upload', '=', 'id')
+    .select('upload.id', 'upload.almacenamiento', 'upload.campo', 'upload.tipo', 'upload.tipo_id', 'upload.path', 
+    'upload.client_name', 'upload.nombre', 'upload.creador', 'upload.createdAt', 'upload.updatedAt', 'upload._v')
+    .then((upload) => {
         uploads = [];
         for(u of upload){
             u2 = Object.assign({}, u);
@@ -199,7 +209,7 @@ function crearMensajeAnuncio(mensaje, anuncio){
     });
 }
 
-function crearMensajeColab(mensaje, colaboracion){//funciona
+function crearMensajeColab(mensaje, colaboracion){
     return knex('mensaje').insert({
         texto: mensaje.getTexto(), fecha: mensaje.getFecha(), usuario: mensaje.getUsuario()
     }).then((id_mensaje) =>{
@@ -218,7 +228,7 @@ function crearMensajeColab(mensaje, colaboracion){//funciona
 }
 
 //crea un nuevo upload
-function crearUploadAnuncio(upload, anuncio){//funciona
+function crearUploadAnuncio(upload, anuncio){
     return knex('upload').insert({
         almacenamiento: upload.getAlmacenamiento(), 
         campo: upload.getCampo(), 
@@ -245,7 +255,7 @@ function crearUploadAnuncio(upload, anuncio){//funciona
     });
 }
 
-function crearUploadColab(upload, colaboracion){//funciona
+function crearUploadColab(upload, colaboracion){
     return knex('upload').insert({
         almacenamiento: upload.getAlmacenamiento(), 
         campo: upload.getCampo(), 
@@ -273,7 +283,7 @@ function crearUploadColab(upload, colaboracion){//funciona
     });
 }
 
-function eliminarMensaje(id_mensaje){//Funciona
+function eliminarMensaje(id_mensaje){
     return knex('mensaje').where({
         id: id_mensaje
     }).del().then((result) =>{
@@ -290,7 +300,7 @@ function eliminarMensaje(id_mensaje){//Funciona
     });
 }
 
-function eliminarUpload(id_upload){//Funciona
+function eliminarUpload(id_upload){
     return knex('upload').where({
         id: id_upload
     }).del().then((result)=>{
@@ -306,27 +316,27 @@ function eliminarUpload(id_upload){//Funciona
         knex.destroy();
     });
 }
-function ActualizarUpload(Upload){
-    return knex('upload').where('id', Upload.getId()).update({
-        almacenamiento: Upload.getAlmacenamiento(), 
-        campo: Upload.getCampo(), 
-        tipo: Upload.getTipo(), 
-        tipo_id: Upload.getTipoId(),
-        path: Upload.getPath(),
-        client_name: Upload.getClientName(),
-        nombre: Upload.getNombre(), 
+function actualizarUpload(upload){
+    return knex('upload').where('id', upload.getId()).update({
+        almacenamiento: upload.getAlmacenamiento(), 
+        campo: upload.getCampo(), 
+        tipo: upload.getTipo(), 
+        tipo_id: upload.getTipoId(),
+        path: upload.getPath(),
+        client_name: upload.getClientName(),
+        nombre: upload.getNombre(), 
         updatedAt: new Date()
     }).then(()=>{
-        console.log("Se ha actualizado el upload con id ", Upload.getId())
+        console.log("Se ha actualizado el upload con id ", upload.getId())
     }).catch((err) => {
         console.log(err);
-        console.log("Se ha producido un error al intentar actualizar el upload con id ", Upload.getId());
+        console.log("Se ha producido un error al intentar actualizar el upload con id ", upload.getId());
     }).finally(()=>{
         knex.destroy();
     });
 }
 
-function ActualizarMensaje(mensaje){
+function actualizarMensaje(mensaje){
     return knex('mensaje').where({
         id: mensaje.getId()
     }).update({
@@ -342,18 +352,18 @@ function ActualizarMensaje(mensaje){
     });
 }
 
-function CrearMail(Mail){
+function crearMail(mail){
     return knex('mail').insert({
-        mail_to: Mail.getMail_to(), 
-        type: Mail.getType(), 
-        mail_name: Mail.getMailName(), 
-        mail_from: Mail.getMailFrom(), 
-        subject: Mail.getSubject(), 
-        html: Mail.getHtml(), 
-        _to: Mail.getTo(), 
-        usuario: Mail.getUsuario(),
-        createdAt: Mail.getCreatedAt(), 
-        updatedAt: Mail.getUpdatedAt()
+        mail_to: mail.getMail_to(), 
+        type: mail.getType(), 
+        mail_name: mail.getMailName(), 
+        mail_from: mail.getMailFrom(), 
+        subject: mail.getSubject(), 
+        html: mail.getHtml(), 
+        _to: mail.getTo(), 
+        usuario: mail.getUsuario(),
+        createdAt: mail.getCreatedAt(), 
+        updatedAt: mail.getUpdatedAt()
     }).then((id_mail) =>{
         return id_mail;
     }).catch((err) => {
@@ -364,7 +374,7 @@ function CrearMail(Mail){
     });
 }
 
-function ObtenerMail(id_mail){
+function obtenerMail(id_mail){
     return knex('mail').where({
         id: id_mail
     }).select('*').then((mail) =>{
@@ -389,27 +399,27 @@ function ObtenerMail(id_mail){
     });
 }
 
-function ActualizarMail(Mail){
-    return knex('mail').where('id', Mail.getId()).update({
-        mail_to: Mail.getMail_to(), 
-        type: Mail.getType(), 
-        mail_name: Mail.getMailName(), 
-        mail_from: Mail.getMailFrom(), 
-        subject: Mail.getSubject(), 
-        html: Mail.getHtml(), 
-        _to: Mail.getTo(), 
+function actualizarMail(mail){
+    return knex('mail').where('id', mail.getId()).update({
+        mail_to: mail.getMail_to(), 
+        type: mail.getType(), 
+        mail_name: mail.getMailName(), 
+        mail_from: mail.getMailFrom(), 
+        subject: mail.getSubject(), 
+        html: mail.getHtml(), 
+        _to: mail.getTo(), 
         updatedAt: new Date()
     }).then(()=>{
-        console.log("Se ha actualizado el mail con id ", Mail.getId())
+        console.log("Se ha actualizado el mail con id ", mail.getId())
     }).catch((err) => {
         console.log(err);
-        console.log("Se ha producido un error al intentar actualizar el mail con id ", Mail.getId());
+        console.log("Se ha producido un error al intentar actualizar el mail con id ", mail.getId());
     }).finally(()=>{
         knex.destroy();
     });
 }
 
-function EliminarMail(id_mail){
+function eliminarMail(id_mail){
     return knex('mail').where({
         id: id_mail
     }).del().then((result)=>{
@@ -426,7 +436,7 @@ function EliminarMail(id_mail){
     });
 }
 
-function CrearNewsletter(news){
+function crearNewsletter(news){
     return knex('newsletter').insert({
         mail_to: news.getMail_to(),
         created_at: news.getCreatedAt(),
@@ -441,7 +451,7 @@ function CrearNewsletter(news){
     });
 }
 
-function ObtenerNewsletter(id_news){
+function obtenerNewsletter(id_news){
     return knex('newsletter').where({
         id: id_news
     }).select('*').then((news) =>{
@@ -459,7 +469,7 @@ function ObtenerNewsletter(id_news){
     });
 }
 
-function ActualizarNewsletter(news){
+function actualizarNewsletter(news){
     return knex('newsletter').where({
         id: news.getId()
     }).update({
@@ -475,7 +485,7 @@ function ActualizarNewsletter(news){
     });
 }
 
-function EliminarNewsletter(id){
+function eliminarNewsletter(id){
     return knex('newsletter').where({
         id: id
     }).del().then((result)=>{
@@ -493,5 +503,26 @@ function EliminarNewsletter(id){
 }
 
 
-module.exports = {knex, obtenerUploads, obtenerMensajes, obtenerMensajesAnuncio, obtenerMensajesColab, obtenerUploadsAnuncio, obtenerUploadsColab, crearMensajeAnuncio, crearMensajeColab, 
-    crearUploadAnuncio, crearUploadColab, eliminarMensaje, eliminarUpload, ActualizarUpload, ActualizarMensaje, CrearMail, ObtenerMail, ActualizarMail, EliminarMail, CrearNewsletter, ObtenerNewsletter, ActualizarNewsletter, EliminarNewsletter};
+module.exports = { 
+    crearMensajeAnuncio, 
+    crearMensajeColab, 
+    crearUploadAnuncio, 
+    crearUploadColab, 
+    crearNewsletter, 
+    crearMail, 
+    obtenerUploads, 
+    obtenerMensajes,
+    obtenerMensajesAnuncio, 
+    obtenerMensajesColab, 
+    obtenerUploadsAnuncio, 
+    obtenerUploadsColab, 
+    obtenerMail, 
+    obtenerNewsletter, 
+    actualizarUpload, 
+    actualizarMensaje, 
+    actualizarMail, 
+    actualizarNewsletter, 
+    eliminarUpload, 
+    eliminarMail, 
+    eliminarMensaje, 
+    eliminarNewsletter};

@@ -758,10 +758,21 @@ function obtenerIdsAreas(nombre_areas) {
 
 
 module.exports = {
-    crearOferta, crearAnuncio, crearDemanda, crearIniciativa,
-    actualizarDemanda, actualizarOfertaServicio, actualizarIniciativa,
-    obtenerOfertaServicio, obtenerDemandaServicio, obtenerIniciativa,
-    obtenerTodasOfertasServicio, obtenerTodasDemandasServicio, obtenerTodasIniciativas,
-    eliminarOferta, eliminarDemanda, eliminarIniciativa,
+    crearOferta, 
+    crearAnuncio, 
+    crearDemanda, 
+    crearIniciativa,
+    actualizarDemanda, 
+    actualizarOfertaServicio, 
+    actualizarIniciativa,
+    obtenerOfertaServicio, 
+    obtenerDemandaServicio, 
+    obtenerIniciativa,
+    obtenerTodasOfertasServicio, 
+    obtenerTodasDemandasServicio, 
+    obtenerTodasIniciativas,
+    eliminarOferta, 
+    eliminarDemanda, 
+    eliminarIniciativa,
     limpiarAnuncioServicios,
 };

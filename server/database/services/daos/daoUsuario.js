@@ -260,9 +260,8 @@ function insertarProfesorInterno(usuario, idTitulaciones, idAreasC) {
                     return idF[0];
                   })
                   .catch((err) => {
-                    borrarUsuario(idF[0])
-                    borrarDatosPersonalesInternos(result[0])
-                    // borrarTitulacionLocalProfesor(idF[0])
+                    borrarUsuario(idF[0]);
+                    borrarDatosPersonalesInternos(result[0]);
                     console.log(err);
                     console.log("Se ha producido un error");
                   })
@@ -630,7 +629,6 @@ function obtenerUsuario(id) {
     .select("*")
     .then(function (response) {
       return response[0];
-      //return new TUsuario(response[0]["id"],response[0]["origin_login"],response[0]["origin_img"],response[0]["createdAt"],response[0]["updatedAt"],response[0]["terminos_aceptados"]);
     })
     .catch((err) => {
       console.log(err);
@@ -1010,9 +1008,6 @@ function actualizarAdmin(usuario) {
     .then(function (ruser) {
       if (ruser["correo"] === usuario.getCorreo()) {
         return actualizarUsuario(usuario).then(function (res) {
-          //De momento admin no tiene mas atributos
-          // return knex('admin').where('id', usuario.getId()).update({
-          // }).then(() => {
           if (res > 0) {
             return knex("datos_personales_interno")
               .where("correo", ruser["correo"])
@@ -1046,7 +1041,6 @@ function actualizarAdmin(usuario) {
       console.log(err);
       console.log("Se ha producido un error al intentar actualizar el usuario");
     });
-  // });
 }
 
 function actualizarOficinaAPS(usuario) {
@@ -1054,9 +1048,6 @@ function actualizarOficinaAPS(usuario) {
     .then(function (ruser) {
       if (ruser["correo"] === usuario.getCorreo()) {
         return actualizarUsuario(usuario).then(function (res) {
-          //De momento admin no tiene mas atributos
-          // return knex('admin').where('id', usuario.getId()).update({
-          // }).then(() => {
           if (res > 0) {
             return knex("datos_personales_interno")
               .where("correo", ruser["correo"])
@@ -1090,7 +1081,6 @@ function actualizarOficinaAPS(usuario) {
       console.log(err);
       console.log("Se ha producido un error al intentar actualizar el usuario");
     });
-  // });
 }
 
 function actualizarEntidad(usuario) {
