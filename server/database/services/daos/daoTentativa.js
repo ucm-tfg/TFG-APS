@@ -1110,17 +1110,6 @@ function obtenerAreaServicio(id_anuncio) {
     });
 }
 
-function limpiarAnuncioServicios() {
-  knex("anuncio_servicio")
-    .del()
-    .then(function (result) {
-      console.log(
-        "Se han eliminado ",
-        result,
-        " elementos de la tabla anuncio_servicio "
-    });
-}
-
 function obtenerIdsAreas(nombre_areas) {
   return knex("area_servicio")
     .whereIn("nombre", nombre_areas)
