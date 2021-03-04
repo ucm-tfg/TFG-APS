@@ -47,7 +47,10 @@ function crearPartenariado(partenariado) {
         })
         .catch((err) => {
           console.log(err);
-          console.log("Se ha producido un error al crear el partenariado que tiene id ", id);
+          console.log(
+            "Se ha producido un error al crear el partenariado que tiene id ",
+            id
+          );
           return knex("colaboracion").where("id", id).del();
         })
         .finally(() => {
@@ -56,7 +59,9 @@ function crearPartenariado(partenariado) {
     })
     .catch((err) => {
       console.log(err);
-      console.log("Se ha producido un error al intentar crear un partenariado ");
+      console.log(
+        "Se ha producido un error al intentar crear un partenariado "
+      );
     })
     .finally(() => {
       knex.destroy();
@@ -203,9 +208,7 @@ function obtenerPartenariado(id) {
 function obtenerProyecto(id) {
   return obtenerColaboracion(id).then((colaboracion) => {
     return knex("proyecto")
-      .where({
-        id: id,
-      })
+      .where({ id: id })
       .select("*")
       .then((proyecto) => {
         return knex("estudiante_proyecto")
@@ -397,7 +400,7 @@ function actualizarColaboracion(colaboracion) {
               }));
             return knex("profesor_colaboracion")
               .insert(fieldsToInsert)
-              .then(() => { });
+              .then(() => {});
           });
       })
       .catch((err) => {
@@ -601,8 +604,6 @@ function obtenerTodosPartenariados() {
       knex.destroy();
     });
 }
-
-
 
 module.exports = {
   crearColaboracion,

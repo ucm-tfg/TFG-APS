@@ -57,7 +57,7 @@ function insertarAdmin(usuario) {
             console.log(err);
             console.log("Se ha producido un error");
             borrarUsuario(idF[0]);
-            borrarDatosPersonalesInternos(result[0])
+            borrarDatosPersonalesInternos(result[0]);
           })
           .finally(() => {
             knex.destroy();
@@ -95,7 +95,7 @@ function insertarOficinaAps(usuario) {
             console.log(err);
             console.log("Se ha producido un error");
             borrarUsuario(idF[0]);
-            borrarDatosPersonalesInternos(result[0])
+            borrarDatosPersonalesInternos(result[0]);
           })
           .finally(() => {
             knex.destroy();
@@ -104,7 +104,7 @@ function insertarOficinaAps(usuario) {
       .catch((err) => {
         console.log(err);
         console.log("Se ha producido un error");
-        borrarUsuario(idF[0])
+        borrarUsuario(idF[0]);
       })
       .finally(() => {
         knex.destroy();
@@ -123,7 +123,7 @@ function insertarEstudiante(usuario) {
       .catch((err) => {
         console.log(err);
         console.log("Se ha producido un error");
-        borrarUsuario(idF[0])
+        borrarUsuario(idF[0]);
       });
   });
 }
@@ -152,8 +152,8 @@ function insertarEstudianteInterno(usuario) {
           .catch((err) => {
             console.log(err);
             console.log("Se ha producido un error");
-            borrarUsuario(idF)
-            borrarDatosPersonalesInternos(result[0])
+            borrarUsuario(idF);
+            borrarDatosPersonalesInternos(result[0]);
           })
           .finally(() => {
             knex.destroy();
@@ -182,7 +182,7 @@ function insertarProfesor(usuario) {
       .catch((err) => {
         console.log(err);
         console.log("Se ha producido un error");
-        borrarUsuario[id[0]]
+        borrarUsuario[id[0]];
       });
   });
 }
@@ -211,15 +211,15 @@ function insertarEntidad(usuario) {
           .catch((err) => {
             console.log(err);
             console.log("Se ha producido un error");
-            borrarUsuario(idF[0])
-            borrarDatosPersonalesExternos(result[0])
+            borrarUsuario(idF[0]);
+            borrarDatosPersonalesExternos(result[0]);
           })
           .finally(() => {
             knex.destroy();
           });
       })
       .catch((err) => {
-        borrarUsuario(idF[0])
+        borrarUsuario(idF[0]);
         console.log(err);
         console.log("Se ha producido un error");
       })
@@ -272,8 +272,8 @@ function insertarProfesorInterno(usuario) {
                   });
               })
               .catch((err) => {
-                borrarUsuario(idF[0])
-                borrarDatosPersonalesInternos(result[0])
+                borrarUsuario(idF[0]);
+                borrarDatosPersonalesInternos(result[0]);
                 console.log(err);
                 console.log("Se ha producido un error");
               })
@@ -282,8 +282,8 @@ function insertarProfesorInterno(usuario) {
               });
           })
           .catch((err) => {
-            borrarUsuario(idF[0])
-            borrarDatosPersonalesInternos(result[0])
+            borrarUsuario(idF[0]);
+            borrarDatosPersonalesInternos(result[0]);
             console.log(err);
             console.log("Se ha producido un error");
           })
@@ -292,7 +292,7 @@ function insertarProfesorInterno(usuario) {
           });
       })
       .catch((err) => {
-        borrarUsuario(idF[0])
+        borrarUsuario(idF[0]);
         console.log(err);
         console.log("Se ha producido un error");
       })
@@ -326,8 +326,8 @@ function insertarEstudianteExterno(usuario) {
           .catch((err) => {
             console.log(err);
             console.log("Se ha producido un error");
-            borrarUsuario(idF)
-            borrarDatosPersonalesInternos(result[0])
+            borrarUsuario(idF);
+            borrarDatosPersonalesInternos(result[0]);
           })
           .finally(() => {
             knex.destroy();
@@ -336,7 +336,7 @@ function insertarEstudianteExterno(usuario) {
       .catch((err) => {
         console.log(err);
         console.log("Se ha producido un error");
-        borrarUsuario(idF)
+        borrarUsuario(idF);
       })
       .finally(() => {
         knex.destroy();
@@ -368,7 +368,7 @@ function insertarProfesorExterno(usuario) {
             console.log(err);
             console.log("Se ha producido un error");
             borrarUsuario(idF[0]);
-            borrarDatosPersonalesExternos(result[0])
+            borrarDatosPersonalesExternos(result[0]);
           })
           .finally(() => {
             knex.destroy();
@@ -399,7 +399,6 @@ function borrarDatosPersonalesInternos(id) {
       console.log("Se ha producido un error");
     });
 }
-
 
 function borrarDatosPersonalesExternos(id) {
   return knex("datos_personales_externo")
@@ -1323,18 +1322,18 @@ function actualizarProfesorInterno(usuario, areas, titulaciones) {
         password: usuario.getPassword(),
       })
       .then(() => {
-        console.log("entra1")
+        console.log("entra1");
         return knex("areaconocimiento_profesor")
           .where("id_profesor", usuario.getId())
           .del()
           .then(() => {
-            console.log("entra2")
+            console.log("entra2");
             let areasconocimiento = areas;
             const fieldsToInsert = areasconocimiento.map((area) => ({
               id_area: area,
               id_profesor: usuario.getId(),
             }));
-            console.log(fieldsToInsert)
+            console.log(fieldsToInsert);
             return knex("areaconocimiento_profesor")
               .insert(fieldsToInsert)
               .then(() => {
@@ -1342,7 +1341,6 @@ function actualizarProfesorInterno(usuario, areas, titulaciones) {
                   .where("id_profesor", usuario.getId())
                   .del()
                   .then(() => {
-
                     let titlocal = titulaciones;
                     const fieldsToInsertT = titlocal.map((loc) => ({
                       id_titulacion: loc,
@@ -1436,8 +1434,8 @@ function obtenerProfesoresInternos(arrayProfesores) {
   return knex
     .raw(
       "select usuario.id,datos_personales_interno.correo,datos_personales_interno.apellidos,datos_personales_interno.nombre, datos_personales_interno.password, usuario.origin_login,usuario.origin_img,usuario.createdAt,usuario.updatedAt,usuario.terminos_aceptados,area_conocimiento.nombre as area,titulacion_local.nombre as titulacion from usuario,profesor,profesor_interno,datos_personales_interno,area_conocimiento,areaconocimiento_profesor,titulacion_local,titulacionlocal_profesor where usuario.id = profesor.id AND usuario.id=profesor_interno.id AND profesor_interno.datos_personales_Id=datos_personales_interno.id AND usuario.id =areaconocimiento_profesor.id_profesor AND titulacionlocal_profesor.id_profesor=usuario.id AND titulacionlocal_profesor.id_titulacion=titulacion_local.id AND area_conocimiento.id = areaconocimiento_profesor.id_area AND usuario.id in (" +
-      arrayProfesores.map((_) => "?").join(",") +
-      ")",
+        arrayProfesores.map((_) => "?").join(",") +
+        ")",
       [...arrayProfesores]
     )
     .then(function (result) {
@@ -1473,7 +1471,6 @@ function obtenerProfesoresInternos(arrayProfesores) {
         }
       });
       return resultadoF;
-      
     });
 }
 module.exports = {

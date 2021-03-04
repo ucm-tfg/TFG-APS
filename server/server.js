@@ -460,7 +460,7 @@ const TIniciativa = require('./database/services/transfers/TIniciativa');
 // oferta1 = new TOfertaServicio(69, titulo, descripcion, imagen, "", "", 0.9, asignatura,
 //     cuatrimestre, anio, fecha_limite, observaciones, creador, area,profesores);
 // dao_tentativa.actualizarOfertaServicio(oferta1).then(function(oferta){});
-dao_tentativa.obtenerTodasOfertasServicio().then(function(oferta){console.log(oferta);});
+// dao_tentativa.obtenerTodasOfertasServicio().then(function(oferta){console.log(oferta);});
 //  dao_tentativa.limpiarAnuncioServicios(); //Elimina todos los elementos de la tabla
 // dao_tentativa.crearAnuncio(titulo, descripcion, imagen);
 // dao_tentativa.eliminarOferta(60);
