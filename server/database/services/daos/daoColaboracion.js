@@ -1,13 +1,11 @@
-const transferColaboracion = require("../transfers/transferColaboracion");
-const mysql = require("mysql");
-const transferPartenariado = require("../transfers/transferPartenariado");
-const transferProyecto = require("../transfers/transferProyecto");
 const knex = require("../../config");
-const { ModuleResolutionKind } = require("typescript");
+const transferColaboracion = require("../transfers/TColaboracion");
+const transferPartenariado = require("../transfers/TPartenariado");
+const transferProyecto = require("../transfers/TProyecto");
 const TNotas = require("../transfers/TNotas");
 
 // CREAR ---------------------------------------------------------------------------------------------------------
-function CrearColaboracion(colaboracion) {
+function crearColaboracion(colaboracion) {
   return knex("colaboracion")
     .insert({
       titulo: colaboracion.getTitulo(),
@@ -36,7 +34,7 @@ function CrearColaboracion(colaboracion) {
 }
 
 function crearPartenariado(partenariado) {
-  return CrearColaboracion(partenariado)
+  return crearColaboracion(partenariado)
     .then((id) => {
       return knex("partenariado")
         .insert({
@@ -70,7 +68,7 @@ function crearPartenariado(partenariado) {
 }
 
 function crearProyecto(proyecto) {
-  return CrearColaboracion(proyecto).then((id) => {
+  return crearColaboracion(proyecto).then((id) => {
     return knex("proyecto")
       .insert({
         id: id[0],
@@ -88,7 +86,7 @@ function crearProyecto(proyecto) {
             return id[0];
           })
           .catch((err) => {
-            EliminarColaboracion(id[0]);
+            eliminarColaboracion(id[0]);
             eliminarProyecto(id[0]);
             console.log(err);
             console.log(
@@ -98,7 +96,7 @@ function crearProyecto(proyecto) {
           });
       })
       .catch((err) => {
-        EliminarColaboracion(id[0]);
+        eliminarColaboracion(id[0]);
         console.log(err);
         console.log(
           "Se ha producido un error al intentar crear el proyecto con id ",
@@ -126,7 +124,7 @@ function crearNota(nota) {
 }
 
 //LEER UNO---------------------------------------------------------------------------------------------------------------------------
-function ObtenerColaboracion(id_colab) {
+function obtenerColaboracion(id_colab) {
   return knex("colaboracion")
     .where({
       id: id_colab,
@@ -164,7 +162,7 @@ function ObtenerColaboracion(id_colab) {
 }
 
 function obtenerPartenariado(id) {
-  return ObtenerColaboracion(id)
+  return obtenerColaboracion(id)
     .then((colaboracion) => {
       return knex("partenariado")
         .where({ id: id })
@@ -207,7 +205,7 @@ function obtenerPartenariado(id) {
 }
 
 function obtenerProyecto(id) {
-  return ObtenerColaboracion(id).then((colaboracion) => {
+  return obtenerColaboracion(id).then((colaboracion) => {
     return knex("proyecto")
       .where({
         id: id,
@@ -274,7 +272,7 @@ function obtenerNota(id) {
 }
 
 //ELIMINAR UNO---------------------------------------------------------------------------------------------------------------------------
-function EliminarColaboracion(id_colab) {
+function eliminarColaboracion(id_colab) {
   return knex("colaboracion")
     .where({
       id: id_colab,
@@ -300,7 +298,7 @@ function EliminarColaboracion(id_colab) {
 }
 
 function eliminarPartenariado(id) {
-  return EliminarColaboracion(id)
+  return eliminarColaboracion(id)
     .then(() => {
       return knex("partenariado")
         .where("id", id)
@@ -332,8 +330,8 @@ function eliminarPartenariado(id) {
 }
 
 function eliminarProyecto(id) {
-  return ObtenerColaboracion(id).then(function () {
-    return EliminarColaboracion(id)
+  return obtenerColaboracion(id).then(function () {
+    return eliminarColaboracion(id)
       .then(() => {
         return knex("proyecto")
           .where("id", id)
@@ -380,8 +378,8 @@ function eliminarNota(id) {
 }
 
 //ACTUALIZAR--------------------------------------------------------------------------------------------------------------------
-function ActualizarColaboracion(colaboracion) {
-  return ObtenerColaboracion(colaboracion.getId()).then((copia) => {
+function actualizarColaboracion(colaboracion) {
+  return obtenerColaboracion(colaboracion.getId()).then((copia) => {
     return knex("colaboracion")
       .where("id", colaboracion.getId())
       .update({
@@ -412,16 +410,16 @@ function ActualizarColaboracion(colaboracion) {
           "Se ha producido un error al intentar actualizar la colaboracion con id ",
           colaboracion.getId()
         );
-        ActualizarColaboracion(copia);
+        actualizarColaboracion(copia);
         console.log(" se procederá a su restauracion");
       });
   });
 }
 
 function actualizarPartenariado(partenariado) {
-  return ObtenerColaboracion(partenariado.getId()).then(
+  return obtenerColaboracion(partenariado.getId()).then(
     (copia_colaboracion) => {
-      return ActualizarColaboracion(partenariado)
+      return actualizarColaboracion(partenariado)
         .then(() => {
           return knex("partenariado")
             .where("id", partenariado.getId())
@@ -475,8 +473,8 @@ function actualizarPartenariado(partenariado) {
 }
 
 function actualizarProyecto(proyecto) {
-  return ObtenerColaboracion(proyecto.getId()).then((copia_colaboracion) => {
-    return ActualizarColaboracion(proyecto)
+  return obtenerColaboracion(proyecto.getId()).then((copia_colaboracion) => {
+    return actualizarColaboracion(proyecto)
       .then(() => {
         if (copia_colaboracion["id"] >= 0) {
           return knex("proyecto")
@@ -611,20 +609,20 @@ function obtenerTodosPartenariados() {
 
 
 module.exports = {
-  CrearColaboracion,
+  crearColaboracion,
   crearPartenariado,
   crearProyecto,
   crearNota,
-  ObtenerColaboracion,
+  obtenerColaboracion,
   obtenerPartenariado,
   obtenerTodosPartenariados,
   obtenerProyecto,
   obtenerNota,
-  ActualizarColaboracion,
+  actualizarColaboracion,
   actualizarPartenariado,
   actualizarProyecto,
   actualizarNota,
-  EliminarColaboracion,
+  eliminarColaboracion,
   eliminarPartenariado,
   eliminarProyecto,
   eliminarNota,

@@ -1,5 +1,5 @@
-const transferColaboracion = require('./transferColaboracion');
-class transferPartenariado extends transferColaboracion {
+const TColaboracion = require('./TColaboracion');
+class TPartenariado extends TColaboracion {
     
     id_demanda;
     id_oferta;

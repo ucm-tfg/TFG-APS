@@ -1,5 +1,5 @@
-const transferAnuncioServicio = require('./TAnuncioServicio');
-class transferDemandaServicio extends transferAnuncioServicio{
+const TAnuncioServicio = require('./TAnuncioServicio');
+class TDemandaServicio extends TAnuncioServicio{
     creador;
     ciudad;
     finalidad;

@@ -39,7 +39,7 @@ app.listen(process.env.PORT || 8080, () => {
 const dao_usuario = require("./database/services/daos/daoUsuario");
 const dao_proyecto = require("./database/services/daos/daoColaboracion");
 const tNotas = require("./database/services/transfers/TNotas");
-const tProyecto =require("./database/services/transfers/transferProyecto");
+const tProyecto =require("./database/services/transfers/TProyecto");
 const tUsuario = require("./database/services/transfers/TUsuario");
 const tAdmin = require("./database/services/transfers/TAdmin");
 const tOficinaAps = require("./database/services/transfers/TOficinaAps");
@@ -434,9 +434,9 @@ dao_usuario.obtenerProfesoresInternos(arrayPrf);  */
 
 // PRUEBAS DAO TENTATIVA
 const dao_tentativa = require('./database/services/daos/daoTentativa');
-const transferOfertaServicio = require('./database/services/transfers/TOfertaServicio');
-const transferDemandaServicio = require('./database/services/transfers/TDemandaServicio');
-const transferIniciativa = require('./database/services/transfers/TIniciativa');
+const TOfertaServicio = require('./database/services/transfers/TOfertaServicio');
+const TDemandaServicio = require('./database/services/transfers/TDemandaServicio');
+const TIniciativa = require('./database/services/transfers/TIniciativa');
 
 // OFERTAS-----------------------------------------------------------------------
 // let titulo = "Anuncio 9";
@@ -451,13 +451,13 @@ const transferIniciativa = require('./database/services/transfers/TIniciativa');
 // let area = [2];
 // let profesores = [5, 10];
 
-// let oferta1 = new transferOfertaServicio(null, titulo, descripcion, imagen, "", "", 0.9, asignatura,
+// let oferta1 = new TOfertaServicio(null, titulo, descripcion, imagen, "", "", 0.9, asignatura,
 //     cuatrimestre, anio, fecha_limite, observaciones, creador, area, profesores); 
 // dao_tentativa.obtenerOfertaServicio(49).then(function(oferta){console.log(oferta);});
 // dao_tentativa.crearOferta(oferta1);
 // anio = 2022;
 // asignatura = ["Ampliación de Matemáticas"]; 
-// oferta1 = new transferOfertaServicio(69, titulo, descripcion, imagen, "", "", 0.9, asignatura,
+// oferta1 = new TOfertaServicio(69, titulo, descripcion, imagen, "", "", 0.9, asignatura,
 //     cuatrimestre, anio, fecha_limite, observaciones, creador, area,profesores);
 // dao_tentativa.actualizarOfertaServicio(oferta1).then(function(oferta){});
 // dao_tentativa.obtenerOfertaServicio(46).then(function(oferta){console.log(oferta);});
@@ -480,7 +480,7 @@ const transferIniciativa = require('./database/services/transfers/TIniciativa');
 // let necesidad_social = 1;
 // let titulacionlocal_demandada = [1, 2, 3];
 // let area_servicio = [2];
-// let demanda = new transferDemandaServicio(null, titulo, descripcion, imagen, "", "", 0.9,
+// let demanda = new TDemandaServicio(null, titulo, descripcion, imagen, "", "", 0.9,
 //     7, ciudad, finalidad, periodo_definicion_ini, periodo_definicion_fin, periodo_ejecucion_ini,
 //     periodo_ejecucion_fin, fecha_fin, observaciones_temporales, necesidad_social, titulacionlocal_demandada,
 //     area_servicio);
@@ -490,7 +490,7 @@ const transferIniciativa = require('./database/services/transfers/TIniciativa');
 // ciudad = "Barcelona"; 
 // area_servicio = [2];
 // titulacionlocal_demandada = [1, 3];
-// demanda = new transferDemandaServicio(54, titulo, descripcion, imagen, "", "", 0.9,
+// demanda = new TDemandaServicio(54, titulo, descripcion, imagen, "", "", 0.9,
 //     7, ciudad, finalidad, periodo_definicion_ini, periodo_definicion_fin, periodo_ejecucion_ini,
 //     periodo_ejecucion_fin, fecha_fin, observaciones_temporales, necesidad_social, titulacionlocal_demandada,
 //     area_servicio);
@@ -506,7 +506,7 @@ const transferIniciativa = require('./database/services/transfers/TIniciativa');
 // let necesidad_social = 1;
 // let area_servicio = [2];
 // let estudiante = 9;
-// let iniciativa = new transferIniciativa(3, titulo, descripcion, necesidad_social, 52, area_servicio, estudiante);
+// let iniciativa = new TIniciativa(3, titulo, descripcion, necesidad_social, 52, area_servicio, estudiante);
 // dao_tentativa.crearIniciativa(iniciativa);
 // dao_tentativa.obtenerIniciativa(2).then((datos) => {
 //     console.log(datos);
@@ -521,13 +521,13 @@ const transferIniciativa = require('./database/services/transfers/TIniciativa');
 
 //--------------------------------------Pruebas del DAO comunicacion
 const dao_comunicacion = require('./database/services/daos/daoComunicacion');
-const transferUpload = require('./database/services/transfers/transferUpload');
-const transferMensajes = require('./database/services/transfers/transferMensajes');
-const transferMail = require('./database/services/transfers/transferMail');
-const transferNewsletter = require('./database/services/transfers/transferNewsletter');
+const TUpload = require('./database/services/transfers/TUpload');
+const TMensajes = require('./database/services/transfers/TMensajes');
+const TMail = require('./database/services/transfers/TMail');
+const TNewsletter = require('./database/services/transfers/TNewsletter');
 const dao_colaboracion = require('./database/services/daos/daoColaboracion');
-const transferColaboracion = require('./database/services/transfers/transferColaboracion');
-const transferPartenariado = require('./database/services/transfers/transferPartenariado');
+const TColaboracion = require('./database/services/transfers/TColaboracion');
+const TPartenariado = require('./database/services/transfers/TPartenariado');
 const { date } = require('faker');
 
 // let texto = "texto de prueba para mensaje de colaboracion";
@@ -566,7 +566,7 @@ id_demanda = 52;
 id_oferta = 50;
 estado = 1;
 _v = 11;
-let partenariado = new transferPartenariado(null, titulo, descripcion, admite_externos, responsable, profesores, id_demanda, id_oferta, estado, _v);
+let partenariado = new TPartenariado(null, titulo, descripcion, admite_externos, responsable, profesores, id_demanda, id_oferta, estado, _v);
 dao_colaboracion.crearPartenariado(partenariado);
 // return dao_colaboracion.obtenerPartenariado(4).then((datos) =>{
 //   console.log(datos);

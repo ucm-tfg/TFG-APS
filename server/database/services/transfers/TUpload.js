@@ -1,4 +1,4 @@
-class transferUpload{
+class TUpload{
     id;
     almacenamiento;
     campo;

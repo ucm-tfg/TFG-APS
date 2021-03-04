@@ -1,10 +1,9 @@
+const knex = require('../../config');
+const daoUsuario = require('./daoUsuario');
+const transferIniciativa = require('../transfers/TIniciativa');
 const transferOfertaServicio = require('../transfers/TOfertaServicio');
 const transferAnuncioServicio = require('../transfers/TAnuncioServicio');
 const transferDemandaServicio = require('../transfers/TDemandaServicio');
-const transferIniciativa = require('../transfers/TIniciativa');
-const daoUsuario = require('./daoUsuario');
-const mysql = require('mysql');
-const knex = require('../../config');
 
 //INSERTAR------------------------------------------------------------------------------------------------
 // Inserta en la base de datos un nuevo anuncio de servicio

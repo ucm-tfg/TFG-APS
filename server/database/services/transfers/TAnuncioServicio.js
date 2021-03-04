@@ -1,4 +1,4 @@
-class transferAnuncioServicio {
+class TAnuncioServicio {
     id;
     titulo;
     descripcion;

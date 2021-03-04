@@ -1,9 +1,8 @@
-const transferUpload = require('../transfers/transferUpload');
-const mysql = require ('mysql');
-const transferMensajes = require('../transfers/transferMensajes');
 const knex = require('../../config');
-const transferMail = require('../transfers/transferMail');
-const transferNewsletter = require('../transfers/transferNewsletter');
+const transferUpload = require('../transfers/TUpload');
+const transferMensajes = require('../transfers/TMensajes');
+const transferMail = require('../transfers/TMail');
+const transferNewsletter = require('../transfers/TNewsletter');
 
 // Devuelve el upload correspondiente
 function obtenerUploads(idUploads){//funciona

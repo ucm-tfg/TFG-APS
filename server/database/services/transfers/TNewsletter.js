@@ -1,4 +1,4 @@
-class transferNewsletter{
+class TNewsletter{
     id;
     mail_to;
     createdAt;

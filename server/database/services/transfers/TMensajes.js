@@ -1,4 +1,4 @@
-class transferMensajes {
+class TMensajes {
     id;
     texto;
     fecha;

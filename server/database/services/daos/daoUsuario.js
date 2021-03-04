@@ -1,16 +1,15 @@
-var TUsuario = require("../transfers/TUsuario");
+const knex = require("../../config");
+const mysql = require("mysql");
 var TAdmin = require("../transfers/TAdmin");
+var TEntidad = require("../transfers/TEntidad");
+var TUsuario = require("../transfers/TUsuario");
+var TProfesor = require("../transfers/TProfesor");
 var TOficinaAps = require("../transfers/TOficinaAps");
 var TEstudiante = require("../transfers/TEstudiante");
+var TProfesorExterno = require("../transfers/TProfesorExterno");
+var TProfesorInterno = require("../transfers/TProfesorInterno");
 var TEstudianteExterno = require("../transfers/TEstudianteExterno");
 var TEstudianteInterno = require("../transfers/TEstudianteInterno");
-var TProfesorExterno = require("../transfers/TProfesorExterno");
-var TEntidad = require("../transfers/TEntidad");
-var TProfesor = require("../transfers/TProfesor");
-var TProfesorInterno = require("../transfers/TProfesorInterno");
-const mysql = require("mysql");
-const knex = require("../../config");
-
 
 //INSERTAR------------------------------------------------------------------------------------------------
 

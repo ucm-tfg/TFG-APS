@@ -1,4 +1,4 @@
-class transferMail{
+class TMail{
     id;
     mail_to;
     type;

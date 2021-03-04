@@ -1,4 +1,4 @@
-class transferColaboracion{
+class TColaboracion{
     id;
     titulo;
     descripcion;
