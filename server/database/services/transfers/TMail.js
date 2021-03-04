@@ -92,4 +92,4 @@ class TMail{
 
 
 }
-module.exports = transferMail;
+module.exports = TMail;

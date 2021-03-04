@@ -132,4 +132,4 @@ class TDemandaServicio extends TAnuncioServicio{
 
 }
 
-module.exports = transferDemandaServicio;
+module.exports = TDemandaServicio;

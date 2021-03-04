@@ -37,4 +37,4 @@ class TProyecto extends TColaboracion {
         this.estudiantes = estudiantes;
     }
 }
-module.exports = transferProyecto;
+module.exports = TProyecto;

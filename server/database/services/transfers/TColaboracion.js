@@ -52,4 +52,4 @@ class TColaboracion{
     }
     
 }
-module.exports = transferColaboracion;
+module.exports = TColaboracion;

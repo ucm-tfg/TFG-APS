@@ -98,4 +98,4 @@ class TUpload{
         this._v = _v_upload;
     }
 }
-module.exports = transferUpload;
+module.exports = TUpload;

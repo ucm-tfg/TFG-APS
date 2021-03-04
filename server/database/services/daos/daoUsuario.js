@@ -229,7 +229,7 @@ function insertarEntidad(usuario) {
   });
 }
 
-function insertarProfesorInterno(usuario, idTitulaciones, idAreasC) {
+function insertarProfesorInterno(usuario) {
   return insertarProfesor(usuario).then(function (idF) {
     return knex("datos_personales_interno")
       .insert({
@@ -243,6 +243,7 @@ function insertarProfesorInterno(usuario, idTitulaciones, idAreasC) {
         return knex("profesor_interno")
           .insert({ id: idF[0], datos_personales_Id: result[0] })
           .then(function () {
+            let idTitulaciones = usuario.getTitulacionLocal();
             const fieldsToInsert = idTitulaciones.map((field) => ({
               id_titulacion: field,
               id_profesor: idF[0],
@@ -250,6 +251,7 @@ function insertarProfesorInterno(usuario, idTitulaciones, idAreasC) {
             return knex("titulacionlocal_profesor")
               .insert(fieldsToInsert)
               .then(function () {
+                let idAreasC = usuario.getAreaConocimiento();
                 const fieldsToInsertArea = idAreasC.map((field) => ({
                   id_area: field,
                   id_profesor: idF[0],

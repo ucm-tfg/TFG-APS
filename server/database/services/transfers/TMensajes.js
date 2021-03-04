@@ -42,4 +42,4 @@ class TMensajes {
         this.nombre_user = Nombre_user;
     }
 }
-module.exports = transferMensajes
+module.exports = TMensajes

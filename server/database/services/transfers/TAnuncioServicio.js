@@ -82,4 +82,4 @@ class TAnuncioServicio {
     }
 
 }
-module.exports = transferAnuncioServicio;
+module.exports = TAnuncioServicio;

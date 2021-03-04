@@ -36,4 +36,4 @@ class TNewsletter{
 
 
 }
-module.exports = transferNewsletter;
+module.exports = TNewsletter;

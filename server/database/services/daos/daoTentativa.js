@@ -6,13 +6,18 @@ const transferAnuncioServicio = require('../transfers/TAnuncioServicio');
 const transferDemandaServicio = require('../transfers/TDemandaServicio');
 
 //INSERTAR------------------------------------------------------------------------------------------------
-// Inserta en la base de datos un nuevo anuncio de servicio
-// areasServicio es un array de ids de areas de servicio
-function crearAnuncio(titulo, descripcion, imagen, _v, areasServicio) {
+function crearAnuncio(anuncio) {
     return knex('anuncio_servicio').insert({
-        titulo: titulo, descripcion: descripcion, imagen: imagen, _v: _v
+        titulo: anuncio.getTitulo(), 
+        descripcion: anuncio.getDescripcion(), 
+        imagen: anuncio.getImagen(), 
+        _v: anuncio.get_v()
     }).then((id_anuncio) => {
-        const fieldsToInsert = areasServicio.map(area => ({ id_area: area, id_anuncio: id_anuncio }));
+        let areasServicio = anuncio.getArea_servicio();
+        const fieldsToInsert = areasServicio.map(area => ({ 
+            id_area: area, 
+            id_anuncio: id_anuncio 
+        }));
         return knex('areaservicio_anuncioservicio').insert(fieldsToInsert).then(() => {
             return id_anuncio;
         });
@@ -23,22 +28,29 @@ function crearAnuncio(titulo, descripcion, imagen, _v, areasServicio) {
         });
 }
 
-// Inserta en la base de datos una nueva oferta de servicio
-//oferta.getAsignatura_objetivo() un array con los nombres de las asignaturas
 function crearOferta(oferta) {
-    return crearAnuncio(oferta.getTitulo(), oferta.getDescripcion(), oferta.getImagen(), oferta.get_v(), oferta.getArea_servicio()).then(function (id_anuncio) {
+    return crearAnuncio(oferta).then(function (id_anuncio) {
         return knex('oferta_servicio').insert({
-            id: id_anuncio[0], cuatrimestre: oferta.getCuatrimestre(), anio_academico: oferta.getAnio_academico(),
-            fecha_limite: oferta.getFecha_limite(), observaciones_temporales: oferta.getObservaciones_temporales(),
+            id: id_anuncio[0], 
+            cuatrimestre: oferta.getCuatrimestre(), 
+            anio_academico: oferta.getAnio_academico(),
+            fecha_limite: oferta.getFecha_limite(), 
+            observaciones_temporales: oferta.getObservaciones_temporales(),
             creador: oferta.getCreador()
         })
             .then(function (result) {
                 id = id_anuncio[0];
                 asignaturas = oferta.getAsignatura_objetivo();
-                const fieldsToInsert = asignaturas.map(asignatura => ({ id_oferta: id_anuncio[0], nombre: asignatura }));
+                const fieldsToInsert = asignaturas.map(asignatura => ({ 
+                    id_oferta: id_anuncio[0], 
+                    nombre: asignatura 
+                }));
                 return knex('asignatura_objetivo').insert(fieldsToInsert).then(() => {
-                    profesores = oferta.getProfesores();
-                    const fieldsToInsert2 = profesores.map(profesor => ({ id_profesor: profesor, id_oferta: id_anuncio[0] }));
+                    let profesores = oferta.getProfesores();
+                    const fieldsToInsert2 = profesores.map(profesor => ({ 
+                        id_profesor: profesor, 
+                        id_oferta: id_anuncio[0] 
+                    }));
                     return knex('profesorinterno_oferta').insert(fieldsToInsert2).then(() => {
                         console.log("Se ha introducido la oferta con id ", id_anuncio[0]);
                     });
@@ -62,21 +74,29 @@ function crearOferta(oferta) {
         });
 }
 
-// Inserta en la base de datos una nueva demanda de servicio
 function crearDemanda(demanda) {
-    return crearAnuncio(demanda.getTitulo(), demanda.getDescripcion(), demanda.getImagen(), demanda.get_v(), demanda.getArea_servicio()).then(function (id_anuncio) {
+    return crearAnuncio(demanda).then(function (id_anuncio) {
         return knex('demanda_servicio').insert({
-            id: id_anuncio[0], creador: demanda.getCreador(), ciudad: demanda.getCiudad(),
-            finalidad: demanda.getFinalidad(), periodo_definicion_ini: demanda.getPeriodo_definicion_ini(), periodo_definicion_fin: demanda.getPeriodo_definicion_fin(),
-            periodo_ejecucion_ini: demanda.getPeriodo_ejecucion_ini(), periodo_ejecucion_fin: demanda.getPeriodo_ejecucion_fin(),
-            fecha_fin: demanda.getFecha_fin(), observaciones_temporales: demanda.getObservaciones_temporales(), necesidad_social: demanda.getNecesidad_social()
+            id: id_anuncio[0], 
+            creador: demanda.getCreador(), 
+            ciudad: demanda.getCiudad(),
+            finalidad: demanda.getFinalidad(), 
+            periodo_definicion_ini: demanda.getPeriodo_definicion_ini(), 
+            periodo_definicion_fin: demanda.getPeriodo_definicion_fin(),
+            periodo_ejecucion_ini: demanda.getPeriodo_ejecucion_ini(), 
+            periodo_ejecucion_fin: demanda.getPeriodo_ejecucion_fin(),
+            fecha_fin: demanda.getFecha_fin(), 
+            observaciones_temporales: demanda.getObservaciones_temporales(), 
+            necesidad_social: demanda.getNecesidad_social()
         })
             .then(function () {
                 const titulaciones = demanda.getTitulacionlocal_demandada();
-                const fieldsToInsert = titulaciones.map(titulacion =>
-                    ({ id_titulacion: titulacion, id_demanda: id_anuncio[0] }));
+                const fieldsToInsert = titulaciones.map(titulacion =>({ 
+                    id_titulacion: titulacion, 
+                    id_demanda: id_anuncio[0] 
+                }));
                 return knex('titulacionlocal_demanda').insert(fieldsToInsert).then(() => {
-                    console.log("Se ha introducido la demanda con id ", id_anuncio[0]);     // respond back to request
+                    console.log("Se ha introducido la demanda con id ", id_anuncio[0]);
                 });
             })
             .catch((err) => {
@@ -97,14 +117,19 @@ function crearDemanda(demanda) {
         });
 }
 
-// iniciativa.getArea_servicio() devuelve una array con las ids de los areas de servicio
+
 function crearIniciativa(iniciativa) {
     return knex('iniciativa').insert({
-        titulo: iniciativa.getTitulo(), descripcion: iniciativa.getDescripcion(),
-        necesidad_social: iniciativa.getNecesidad_social(), id_estudiante: iniciativa.getEstudiante(),
+        titulo: iniciativa.getTitulo(), 
+        descripcion: iniciativa.getDescripcion(),
+        necesidad_social: iniciativa.getNecesidad_social(), 
+        id_estudiante: iniciativa.getEstudiante(),
         id_demanda: iniciativa.getDemanda()
     }).then((id_iniciativa) => {
-        const fieldsToInsert = iniciativa.getArea_servicio().map(area => ({ id_area: area, id_iniciativa: id_iniciativa }));
+        const fieldsToInsert = iniciativa.getArea_servicio().map(area => ({ 
+            id_area: area, 
+            id_iniciativa: id_iniciativa 
+        }));
         return knex('areaservicio_iniciativa').insert(fieldsToInsert).then(() => {
             console.log("Se ha introducido en la base de datos una iniciativa con id", id_iniciativa);
         });
@@ -119,7 +144,6 @@ function crearIniciativa(iniciativa) {
 }
 
 //LEER UN ELEMENTO----------------------------------------------------------------------------------------------------
-// Devuelve el anuncio de servicio que corresponda al id = id_anuncio
 function obtenerAnuncioServicio(id_anuncio) {
     return knex('anuncio_servicio').where({ id: id_anuncio }).select('*').then((anuncio) => {
         return obtenerAreaServicio(id_anuncio).then((areas_servicio) => {
@@ -145,7 +169,8 @@ function obtenerAnuncioServicio(id_anuncio) {
 function obtenerDemandaServicio(id_demanda) {
     return obtenerAnuncioServicio(id_demanda).then(function (anuncio) {
         return knex('demanda_servicio').where({ id: id_demanda }).select('*').then(function (demanda) {
-            return knex('necesidad_social').where({ id: demanda[0]['necesidad_social'] }).select('nombre').then(function (necesidad_social) {
+            return knex('necesidad_social').where({ id: demanda[0]['necesidad_social'] })
+            .select('nombre').then(function (necesidad_social) {
                 return obtenerTitulacionLocal(id_demanda).then(function (titulaciones) {
                     titulaciones_ref = [];
                     for (titulacion of titulaciones) {
@@ -190,7 +215,8 @@ function obtenerDemandaServicio(id_demanda) {
 function obtenerOfertaServicio(id_oferta) {
     return obtenerAnuncioServicio(id_oferta).then(function (anuncio) {
         return knex('oferta_servicio').where({ id: id_oferta }).select('*').then(function (oferta) {
-            return knex('profesorinterno_oferta').where({ id_oferta: id_oferta }).select('id_profesor').then((datos_profesores) => {
+            return knex('profesorinterno_oferta').where({ id_oferta: id_oferta })
+            .select('id_profesor').then((datos_profesores) => {
                 let arrayProfesores =[];
                 datos_profesores.forEach(profesor => {
                     arrayProfesores.push(profesor['id_profesor']);
@@ -236,12 +262,14 @@ function obtenerIniciativa(id) {
     return knex('iniciativa').where({ id: id }).select('*').then((datos) => {
         return knex('areaservicio_iniciativa').where({ id_iniciativa: id }).select('id_area')
             .then((id_areas) => {
-                return knex('necesidad_social').where({ id: datos[0]['necesidad_social'] }).select('nombre').then((necesidad_social) => {
+                return knex('necesidad_social').where({ id: datos[0]['necesidad_social'] })
+                .select('nombre').then((necesidad_social) => {
                     id_areas_array = [];
                     for (id_area of id_areas) {
                         id_areas_array.push(id_area['id_area']);
                     }
-                    return knex.select('nombre').from('area_servicio').whereIn('id', id_areas_array).then((areas_servicio) => {
+                    return knex.select('nombre').from('area_servicio')
+                    .whereIn('id', id_areas_array).then((areas_servicio) => {
                         areas = [];
                         for (area of areas_servicio) {
                             areas.push(area['nombre']);
@@ -281,7 +309,8 @@ function obtenerTodasOfertasServicio() {
         .then((datos_ofertas) => {
             return knex('areaservicio_anuncioservicio')
                 .join('area_servicio', 'areaservicio_anuncioservicio.id_area', '=', 'area_servicio.id')
-                .select('areaservicio_anuncioservicio.id_anuncio', 'area_servicio.nombre as area').then((areas) => {
+                .select('areaservicio_anuncioservicio.id_anuncio', 'area_servicio.nombre as area')
+                .then((areas) => {
                     return knex.select('*').from('asignatura_objetivo').then((asignaturas) => {
                         let transfer_ofertas = [];
                         datos_ofertas.forEach(datos => {
@@ -314,8 +343,7 @@ function obtenerTodasOfertasServicio() {
                                 datos['fecha_limite'],
                                 datos['observaciones_temporales'],
                                 creador,
-                                areas_servicio,
-                                0
+                                areas_servicio
                             );
                             transfer_ofertas.push(transfer_oferta);
                         });
@@ -348,7 +376,8 @@ function obtenerTodasDemandasServicio() {
         .then((datos_demandas) => {
             return knex('areaservicio_anuncioservicio')
                 .join('area_servicio', 'areaservicio_anuncioservicio.id_area', '=', 'area_servicio.id')
-                .select('areaservicio_anuncioservicio.id_anuncio', 'area_servicio.nombre as area').then((areas) => {
+                .select('areaservicio_anuncioservicio.id_anuncio', 'area_servicio.nombre as area')
+                .then((areas) => {
                     return knex('titulacionlocal_demanda')
                         .join('titulacion_local', 'titulacionlocal_demanda.id_titulacion', '=', 'titulacion_local.id')
                         .select('titulacionlocal_demanda.id_demanda', 'titulacion_local.nombre as titulacion').then((titulaciones) => {
@@ -425,7 +454,8 @@ function obtenerTodasIniciativas() {
         return obtenerIniciativasExternos().then((externos) => {
             return knex('areaservicio_iniciativa')
                 .join('area_servicio', 'areaservicio_iniciativa.id_area', '=', 'area_servicio.id')
-                .select('areaservicio_iniciativa.id_iniciativa', 'area_servicio.nombre as area').then((areas) => {
+                .select('areaservicio_iniciativa.id_iniciativa', 'area_servicio.nombre as area')
+                .then((areas) => {
                     let transfersIniciativas = [];
                     internos.forEach(dato => {
                         let areas_servicio = [];
@@ -478,14 +508,19 @@ function obtenerTodasIniciativas() {
 }
 
 //ACTUALIZAR--------------------------------------------------------------------------------------------------
-function actualizarAnuncio(id, titulo, descripcion, imagen, _v, areasServicio) {
-    return knex('anuncio_servicio').where('id', id).update({
-        titulo: titulo, descripcion: descripcion, imagen: imagen, _v: _v
+function actualizarAnuncio(anuncio) {
+    return knex('anuncio_servicio').where('id', anuncio.getId()).update({
+        titulo: anuncio.getTitulo(), 
+        descripcion: anuncio.getDescripcion(), 
+        imagen: anuncio.getImagen(), 
+        _v: anuncio.get_v()
     }).then(() => {
-        // Elimina todas las relaciones del anuncio de servicio con cualquier area
-        return knex('areaservicio_anuncioservicio').where('id_anuncio', id).del().then(() => {
-            // Crear todas las relaciones entre areas de servicio y el anuncio
-            const fieldsToInsert = areasServicio.map(area => ({ id_area: area, id_anuncio: id }));
+        return knex('areaservicio_anuncioservicio').where('id_anuncio', anuncio.getId()).del().then(() => {
+            let areasServicio = anuncio.getArea_servicio();
+            const fieldsToInsert = areasServicio.map(area => ({ 
+                id_area: area, 
+                id_anuncio: anuncio.getId() 
+            }));
             return knex('areaservicio_anuncioservicio').insert(fieldsToInsert);
         });
     })
@@ -497,21 +532,28 @@ function actualizarAnuncio(id, titulo, descripcion, imagen, _v, areasServicio) {
 
 function actualizarOfertaServicio(oferta) {
     return obtenerAnuncioServicio(oferta.getId()).then((copia_anuncio) => {
-        return actualizarAnuncio(oferta.getId(), oferta.getTitulo(), oferta.getDescripcion(), oferta.getImagen(), oferta.get_v(), oferta.getArea_servicio()).then(function () {
+        return actualizarAnuncio(oferta).then(function () {
             return knex('oferta_servicio').where('id', oferta.getId()).update({
-                cuatrimestre: oferta.getCuatrimestre(), anio_academico: oferta.getAnio_academico(),
-                fecha_limite: oferta.getFecha_limite(), observaciones_temporales: oferta.getObservaciones_temporales(),
+                cuatrimestre: oferta.getCuatrimestre(), 
+                anio_academico: oferta.getAnio_academico(),
+                fecha_limite: oferta.getFecha_limite(), 
+                observaciones_temporales: oferta.getObservaciones_temporales(),
                 creador: oferta.getCreador()
             })
                 .then(function (result) {
-                    // Elimina todas las relaciones del anuncio de servicio con cualquier area
                     return knex('asignatura_objetivo').where('id_oferta', oferta.getId()).del().then(() => {
                         asignaturas = oferta.getAsignatura_objetivo();
-                        const fieldsToInsert = asignaturas.map(asignatura => ({ id_oferta: oferta.getId(), nombre: asignatura }));
+                        const fieldsToInsert = asignaturas.map(asignatura => ({ 
+                            id_oferta: oferta.getId(), 
+                            nombre: asignatura 
+                        }));
                         return knex('asignatura_objetivo').insert(fieldsToInsert).then(() => {
                             return knex('profesorinterno_oferta').where('id_oferta', oferta.getId()).del().then(() => {
                                 profesores = oferta.getProfesores();
-                                const fieldsToInsert2 = profesores.map(profesor => ({ id_profesor: profesor, id_oferta: oferta.getId() }));
+                                const fieldsToInsert2 = profesores.map(profesor => ({ 
+                                    id_profesor: profesor, 
+                                    id_oferta: oferta.getId() 
+                                }));
                                 return knex('profesorinterno_oferta').insert(fieldsToInsert2).then(() => {
                                     console.log("Se ha actualizado la oferta con id ", oferta.getId());
                                 })
@@ -523,9 +565,8 @@ function actualizarOfertaServicio(oferta) {
                     console.log(err);
                     let nombre_areas = copia_anuncio.getArea_servicio();
                     return obtenerIdsAreas(nombre_areas).then((ids_areas) => {
-                        // Restaura el anuncio_servicio si se ha fallado en actualizar la oferta_servicio
-                        return actualizarAnuncio(copia_anuncio.getId(), copia_anuncio.getTitulo(),
-                            copia_anuncio.getDescripcion(), copia_anuncio.getImagen(), copia_anuncio.get_v(), ids_areas).then(() => {
+                        copia_anuncio.setArea_servicio(ids_areas);
+                        return actualizarAnuncio(copia_anuncio).then(() => {
                                 console.log("Se ha producido un error al intentar actualizar en la base de datos la oferta de servicio con id ", oferta.getId());
                             });
                     });
@@ -543,20 +584,26 @@ function actualizarOfertaServicio(oferta) {
 
 function actualizarDemanda(demanda) {
     return obtenerAnuncioServicio(demanda.getId()).then((copia_anuncio) => {
-        return actualizarAnuncio(demanda.getId(), demanda.getTitulo(), demanda.getDescripcion(), demanda.getImagen(), demanda.get_v(), demanda.getArea_servicio()).then(function (id_anuncio) {
+        return actualizarAnuncio(demanda).then(function (id_anuncio) {
             return knex('demanda_servicio').where('id', demanda.getId()).update({
-                creador: demanda.getCreador(), ciudad: demanda.getCiudad(),
-                finalidad: demanda.getFinalidad(), periodo_definicion_ini: demanda.getPeriodo_definicion_ini(), periodo_definicion_fin: demanda.getPeriodo_definicion_fin(),
-                periodo_ejecucion_ini: demanda.getPeriodo_ejecucion_ini(), periodo_ejecucion_fin: demanda.getPeriodo_ejecucion_fin(),
-                fecha_fin: demanda.getFecha_fin(), observaciones_temporales: demanda.getObservaciones_temporales(), necesidad_social: demanda.getNecesidad_social()
+                creador: demanda.getCreador(), 
+                ciudad: demanda.getCiudad(),
+                finalidad: demanda.getFinalidad(), 
+                periodo_definicion_ini: demanda.getPeriodo_definicion_ini(), 
+                periodo_definicion_fin: demanda.getPeriodo_definicion_fin(),
+                periodo_ejecucion_ini: demanda.getPeriodo_ejecucion_ini(), 
+                periodo_ejecucion_fin: demanda.getPeriodo_ejecucion_fin(),
+                fecha_fin: demanda.getFecha_fin(), 
+                observaciones_temporales: demanda.getObservaciones_temporales(), 
+                necesidad_social: demanda.getNecesidad_social()
             })
                 .then(function () {
-                    // Elimina todas las relaciones de la demanda de servicio con cualquier titulación
                     return knex('titulacionlocal_demanda').where('id_demanda', demanda.getId()).del().then(() => {
-                        // Crear las nuevas relaciones entre la demanda de servicio y las titulaciones
                         const titulaciones = demanda.getTitulacionlocal_demandada();
-                        const fieldsToInsert = titulaciones.map(titulacion =>
-                            ({ id_titulacion: titulacion, id_demanda: demanda.getId() }));
+                        const fieldsToInsert = titulaciones.map(titulacion =>({ 
+                            id_titulacion: titulacion, 
+                            id_demanda: demanda.getId() 
+                        }));
                         return knex('titulacionlocal_demanda').insert(fieldsToInsert).then(() => {
                             console.log("Se ha actualizado la demanda con id ", demanda.getId());
                         });
@@ -566,9 +613,8 @@ function actualizarDemanda(demanda) {
                     console.log(err);
                     let nombre_areas = copia_anuncio.getArea_servicio();
                     return obtenerIdsAreas(nombre_areas).then((ids_areas) => {
-                        // Restaura el anuncio_servicio si se ha fallado en actualizar la demanda_servicio
-                        return actualizarAnuncio(copia_anuncio.getId(), copia_anuncio.getTitulo(),
-                            copia_anuncio.getDescripcion(), copia_anuncio.getImagen(), copia_anuncio.get_v(), ids_areas).then(() => {
+                        copia_anuncio.setArea_servicio(ids_areas);
+                        return actualizarAnuncio(copia_anuncio).then(() => {
                                 console.log("Se ha producido un error al intentar actualizar en la base de datos la demanda de servicio con id ", demanda.getId());
                             });
                     });
@@ -586,14 +632,17 @@ function actualizarDemanda(demanda) {
 
 function actualizarIniciativa(iniciativa) {
     return knex('iniciativa').where('id', iniciativa.getId()).update({
-        titulo: iniciativa.getTitulo(), descripcion: iniciativa.getDescripcion(), id_demanda: iniciativa.getDemanda(),
+        titulo: iniciativa.getTitulo(), 
+        descripcion: iniciativa.getDescripcion(), 
+        id_demanda: iniciativa.getDemanda(),
         necesidad_social: iniciativa.getNecesidad_social()
     }).then(() => {
-        // Elimina todas las relaciones del iniciativa con cualquier area
         return knex('areaservicio_iniciativa').where('id_iniciativa', iniciativa.getId()).del().then(() => {
-            // Crear todas las relaciones entre areas de servicio y el iniciativa
             areasServicio = iniciativa.getArea_servicio();
-            const fieldsToInsert = areasServicio.map(area => ({ id_area: area, id_iniciativa: iniciativa.getId() }));
+            const fieldsToInsert = areasServicio.map(area => ({ 
+                id_area: area, 
+                id_iniciativa: iniciativa.getId() 
+            }));
             return knex('areaservicio_iniciativa').insert(fieldsToInsert).then(() => {
                 return iniciativa.getId();
             });
@@ -725,16 +774,6 @@ function obtenerAreaServicio(id_anuncio) {
         .catch((err) => { console.log("No se ha encontrado el area de servicio perteneciente al anuncio de servicio con id ", id_anuncio); throw err });
 }
 
-
-// Devuelve todos los profesores pertenecientes al anuncio de servicio con id=id_anuncio
-function obtenerProfesoresPorOferta(id_oferta) {
-    return knex('profesorinterno_oferta').where({ id_oferta: id_oferta }).select('id_profesor')
-        .then(function (id_profesores) {
-            return daoUsuario.obtenerProfesoresInternos(id_profesores);
-        });
-}
-
-//Elimina todos los elementos de la tabla anuncio_servicio
 function limpiarAnuncioServicios() {
     knex('anuncio_servicio').del()
         .then(function (result) {

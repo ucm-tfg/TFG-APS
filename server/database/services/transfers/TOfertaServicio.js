@@ -78,4 +78,4 @@ class TOfertaServicio extends TAnuncioServicio{
     }
 }
 
-module.exports = transferOfertaServicio;
+module.exports = TOfertaServicio;

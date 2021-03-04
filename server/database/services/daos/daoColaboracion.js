@@ -27,9 +27,7 @@ function crearColaboracion(colaboracion) {
     })
     .catch((err) => {
       console.log(err);
-      console.log(
-        "Se ha producido un error al intentar crear la colaboracion con id "
-      );
+      console.log("Se ha producido un error al intentar crear la colaboracion");
     });
 }
 
@@ -58,9 +56,7 @@ function crearPartenariado(partenariado) {
     })
     .catch((err) => {
       console.log(err);
-      console.log(
-        "Se ha producido un error al intentar crear un partenariado "
-      );
+      console.log("Se ha producido un error al intentar crear un partenariado ");
     })
     .finally(() => {
       knex.destroy();

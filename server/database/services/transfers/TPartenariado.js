@@ -38,4 +38,4 @@ class TPartenariado extends TColaboracion {
         this._v = _v_part;
     }
 }
-module.exports = transferPartenariado;
+module.exports = TPartenariado;

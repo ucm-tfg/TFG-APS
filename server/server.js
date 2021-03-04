@@ -449,21 +449,22 @@ const TIniciativa = require('./database/services/transfers/TIniciativa');
 // let observaciones = "URGENTE";
 // let creador = 5;
 // let area = [2];
-// let profesores = [5, 10];
+// let profesores = [105, 107];
 
-// let oferta1 = new TOfertaServicio(null, titulo, descripcion, imagen, "", "", 0.9, asignatura,
+// let oferta1 = new TOfertaServicio(60, titulo, descripcion, imagen, "", "", 0.9, asignatura,
 //     cuatrimestre, anio, fecha_limite, observaciones, creador, area, profesores); 
-// dao_tentativa.obtenerOfertaServicio(49).then(function(oferta){console.log(oferta);});
+// dao_tentativa.obtenerOfertaServicio(57).then(function(oferta){console.log(oferta);});
 // dao_tentativa.crearOferta(oferta1);
 // anio = 2022;
 // asignatura = ["Ampliación de Matemáticas"]; 
 // oferta1 = new TOfertaServicio(69, titulo, descripcion, imagen, "", "", 0.9, asignatura,
 //     cuatrimestre, anio, fecha_limite, observaciones, creador, area,profesores);
 // dao_tentativa.actualizarOfertaServicio(oferta1).then(function(oferta){});
-// dao_tentativa.obtenerOfertaServicio(46).then(function(oferta){console.log(oferta);});
+dao_tentativa.obtenerTodasOfertasServicio().then(function(oferta){console.log(oferta);});
 //  dao_tentativa.limpiarAnuncioServicios(); //Elimina todos los elementos de la tabla
 // dao_tentativa.crearAnuncio(titulo, descripcion, imagen);
-// dao_tentativa.eliminarOferta(44);
+// dao_tentativa.eliminarOferta(60);
+
 
 // DEMANDAS----------------------------------------------------------------------------------------
 // let titulo = "Anuncio casa";
@@ -478,15 +479,15 @@ const TIniciativa = require('./database/services/transfers/TIniciativa');
 // let fecha_fin  = new Date (2021, 7, 01);
 // let observaciones_temporales = "NADA";
 // let necesidad_social = 1;
-// let titulacionlocal_demandada = [1, 2, 3];
+// let titulacionlocal_demandada = [48, 49];
 // let area_servicio = [2];
-// let demanda = new TDemandaServicio(null, titulo, descripcion, imagen, "", "", 0.9,
+// let demanda = new TDemandaServicio(62, titulo, descripcion, imagen, "", "", 0.9,
 //     7, ciudad, finalidad, periodo_definicion_ini, periodo_definicion_fin, periodo_ejecucion_ini,
 //     periodo_ejecucion_fin, fecha_fin, observaciones_temporales, necesidad_social, titulacionlocal_demandada,
 //     area_servicio);
 // dao_tentativa.crearDemanda(demanda);
 
-// dao_tentativa.obtenerDemandaServicio(41).then(function(oferta){console.log(oferta);});
+// dao_tentativa.obtenerDemandaServicio(62).then(function(oferta){console.log(oferta);});
 // ciudad = "Barcelona"; 
 // area_servicio = [2];
 // titulacionlocal_demandada = [1, 3];
@@ -498,20 +499,20 @@ const TIniciativa = require('./database/services/transfers/TIniciativa');
 //     console.log(datos);
 // })
 // dao_tentativa.actualizarDemanda(demanda);
-// dao_tentativa.eliminarDemanda(41);
+// dao_tentativa.eliminarDemanda(62);
 
 //INICIATIVAS
 // let titulo = "Iniciativa 1 editada";
 // let descripcion = "Descripción de la iniciativa número 1 editada";
 // let necesidad_social = 1;
 // let area_servicio = [2];
-// let estudiante = 9;
-// let iniciativa = new TIniciativa(3, titulo, descripcion, necesidad_social, 52, area_servicio, estudiante);
+// let estudiante = 8;
+// let iniciativa = new TIniciativa(6, titulo, descripcion, necesidad_social, 52, area_servicio, estudiante);
 // dao_tentativa.crearIniciativa(iniciativa);
-// dao_tentativa.obtenerIniciativa(2).then((datos) => {
+// dao_tentativa.obtenerIniciativa(6).then((datos) => {
 //     console.log(datos);
 // })
-// dao_tentativa.eliminarIniciativa(2);
+// dao_tentativa.eliminarIniciativa(6);
 // dao_tentativa.obtenerTodasIniciativas().then((datos) =>{
 //     console.log(datos);
 // })
@@ -567,7 +568,7 @@ id_oferta = 50;
 estado = 1;
 _v = 11;
 let partenariado = new TPartenariado(null, titulo, descripcion, admite_externos, responsable, profesores, id_demanda, id_oferta, estado, _v);
-dao_colaboracion.crearPartenariado(partenariado);
+// dao_colaboracion.crearPartenariado(partenariado);
 // return dao_colaboracion.obtenerPartenariado(4).then((datos) =>{
 //   console.log(datos);
 // })

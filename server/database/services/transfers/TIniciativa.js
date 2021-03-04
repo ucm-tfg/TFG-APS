@@ -81,4 +81,4 @@ class TIniciativa {
         this.estudiante = estudiante;
     }
 }
-module.exports = transferIniciativa;
+module.exports = TIniciativa;
