@@ -623,6 +623,118 @@ function borrarEntidad(id) {
 }
 
 //LEER UNO----------------------------------------------------------------------------------------------------
+function obtenerUsuarioSinRol(email) {
+  return knex("datos_personales_interno")
+    .where({ correo: email })
+    .select("id")
+    .then((id_interno) => {
+      if (id_interno.length == 0) {
+        // externos
+        return knex("datos_personales_externo")
+          .where({ correo: email })
+          .select("id")
+          .then((id_externo) => {
+            if (id_externo.length == 0) {
+              // El usuario no existe
+              console.log("No existe ningún usuario con ese correo");
+              return 0;
+            }
+            id_externo = id_externo[0]["id"];
+            return obtenerEntidadPorDatosPersonales(id_externo).then(
+              (result) => {
+                if (result == 0) {
+                  return obtenerProfesorExternoPorDatosPersonales(
+                    id_externo
+                  ).then((result) => {
+                    if (result == 0) {
+                      return obtenerEstudianteExternoPorDatosPersonales(
+                        id_externo
+                      ).then((result) => {
+                        if (result == 0) {
+                          console.log(
+                            "No se ha encontrado ningún usuario con el email ",
+                            email
+                          );
+                          return 0;
+                        }
+                        return result;
+                      });
+                    }
+                    return result;
+                  });
+                }
+                return result;
+              }
+            );
+          })
+          .catch((err) => {
+            console.log(err);
+            console.log(
+              "Se ha producido un error al intentar obtener de la base de datos el usuario con email",
+              email
+            );
+          })
+          .finally(() => {
+            knex.destroy();
+          });
+      } else {
+        // internos
+        id_interno = id_interno[0]["id"];
+        return obtenerProfesorInternoPorDatosPersonales(id_interno)
+          .then((result) => {
+            if (result == 0) {
+              return obtenerEstudianteInternoPorDatosPersonales(
+                id_interno
+              ).then((result) => {
+                if (result == 0) {
+                  return obtenerAdminPorDatosPersonales(id_interno).then(
+                    (result) => {
+                      if (result == 0) {
+                        return obtenerOficinaApsPorDatosPersonales(
+                          id_interno
+                        ).then((result) => {
+                          if (result == 0) {
+                            console.log(
+                              "No se ha encontrado ningún usuario con email ",
+                              email
+                            );
+                            return 0;
+                          }
+                          return result;
+                        });
+                      }
+                      return result;
+                    }
+                  );
+                }
+                return result;
+              });
+            }
+            return result;
+          })
+          .catch((err) => {
+            console.log(err);
+            console.log(
+              "Se ha producido un error al intentar obtener de la base de datos el usuario con email",
+              email
+            );
+          })
+          .finally(() => {
+            knex.destroy();
+          });
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+      console.log(
+        "Se ha producido un error al intentar obtener de la base de datos el usuario con email ",
+        email
+      );
+    })
+    .finally(() => {
+      knex.destroy();
+    });
+}
 
 function obtenerUsuario(id) {
   return knex("usuario")
@@ -663,33 +775,69 @@ function obtenerDatosPersonalesExterno(id) {
 }
 
 function obtenerAdmin(id) {
-  return obtenerUsuario(id).then(function (usuario) {
-    return knex("admin")
-      .where({ id: id })
-      .select("*")
-      .then(function (admin) {
-        return obtenerDatosPersonalesInterno(
-          admin[0]["datos_personales_Id"]
-        ).then(function (datos) {
-          return new TAdmin(
-            usuario["id"],
-            datos["correo"],
-            datos["nombre"],
-            datos["apellidos"],
-            datos["password"],
-            usuario["origin_login"],
-            usuario["origin_img"],
-            usuario["createdAt"],
-            usuario["updatedAt"],
-            usuario["terminos_aceptados"]
-          );
+  return knex("admin")
+    .where({ id: id })
+    .select("*")
+    .then(function (admin) {
+      return obtenerUsuario(id)
+        .then(function (usuario) {
+          return obtenerDatosPersonalesInterno(
+            admin[0]["datos_personales_Id"]
+          ).then(function (datos) {
+            return new TAdmin(
+              usuario["id"],
+              datos["correo"],
+              datos["nombre"],
+              datos["apellidos"],
+              datos["password"],
+              usuario["origin_login"],
+              usuario["origin_img"],
+              usuario["createdAt"],
+              usuario["updatedAt"],
+              usuario["terminos_aceptados"]
+            );
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+          console.log("Se ha producido un error");
         });
-      })
-      .catch((err) => {
-        console.log(err);
-        console.log("Se ha producido un error");
-      });
-  });
+    });
+}
+
+function obtenerAdminPorDatosPersonales(id) {
+  return knex("admin")
+    .where({ datos_personales_Id: id })
+    .select("*")
+    .then(function (admin) {
+      if (admin.length == 0) {
+        return 0;
+      }
+      id = admin[0]["id"];
+      return obtenerUsuario(id)
+        .then(function (usuario) {
+          return obtenerDatosPersonalesInterno(
+            admin[0]["datos_personales_Id"]
+          ).then(function (datos) {
+            return new TAdmin(
+              usuario["id"],
+              datos["correo"],
+              datos["nombre"],
+              datos["apellidos"],
+              datos["password"],
+              usuario["origin_login"],
+              usuario["origin_img"],
+              usuario["createdAt"],
+              usuario["updatedAt"],
+              usuario["terminos_aceptados"]
+            );
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+          console.log("Se ha producido un error");
+        });
+    });
 }
 
 function obtenerOficinaAps(id) {
@@ -723,32 +871,104 @@ function obtenerOficinaAps(id) {
     });
 }
 
-function obtenerEntidad(id) {
-  return obtenerUsuario(id)
-    .then(function (usuario) {
-      return knex("entidad")
-        .where({ id: id })
-        .select("*")
-        .then(function (entidad) {
-          return obtenerDatosPersonalesExterno(
-            entidad[0]["datos_personales_Id"]
-          ).then(function (datos) {
-            return new TEntidad(
-              usuario["id"],
-              datos["correo"],
-              datos["nombre"],
-              datos["apellidos"],
-              datos["password"],
-              usuario["origin_login"],
-              usuario["origin_img"],
-              usuario["createdAt"],
-              usuario["updatedAt"],
-              usuario["terminos_aceptados"],
-              entidad[0]["sector"],
-              entidad[0]["nombre_entidad"]
-            );
-          });
+function obtenerOficinaApsPorDatosPersonales(id) {
+  return knex("oficinaaps")
+    .where({ datos_personales_Id: id })
+    .select("*")
+    .then(function (admin) {
+      if (admin.length == 0) {
+        return 0;
+      }
+      id = admin[0]["id"];
+      return obtenerUsuario(id).then(function (usuario) {
+        return obtenerDatosPersonalesInterno(
+          admin[0]["datos_personales_Id"]
+        ).then(function (datos) {
+          return new TOficinaAps(
+            usuario["id"],
+            datos["correo"],
+            datos["nombre"],
+            datos["apellidos"],
+            datos["password"],
+            usuario["origin_login"],
+            usuario["origin_img"],
+            usuario["createdAt"],
+            usuario["updatedAt"],
+            usuario["terminos_aceptados"]
+          );
         });
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      console.log("Se ha producido un error");
+    });
+}
+
+function obtenerEntidadPorDatosPersonales(id) {
+  return knex("entidad")
+    .where({ datos_personales_Id: id })
+    .select("*")
+    .then(function (entidad) {
+      if (entidad.length == 0) {
+        return 0;
+      }
+      id = entidad[0]["id"];
+      return obtenerUsuario(id).then(function (usuario) {
+        return obtenerDatosPersonalesExterno(
+          entidad[0]["datos_personales_Id"]
+        ).then(function (datos) {
+          return new TEntidad(
+            usuario["id"],
+            datos["correo"],
+            datos["nombre"],
+            datos["apellidos"],
+            datos["password"],
+            usuario["origin_login"],
+            usuario["origin_img"],
+            usuario["createdAt"],
+            usuario["updatedAt"],
+            usuario["terminos_aceptados"],
+            entidad[0]["sector"],
+            entidad[0]["nombre_entidad"]
+          );
+        });
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      console.log("Se ha producido un error");
+    });
+}
+
+function obtenerEntidad(id) {
+  return knex("entidad")
+    .where({ id: id })
+    .select("*")
+    .then(function (entidad) {
+      if (entidad.length == 0) {
+        return 0;
+      }
+      return obtenerUsuario(id).then(function (usuario) {
+        return obtenerDatosPersonalesExterno(
+          entidad[0]["datos_personales_Id"]
+        ).then(function (datos) {
+          return new TEntidad(
+            usuario["id"],
+            datos["correo"],
+            datos["nombre"],
+            datos["apellidos"],
+            datos["password"],
+            usuario["origin_login"],
+            usuario["origin_img"],
+            usuario["createdAt"],
+            usuario["updatedAt"],
+            usuario["terminos_aceptados"],
+            entidad[0]["sector"],
+            entidad[0]["nombre_entidad"]
+          );
+        });
+      });
     })
     .catch((err) => {
       console.log(err);
@@ -757,14 +977,11 @@ function obtenerEntidad(id) {
 }
 
 function obtenerProfesor(id) {
-  return obtenerUsuario(id)
-    .then(function (usuario) {
-      return knex("profesor")
-        .where({ id: id })
-        .select("*")
-        .then(function (profesor) {
-          return profesor[0];
-        });
+  return knex("profesor")
+    .where({ id: id })
+    .select("*")
+    .then(function (profesor) {
+      return profesor[0];
     })
     .catch((err) => {
       console.log(err);
@@ -773,70 +990,145 @@ function obtenerProfesor(id) {
 }
 
 function obtenerProfesorInterno(id) {
-  return obtenerUsuario(id)
-    .then(function (usuario) {
+  return knex("profesor_interno")
+    .where({ id: id })
+    .select("*")
+    .then(function (profesorInterno) {
       return obtenerProfesor(id).then(function (profesor) {
-        return knex("profesor_interno")
-          .where({ id: id })
-          .select("*")
-          .then(function (profesorInterno) {
-            return obtenerDatosPersonalesInterno(
-              profesorInterno[0]["datos_personales_Id"]
-            ).then(function (datos) {
-              return knex("areaconocimiento_profesor")
-                .where({ id_profesor: id })
-                .select("id_area")
-                .then((id_areas) => {
-                  id_areas_array = [];
-                  for (id_area of id_areas) {
-                    id_areas_array.push(id_area["id_area"]);
-                  }
-                  return knex
-                    .select("nombre")
-                    .from("area_conocimiento")
-                    .whereIn("id", id_areas_array)
-                    .then((areas_conocim) => {
-                      areas = [];
-                      for (area of areas_conocim) {
-                        areas.push(area["nombre"]);
-                      }
-                      return knex("titulacionlocal_profesor")
-                        .where({ id_profesor: id })
-                        .select("id_titulacion")
-                        .then((id_titulaciones) => {
-                          id_titulaciones_array = [];
-                          for (id_tit of id_titulaciones) {
-                            id_titulaciones_array.push(id_tit["id_titulacion"]);
-                          }
-                          return knex
-                            .select("nombre")
-                            .from("titulacion_local")
-                            .whereIn("id", id_titulaciones_array)
-                            .then((titulaciones_locales) => {
-                              titulac = [];
-                              for (tit of titulaciones_locales) {
-                                titulac.push(tit["nombre"]);
-                              }
-                              return new TProfesorInterno(
-                                usuario["id"],
-                                datos["correo"],
-                                datos["nombre"],
-                                datos["apellidos"],
-                                datos["password"],
-                                usuario["origin_login"],
-                                usuario["origin_img"],
-                                usuario["createdAt"],
-                                usuario["updatedAt"],
-                                usuario["terminos_aceptados"],
-                                areas,
-                                titulac
-                              );
-                            });
-                        });
-                    });
-                });
-            });
+        return obtenerUsuario(id).then(function (usuario) {
+          return obtenerDatosPersonalesInterno(
+            profesorInterno[0]["datos_personales_Id"]
+          ).then(function (datos) {
+            return knex("areaconocimiento_profesor")
+              .where({ id_profesor: id })
+              .select("id_area")
+              .then((id_areas) => {
+                id_areas_array = [];
+                for (id_area of id_areas) {
+                  id_areas_array.push(id_area["id_area"]);
+                }
+                return knex
+                  .select("nombre")
+                  .from("area_conocimiento")
+                  .whereIn("id", id_areas_array)
+                  .then((areas_conocim) => {
+                    areas = [];
+                    for (area of areas_conocim) {
+                      areas.push(area["nombre"]);
+                    }
+                    return knex("titulacionlocal_profesor")
+                      .where({ id_profesor: id })
+                      .select("id_titulacion")
+                      .then((id_titulaciones) => {
+                        id_titulaciones_array = [];
+                        for (id_tit of id_titulaciones) {
+                          id_titulaciones_array.push(id_tit["id_titulacion"]);
+                        }
+                        return knex
+                          .select("nombre")
+                          .from("titulacion_local")
+                          .whereIn("id", id_titulaciones_array)
+                          .then((titulaciones_locales) => {
+                            titulac = [];
+                            for (tit of titulaciones_locales) {
+                              titulac.push(tit["nombre"]);
+                            }
+                            return new TProfesorInterno(
+                              usuario["id"],
+                              datos["correo"],
+                              datos["nombre"],
+                              datos["apellidos"],
+                              datos["password"],
+                              usuario["origin_login"],
+                              usuario["origin_img"],
+                              usuario["createdAt"],
+                              usuario["updatedAt"],
+                              usuario["terminos_aceptados"],
+                              areas,
+                              titulac
+                            );
+                          });
+                      });
+                  });
+              });
           });
+        });
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      console.log("Se ha producido un error");
+    });
+}
+
+function obtenerProfesorInternoPorDatosPersonales(id) {
+  return knex("profesor_interno")
+    .where({ datos_personales_Id: id })
+    .select("*")
+    .then(function (profesorInterno) {
+      if (profesorInterno.length == 0) {
+        return 0;
+      }
+      id = profesorInterno[0]["id"];
+      return obtenerProfesor(id).then(function (profesor) {
+        return obtenerUsuario(id).then(function (usuario) {
+          return obtenerDatosPersonalesInterno(
+            profesorInterno[0]["datos_personales_Id"]
+          ).then(function (datos) {
+            return knex("areaconocimiento_profesor")
+              .where({ id_profesor: id })
+              .select("id_area")
+              .then((id_areas) => {
+                id_areas_array = [];
+                for (id_area of id_areas) {
+                  id_areas_array.push(id_area["id_area"]);
+                }
+                return knex
+                  .select("nombre")
+                  .from("area_conocimiento")
+                  .whereIn("id", id_areas_array)
+                  .then((areas_conocim) => {
+                    areas = [];
+                    for (area of areas_conocim) {
+                      areas.push(area["nombre"]);
+                    }
+                    return knex("titulacionlocal_profesor")
+                      .where({ id_profesor: id })
+                      .select("id_titulacion")
+                      .then((id_titulaciones) => {
+                        id_titulaciones_array = [];
+                        for (id_tit of id_titulaciones) {
+                          id_titulaciones_array.push(id_tit["id_titulacion"]);
+                        }
+                        return knex
+                          .select("nombre")
+                          .from("titulacion_local")
+                          .whereIn("id", id_titulaciones_array)
+                          .then((titulaciones_locales) => {
+                            titulac = [];
+                            for (tit of titulaciones_locales) {
+                              titulac.push(tit["nombre"]);
+                            }
+                            return new TProfesorInterno(
+                              usuario["id"],
+                              datos["correo"],
+                              datos["nombre"],
+                              datos["apellidos"],
+                              datos["password"],
+                              usuario["origin_login"],
+                              usuario["origin_img"],
+                              usuario["createdAt"],
+                              usuario["updatedAt"],
+                              usuario["terminos_aceptados"],
+                              areas,
+                              titulac
+                            );
+                          });
+                      });
+                  });
+              });
+          });
+        });
       });
     })
     .catch((err) => {
@@ -846,38 +1138,81 @@ function obtenerProfesorInterno(id) {
 }
 
 function obtenerProfesorExterno(id) {
-  return obtenerUsuario(id)
-    .then(function (usuario) {
+  return knex("profesor_externo")
+    .where({ id: id })
+    .select("*")
+    .then(function (profesorExterno) {
       return obtenerProfesor(id).then(function (profesor) {
-        return knex("profesor_externo")
-          .where({ id: id })
-          .select("*")
-          .then(function (profesorExterno) {
-            return obtenerDatosPersonalesExterno(
-              profesorExterno[0]["datos_personales_Id"]
-            ).then(function (datos) {
-              return knex("universidad")
-                .where({ id: profesorExterno[0]["universidad"] })
-                .select("*")
-                .then(function (uni) {
-                  return new TProfesorExterno(
-                    usuario["id"],
-                    datos["correo"],
-                    datos["nombre"],
-                    datos["apellidos"],
-                    datos["password"],
-                    usuario["origin_login"],
-                    usuario["origin_img"],
-                    usuario["createdAt"],
-                    usuario["updatedAt"],
-                    usuario["terminos_aceptados"],
-                    uni[0]["id"],
-                    uni[0]["nombre"],
-                    uni[0]["provincia"]
-                  );
-                });
-            });
+        return obtenerUsuario(id).then(function (usuario) {
+          return obtenerDatosPersonalesExterno(
+            profesorExterno[0]["datos_personales_Id"]
+          ).then(function (datos) {
+            return knex("universidad")
+              .where({ id: profesorExterno[0]["universidad"] })
+              .select("*")
+              .then(function (uni) {
+                return new TProfesorExterno(
+                  usuario["id"],
+                  datos["correo"],
+                  datos["nombre"],
+                  datos["apellidos"],
+                  datos["password"],
+                  usuario["origin_login"],
+                  usuario["origin_img"],
+                  usuario["createdAt"],
+                  usuario["updatedAt"],
+                  usuario["terminos_aceptados"],
+                  uni[0]["id"],
+                  uni[0]["nombre"],
+                  uni[0]["provincia"]
+                );
+              });
           });
+        });
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      console.log("Se ha producido un error");
+    });
+}
+
+function obtenerProfesorExternoPorDatosPersonales(id) {
+  return knex("profesor_externo")
+    .where({ datos_personales_Id: id })
+    .select("*")
+    .then(function (profesorExterno) {
+      if (profesorExterno.length == 0) {
+        return 0;
+      }
+      id = profesorExterno[0]["id"];
+      return obtenerProfesor(id).then(function (profesor) {
+        return obtenerUsuario(id).then(function (usuario) {
+          return obtenerDatosPersonalesExterno(
+            profesorExterno[0]["datos_personales_Id"]
+          ).then(function (datos) {
+            return knex("universidad")
+              .where({ id: profesorExterno[0]["universidad"] })
+              .select("*")
+              .then(function (uni) {
+                return new TProfesorExterno(
+                  usuario["id"],
+                  datos["correo"],
+                  datos["nombre"],
+                  datos["apellidos"],
+                  datos["password"],
+                  usuario["origin_login"],
+                  usuario["origin_img"],
+                  usuario["createdAt"],
+                  usuario["updatedAt"],
+                  usuario["terminos_aceptados"],
+                  uni[0]["id"],
+                  uni[0]["nombre"],
+                  uni[0]["provincia"]
+                );
+              });
+          });
+        });
       });
     })
     .catch((err) => {
@@ -887,14 +1222,11 @@ function obtenerProfesorExterno(id) {
 }
 
 function obtenerEstudiante(id) {
-  return obtenerUsuario(id)
-    .then(function (usuario) {
-      return knex("estudiante")
-        .where({ id: id })
-        .select("*")
-        .then(function (estudiante) {
-          return estudiante[0];
-        });
+  return knex("estudiante")
+    .where({ id: id })
+    .select("*")
+    .then(function (estudiante) {
+      return estudiante[0];
     })
     .catch((err) => {
       console.log(err);
@@ -903,36 +1235,77 @@ function obtenerEstudiante(id) {
 }
 
 function obtenerEstudianteInterno(id) {
-  return obtenerUsuario(id)
-    .then(function (usuario) {
+  return knex("estudiante_interno")
+    .where({ id: id })
+    .select("*")
+    .then(function (estudianteInterno) {
       return obtenerEstudiante(id).then(function (profesor) {
-        return knex("estudiante_interno")
-          .where({ id: id })
-          .select("*")
-          .then(function (estudianteInterno) {
-            return obtenerDatosPersonalesInterno(
-              estudianteInterno[0]["datos_personales_Id"]
-            ).then(function (datos) {
-              return knex("titulacion_local")
-                .where({ id: estudianteInterno[0]["titulacion_local"] })
-                .select("*")
-                .then(function (tit) {
-                  return new TEstudianteInterno(
-                    usuario["id"],
-                    datos["correo"],
-                    datos["nombre"],
-                    datos["apellidos"],
-                    datos["password"],
-                    usuario["origin_login"],
-                    usuario["origin_img"],
-                    usuario["createdAt"],
-                    usuario["updatedAt"],
-                    usuario["terminos_aceptados"],
-                    tit[0]["id"]
-                  );
-                });
-            });
+        return obtenerUsuario(id).then(function (usuario) {
+          return obtenerDatosPersonalesInterno(
+            estudianteInterno[0]["datos_personales_Id"]
+          ).then(function (datos) {
+            return knex("titulacion_local")
+              .where({ id: estudianteInterno[0]["titulacion_local"] })
+              .select("*")
+              .then(function (tit) {
+                return new TEstudianteInterno(
+                  usuario["id"],
+                  datos["correo"],
+                  datos["nombre"],
+                  datos["apellidos"],
+                  datos["password"],
+                  usuario["origin_login"],
+                  usuario["origin_img"],
+                  usuario["createdAt"],
+                  usuario["updatedAt"],
+                  usuario["terminos_aceptados"],
+                  tit[0]["id"]
+                );
+              });
           });
+        });
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      console.log("Se ha producido un error");
+    });
+}
+
+function obtenerEstudianteInternoPorDatosPersonales(id) {
+  return knex("estudiante_interno")
+    .where({ datos_personales_Id: id })
+    .select("*")
+    .then(function (estudianteInterno) {
+      if (estudianteInterno.length == 0) {
+        return 0;
+      }
+      id = estudianteInterno[0]["id"];
+      return obtenerEstudiante(id).then(function (profesor) {
+        return obtenerUsuario(id).then(function (usuario) {
+          return obtenerDatosPersonalesInterno(
+            estudianteInterno[0]["datos_personales_Id"]
+          ).then(function (datos) {
+            return knex("titulacion_local")
+              .where({ id: estudianteInterno[0]["titulacion_local"] })
+              .select("*")
+              .then(function (tit) {
+                return new TEstudianteInterno(
+                  usuario["id"],
+                  datos["correo"],
+                  datos["nombre"],
+                  datos["apellidos"],
+                  datos["password"],
+                  usuario["origin_login"],
+                  usuario["origin_img"],
+                  usuario["createdAt"],
+                  usuario["updatedAt"],
+                  usuario["terminos_aceptados"],
+                  tit[0]["id"]
+                );
+              });
+          });
+        });
       });
     })
     .catch((err) => {
@@ -942,39 +1315,83 @@ function obtenerEstudianteInterno(id) {
 }
 
 function obtenerEstudianteExterno(id) {
-  return obtenerUsuario(id)
-    .then(function (usuario) {
+  return knex("estudiante_externo")
+    .where({ id: id })
+    .select("*")
+    .then(function (estudianteExterno) {
       return obtenerEstudiante(id).then(function (profesor) {
-        return knex("estudiante_externo")
-          .where({ id: id })
-          .select("*")
-          .then(function (estudianteExterno) {
-            return obtenerDatosPersonalesExterno(
-              estudianteExterno[0]["datos_personales_Id"]
-            ).then(function (datos) {
-              return knex("universidad")
-                .where({ id: estudianteExterno[0]["universidad"] })
-                .select("*")
-                .then(function (uni) {
-                  return new TEstudianteExterno(
-                    usuario["id"],
-                    datos["correo"],
-                    datos["nombre"],
-                    datos["apellidos"],
-                    datos["password"],
-                    usuario["origin_login"],
-                    usuario["origin_img"],
-                    usuario["createdAt"],
-                    usuario["updatedAt"],
-                    usuario["terminos_aceptados"],
-                    uni[0]["id"],
-                    estudianteExterno[0]["titulacion"],
-                    uni[0]["nombre"],
-                    uni[0]["provincia"]
-                  );
-                });
-            });
+        return obtenerUsuario(id).then(function (usuario) {
+          return obtenerDatosPersonalesExterno(
+            estudianteExterno[0]["datos_personales_Id"]
+          ).then(function (datos) {
+            return knex("universidad")
+              .where({ id: estudianteExterno[0]["universidad"] })
+              .select("*")
+              .then(function (uni) {
+                return new TEstudianteExterno(
+                  usuario["id"],
+                  datos["correo"],
+                  datos["nombre"],
+                  datos["apellidos"],
+                  datos["password"],
+                  usuario["origin_login"],
+                  usuario["origin_img"],
+                  usuario["createdAt"],
+                  usuario["updatedAt"],
+                  usuario["terminos_aceptados"],
+                  uni[0]["id"],
+                  estudianteExterno[0]["titulacion"],
+                  uni[0]["nombre"],
+                  uni[0]["provincia"]
+                );
+              });
           });
+        });
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      console.log("Se ha producido un error");
+    });
+}
+
+function obtenerEstudianteExternoPorDatosPersonales(id) {
+  return knex("estudiante_externo")
+    .where({ datos_personales_Id: id })
+    .select("*")
+    .then(function (estudianteExterno) {
+      if (estudianteExterno.length == 0) {
+        return 0;
+      }
+      id = estudianteExterno[0]["id"];
+      return obtenerEstudiante(id).then(function (profesor) {
+        return obtenerUsuario(id).then(function (usuario) {
+          return obtenerDatosPersonalesExterno(
+            estudianteExterno[0]["datos_personales_Id"]
+          ).then(function (datos) {
+            return knex("universidad")
+              .where({ id: estudianteExterno[0]["universidad"] })
+              .select("*")
+              .then(function (uni) {
+                return new TEstudianteExterno(
+                  usuario["id"],
+                  datos["correo"],
+                  datos["nombre"],
+                  datos["apellidos"],
+                  datos["password"],
+                  usuario["origin_login"],
+                  usuario["origin_img"],
+                  usuario["createdAt"],
+                  usuario["updatedAt"],
+                  usuario["terminos_aceptados"],
+                  uni[0]["id"],
+                  estudianteExterno[0]["titulacion"],
+                  uni[0]["nombre"],
+                  uni[0]["provincia"]
+                );
+              });
+          });
+        });
       });
     })
     .catch((err) => {
@@ -1489,6 +1906,7 @@ module.exports = {
   insertarOficinaAps,
   insertarUsuario,
   borrarUsuario,
+  obtenerUsuarioSinRol,
   obtenerProfesoresInternos,
   obtenerOficinaAps,
   obtenerProfesor,

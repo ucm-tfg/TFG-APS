@@ -1145,6 +1145,5 @@ module.exports = {
   obtenerTodasIniciativas,
   eliminarOferta,
   eliminarDemanda,
-  eliminarIniciativa,
-  limpiarAnuncioServicios,
+  eliminarIniciativa
 };
