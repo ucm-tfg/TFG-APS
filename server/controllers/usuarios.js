@@ -5,7 +5,6 @@ const { generarJWT } = require('../helpers/jwt');
 const { esGestor } = require('../helpers/auth');
 const { ROL_GESTOR } = require('./../models/rol.model');
 
-
 const getUsuarios = async(req, res) => {
     try {
         const skip = Number(req.query.skip) || 0;
@@ -55,7 +54,6 @@ const getUsuarios = async(req, res) => {
 
 const getUsuario = async(req, res) => {
     try {
-
         const uid = req.params.uid;
         const usuario = await Usuario.findById(uid);
 
