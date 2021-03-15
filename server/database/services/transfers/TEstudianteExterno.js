@@ -10,6 +10,7 @@ class TEstudianteExterno extends TEstudiante{
         this.titulacion=titulacion;
         this.nombreUniversidad=nombreUniversidad;
         this.provinciaUniversidad=provinciaUniversidad;
+        this.rol = "ROL_ESTUDIANTE";
     }
     getNombre(){
         return this.nombre;
