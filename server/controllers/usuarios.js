@@ -4,6 +4,7 @@ const Usuario = require('./../models/usuario.model');
 const { generarJWT } = require('../helpers/jwt');
 const { esGestor } = require('../helpers/auth');
 const { ROL_GESTOR } = require('./../models/rol.model');
+const dao_usuario = require("./../database/services/daos/daoUsuario");
 
 const getUsuarios = async(req, res) => {
     try {
@@ -55,7 +56,7 @@ const getUsuarios = async(req, res) => {
 const getUsuario = async(req, res) => {
     try {
         const uid = req.params.uid;
-        const usuario = await Usuario.findById(uid);
+        const usuario = await dao_usuario.obtenerUsuarioSinRolPorId(uid);
 
         return res.status(200).json({
             ok: true,
@@ -124,7 +125,7 @@ const actualizarUsuario = async(req, res = response) => {
     const uid = req.params.id;
 
     try {
-        const usuario = await Usuario.findById(uid);
+        const usuario = await dao_usuario.obtenerUsuarioSinRolPorId(uid);
 
         if(!usuario) {
             return res.status(404).json({
@@ -158,7 +159,8 @@ const actualizarUsuario = async(req, res = response) => {
 
         // si lo quiere cambiar, comprobar que no existe uno igual
         if(campos.email) {
-            const existeEmail = await Usuario.findOne({ email: campos.email });
+            // const existeEmail = await Usuario.findOne({ email: campos.email });
+            const existeEmail = await dao_usuario.obtenerUsuarioSinRolPorEmail(campos.email);
             if(existeEmail && uid !== existeEmail.id) {
                 return res.status(400).json({
                     ok: false,
@@ -221,7 +223,8 @@ const borrarUsuario = async(req, res = response) => {
     const uid = req.params.id;
 
     try {
-        const usuario = await Usuario.findById(uid);
+        // const usuario = await Usuario.findById(uid);
+        const usuario = await dao_usuario.obtenerUsuarioSinRolPorId(uid);
 
         if(!usuario) {
             return res.status(404).json({
