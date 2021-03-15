@@ -9,6 +9,7 @@ class TProfesorInterno extends TProfesor{
         this.nombre=nombre;
         this.apellidos=apellidos;
         this.password=password;
+        this.rol = "ROL_PROFESOR";
     }
     getNombre(){
         return this.nombre;

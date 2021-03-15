@@ -9,6 +9,7 @@ class TEntidad extends TUsuario{
         this.password=password;
         this.sector=sector;
         this.nombre_entidad=nombre_entidad;
+        this.rol = "ROL_ENTIDAD";
     }
 
    

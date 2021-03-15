@@ -202,7 +202,7 @@ const renewToken = async(req, res = response) => {
     }
 
     // const usuario_bd = await Usuario.findById(usuario.uid);
-    const usuario_bd = await dao_usuario.obtenerUsuarioSinRolPorId(usuario.getId());
+    const usuario_bd = await dao_usuario.obtenerUsuarioSinRolPorId(usuario.id);
     const token = await generarJWT(usuario_bd);
 
     return res.status(200).json({
