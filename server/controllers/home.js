@@ -1,13 +1,14 @@
 const Proyecto = require("../models/proyecto.model");
 const Partenariado = require("../models/partenariado.model");
 const Iniciativa = require("../models/iniciativa.model");
+const dao_colaboracion = require("./../database/services/daos/daoColaboracion");
 
 const getDatosHome = async(req, res) => {
     try {
         const [ count_proyectos, count_partenariados, count_iniciativas] = await Promise.all([
-            Proyecto.countDocuments(),
-            Partenariado.countDocuments(),
-            Iniciativa.countDocuments(),
+            dao_colaboracion.contarProyectos(),
+            dao_colaboracion.contarPartenariados(),
+            dao_colaboracion.contarIniciativas(),
         ]);
 
         return res.status(200).json({
