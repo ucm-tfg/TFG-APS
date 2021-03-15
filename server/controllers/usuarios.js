@@ -4,6 +4,8 @@ const Usuario = require('./../models/usuario.model');
 const { generarJWT } = require('../helpers/jwt');
 const { esGestor } = require('../helpers/auth');
 const { ROL_GESTOR } = require('./../models/rol.model');
+const dao_usuario = require('../database/services/daos/daoUsuario');
+var TEntidad = require('../database/services/transfers/TEntidad');
 
 const getUsuarios = async(req, res) => {
     try {
@@ -53,6 +55,7 @@ const getUsuarios = async(req, res) => {
 
 
 const getUsuario = async(req, res) => {
+    console.log("entra")
     try {
         const uid = req.params.uid;
         const usuario = await Usuario.findById(uid);
@@ -73,41 +76,44 @@ const getUsuario = async(req, res) => {
 }
 
 
-const crearUsuario = async(req, res = response) => {
+const crearUsuario = async (req, res = response) => {
 
     const { email, password } = req.body;
 
     try {
-        const existeEmail = await Usuario.findOne({ email });
-        
-        if(existeEmail) {
-            return res.status(400).json({
-                ok: false,
-                msg: 'El correo ya está registrado',
+
+        if (req.body.rol === 'ROL_ENTIDAD') {
+            let existeEmail = await dao_usuario.obtenerUsuarioSinRolPorEmail(email)
+            if (existeEmail !== 0) {
+                return res.status(400).json({
+                    ok: false,
+                    msg: 'El correo ya está registrado',
+                });
+
+            }
+
+            let passwordNew = bcrypt.hashSync(password, bcrypt.genSaltSync());
+
+            // solo un usuario gestor puede crear otro gestor
+            if (req.body.rol === ROL_GESTOR && !esGestor(req)) {
+                return res.status(403).json({
+                    ok: false,
+                    msg: 'Operación no autorizada, solo gestores.',
+                });
+            }
+            let entidad = new TEntidad(null,email,req.body.nombre,req.body.apellidos,passwordNew,"APS","imagen","lll","kkk",req.body.terminos_aceptados,req.body.sector,"prueba")
+            dao_usuario.insertarEntidad(entidad);
+
+            const token = await generarJWT(entidad);
+
+            return res.status(200).json({
+                ok: true,
+                usuario: entidad,
+                token: token,
             });
         }
 
-        const usuario = new Usuario(req.body);
 
-        // solo un usuario gestor puede crear otro gestor
-        if( usuario.rol === ROL_GESTOR && !esGestor(req)) {
-            return res.status(403).json({
-                ok: false,
-                msg: 'Operación no autorizada, solo gestores.',
-            });
-        }
-
-        usuario.password = bcrypt.hashSync(password, bcrypt.genSaltSync());
-
-        await usuario.save();
-
-        const token = await generarJWT(usuario);
-
-        return res.status(200).json({
-            ok: true,
-            usuario: usuario,
-            token: token,
-        });
     } catch (error) {
 
         console.error(error);
