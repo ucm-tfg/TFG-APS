@@ -6,6 +6,9 @@ const { esGestor } = require('../helpers/auth');
 const { ROL_GESTOR } = require('./../models/rol.model');
 const dao_usuario = require('../database/services/daos/daoUsuario');
 var TEntidad = require('../database/services/transfers/TEntidad');
+const TEstudiante = require('../database/services/transfers/TEstudiante');
+const TEstudianteExterno = require('../database/services/transfers/TEstudianteExterno');
+const TProfesorExterno = require('../database/services/transfers/TProfesorExterno');
 
 const getUsuarios = async(req, res) => {
     try {
@@ -102,13 +105,93 @@ const crearUsuario = async (req, res = response) => {
                 });
             }
             let entidad = new TEntidad(null,email,req.body.nombre,req.body.apellidos,passwordNew,"APS","imagen","lll","kkk",req.body.terminos_aceptados,req.body.sector,"prueba")
-            dao_usuario.insertarEntidad(entidad);
+           
+            if(await dao_usuario.insertarEntidad(entidad) ===-1){
+                return res.status(400).json({
+                    ok: false,
+                    msg: 'Ha ocurrrido un error',
+                });  
+            }
 
             const token = await generarJWT(entidad);
 
             return res.status(200).json({
                 ok: true,
                 usuario: entidad,
+                token: token,
+            });
+        }else  if(req.body.rol === 'ROL_ESTUDIANTE'){
+            let existeEmail = await dao_usuario.obtenerUsuarioSinRolPorEmail(email)
+            if (existeEmail !== 0) {
+                return res.status(400).json({
+                    ok: false,
+                    msg: 'El correo ya está registrado',
+                });
+
+            }
+
+            let passwordNew = bcrypt.hashSync(password, bcrypt.genSaltSync());
+
+            // solo un usuario gestor puede crear otro gestor
+            if (req.body.rol === ROL_GESTOR && !esGestor(req)) {
+                return res.status(403).json({
+                    ok: false,
+                    msg: 'Operación no autorizada, solo gestores.',
+                });
+            }
+ 
+            let estudiante = new TEstudianteExterno(null,email,req.body.nombre,req.body.apellidos,passwordNew,"APS","imagen","lll","kkk",req.body.terminos_aceptados,1,
+            req.body.titulacion,
+            req.body.universidad,
+            null)
+            if( await dao_usuario.insertarEstudianteExterno(estudiante) ===-1){
+                return res.status(400).json({
+                    ok: false,
+                    msg: 'Ha ocurrrido un error',
+                });  
+            }
+
+            const token = await generarJWT(estudiante);
+
+            return res.status(200).json({
+                ok: true,
+                usuario: estudiante,
+                token: token,
+            });
+        }
+        else if(req.body.rol === 'ROL_PROFESOR'){
+            let existeEmail = await dao_usuario.obtenerUsuarioSinRolPorEmail(email)
+            if (existeEmail !== 0) {
+                return res.status(400).json({
+                    ok: false,
+                    msg: 'El correo ya está registrado',
+                });
+
+            }
+
+            let passwordNew = bcrypt.hashSync(password, bcrypt.genSaltSync());
+
+            // solo un usuario gestor puede crear otro gestor
+            if (req.body.rol === ROL_GESTOR && !esGestor(req)) {
+                return res.status(403).json({
+                    ok: false,
+                    msg: 'Operación no autorizada, solo gestores.',
+                });
+            }
+            let profesor = new TProfesorExterno(null,email,req.body.nombre,req.body.apellidos,passwordNew,"APS","imagen","lll","kkk",req.body.terminos_aceptados,1,req.body.universidad,"prueba")
+            
+            if( await dao_usuario.insertarProfesorExterno(profesor) ===-1){
+                return res.status(400).json({
+                    ok: false,
+                    msg: 'Ha ocurrrido un error',
+                });  
+            }
+
+            const token = await generarJWT(profesor);
+
+            return res.status(200).json({
+                ok: true,
+                usuario: profesor,
                 token: token,
             });
         }
