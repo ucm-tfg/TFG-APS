@@ -258,9 +258,9 @@ function obtenerDemandaServicio(id_demanda) {
         "Se ha producido un error al intentar obtener de la base de datos la demanda de servicio con id ",
         id_demanda
       );
-    })
-    .finally(() => {
-      knex.destroy();
+    // })
+    // .finally(() => {
+    //   knex.destroy();
     });
 }
 
@@ -318,9 +318,9 @@ function obtenerOfertaServicio(id_oferta) {
         "Se ha producido un error al intentar obtener de la base de datos la oferta de servicio con id ",
         id_oferta
       );
-    })
-    .finally(() => {
-      knex.destroy();
+    // })
+    // .finally(() => {
+    //   knex.destroy();
     });
 }
 

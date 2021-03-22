@@ -50,6 +50,7 @@ const tEntidad = require("./database/services/transfers/TEntidad");
 const tProfesorInterno = require("./database/services/transfers/TProfesorInterno");
 const tEstudianteExterno = require("./database/services/transfers/TEstudianteExterno");
 const tProfesorExterno = require("./database/services/transfers/TProfesorExterno");
+const matching = require("./database/services/matching/matching");
 
 //OJOOOOOO METED VOSOTROS LOS DATOS CORRESPONDIENTES( ID, ATRIBUTOS...)
 
@@ -566,7 +567,7 @@ id_demanda = 52;
 id_oferta = 50;
 estado = 1;
 _v = 11;
-let partenariado = new TPartenariado(null, titulo, descripcion, admite_externos, responsable, profesores, id_demanda, id_oferta, estado, _v);
+//let partenariado = new TPartenariado(null, titulo, descripcion, admite_externos, responsable, profesores, id_demanda, id_oferta, estado, _v);
 // dao_colaboracion.crearPartenariado(partenariado);
 // return dao_colaboracion.obtenerPartenariado(4).then((datos) =>{
 //   console.log(datos);
@@ -576,3 +577,11 @@ let partenariado = new TPartenariado(null, titulo, descripcion, admite_externos,
 // dao_colaboracion.obtenerTodosPartenariados().then((datos) =>{
 //   console.log(datos);
 // })
+
+dao_tentativa.obtenerDemandaServicio(52).then(function(demanda){
+  dao_tentativa.obtenerOfertaServicio(49).then(function(oferta){
+    //console.log(res);
+    //console.log(res2);
+    matching.negociaciones(oferta, demanda);
+  });
+});
