@@ -577,3 +577,10 @@ let partenariado = new TPartenariado(null, titulo, descripcion, admite_externos,
 // dao_colaboracion.obtenerTodosPartenariados().then((datos) =>{
 //   console.log(datos);
 // })
+
+
+//PRUEBAS MATCHING VICKY
+const matching = require('./controllers/matching');
+return matching.comprobarAreasServicio(54, 55).then((result) => {
+  console.log(result);
+})

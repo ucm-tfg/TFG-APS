@@ -1129,6 +1129,28 @@ function obtenerIdsAreas(nombre_areas) {
     });
 }
 
+function obtenerAreaServicio(id_anuncio){
+  return knex("areaservicio_anuncioservicio")
+    .join("area_servicio", "areaservicio_anuncioservicio.id_area", "=", "area_servicio.id")
+    .where({id_anuncio : id_anuncio})
+    .select(
+      "area_servicio.nombre"
+    )
+    .then((areas) =>{
+      var nombres_areas = [];
+      areas.forEach(area => {
+        nombres_areas.push(area['nombre']);
+      });
+      return nombres_areas;
+    })
+    .catch((err) => {
+      console.log(err);
+      console.log(
+        "Se ha producido un error al intentar obtener el area de servicio del anuncio ", id_anuncio
+      );
+    });
+}
+
 module.exports = {
   crearOferta,
   crearAnuncio,
@@ -1143,8 +1165,8 @@ module.exports = {
   obtenerTodasOfertasServicio,
   obtenerTodasDemandasServicio,
   obtenerTodasIniciativas,
+  obtenerAreaServicio,
   eliminarOferta,
   eliminarDemanda,
-  eliminarIniciativa,
-  limpiarAnuncioServicios,
+  eliminarIniciativa
 };
