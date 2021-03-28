@@ -54,7 +54,7 @@ function crearOferta(oferta) {
             id_oferta: id_anuncio[0],
             nombre: asignatura,
           }));
-          return knex("asignatura_objetivo")
+          return knex("asignatura")
             .insert(fieldsToInsert)
             .then(() => {
               let profesores = oferta.getProfesores();
@@ -1129,7 +1129,7 @@ function obtenerIdsAreas(nombre_areas) {
     });
 }
 
-function obtenerAreaServicio(id_anuncio){
+function obtenerAreasServicio(id_anuncio){
   return knex("areaservicio_anuncioservicio")
     .join("area_servicio", "areaservicio_anuncioservicio.id_area", "=", "area_servicio.id")
     .where({id_anuncio : id_anuncio})
@@ -1151,6 +1151,16 @@ function obtenerAreaServicio(id_anuncio){
     });
 }
 
+function obtenerCreadorOferta(id){
+  return knex('oferta_servicio').where({ id: id }).select('creador').then((creador) => {
+    return creador[0]['creador'];
+  })
+  .catch((err) => {
+    console.log(err);
+    console.log("Se ha producido un error al intentar obtener el creador de la oferta ", id);
+  })
+}
+
 module.exports = {
   crearOferta,
   crearAnuncio,
@@ -1165,7 +1175,9 @@ module.exports = {
   obtenerTodasOfertasServicio,
   obtenerTodasDemandasServicio,
   obtenerTodasIniciativas,
-  obtenerAreaServicio,
+  obtenerAreasServicio,
+  obtenerTitulacionLocal,
+  obtenerCreadorOferta,
   eliminarOferta,
   eliminarDemanda,
   eliminarIniciativa

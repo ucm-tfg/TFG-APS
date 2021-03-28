@@ -447,15 +447,16 @@ const TIniciativa = require('./database/services/transfers/TIniciativa');
 // let anio = 2020;
 // let fecha_limite = new Date (2021, 10, 04);
 // let observaciones = "URGENTE";
-// let creador = 5;
-// let area = [2];
-// let profesores = [105, 107];
+// let creador = 109;
+// let area = [2, 1];
+// let profesores = [109];
 
-// let oferta1 = new TOfertaServicio(60, titulo, descripcion, imagen, "", "", 0.9, asignatura,
+// let oferta1 = new TOfertaServicio(null, titulo, descripcion, imagen, "", "", 0.9, asignatura,
 //     cuatrimestre, anio, fecha_limite, observaciones, creador, area, profesores); 
 // dao_tentativa.obtenerOfertaServicio(57).then(function(oferta){console.log(oferta);});
 // dao_tentativa.crearOferta(oferta1);
 // anio = 2022;
+
 // asignatura = ["Ampliación de Matemáticas"]; 
 // oferta1 = new TOfertaServicio(69, titulo, descripcion, imagen, "", "", 0.9, asignatura,
 //     cuatrimestre, anio, fecha_limite, observaciones, creador, area,profesores);
@@ -481,8 +482,9 @@ const TIniciativa = require('./database/services/transfers/TIniciativa');
 // let necesidad_social = 1;
 // let titulacionlocal_demandada = [48, 49];
 // let area_servicio = [2];
-// let demanda = new TDemandaServicio(62, titulo, descripcion, imagen, "", "", 0.9,
-//     7, ciudad, finalidad, periodo_definicion_ini, periodo_definicion_fin, periodo_ejecucion_ini,
+// let creador = 119;
+// let demanda = new TDemandaServicio(null, titulo, descripcion, imagen, "", "", 0.9,
+//     creador, ciudad, finalidad, periodo_definicion_ini, periodo_definicion_fin, periodo_ejecucion_ini,
 //     periodo_ejecucion_fin, fecha_fin, observaciones_temporales, necesidad_social, titulacionlocal_demandada,
 //     area_servicio);
 // dao_tentativa.crearDemanda(demanda);
@@ -581,6 +583,10 @@ let partenariado = new TPartenariado(null, titulo, descripcion, admite_externos,
 
 //PRUEBAS MATCHING VICKY
 const matching = require('./controllers/matching');
-return matching.comprobarAreasServicio(54, 55).then((result) => {
+// return matching.comprobarAreasServicio(54, 55).then((result) => {
+//   console.log(result);
+// });
+return matching.comprobarTitulaciones(62, 64).then((result) => {
+
   console.log(result);
 })
