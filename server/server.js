@@ -577,3 +577,10 @@ let partenariado = new TPartenariado(null, titulo, descripcion, admite_externos,
 // dao_colaboracion.obtenerTodosPartenariados().then((datos) =>{
 //   console.log(datos);
 // })
+/* let value= matchingPNLDescription("esto es informatica biologia si info", "hola que tal info biologia");
+console.log(value) */
+let descripcion1="esto es informatica biologia si info";
+let descripcion2="hola que tal info biologia"
+let matching = require("./controllers/matching");
+let value = matching.matchingPNLDescription(descripcion1, descripcion2)
+console.log(value);
