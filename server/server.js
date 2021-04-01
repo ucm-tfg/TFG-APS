@@ -447,14 +447,14 @@ const TIniciativa = require('./database/services/transfers/TIniciativa');
 // let anio = 2020;
 // let fecha_limite = new Date (2021, 10, 04);
 // let observaciones = "URGENTE";
-// let creador = 109;
-// let area = [2, 1];
-// let profesores = [109];
+// let creador = 120;
+// let area = [18, 57];
+// let profesores = [120];
 
 // let oferta1 = new TOfertaServicio(null, titulo, descripcion, imagen, "", "", 0.9, asignatura,
 //     cuatrimestre, anio, fecha_limite, observaciones, creador, area, profesores); 
-// dao_tentativa.obtenerOfertaServicio(57).then(function(oferta){console.log(oferta);});
 // dao_tentativa.crearOferta(oferta1);
+// dao_tentativa.obtenerOfertaServicio(57).then(function(oferta){console.log(oferta);});
 // anio = 2022;
 
 // asignatura = ["Ampliación de Matemáticas"]; 
@@ -479,16 +479,15 @@ const TIniciativa = require('./database/services/transfers/TIniciativa');
 // let periodo_ejecucion_fin = new Date (2021, 2, 11);
 // let fecha_fin  = new Date (2021, 7, 01);
 // let observaciones_temporales = "NADA";
-// let necesidad_social = 1;
-// let titulacionlocal_demandada = [48, 49];
-// let area_servicio = [2];
+// let necesidad_social = 18;
+// let titulacionlocal_demandada = [52, 53];
+// let area_servicio = [22, 23, 21];
 // let creador = 119;
 // let demanda = new TDemandaServicio(null, titulo, descripcion, imagen, "", "", 0.9,
 //     creador, ciudad, finalidad, periodo_definicion_ini, periodo_definicion_fin, periodo_ejecucion_ini,
 //     periodo_ejecucion_fin, fecha_fin, observaciones_temporales, necesidad_social, titulacionlocal_demandada,
 //     area_servicio);
 // dao_tentativa.crearDemanda(demanda);
-
 // dao_tentativa.obtenerDemandaServicio(62).then(function(oferta){console.log(oferta);});
 // ciudad = "Barcelona"; 
 // area_servicio = [2];
@@ -583,10 +582,6 @@ let partenariado = new TPartenariado(null, titulo, descripcion, admite_externos,
 
 //PRUEBAS MATCHING VICKY
 const matching = require('./controllers/matching');
-// return matching.comprobarAreasServicio(54, 55).then((result) => {
-//   console.log(result);
-// });
-return matching.comprobarTitulaciones(62, 64).then((result) => {
-
+return matching.emparejar(65, 63).then((result) => {
   console.log(result);
-})
+});

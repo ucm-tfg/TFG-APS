@@ -1,56 +1,75 @@
 const dao_tentativa = require("./../database/services/daos/daoTentativa");
 const dao_usuario = require("./../database/services/daos/daoUsuario");
 
+async function emparejar(idOferta, idDemanda){
+    var demanda = await dao_tentativa.obtenerDemandaServicio(idDemanda);
+    var oferta = await dao_tentativa.obtenerOfertaServicio(idOferta);
+    var areasServicio = demanda.getArea_servicio();
+    var creador = await dao_usuario.obtenerProfesorInterno(oferta.getCreador());
+    var areasConocimiento = creador.getAreaConocimiento();
+    
+    var comprobacion1 = await comprobarAreaServicioConocimiento(areasServicio, areasConocimiento);
+    console.log(comprobacion1);
+}
 /*
 Compara todas las areas de servicio de la demanda y de la oferta, y devuelve el número de coincidencias.
 */
-function comprobarAreasServicio(idOferta, idDemanda){
-    return dao_tentativa.obtenerAreasServicio(idOferta).then((areas_oferta) => {
-        return dao_tentativa.obtenerAreasServicio(idDemanda).then((areas_demanda) => {
-            var coincidencias = 0;
-            areas_oferta.forEach(area1 =>{
-                var i=0;
-                var encontrado = false;
-                while(i < areas_demanda.length && !encontrado){
-                    if(area1 === areas_demanda[i]){
-                        coincidencias++;
-                        areas_demanda.splice(i, 1);
-                        encontrado = true;
-                    }
-                    i++;
-                }
-            });
-            return coincidencias;
-        });
+function comprobarAreasServicio(areasOferta, areasDemanda){
+    var coincidencias = 0;
+    areasOferta.forEach(area1 =>{
+        var i=0;
+        var encontrado = false;
+        while(i < areasDemanda.length && !encontrado){
+            if(area1 === areasDemanda[i]){
+                coincidencias++;
+                areasDemanda.splice(i, 1);
+                encontrado = true;
+            }
+            i++;
+        }
     });
+    return coincidencias;
 }
 
 /*
 Devuelve la cantidad de titulaciones que coinciden de la oferta y la demanda.
 */
-function comprobarTitulaciones(idOferta, idDemanda){
-    return dao_tentativa.obtenerTitulacionLocal(idDemanda).then((titulaciones_demanda) => {
-        return dao_tentativa.obtenerCreadorOferta(idOferta).then((profesor) => {
-            return dao_usuario.obtenerTitulacionesProfesorInterno(profesor).then((titulaciones_oferta) => {
-                var coincidencias = 0;
-                titulaciones_oferta.forEach(titulacion1 =>{
-                    var i=0;
-                    var encontrado = false;
-                    while(i < titulaciones_demanda.length && !encontrado){
-                        if(titulacion1 === titulaciones_demanda[i]['nombre']){
-                            coincidencias++;
-                            titulaciones_demanda.splice(i, 1);
-                            encontrado = true;
-                        }
-                        i++;
-                    }
-                });
-                return coincidencias;
-            });
-        });
+function comprobarTitulaciones(titulacionesOferta, titulacionesDemanda){
+    var coincidencias = 0;
+    titulacionesOferta.forEach(titulacion1 =>{
+        var i=0;
+        var encontrado = false;
+        while(i < titulacionesDemanda.length && !encontrado){
+            if(titulacion1 === titulacionesDemanda[i]['nombre']){
+                coincidencias++;
+                titulacionesDemanda.splice(i, 1);
+                encontrado = true;
+            }
+            i++;
+        }
     });
+    return coincidencias;
 }
+
+function comprobarAreaServicioConocimiento(areasServicio, areasConocimiento){
+    return dao_tentativa.obtenerAreaServicioConocimientoPorArea(areasServicio).then((result) =>{
+        var coincidencias = 0;
+        result.forEach(datos => {
+        if(areasConocimiento.find(element => element === datos['area_conocimiento']) != undefined ){
+            coincidencias++;
+        }
+        });
+        return coincidencias;
+    })
+    .catch((err) => {
+        console.log(err);
+        console.log("Se ha producido un error al comprobar las areas de servicio y las de conocimiento");
+      });
+}
+
 module.exports = {
     comprobarAreasServicio,
-    comprobarTitulaciones
+    comprobarTitulaciones,
+    comprobarAreaServicioConocimiento,
+    emparejar
 }
