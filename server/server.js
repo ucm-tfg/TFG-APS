@@ -583,5 +583,5 @@ let partenariado = new TPartenariado(null, titulo, descripcion, admite_externos,
 //PRUEBAS MATCHING VICKY
 const matching = require('./controllers/matching');
 return matching.emparejar(65, 63).then((result) => {
-  console.log(result);
+  console.log("El resultado es", result);
 });

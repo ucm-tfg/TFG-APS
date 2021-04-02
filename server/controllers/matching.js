@@ -7,9 +7,11 @@ async function emparejar(idOferta, idDemanda){
     var areasServicio = demanda.getArea_servicio();
     var creador = await dao_usuario.obtenerProfesorInterno(oferta.getCreador());
     var areasConocimiento = creador.getAreaConocimiento();
+    console.log("Area de servicio", areasServicio);
+    console.log("Area de conocimiento", areasConocimiento);
     
     var comprobacion1 = await comprobarAreaServicioConocimiento(areasServicio, areasConocimiento);
-    console.log(comprobacion1);
+    return comprobacion1;
 }
 /*
 Compara todas las areas de servicio de la demanda y de la oferta, y devuelve el número de coincidencias.
