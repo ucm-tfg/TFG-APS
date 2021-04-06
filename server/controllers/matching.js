@@ -549,7 +549,7 @@ function comprobarTitulaciones(titulacionesOferta, titulacionesDemanda){
         var i=0;
         var encontrado = false;
         while(i < titulacionesDemanda.length && !encontrado){
-            if(titulacion1 === titulacionesDemanda[i]['nombre']){
+            if(titulacion1 === titulacionesDemanda[i]){
                 coincidencias++;
                 titulacionesDemanda.splice(i, 1);
                 encontrado = true;
@@ -557,6 +557,7 @@ function comprobarTitulaciones(titulacionesOferta, titulacionesDemanda){
             i++;
         }
     });
+    console.log("las coincidencias son ", coincidencias);
     return coincidencias;
 }
 
@@ -645,48 +646,44 @@ function negociaciones(oferta, demanda){
 function matchDefinitivo(oferta, demanda){
     compatibilidad = 0.0;
     cont = 0;
-    cont = negociaciones(oferta, demanda);
+    //cont = negociaciones(oferta, demanda);
     compatibilidad+= cont;   
     console.log("La compatibilidad de momento es ", compatibilidad);
     console.log("el contador ahora mismo es ", cont);
     titulacionesDemanda = demanda.getTitulacionlocal_demandada();
     console.log("Las titulaciones de la demanda son ", titulacionesDemanda);
     profesoresOferta = oferta.getProfesores();
-    console.log("Los profesores de la oferta son ", profesoresOferta);
+    //console.log("Los profesores de la oferta son ", profesoresOferta);
     titulacionesOferta = [];
     profesoresOferta.forEach(prof=>{
-        console.log("prof vale ", prof);
-        for (String value : area_conocimiento)
-        System.out.print(value + ", ");
-    System.out.println()
-        //titulacionesOferta.push(prof.getTitulacionLocal());
+        for(let item of prof["titulacion_local"])
+        titulacionesOferta.push(item);
     });
     console.log("Las titulaciones de la oferta son ", titulacionesOferta);
-    cont += comprobarTitulaciones(titulacionesOferta, titulacionesDemanda);
+    cont = comprobarTitulaciones(titulacionesOferta, titulacionesDemanda);
     console.log("el contador ahora mismo es ", cont);
     compatibilidad+= cont;   
     console.log("La compatibilidad de momento es ", compatibilidad);
-
-    cont += emparejar(oferta, demanda);
-    console.log("el contador ahora mismo es ", cont);
-    compatibilidad+= cont;
-    console.log("La compatibilidad de momento es ", compatibilidad);
-    descripcion_oferta = oferta.getDescripcion();
-    console.log("La descripcion de la oferta es ", descripcion_oferta);
-    descripcion_demanda = demanda.getDescripcion();
-    console.log("La descripcion de la demanda es ", descripcion_demanda);
-    cont += matchingPNLDescription(descripcion_demanda, descripcion_oferta);
-    console.log("el contador ahora mismo es ", cont);
-    compatibilidad += cont;
-    console.log("La compatibilidad de momento es ", compatibilidad);
-    temp_oferta = oferta.getObservaciones_temporales();
-    console.log("Las observaciones temporales de la oferta son ", temp_oferta);
-    temp_demanda = demanda.getObservaciones_temporales();
-    console.log("Las observaciones temporales de la demanda son ", temp_demanda);
-    cont += matchingPNLDescription(temp_demanda, temp_oferta);
-    console.log("el contador ahora mismo es ", cont);
-    compatibilidad += cont;
-    console.log("La compatibilidad de momento es ", compatibilidad);
+    // cont += emparejar(oferta, demanda);
+    // console.log("el contador ahora mismo es ", cont);
+    // compatibilidad+= cont;
+    // console.log("La compatibilidad de momento es ", compatibilidad);
+    // descripcion_oferta = oferta.getDescripcion();
+    // console.log("La descripcion de la oferta es ", descripcion_oferta);
+    // descripcion_demanda = demanda.getDescripcion();
+    // console.log("La descripcion de la demanda es ", descripcion_demanda);
+    // cont += matchingPNLDescription(descripcion_demanda, descripcion_oferta);
+    // console.log("el contador ahora mismo es ", cont);
+    // compatibilidad += cont;
+    // console.log("La compatibilidad de momento es ", compatibilidad);
+    // temp_oferta = oferta.getObservaciones_temporales();
+    // console.log("Las observaciones temporales de la oferta son ", temp_oferta);
+    // temp_demanda = demanda.getObservaciones_temporales();
+    // console.log("Las observaciones temporales de la demanda son ", temp_demanda);
+    // cont += matchingPNLDescription(temp_demanda, temp_oferta);
+    // console.log("el contador ahora mismo es ", cont);
+    // compatibilidad += cont;
+    // console.log("La compatibilidad de momento es ", compatibilidad);
     return compatibilidad;
 }
 
