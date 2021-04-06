@@ -579,8 +579,8 @@ let partenariado = new TPartenariado(null, titulo, descripcion, admite_externos,
 // })
 /* let value= matchingPNLDescription("esto es informatica biologia si info", "hola que tal info biologia");
 console.log(value) */
-let descripcion1="esto es informatica biologia si info";
-let descripcion2="hola que tal info biologia"
+let descripcion1="esto es informatica biologia, si .ínfo. hola recur recur";
+let descripcion2="hola que tal, info biologia informática biologia recur recur"
 let matching = require("./controllers/matching");
 let value = matching.matchingPNLDescription(descripcion1, descripcion2)
 console.log(value);
