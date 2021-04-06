@@ -54,7 +54,7 @@ function crearOferta(oferta) {
             id_oferta: id_anuncio[0],
             nombre: asignatura,
           }));
-          return knex("asignatura_objetivo")
+          return knex("asignatura")
             .insert(fieldsToInsert)
             .then(() => {
               let profesores = oferta.getProfesores();
@@ -80,9 +80,7 @@ function crearOferta(oferta) {
           );
           return knex("anuncio_servicio").where("id", id_anuncio[0]).del();
         })
-        .finally(() => {
-          knex.destroy();
-        });
+        ;
     })
     .catch((err) => {
       console.log(err);
@@ -90,9 +88,7 @@ function crearOferta(oferta) {
         "Se ha producido un error al crear en la base de datos la oferta de servicio"
       );
     })
-    .finally(() => {
-      knex.destroy();
-    });
+    ;
 }
 
 function crearDemanda(demanda) {
@@ -135,9 +131,7 @@ function crearDemanda(demanda) {
           );
           return knex("anuncio_servicio").where("id", id_anuncio[0]).del();
         })
-        .finally(() => {
-          knex.destroy();
-        });
+        ;
     })
     .catch((err) => {
       console.log(err);
@@ -146,9 +140,7 @@ function crearDemanda(demanda) {
         demanda.getId()
       );
     })
-    .finally(() => {
-      knex.destroy();
-    });
+    ;
 }
 
 function crearIniciativa(iniciativa) {
@@ -178,9 +170,7 @@ function crearIniciativa(iniciativa) {
       console.log(err);
       console.log("Se ha producido un error al crear la iniciativa");
     })
-    .finally(() => {
-      knex.destroy();
-    });
+    ;
 }
 
 //LEER UN ELEMENTO----------------------------------------------------------------------------------------------------
@@ -227,6 +217,7 @@ function obtenerDemandaServicio(id_demanda) {
                 for (titulacion of titulaciones) {
                   titulaciones_ref.push(titulacion["nombre"]);
                 }
+                necesidad_social = necesidad_social[0]['nombre'];
                 return new transferDemandaServicio(
                   demanda[0]["id"],
                   anuncio.getTitulo(),
@@ -258,10 +249,8 @@ function obtenerDemandaServicio(id_demanda) {
         "Se ha producido un error al intentar obtener de la base de datos la demanda de servicio con id ",
         id_demanda
       );
-    // })
-    // .finally(() => {
-    //   knex.destroy();
-    });
+    })
+    ;
 }
 
 // Devuelve la oferta que tenga el id = "id_oferta"
@@ -318,9 +307,6 @@ function obtenerOfertaServicio(id_oferta) {
         "Se ha producido un error al intentar obtener de la base de datos la oferta de servicio con id ",
         id_oferta
       );
-    // })
-    // .finally(() => {
-    //   knex.destroy();
     });
 }
 
@@ -369,9 +355,6 @@ function obtenerIniciativa(id) {
         "Se ha producido un error al intentar obtener de la base de datos la iniciativa con id ",
         id
       );
-    })
-    .finally(() => {
-      knex.destroy();
     });
 }
 
@@ -467,9 +450,6 @@ function obtenerTodasOfertasServicio() {
       console.log(
         "Se ha producido un error al intentar obtener de la base de datos todas las ofertas de servicio "
       );
-    })
-    .finally(() => {
-      knex.destroy();
     });
 }
 
@@ -584,9 +564,7 @@ function obtenerTodasDemandasServicio() {
         "Se ha producido un error al intentar obtener de la base de datos todas las ofertas de servicio "
       );
     })
-    .finally(() => {
-      knex.destroy();
-    });
+    ;
 }
 function obtenerIniciativasInternos() {
   return knex("iniciativa")
@@ -709,9 +687,7 @@ function obtenerTodasIniciativas() {
         "Se ha producido un error al intentar obtener de la base de datos todas las iniciativas "
       );
     })
-    .finally(() => {
-      knex.destroy();
-    });
+    ;
 }
 
 //ACTUALIZAR--------------------------------------------------------------------------------------------------
@@ -814,9 +790,7 @@ function actualizarOfertaServicio(oferta) {
           oferta.getId()
         );
       })
-      .finally(() => {
-        knex.destroy();
-      });
+      ;
   });
 }
 
@@ -879,9 +853,7 @@ function actualizarDemanda(demanda) {
           demanda.getId()
         );
       })
-      .finally(() => {
-        knex.destroy();
-      });
+      ;
   });
 }
 
@@ -918,9 +890,7 @@ function actualizarIniciativa(iniciativa) {
         iniciativa.getId()
       );
     })
-    .finally(() => {
-      knex.destroy();
-    });
+    ;
 }
 
 //ELIMINAR UN ELEMENTO---------------------------------------------------------------------------------------------------
@@ -970,9 +940,7 @@ function eliminarOferta(id_oferta) {
         id_oferta
       );
     })
-    .finally(() => {
-      knex.destroy();
-    });
+    ;
 }
 
 function eliminarDemanda(id_demanda) {
@@ -998,9 +966,7 @@ function eliminarDemanda(id_demanda) {
         id_demanda
       );
     })
-    .finally(() => {
-      knex.destroy();
-    });
+    ;
 }
 
 function eliminarAnuncio(id) {
@@ -1047,14 +1013,12 @@ function eliminarIniciativa(id) {
         id
       );
     })
-    .finally(() => {
-      knex.destroy();
-    });
+    ;
 }
 
 // MÉTODOS AUXILIARES----------------------------------------------------------------------------------------------------
 function obtenerAsignaturaObjetivo(id_oferta) {
-  return knex("asignatura_objetivo")
+  return knex("asignatura")
     .where({ id_oferta: id_oferta })
     .select("nombre")
     .catch((err) => {
@@ -1129,6 +1093,47 @@ function obtenerIdsAreas(nombre_areas) {
     });
 }
 
+function obtenerAreasServicio(id_anuncio){
+  return knex("areaservicio_anuncioservicio")
+    .join("area_servicio", "areaservicio_anuncioservicio.id_area", "=", "area_servicio.id")
+    .where({id_anuncio : id_anuncio})
+    .select(
+      "area_servicio.nombre"
+    )
+    .then((areas) =>{
+      var nombres_areas = [];
+      areas.forEach(area => {
+        nombres_areas.push(area['nombre']);
+      });
+      return nombres_areas;
+    })
+    .catch((err) => {
+      console.log(err);
+      console.log(
+        "Se ha producido un error al intentar obtener el area de servicio del anuncio ", id_anuncio
+      );
+    });
+}
+
+function obtenerCreadorOferta(id){
+  return knex('oferta_servicio').where({ id: id }).select('creador').then((creador) => {
+    return creador[0]['creador'];
+  })
+  .catch((err) => {
+    console.log(err);
+    console.log("Se ha producido un error al intentar obtener el creador de la oferta ", id);
+  })
+}
+
+function obtenerAreaServicioConocimientoPorArea(servicios){
+  return knex.select('area_conocimiento').from('matching_areas')
+  .whereIn('area_servicio', servicios)
+  .catch((err) => {
+    console.log(err);
+    console.log("Se ha producido un error al intentar obtener datos de la tabla matching_areas");
+  });
+}
+
 module.exports = {
   crearOferta,
   crearAnuncio,
@@ -1140,9 +1145,13 @@ module.exports = {
   obtenerOfertaServicio,
   obtenerDemandaServicio,
   obtenerIniciativa,
+  obtenerAreaServicioConocimientoPorArea,
   obtenerTodasOfertasServicio,
   obtenerTodasDemandasServicio,
   obtenerTodasIniciativas,
+  obtenerAreasServicio,
+  obtenerTitulacionLocal,
+  obtenerCreadorOferta,
   eliminarOferta,
   eliminarDemanda,
   eliminarIniciativa

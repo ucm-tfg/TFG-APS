@@ -1951,11 +1951,34 @@ function obtenerProfesoresInternos(arrayProfesores) {
       return resultadoF;
     });
 }
+
+function obtenerTitulacionesProfesorInterno(id){
+  return knex("titulacionlocal_profesor")
+    .join("titulacion_local", "titulacionlocal_profesor.id_titulacion", "=", "titulacion_local.id")
+    .where({id_profesor : id})
+    .select(
+      "titulacion_local.nombre"
+    )
+    .then((titulaciones) =>{
+      var nombres_titulaciones = [];
+      titulaciones.forEach(titulacion => {
+        nombres_titulaciones.push(titulacion['nombre']);
+      });
+      return nombres_titulaciones;
+    })
+    .catch((err) => {
+      console.log(err);
+      console.log(
+        "Se ha producido un error al intentar obtener las titulaciones del profesor ", id
+      );
+    });
+}
 module.exports = {
   obtenerUsuario,
   obtenerEstudianteExterno,
   obtenerProfesorExterno,
   obtenerEstudianteInterno,
+  obtenerTitulacionesProfesorInterno,
   obtenerAdmin,
   insertarProfesorExterno,
   insertarEstudianteExterno,
