@@ -50,7 +50,7 @@ const tEntidad = require("./database/services/transfers/TEntidad");
 const tProfesorInterno = require("./database/services/transfers/TProfesorInterno");
 const tEstudianteExterno = require("./database/services/transfers/TEstudianteExterno");
 const tProfesorExterno = require("./database/services/transfers/TProfesorExterno");
-const matching = require("./database/services/matching/matching");
+const matching = require("./controllers/matching");
 
 //OJOOOOOO METED VOSOTROS LOS DATOS CORRESPONDIENTES( ID, ATRIBUTOS...)
 
@@ -579,10 +579,11 @@ _v = 11;
 //   console.log(datos);
 // })
 
-dao_tentativa.obtenerDemandaServicio(52).then(function(demanda){
-  dao_tentativa.obtenerOfertaServicio(49).then(function(oferta){
-    //console.log(res);
-    //console.log(res2);
-    matching.negociaciones(oferta, demanda);
+dao_tentativa.obtenerDemandaServicio(63).then(function(demanda){
+  dao_tentativa.obtenerOfertaServicio(65).then(function(oferta){
+    //console.log(demanda);
+    //console.log(oferta);
+    let res = matching.matchDefinitivo(oferta, demanda);
+    console.log(res);
   });
 });

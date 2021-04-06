@@ -1,5 +1,12 @@
 let fs = require('fs');
 const path = require("path");
+const dao_tentativa = require("./../database/services/daos/daoTentativa");
+const dao_usuario = require("./../database/services/daos/daoUsuario");
+const transferOfertaServicio = require("../database/services/transfers/TOfertaServicio");
+const transferDemandaServicio = require("../database/services/transfers/TDemandaServicio");
+const { date } = require('faker');
+const { compare } = require('bcryptjs');
+var TProfesorInterno = require("../database/services/transfers/TProfesorInterno");
 
 
 String.prototype.removeStopWords = function () {
@@ -503,15 +510,9 @@ function matchingPNLDescription(descriptionDemanda, descriptionOferta) {
 }
 
 
-module.exports = { matchingPNLDescription };
-const dao_tentativa = require("./../database/services/daos/daoTentativa");
-const dao_usuario = require("./../database/services/daos/daoUsuario");
-
-async function emparejar(idOferta, idDemanda){
-    var demanda = await dao_tentativa.obtenerDemandaServicio(idDemanda);
-    var oferta = await dao_tentativa.obtenerOfertaServicio(idOferta);
-    var areasServicio = demanda.getArea_servicio();
-    var creador = await dao_usuario.obtenerProfesorInterno(oferta.getCreador());
+async function emparejar(Oferta, Demanda){
+    var areasServicio = Demanda.getArea_servicio();
+    var creador = await dao_usuario.obtenerProfesorInterno(Oferta.getCreador());
     var areasConocimiento = creador.getAreaConocimiento();
     console.log("Area de servicio", areasServicio);
     console.log("Area de conocimiento", areasConocimiento);
@@ -575,9 +576,126 @@ function comprobarAreaServicioConocimiento(areasServicio, areasConocimiento){
       });
 }
 
+
+function negociaciones(oferta, demanda){
+    definicion_demanda = demanda.getPeriodo_definicion_ini();
+    definicion_oferta = oferta.getFecha_limite();
+    anio_academico = oferta.getAnio_academico();
+    if(definicion_demanda > definicion_oferta){
+        console.log("tarde");
+        return -1000;//para que el peso sea mucho mayor y asi directamente sea el anti-match
+    }
+    else{
+        //aqui habria que ver el mes de la fecha de fin para ver a que cuatrimestre corresponde
+        ejecucion_demanda_ini = demanda.getPeriodo_ejecucion_ini();
+        ejecucion_demanda_fin = demanda.getPeriodo_ejecucion_fin();
+        if((anio_academico != ejecucion_demanda_ini.getFullYear()) && (anio_academico + 1 != ejecucion_demanda_ini.getFullYear())){
+            console.log("no coinciden los años");
+            console.log("año academico ", anio_academico);
+            console.log("año demanda ", ejecucion_demanda_ini.getFullYear());
+            console.log("año academico + 1", anio_academico+1);
+            return -1000;
+        }
+        else if((anio_academico != ejecucion_demanda_fin.getFullYear()) && (anio_academico + 1 != ejecucion_demanda_fin.getFullYear())){
+            console.log("no coinciden los años");
+            return -1000;
+        }
+        console.log("El proyecto empezaría ", ejecucion_demanda_ini);
+        console.log("El proyecto acabaría ", ejecucion_demanda_fin);
+        if(ejecucion_demanda_ini.getMonth() >= 6 && ejecucion_demanda_ini.getMonth() < 8){
+            console.log("Es verano");
+            return -1000;//partiendo del hecho de que en verano no hay clases
+        }
+        else if((ejecucion_demanda_ini.getMonth() >= 1 && ejecucion_demanda_ini.getMonth() < 6) && ejecucion_demanda_fin.getMonth() < 6){
+            console.log("Segundo cuatrimestre");
+            if(oferta.getCuatrimestre() == 2){
+                console.log("cuadra todo");
+                return 1;
+            }
+            else {
+                console.log("cuatrimestres no coinciden");
+                return -1000;//Devuelvo 0 porque no lo considero anti matching, sino que se podría renegociar durante la propia etapa de partenariado
+            }
+        }
+        else if(ejecucion_demanda_ini.getMonth() >= 8 && ((ejecucion_demanda_fin.getMonth() <= 11 && ejecucion_demanda_fin.getMonth() >= 8) || ejecucion_demanda_fin.getMonth() == 0)){
+            console.log("Primer cuatrimestre");
+            if(oferta.getCuatrimestre() == 1){
+                console.log("cuadra todo");
+                return 1;
+            }
+            else {
+                console.log("cuatrimestres no coinciden");
+                return -1000;//Devuelvo 0 porque no lo considero anti matching, sino que se podría renegociar durante la propia etapa de partenariado
+            }
+        }
+        else {
+            console.log("Anual")
+            if(oferta.getCuatrimestre() == 3){//he tomado anual como el 3 debido a que cuatrimestre es un int
+                console.log("cuadra todo");
+                return 1;
+            }
+            else {
+                console.log("cuatrimestres no coinciden");
+                return -1000;//Devuelvo 0 porque no lo considero anti matching, sino que se podría renegociar durante la propia etapa de partenariado
+            }
+        }
+    }
+}
+
+function matchDefinitivo(oferta, demanda){
+    compatibilidad = 0.0;
+    cont = 0;
+    cont = negociaciones(oferta, demanda);
+    compatibilidad+= cont;   
+    console.log("La compatibilidad de momento es ", compatibilidad);
+    console.log("el contador ahora mismo es ", cont);
+    titulacionesDemanda = demanda.getTitulacionlocal_demandada();
+    console.log("Las titulaciones de la demanda son ", titulacionesDemanda);
+    profesoresOferta = oferta.getProfesores();
+    console.log("Los profesores de la oferta son ", profesoresOferta);
+    titulacionesOferta = [];
+    profesoresOferta.forEach(prof=>{
+        console.log("prof vale ", prof);
+        for (String value : area_conocimiento)
+        System.out.print(value + ", ");
+    System.out.println()
+        //titulacionesOferta.push(prof.getTitulacionLocal());
+    });
+    console.log("Las titulaciones de la oferta son ", titulacionesOferta);
+    cont += comprobarTitulaciones(titulacionesOferta, titulacionesDemanda);
+    console.log("el contador ahora mismo es ", cont);
+    compatibilidad+= cont;   
+    console.log("La compatibilidad de momento es ", compatibilidad);
+
+    cont += emparejar(oferta, demanda);
+    console.log("el contador ahora mismo es ", cont);
+    compatibilidad+= cont;
+    console.log("La compatibilidad de momento es ", compatibilidad);
+    descripcion_oferta = oferta.getDescripcion();
+    console.log("La descripcion de la oferta es ", descripcion_oferta);
+    descripcion_demanda = demanda.getDescripcion();
+    console.log("La descripcion de la demanda es ", descripcion_demanda);
+    cont += matchingPNLDescription(descripcion_demanda, descripcion_oferta);
+    console.log("el contador ahora mismo es ", cont);
+    compatibilidad += cont;
+    console.log("La compatibilidad de momento es ", compatibilidad);
+    temp_oferta = oferta.getObservaciones_temporales();
+    console.log("Las observaciones temporales de la oferta son ", temp_oferta);
+    temp_demanda = demanda.getObservaciones_temporales();
+    console.log("Las observaciones temporales de la demanda son ", temp_demanda);
+    cont += matchingPNLDescription(temp_demanda, temp_oferta);
+    console.log("el contador ahora mismo es ", cont);
+    compatibilidad += cont;
+    console.log("La compatibilidad de momento es ", compatibilidad);
+    return compatibilidad;
+}
+
 module.exports = {
     comprobarAreasServicio,
     comprobarTitulaciones,
     comprobarAreaServicioConocimiento,
-    emparejar
+    emparejar,
+    matchingPNLDescription,
+    negociaciones,
+    matchDefinitivo
 }

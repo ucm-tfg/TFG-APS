@@ -1018,7 +1018,7 @@ function eliminarIniciativa(id) {
 
 // MÉTODOS AUXILIARES----------------------------------------------------------------------------------------------------
 function obtenerAsignaturaObjetivo(id_oferta) {
-  return knex("asignatura")
+  return knex("asignatura_objetivo")
     .where({ id_oferta: id_oferta })
     .select("nombre")
     .catch((err) => {
