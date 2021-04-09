@@ -448,7 +448,7 @@ const TIniciativa = require('./database/services/transfers/TIniciativa');
 // let fecha_limite = new Date (2021, 10, 04);
 // let observaciones = "URGENTE";
 // let creador = 120;
-// let area = [18, 57];
+// let area = [7,5,35,37,36,29];
 // let profesores = [120];
 
 // let oferta1 = new TOfertaServicio(null, titulo, descripcion, imagen, "", "", 0.9, asignatura,
@@ -480,8 +480,8 @@ const TIniciativa = require('./database/services/transfers/TIniciativa');
 // let fecha_fin  = new Date (2021, 7, 01);
 // let observaciones_temporales = "NADA";
 // let necesidad_social = 18;
-// let titulacionlocal_demandada = [52, 53];
-// let area_servicio = [22, 23, 21];
+// let titulacionlocal_demandada = [1, 2];
+// let area_servicio = [7,5,35,37,36,29];
 // let creador = 119;
 // let demanda = new TDemandaServicio(null, titulo, descripcion, imagen, "", "", 0.9,
 //     creador, ciudad, finalidad, periodo_definicion_ini, periodo_definicion_fin, periodo_ejecucion_ini,
@@ -522,15 +522,15 @@ const TIniciativa = require('./database/services/transfers/TIniciativa');
 // });
 
 //--------------------------------------Pruebas del DAO comunicacion
-const dao_comunicacion = require('./database/services/daos/daoComunicacion');
-const TUpload = require('./database/services/transfers/TUpload');
-const TMensajes = require('./database/services/transfers/TMensajes');
-const TMail = require('./database/services/transfers/TMail');
-const TNewsletter = require('./database/services/transfers/TNewsletter');
-const dao_colaboracion = require('./database/services/daos/daoColaboracion');
-const TColaboracion = require('./database/services/transfers/TColaboracion');
-const TPartenariado = require('./database/services/transfers/TPartenariado');
-const { date } = require('faker');
+// const dao_comunicacion = require('./database/services/daos/daoComunicacion');
+// const TUpload = require('./database/services/transfers/TUpload');
+// const TMensajes = require('./database/services/transfers/TMensajes');
+// const TMail = require('./database/services/transfers/TMail');
+// const TNewsletter = require('./database/services/transfers/TNewsletter');
+// const dao_colaboracion = require('./database/services/daos/daoColaboracion');
+// const TColaboracion = require('./database/services/transfers/TColaboracion');
+// const TPartenariado = require('./database/services/transfers/TPartenariado');
+// const { date } = require('faker');
 
 // let texto = "texto de prueba para mensaje de colaboracion";
 // let fecha = new Date(2021, 2, 16);//pone horas minutos y segundos todo a ceros, arreglar
@@ -559,16 +559,16 @@ const { date } = require('faker');
 //dao_comunicacion.obtenerUploadsAnuncio(9).then(function(upload){console.log(upload);});
 
 // PRUEBAS DAO COLABORACIÓN----------------------------------------------------------------------------------------
-titulo  = "Partenariado 1 editado";
-descripcion = "Descripción partenariado 1";
-admite_externos = 1;
-responsable = 105;
-profesores =[105, 107, 109];
-id_demanda = 52;
-id_oferta = 50;
-estado = 1;
-_v = 11;
-let partenariado = new TPartenariado(null, titulo, descripcion, admite_externos, responsable, profesores, id_demanda, id_oferta, estado, _v);
+// titulo  = "Partenariado 1 editado";
+// descripcion = "Descripción partenariado 1";
+// admite_externos = 1;
+// responsable = 105;
+// profesores =[105, 107, 109];
+// id_demanda = 52;
+// id_oferta = 50;
+// estado = 1;
+// _v = 11;
+// let partenariado = new TPartenariado(null, titulo, descripcion, admite_externos, responsable, profesores, id_demanda, id_oferta, estado, _v);
 // dao_colaboracion.crearPartenariado(partenariado);
 // return dao_colaboracion.obtenerPartenariado(4).then((datos) =>{
 //   console.log(datos);
@@ -582,6 +582,6 @@ let partenariado = new TPartenariado(null, titulo, descripcion, admite_externos,
 
 //PRUEBAS MATCHING VICKY
 const matching = require('./controllers/matching');
-return matching.emparejar(65, 63).then((result) => {
+return matching.emparejar(67, 69).then((result) => {
   console.log(result);
 });
