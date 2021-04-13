@@ -30,25 +30,22 @@ const login = async(req, res) => {
             });
         }
         pass = usuario.getPassword();
-        console.log(pass);
-        //DESCOMENTAR CUANDO SE EMPIECEN A CREERAR USUARIOS CON LA INTERFAZ
-        // const passwordOk = bcrypt.compareSync( password, pass );
-        // if(!passwordOk) {
-        //     return res.status(404).json({
-        //         ok: false,
-        //         msg: 'No existe ningún usuario con dichas credenciales.',
-        //     });
-        // }
+        const passwordOk = bcrypt.compareSync( password, pass );
+        if(!passwordOk) {
+             return res.status(404).json({
+                 ok: false,
+                 msg: 'No existe ningún usuario con dichas credenciales.',
+             });
+        }
         origin = usuario.getOriginLogin();
-        console.log(origin);
-        //DESCOMENTAR
+
         // comprobar origen de registro
-        // if(origin !== 'Portal ApS') {
-        //     res.status(401).json({
-        //         ok: false,
-        //         msg: 'Este usuario está registrado utilizando el acceso "' + usuario.origin_login + '". Por favor, utilice dicho sistema de entrada.',
-        //     });
-        // }
+         if(origin !== 'Portal ApS') {
+             res.status(401).json({
+                 ok: false,
+                 msg: 'Este usuario está registrado utilizando el acceso "' + usuario.origin_login + '". Por favor, utilice dicho sistema de entrada.',
+             });
+         }
 
         // generar token
         const token = await generarJWT(usuario);
@@ -201,14 +198,15 @@ const renewToken = async(req, res = response) => {
         });
     }
 
-    // const usuario_bd = await Usuario.findById(usuario.uid);
-    const usuario_bd = await dao_usuario.obtenerUsuarioSinRolPorId(usuario.id);
-    const token = await generarJWT(usuario_bd);
+   //Este valor se usara en detalle cuando se cambiara la interfaz
+    const usuario_bd = await dao_usuario.obtenerUsuarioSinRolPorId(usuario.uid);
+
+    const token = await generarJWT(usuario);
 
     return res.status(200).json({
         ok: true,
         token,
-        usuario: usuario_bd,
+        usuario: usuario,
     });
 }
 

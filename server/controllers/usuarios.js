@@ -140,22 +140,34 @@ const crearUsuario = async (req, res = response) => {
                 });
             }
  
-            let estudiante = new TEstudianteExterno(null,email,req.body.nombre,req.body.apellidos,passwordNew,"APS","imagen","lll","kkk",req.body.terminos_aceptados,1,
+            let estudiante = new TEstudianteExterno(null,email,req.body.nombre,req.body.apellidos,passwordNew,"Portal ApS","imagen","lll","kkk",req.body.terminos_aceptados,1,
             req.body.titulacion,
             req.body.universidad,
             null)
-            if( await dao_usuario.insertarEstudianteExterno(estudiante) ===-1){
+            let id=await dao_usuario.insertarEstudianteExterno(estudiante);
+            if( id ===-1){
                 return res.status(400).json({
                     ok: false,
                     msg: 'Ha ocurrrido un error',
                 });  
             }
-
-            const token = await generarJWT(estudiante);
+            let estu= {
+                uid: id,
+                email: email,
+                  rol:req.body.rol,
+                  password: passwordNew,
+                  password_2:passwordNew,
+                  nombre: req.body.nombre,
+                  apellidos: req.body.apellidos,
+                  universidad: req.body.universidad,
+                  titulacion: req.body.universidad,
+                  terminos_aceptados: req.body.terminos_aceptados
+            }
+            const token = await generarJWT(estu);
 
             return res.status(200).json({
                 ok: true,
-                usuario: estudiante,
+                usuario: estu,
                 token: token,
             });
         }
