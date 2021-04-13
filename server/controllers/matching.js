@@ -4,7 +4,7 @@ const path = require("path");
 
 String.prototype.removeStopWords = function () {
 
-    var word, stop_word, regex_str, regex, string_clean = this.valueOf().replace(/['!"#$%&\\'()\*+,\-\.\/:;<=>?@\[\\\]\^_`{|}~']/g,""), data, stop_words;
+    var word, stop_word, regex_str, regex, string_clean = this.valueOf().replace(/['!"#$%&\\'()\*+,\-\.\/:;<=>?@\[\\\]\^_`{|}~']/g, ""), data, stop_words;
     //data = fs.readFileSync(path.resolve(__dirname, "../../palabras.txt"), 'utf-8');
     //stop_words = (data.split("\r\n"));
     stop_words = new Array(
@@ -482,8 +482,8 @@ String.prototype.removeStopWords = function () {
 
 function matchingPNLDescription(descriptionDemanda, descriptionOferta) {
     let arrayMatchWords = [];
-    let keywordsDemanda = descriptionDemanda.removeStopWords().normalize('NFD').replace(/[\u0300-\u036f]/g,"");
-    let keywordsOferta = descriptionOferta.removeStopWords().normalize('NFD').replace(/[\u0300-\u036f]/g,"");;
+    let keywordsDemanda = descriptionDemanda.removeStopWords().normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+    let keywordsOferta = descriptionOferta.removeStopWords().normalize('NFD').replace(/[\u0300-\u036f]/g, "");;
     let arraykeywordsDemanda = keywordsDemanda.split(" ");
     let arraykeywordsOferta = keywordsOferta.split(" ");
     let count = 0;
@@ -491,15 +491,21 @@ function matchingPNLDescription(descriptionDemanda, descriptionOferta) {
     for (let i of arraykeywordsDemanda) {
         for (let j of arraykeywordsOferta) {
             if (i.toLowerCase() === j || j.toLowerCase() == i) {
-                let word= arrayMatchWords.indexOf(i.toLowerCase());
-                if(word === -1){
+                let word = arrayMatchWords.indexOf(i.toLowerCase());
+                if (word === -1) {
                     arrayMatchWords.push(i);
                 }
-                
+
             }
         }
     }
-    return arrayMatchWords.length;
+    if (arraykeywordsDemanda.length <= arraykeywordsOferta.length) {
+        count = arraykeywordsDemanda.length;
+    }
+    else {
+        count = arraykeywordsOferta.length;
+    }
+    return arrayMatchWords.length / count;
 }
 
 
