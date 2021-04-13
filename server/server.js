@@ -580,9 +580,9 @@ _v = 11;
 // })
 
 dao_tentativa.obtenerDemandaServicio(63).then(function(demanda){
-  dao_tentativa.obtenerOfertaServicio(65).then(function(oferta){
+  dao_tentativa.obtenerOfertaServicio(66).then(function(oferta){
     //console.log(demanda);
-    //console.log(oferta);
+    console.log(oferta);
     matching.matchDefinitivo(oferta, demanda).then(function(res){
       console.log("El numero de coincidencias detectadas por el match definitivo es ", res);
     });

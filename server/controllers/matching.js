@@ -594,9 +594,9 @@ function negociaciones(oferta, demanda){
         ejecucion_demanda_fin = demanda.getPeriodo_ejecucion_fin();
         if((anio_academico != ejecucion_demanda_ini.getFullYear()) && (anio_academico + 1 != ejecucion_demanda_ini.getFullYear())){
             console.log("no coinciden los años");
-            console.log("año academico ", anio_academico);
-            console.log("año demanda ", ejecucion_demanda_ini.getFullYear());
-            console.log("año academico + 1", anio_academico+1);
+            console.log("año academico de la oferta", anio_academico);
+            console.log("año academico de la demanda ", ejecucion_demanda_ini.getFullYear());
+            console.log("Segunda mitad del año académico de la oferta", anio_academico+1);
             return -1000;
         }
         else if((anio_academico != ejecucion_demanda_fin.getFullYear()) && (anio_academico + 1 != ejecucion_demanda_fin.getFullYear())){
