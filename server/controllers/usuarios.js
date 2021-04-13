@@ -106,18 +106,29 @@ const crearUsuario = async (req, res = response) => {
             }
             let entidad = new TEntidad(null,email,req.body.nombre,req.body.apellidos,passwordNew,"APS","imagen","lll","kkk",req.body.terminos_aceptados,req.body.sector,"prueba")
            
-            if(await dao_usuario.insertarEntidad(entidad) ===-1){
+            let id=await dao_usuario.insertarEntidad(entidad);
+            if( id ===-1){
                 return res.status(400).json({
                     ok: false,
                     msg: 'Ha ocurrrido un error',
                 });  
             }
-
-            const token = await generarJWT(entidad);
+            let entid= {
+                uid: id,
+                email: email,
+                  rol:req.body.rol,
+                  password: passwordNew,
+                  password_2:passwordNew,
+                  nombre: req.body.nombre,
+                  apellidos: req.body.apellidos,
+                  sector: req.body.sector,
+                  terminos_aceptados: req.body.terminos_aceptados
+            }
+            const token = await generarJWT(entid);
 
             return res.status(200).json({
                 ok: true,
-                usuario: entidad,
+                usuario: entid,
                 token: token,
             });
         }else  if(req.body.rol === 'ROL_ESTUDIANTE'){
@@ -160,7 +171,7 @@ const crearUsuario = async (req, res = response) => {
                   nombre: req.body.nombre,
                   apellidos: req.body.apellidos,
                   universidad: req.body.universidad,
-                  titulacion: req.body.universidad,
+                  titulacion: req.body.titulacion,
                   terminos_aceptados: req.body.terminos_aceptados
             }
             const token = await generarJWT(estu);
@@ -192,18 +203,31 @@ const crearUsuario = async (req, res = response) => {
             }
             let profesor = new TProfesorExterno(null,email,req.body.nombre,req.body.apellidos,passwordNew,"APS","imagen","lll","kkk",req.body.terminos_aceptados,1,req.body.universidad,"prueba")
             
-            if( await dao_usuario.insertarProfesorExterno(profesor) ===-1){
+        
+            let id = await dao_usuario.insertarProfesorExterno(profesor) ;
+            if( id ===-1){
                 return res.status(400).json({
                     ok: false,
                     msg: 'Ha ocurrrido un error',
                 });  
             }
-
-            const token = await generarJWT(profesor);
+            let prof= {
+                uid: id,
+                email: email,
+                  rol:req.body.rol,
+                  password: passwordNew,
+                  password_2:passwordNew,
+                  nombre: req.body.nombre,
+                  apellidos: req.body.apellidos,
+                  universidad: req.body.universidad,
+                  facultad: "any",
+                  terminos_aceptados: req.body.terminos_aceptados
+            }
+            const token = await generarJWT(prof);
 
             return res.status(200).json({
                 ok: true,
-                usuario: profesor,
+                usuario: prof,
                 token: token,
             });
         }
