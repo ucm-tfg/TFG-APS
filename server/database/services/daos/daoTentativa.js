@@ -1134,6 +1134,16 @@ function obtenerAreaServicioConocimientoPorArea(servicios){
   });
 }
 
+function obtenerAreaServicioTitulacionPorArea(servicios){
+  return knex.select('titulacion').from('matching_areaservicio_titulacion')
+  .whereIn('area_servicio', servicios)
+  .catch((err) => {
+    console.log(err);
+    console.log("Se ha producido un error al intentar obtener datos de la tabla matching_areaservicio_titulacion");
+  });
+}
+
+
 module.exports = {
   crearOferta,
   crearAnuncio,
@@ -1146,6 +1156,7 @@ module.exports = {
   obtenerDemandaServicio,
   obtenerIniciativa,
   obtenerAreaServicioConocimientoPorArea,
+  obtenerAreaServicioTitulacionPorArea,
   obtenerTodasOfertasServicio,
   obtenerTodasDemandasServicio,
   obtenerTodasIniciativas,

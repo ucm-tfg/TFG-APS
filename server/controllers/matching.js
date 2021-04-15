@@ -11,7 +11,7 @@ var TProfesorInterno = require("../database/services/transfers/TProfesorInterno"
 
 String.prototype.removeStopWords = function () {
 
-    var word, stop_word, regex_str, regex, string_clean = this.valueOf().replace(/['!"#$%&\\'()\*+,\-\.\/:;<=>?@\[\\\]\^_`{|}~']/g,""), data, stop_words;
+    var word, stop_word, regex_str, regex, string_clean = this.valueOf().replace(/['!"#$%&\\'()\*+,\-\.\/:;<=>?@\[\\\]\^_`{|}~']/g, ""), data, stop_words;
     //data = fs.readFileSync(path.resolve(__dirname, "../../palabras.txt"), 'utf-8');
     //stop_words = (data.split("\r\n"));
     stop_words = new Array(
@@ -489,38 +489,55 @@ String.prototype.removeStopWords = function () {
 
 function matchingPNLDescription(descriptionDemanda, descriptionOferta) {
     let arrayMatchWords = [];
-    let keywordsDemanda = descriptionDemanda.removeStopWords().normalize('NFD').replace(/[\u0300-\u036f]/g,"");
-    let keywordsOferta = descriptionOferta.removeStopWords().normalize('NFD').replace(/[\u0300-\u036f]/g,"");;
+    let keywordsDemanda = descriptionDemanda.removeStopWords().normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+    let keywordsOferta = descriptionOferta.removeStopWords().normalize('NFD').replace(/[\u0300-\u036f]/g, "");;
     let arraykeywordsDemanda = keywordsDemanda.split(" ");
-    //console.log("las palabras de la demanda son ", arraykeywordsDemanda);
     let arraykeywordsOferta = keywordsOferta.split(" ");
-    //console.log("las palabras de la oferta son ", arraykeywordsOferta);
     let count = 0;
 
     for (let i of arraykeywordsDemanda) {
         for (let j of arraykeywordsOferta) {
             if (i.toLowerCase() === j || j.toLowerCase() == i) {
-                let word= arrayMatchWords.indexOf(i.toLowerCase());
-                if(word === -1){
+                let word = arrayMatchWords.indexOf(i.toLowerCase());
+                if (word === -1) {
                     arrayMatchWords.push(i);
                 }
-                
+
             }
         }
     }
-    return arrayMatchWords.length;
+    if (arraykeywordsDemanda.length <= arraykeywordsOferta.length) {
+        count = arraykeywordsDemanda.length;
+    }
+    else {
+        count = arraykeywordsOferta.length;
+    }
+    console.log("El porcentaje de similitud es ", arrayMatchWords.length / count)
+    return arrayMatchWords.length / count;
 }
 
 
-async function emparejar(Oferta, Demanda){
-    var areasServicio = Demanda.getArea_servicio();
-    var creador = await dao_usuario.obtenerProfesorInterno(Oferta.getCreador());
+async function emparejar(oferta, demanda){
+    var areasServicio_demanda = demanda.getArea_servicio();
+    var areasServicio_oferta = oferta.getArea_servicio();
+    var creador = await dao_usuario.obtenerProfesorInterno(oferta.getCreador());
     var areasConocimiento = creador.getAreaConocimiento();
-    // console.log("Area de servicio", areasServicio);
-    // console.log("Area de conocimiento", areasConocimiento);
+    var titulaciones_profesor = creador.getTitulacionLocal();
+    var titulaciones_demanda = demanda.getTitulacionlocal_demandada();
+
+    // Cambiar el nombre de las variables
+    var comprobacionAreasServicioConocimiento 
+    = await comprobarAreaServicioConocimiento(areasServicio_demanda, areasConocimiento);
     
-    var comprobacion1 = await comprobarAreaServicioConocimiento(areasServicio, areasConocimiento);
-    return comprobacion1;
+    var comprobacion_AreasServicioDemanda_TitulacionesProfesor
+     = await comprobarAreaServicioTitulaciones(areasServicio_demanda, titulaciones_profesor);
+    console.log(comprobacion_AreasServicioDemanda_TitulacionesProfesor);
+
+     var comprobacion_AreasServicioOferta_TitulacionesDemanda
+     = await comprobarAreaServicioTitulaciones(areasServicio_oferta, titulaciones_demanda);
+     console.log(comprobacion_AreasServicioOferta_TitulacionesDemanda);
+
+     return comprobacionAreasServicioConocimiento + comprobacion_AreasServicioDemanda_TitulacionesProfesor + comprobacion_AreasServicioOferta_TitulacionesDemanda;
 }
 /*
 Compara todas las areas de servicio de la demanda y de la oferta, y devuelve el número de coincidencias.
@@ -576,6 +593,22 @@ function comprobarAreaServicioConocimiento(areasServicio, areasConocimiento){
     .catch((err) => {
         console.log(err);
         console.log("Se ha producido un error al comprobar las areas de servicio y las de conocimiento");
+      });
+}
+
+function comprobarAreaServicioTitulaciones(areasServicio, titulaciones){
+    return dao_tentativa.obtenerAreaServicioTitulacionPorArea(areasServicio).then((result) =>{
+        var coincidencias = 0;
+        result.forEach(datos => {
+        if(titulaciones.find(element => element === datos['titulacion']) != undefined ){
+            coincidencias++;
+        }
+        });
+        return coincidencias;
+    })
+    .catch((err) => {
+        console.log(err);
+        console.log("Se ha producido un error al comprobar las areas de servicio y las titulaciones");
       });
 }
 
@@ -673,13 +706,13 @@ function matchDefinitivo(oferta, demanda){
         // console.log("La descripcion de la oferta es ", descripcion_oferta);
         descripcion_demanda = demanda.getDescripcion();
         // console.log("La descripcion de la demanda es ", descripcion_demanda);
-        cont += matchingPNLDescription(descripcion_demanda, descripcion_oferta);
+        console.log("descripcion ", matchingPNLDescription(descripcion_demanda, descripcion_oferta));
         // console.log("el contador tras comparar las descripciones es ", cont);
         temp_oferta = oferta.getObservaciones_temporales();
         // console.log("Las observaciones temporales de la oferta son ", temp_oferta);
         temp_demanda = demanda.getObservaciones_temporales();
         // console.log("Las observaciones temporales de la demanda son ", temp_demanda);
-        cont += matchingPNLDescription(temp_demanda, temp_oferta);
+        console.log("temp", matchingPNLDescription(temp_demanda, temp_oferta));
         // console.log("el contador tras comprobar las restricciones temporales es ", cont);
         return cont;
     });
@@ -700,6 +733,7 @@ module.exports = {
     comprobarAreasServicio,
     comprobarTitulaciones,
     comprobarAreaServicioConocimiento,
+    comprobarAreaServicioTitulaciones,
     emparejar,
     matchingPNLDescription,
     negociaciones,

@@ -579,8 +579,8 @@ _v = 11;
 //   console.log(datos);
 // })
 
-dao_tentativa.obtenerDemandaServicio(63).then(function(demanda){
-  dao_tentativa.obtenerOfertaServicio(66).then(function(oferta){
+dao_tentativa.obtenerDemandaServicio(69).then(function(demanda){
+  dao_tentativa.obtenerOfertaServicio(67).then(function(oferta){
     //console.log(demanda);
     console.log(oferta);
     matching.matchDefinitivo(oferta, demanda).then(function(res){
