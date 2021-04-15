@@ -512,7 +512,6 @@ function matchingPNLDescription(descriptionDemanda, descriptionOferta) {
     else {
         count = arraykeywordsOferta.length;
     }
-    console.log("El porcentaje de similitud es ", arrayMatchWords.length / count)
     return arrayMatchWords.length / count;
 }
 
@@ -678,54 +677,27 @@ function negociaciones(oferta, demanda){
     }
 }
 
-function matchDefinitivo(oferta, demanda){
+function matchDefinitivo(oferta, demanda, pesoFechas, pesoTitulaciones, pesoAreaServicio, pesoDescripcion, pesoTemp){
     compatibilidad = 0.0;
-    cont = 0;
-    cont = negociaciones(oferta, demanda);
-    //compatibilidad+= cont;   
-    //console.log("La compatibilidad de momento es ", compatibilidad);
-    // console.log("el contador tras comprobar las fechas es ", cont);
+    compatibilidad =  (negociaciones(oferta, demanda)*pesoFechas);//Aqui va un peso 
     titulacionesDemanda = demanda.getTitulacionlocal_demandada();
-    // console.log("Las titulaciones de la demanda son ", titulacionesDemanda);
     profesoresOferta = oferta.getProfesores();
-    //console.log("Los profesores de la oferta son ", profesoresOferta);
     titulacionesOferta = [];
     profesoresOferta.forEach(prof=>{
         for(let item of prof["titulacion_local"])
         titulacionesOferta.push(item);
     });
-    // console.log("Las titulaciones de la oferta son ", titulacionesOferta);
-    cont += comprobarTitulaciones(titulacionesOferta, titulacionesDemanda);
-    // console.log("el contador tras comprobar las titulaciones es ", cont);
-    //compatibilidad+= cont;   
-    //console.log("La compatibilidad  tras comprobar las titulaciones es ", compatibilidad);
+    compatibilidad += (comprobarTitulaciones(titulacionesOferta, titulacionesDemanda)*pesoTitulaciones);//Aqui va otro peso
     return emparejar(oferta, demanda).then(function(coincidencias){
-        cont = cont+coincidencias;
-        // console.log("el contador tras comprobar la compatibilidad del area de servicio respecto al area de conocimiento es ", cont);
+        compatibilidad = compatibilidad+(coincidencias*pesoAreaServicio);//Aqui otro peso
         descripcion_oferta = oferta.getDescripcion();
-        // console.log("La descripcion de la oferta es ", descripcion_oferta);
         descripcion_demanda = demanda.getDescripcion();
-        // console.log("La descripcion de la demanda es ", descripcion_demanda);
-        console.log("descripcion ", matchingPNLDescription(descripcion_demanda, descripcion_oferta));
-        // console.log("el contador tras comparar las descripciones es ", cont);
+        compatibilidad += (matchingPNLDescription(descripcion_demanda, descripcion_oferta)*pesoDescripcion);//aqui otro peso
         temp_oferta = oferta.getObservaciones_temporales();
-        // console.log("Las observaciones temporales de la oferta son ", temp_oferta);
         temp_demanda = demanda.getObservaciones_temporales();
-        // console.log("Las observaciones temporales de la demanda son ", temp_demanda);
-        console.log("temp", matchingPNLDescription(temp_demanda, temp_oferta));
-        // console.log("el contador tras comprobar las restricciones temporales es ", cont);
-        return cont;
+        compatibilidad += (matchingPNLDescription(temp_demanda, temp_oferta)*pesoTemp);//aqui otro peso
+        return compatibilidad;
     });
-    
-    // compatibilidad+= cont;
-    // console.log("La compatibilidad de momento es ", compatibilidad);
-    
-   
-    // compatibilidad += cont;
-    // console.log("La compatibilidad de momento es ", compatibilidad);
-   
-    // compatibilidad += cont;
-    // console.log("La compatibilidad de momento es ", compatibilidad);
     
 }
 
