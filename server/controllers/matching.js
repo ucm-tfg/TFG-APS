@@ -7,6 +7,7 @@ const transferDemandaServicio = require("../database/services/transfers/TDemanda
 const { date } = require('faker');
 const { compare } = require('bcryptjs');
 var TProfesorInterno = require("../database/services/transfers/TProfesorInterno");
+const { ConsoleReporter } = require('jasmine');
 
 
 String.prototype.removeStopWords = function () {
@@ -518,7 +519,9 @@ function matchingPNLDescription(descriptionDemanda, descriptionOferta) {
 
 async function emparejar(oferta, demanda){
     var areasServicio_demanda = demanda.getArea_servicio();
+    console.log("Las areas de servicio de la demanda son ", areasServicio_demanda);
     var areasServicio_oferta = oferta.getArea_servicio();
+    console.log("Las areas de servicio de la oferta son ", areasServicio_oferta);
     var creador = await dao_usuario.obtenerProfesorInterno(oferta.getCreador());
     var areasConocimiento = creador.getAreaConocimiento();
     var titulaciones_profesor = creador.getTitulacionLocal();
@@ -527,16 +530,17 @@ async function emparejar(oferta, demanda){
     // Cambiar el nombre de las variables
     var comprobacionAreasServicioConocimiento 
     = await comprobarAreaServicioConocimiento(areasServicio_demanda, areasConocimiento);
+    console.log("comprobacionAreasServicioConocimiento ", comprobacionAreasServicioConocimiento);
     
     var comprobacion_AreasServicioDemanda_TitulacionesProfesor
      = await comprobarAreaServicioTitulaciones(areasServicio_demanda, titulaciones_profesor);
-    console.log(comprobacion_AreasServicioDemanda_TitulacionesProfesor);
+    console.log("comprobacionAreasServicioDemanda titulaciones ",comprobacion_AreasServicioDemanda_TitulacionesProfesor);
 
-     var comprobacion_AreasServicioOferta_TitulacionesDemanda
-     = await comprobarAreaServicioTitulaciones(areasServicio_oferta, titulaciones_demanda);
-     console.log(comprobacion_AreasServicioOferta_TitulacionesDemanda);
-
-     return comprobacionAreasServicioConocimiento + comprobacion_AreasServicioDemanda_TitulacionesProfesor + comprobacion_AreasServicioOferta_TitulacionesDemanda;
+    var comprobacion_AreasServicioOferta_TitulacionesDemanda
+    = await comprobarAreaServicioTitulaciones(areasServicio_oferta, titulaciones_demanda);
+    console.log("comprobacionAreasServiciooferta titulaciones ", comprobacion_AreasServicioOferta_TitulacionesDemanda);
+    
+    return (comprobacionAreasServicioConocimiento + comprobacion_AreasServicioDemanda_TitulacionesProfesor + comprobacion_AreasServicioOferta_TitulacionesDemanda)/3;
 }
 /*
 Compara todas las areas de servicio de la demanda y de la oferta, y devuelve el número de coincidencias.
@@ -563,8 +567,10 @@ Devuelve la cantidad de titulaciones que coinciden de la oferta y la demanda.
 */
 function comprobarTitulaciones(titulacionesOferta, titulacionesDemanda){
     var coincidencias = 0;
+    var i;
+    var max = titulacionesDemanda.length;
     titulacionesOferta.forEach(titulacion1 =>{
-        var i=0;
+        i=0;
         var encontrado = false;
         while(i < titulacionesDemanda.length && !encontrado){
             if(titulacion1 === titulacionesDemanda[i]){
@@ -575,8 +581,7 @@ function comprobarTitulaciones(titulacionesOferta, titulacionesDemanda){
             i++;
         }
     });
-    // console.log("las coincidencias son ", coincidencias);
-    return coincidencias;
+    return coincidencias/max;
 }
 
 function comprobarAreaServicioConocimiento(areasServicio, areasConocimiento){
@@ -587,7 +592,13 @@ function comprobarAreaServicioConocimiento(areasServicio, areasConocimiento){
             coincidencias++;
         }
         });
-        return coincidencias;
+        if(coincidencias/areasServicio.length <= 1){
+            return coincidencias/areasServicio.length;
+        }
+        else{
+            return 1;
+        }
+        
     })
     .catch((err) => {
         console.log(err);
@@ -603,7 +614,13 @@ function comprobarAreaServicioTitulaciones(areasServicio, titulaciones){
             coincidencias++;
         }
         });
-        return coincidencias;
+        if(coincidencias/areasServicio.length <=1){
+            return coincidencias/areasServicio.length;
+        }
+        else{
+            return 1;
+        }
+        
     })
     .catch((err) => {
         console.log(err);
@@ -680,6 +697,7 @@ function negociaciones(oferta, demanda){
 function matchDefinitivo(oferta, demanda, pesoFechas, pesoTitulaciones, pesoAreaServicio, pesoDescripcion, pesoTemp){
     compatibilidad = 0.0;
     compatibilidad =  (negociaciones(oferta, demanda)*pesoFechas);//Aqui va un peso 
+    console.log("compatibilidad despues de las negociaciones ", compatibilidad);
     titulacionesDemanda = demanda.getTitulacionlocal_demandada();
     profesoresOferta = oferta.getProfesores();
     titulacionesOferta = [];
@@ -688,16 +706,46 @@ function matchDefinitivo(oferta, demanda, pesoFechas, pesoTitulaciones, pesoArea
         titulacionesOferta.push(item);
     });
     compatibilidad += (comprobarTitulaciones(titulacionesOferta, titulacionesDemanda)*pesoTitulaciones);//Aqui va otro peso
+    console.log("compatibilidad despues de las titulaciones ", compatibilidad);
     return emparejar(oferta, demanda).then(function(coincidencias){
         compatibilidad = compatibilidad+(coincidencias*pesoAreaServicio);//Aqui otro peso
+        console.log("compatibilidad despues de las Areas de servicio ", compatibilidad);
         descripcion_oferta = oferta.getDescripcion();
         descripcion_demanda = demanda.getDescripcion();
         compatibilidad += (matchingPNLDescription(descripcion_demanda, descripcion_oferta)*pesoDescripcion);//aqui otro peso
+        console.log("compatibilidad despues de las descripciones ", compatibilidad);
         temp_oferta = oferta.getObservaciones_temporales();
         temp_demanda = demanda.getObservaciones_temporales();
         compatibilidad += (matchingPNLDescription(temp_demanda, temp_oferta)*pesoTemp);//aqui otro peso
         return compatibilidad;
     });
+    
+}
+
+function hacerMatch(fichero,oferta, demanda){
+    fs.readFile(fichero, 'utf8', (err, data)=>{
+        valores = [];
+        if (err) {
+          console.error(err);
+          return -1;
+        }
+        datos = data.split("\r\n"); 
+        for(d of datos){
+          //console.log(d)
+          d = d.split(" ");
+          //console.log(d[2]);
+          valores.push(d[2]);
+        }
+        console.log(valores);
+        return matchDefinitivo(oferta, demanda, valores[0], valores[1], valores[2], valores[3], valores[4]).then(function(res){
+            if(res >= 0.5){
+                console.log("Es match");//hacer funcion en DAO para insertar en tabla matching
+            }
+            else {
+                console.log("No es match");
+            }
+        }); 
+      });
     
 }
 
@@ -709,5 +757,6 @@ module.exports = {
     emparejar,
     matchingPNLDescription,
     negociaciones,
-    matchDefinitivo
+    matchDefinitivo,
+    hacerMatch
 }

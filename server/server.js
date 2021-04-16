@@ -578,18 +578,22 @@ _v = 11;
 // dao_colaboracion.obtenerTodosPartenariados().then((datos) =>{
 //   console.log(datos);
 // })
-pesoFechas=0.2;
-pesoTitulaciones=0.3;
-pesoAreaServicio=0.1;
-pesoDescripcion=0.2;
-pesoTemp=0.2;
+// pesoFechas=0.2;
+// pesoTitulaciones=0.3;
+// pesoAreaServicio=0.1;
+// pesoDescripcion=0.2;
+// pesoTemp=0.2;
 
-dao_tentativa.obtenerDemandaServicio(69).then(function(demanda){
-  dao_tentativa.obtenerOfertaServicio(67).then(function(oferta){
-    //console.log(demanda);
-    //console.log(oferta);
-    matching.matchDefinitivo(oferta, demanda, pesoFechas, pesoTitulaciones, pesoAreaServicio, pesoDescripcion, pesoTemp).then(function(res){
-      console.log("El porcentaje de match es", res);
-    });
-  });
-});
+fs = require('fs')
+
+
+
+ dao_tentativa.obtenerDemandaServicio(69).then(function(demanda){
+   dao_tentativa.obtenerOfertaServicio(67).then(function(oferta){
+//     //console.log(demanda);
+//     //console.log(oferta);
+     matching.hacerMatch('/TFG/ApS/server/configuracion.txt', oferta, demanda).then(function(res){
+       console.log("comprobado si son match");
+     });
+   });
+ });
