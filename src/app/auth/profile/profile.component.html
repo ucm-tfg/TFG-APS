@@ -128,10 +128,15 @@
                                         <label for="sector">Sector</label>
                                         <input name="sector" type="text" id="sector" class="form-control" autocorrect="off" autocapitalize="none" spellcheck="false" placeholder="Introduzca su sector" formControlName="sector">
                                     </div>
+
+                                    <div class="form-group" *ngIf="['ROL_GESTOR', 'ROL_ENTIDAD'].includes(usuario.rol)">
+                                        <label for="nombreEntidad">Nombre entidad</label>
+                                        <input name="nombreEntidad" type="text" id="nombreEntidad" class="form-control" autocorrect="off" autocapitalize="none" spellcheck="false" placeholder="Introduzca el nombre de la entidad" formControlName="nombreEntidad">
+                                    </div>
                                 </fieldset>
 
                                 <div class="d-flex">
-                                    <div class="flex-fill alert alert-danger mr-3" role="alert" *ngIf="this.profileForm.invalid">
+                                     <div class="flex-fill alert alert-danger mr-3" role="alert" *ngIf="this.profileForm.invalid">
                                         <div *ngIf="campoNoValido('rol')" class="col">{{ campoNoValido('rol') }}</div>
                                         <div *ngIf="campoNoValido('email')" class="col">{{ campoNoValido('email') }}</div>
                                         <div *ngIf="campoNoValido('password')" class="col">{{ campoNoValido('passwordsCoinciden') }}</div>
@@ -142,7 +147,8 @@
                                         <div *ngIf="campoNoValido('titulacion') && ['ROL_ESTUDIANTE'].includes(usuario.rol)" class="col">{{ campoNoValido('titulacion') }}</div>
                                         <div *ngIf="campoNoValido('facultad') && ['ROL_PROFESOR'].includes(usuario.rol)" class="col">{{ campoNoValido('facultad') }}</div>
                                         <div *ngIf="campoNoValido('sector')" class="col">{{ campoNoValido('sector') }}</div>
-                                    </div>
+                                        <div *ngIf="campoNoValido('nombreEntidad')" class="col">{{ campoNoValido('nombreEntidad') }}</div>
+                                    </div> 
 
                                     <div class="ml-auto mb-2">
                                          <input type="submit" value="Actualizar Perfil" class="btn btn-default btn-primary" [disabled]="profileForm.invalid">

@@ -812,6 +812,19 @@ function obtenerUsuario(id) {
     });
 }
 
+function obtenerUniversidades(){
+  return knex("universidad")
+    .select("id")
+    .select("nombre")
+    .then(function (response) {
+      return response;
+    })
+    .catch((err) => {
+      console.log(err);
+      console.log("Se ha producido un error");
+    });
+}
+
 function obtenerDatosPersonalesInterno(id) {
   return knex("datos_personales_interno")
     .where({ id: id })
@@ -2014,5 +2027,6 @@ module.exports = {
   borrarEstudianteExterno,
   borrarUsuario,
   actualizarUsuario,
+  obtenerUniversidades,
   knex,
 };
