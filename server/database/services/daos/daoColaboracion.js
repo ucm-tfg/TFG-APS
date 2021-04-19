@@ -269,7 +269,54 @@ function obtenerNota(id) {
       console.log("Se ha producido un error");
     });
 }
+//CUANTOS HAY
+function contarProyectos() {
+    return knex("proyecto")
+    .count('*')
+    .then((result) => {
+      console.log(result[0]['count(*)'])
+      return result[0]['count(*)'];
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
 
+function contarProyectos() {
+  return knex("proyecto")
+  .count('*')
+  .then((result) => {
+    console.log(result[0]['count(*)'])
+    return result[0]['count(*)'];
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+}
+
+function contarPartenariados() {
+  return knex("partenariado")
+  .count('*')
+  .then((result) => {
+    console.log(result[0]['count(*)'])
+    return result[0]['count(*)'];
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+}
+
+function contarIniciativas() {
+  return knex("iniciativa")
+  .count('*')
+  .then((result) => {
+    console.log(result[0]['count(*)'])
+    return result[0]['count(*)'];
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+}
 //ELIMINAR UNO---------------------------------------------------------------------------------------------------------------------------
 function eliminarColaboracion(id_colab) {
   return knex("colaboracion")
@@ -623,4 +670,7 @@ module.exports = {
   eliminarPartenariado,
   eliminarProyecto,
   eliminarNota,
+  contarProyectos,
+  contarIniciativas,
+  contarPartenariados
 };

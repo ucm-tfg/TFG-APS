@@ -22,41 +22,53 @@ const login = async(req, res) => {
 
     try {
         // user
-        const usuario = await dao_usuario.obtenerUsuarioSinRolPorEmail(email);
-        if(!usuario) {
+        const usuario_bd = await dao_usuario.obtenerUsuarioSinRolPorEmail(email);
+        let user = {
+            uid: usuario_bd.id,
+            email: usuario_bd.correo,
+            rol: usuario_bd.rol,
+            password: usuario_bd.password,
+            password_2: usuario_bd.password,
+            nombre: usuario_bd.nombre,
+            apellidos: usuario_bd.apellidos,
+            universidad: usuario_bd.nombreUniversidad,
+            facultad: "any",
+            sector:usuario_bd.sector,
+            nombreEntidad: usuario_bd.nombre_entidad,
+            origin_img: usuario_bd.origin_img,
+            origin_login: usuario_bd.origin_login,
+            terminos_aceptados: usuario_bd.terminos_aceptados
+        }
+        if(!usuario_bd) {
             return res.status(404).json({
                 ok: false,
                 msg: 'No existe ningún usuario con dichas credenciales.',
             });
         }
-        pass = usuario.getPassword();
-        console.log(pass);
-        //DESCOMENTAR CUANDO SE EMPIECEN A CREERAR USUARIOS CON LA INTERFAZ
-        // const passwordOk = bcrypt.compareSync( password, pass );
-        // if(!passwordOk) {
-        //     return res.status(404).json({
-        //         ok: false,
-        //         msg: 'No existe ningún usuario con dichas credenciales.',
-        //     });
-        // }
-        origin = usuario.getOriginLogin();
-        console.log(origin);
-        //DESCOMENTAR
+        pass = usuario_bd.getPassword();
+        const passwordOk = bcrypt.compareSync( password, pass );
+        if(!passwordOk) {
+             return res.status(404).json({
+                 ok: false,
+                 msg: 'No existe ningún usuario con dichas credenciales.',
+             });
+        }
+        origin = usuario_bd.getOriginLogin();
+
         // comprobar origen de registro
-        // if(origin !== 'Portal ApS') {
-        //     res.status(401).json({
-        //         ok: false,
-        //         msg: 'Este usuario está registrado utilizando el acceso "' + usuario.origin_login + '". Por favor, utilice dicho sistema de entrada.',
-        //     });
-        // }
+         if(origin !== 'Portal ApS') {
+             res.status(401).json({
+                 ok: false,
+                 msg: 'Este usuario está registrado utilizando el acceso "' + usuario.origin_login + '". Por favor, utilice dicho sistema de entrada.',
+             });
+         }
 
         // generar token
-        const token = await generarJWT(usuario);
-        console.log(token);
+        const token = await generarJWT(user);
         return res.status(200).json({
             ok: true,
             token,
-            usuario,
+            usuario: user,
         });
     } catch (error) {
         console.error(error);
@@ -144,6 +156,7 @@ const loginGoogle = async(req, res) => {
                 // universidad: '',
                 titulacion: '',
                 sector: '',
+                nombreEntidad: '',
                 terminos_aceptados: true
             });
         }
@@ -190,7 +203,6 @@ const loginGoogle = async(req, res) => {
 const renewToken = async(req, res = response) => {
 
     const tokenPrevio =  req.headers['x-token'];
-
     const verificacionToken = verificarJWT(tokenPrevio);
     console.log(verificacionToken);
     const { ok, usuario } = verificacionToken;
@@ -201,15 +213,35 @@ const renewToken = async(req, res = response) => {
             msg: 'El token no es correcto',
         });
     }
+    console.log(usuario)
+   //Este valor se usara en detalle cuando se cambiara la interfaz
+    const usuario_bd = await dao_usuario.obtenerUsuarioSinRolPorId(usuario.uid);
+   console.log(usuario_bd)
+     let user = {
+        uid: usuario_bd.id,
+        email: usuario_bd.correo,
+        rol: usuario_bd.rol,
+        password: usuario_bd.password,
+        password_2: usuario_bd.password,
+        nombre: usuario_bd.nombre,
+        apellidos: usuario_bd.apellidos,
+        universidad: usuario_bd.nombreUniversidad,
+        titulacion: usuario_bd.titulacion,
+        facultad: "any",
+        sector:usuario_bd.sector,
+        nombreEntidad: usuario_bd.nombre_entidad,
+        origin_img: usuario_bd.origin_img,
+        origin_login: usuario_bd.origin_login,
+        terminos_aceptados: usuario_bd.terminos_aceptados,
+        titulacion: usuario_bd.titulacion,
 
-    // const usuario_bd = await Usuario.findById(usuario.uid);
-    const usuario_bd = await dao_usuario.obtenerUsuarioSinRolPorId(usuario.id);
-    const token = await generarJWT(usuario_bd);
+    } 
+    const token = await generarJWT(user);
 
     return res.status(200).json({
         ok: true,
         token,
-        usuario: usuario_bd,
+        usuario: user,
     });
 }
 

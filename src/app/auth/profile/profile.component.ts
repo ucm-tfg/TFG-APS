@@ -44,6 +44,7 @@ export class ProfileComponent {
         universidad: [this.usuario.universidad],
         titulacion: [this.usuario.titulacion],
         sector: [this.usuario.sector],
+        nombreEntidad: [this.usuario.nombreEntidad],
         terminos_aceptados: [this.usuario.terminos_aceptados, Validators.requiredTrue],
       }, {
         validators: [
@@ -51,6 +52,7 @@ export class ProfileComponent {
           this.validarUniversidad(),
           this.validarTitulacion(),
           this.validarSector(),
+          this.validarNombreEntidad(),
         ]
     });
   }
@@ -233,5 +235,7 @@ export class ProfileComponent {
   validarSector() {
     return this.validarCampoSegunPerfil('sector', [ROL_ENTIDAD]);
   }
-
+  validarNombreEntidad() {
+    return this.validarCampoSegunPerfil('nombreEntidad', [ROL_ENTIDAD]);
+  }
 }

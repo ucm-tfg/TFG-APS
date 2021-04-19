@@ -30,6 +30,7 @@ function insertarUsuario(usuario) {
     .catch((err) => {
       console.log(err);
       console.log("Se ha producido un error");
+      return -1;
     });
 }
 
@@ -124,6 +125,7 @@ function insertarEstudiante(usuario) {
         console.log(err);
         console.log("Se ha producido un error");
         borrarUsuario(idF[0]);
+        return -1;
       });
   });
 }
@@ -183,6 +185,7 @@ function insertarProfesor(usuario) {
         console.log(err);
         console.log("Se ha producido un error");
         borrarUsuario[id[0]];
+        return -1;
       });
   });
 }
@@ -213,6 +216,7 @@ function insertarEntidad(usuario) {
             console.log("Se ha producido un error");
             borrarUsuario(idF[0]);
             borrarDatosPersonalesExternos(result[0]);
+            return -1;
           })
           // .finally(() => {
           //   knex.destroy();
@@ -222,6 +226,7 @@ function insertarEntidad(usuario) {
         borrarUsuario(idF[0]);
         console.log(err);
         console.log("Se ha producido un error");
+        return -1;
       })
       // .finally(() => {
       //   knex.destroy();
@@ -328,6 +333,7 @@ function insertarEstudianteExterno(usuario) {
             console.log("Se ha producido un error");
             borrarUsuario(idF);
             borrarDatosPersonalesInternos(result[0]);
+            return -1;
           })
           // .finally(() => {
           //   knex.destroy();
@@ -337,6 +343,7 @@ function insertarEstudianteExterno(usuario) {
         console.log(err);
         console.log("Se ha producido un error");
         borrarUsuario(idF);
+        return -1;
       })
       // .finally(() => {
       //   knex.destroy();
@@ -369,6 +376,7 @@ function insertarProfesorExterno(usuario) {
             console.log("Se ha producido un error");
             borrarUsuario(idF[0]);
             borrarDatosPersonalesExternos(result[0]);
+            return -1;
           })
           // .finally(() => {
           //   knex.destroy();
@@ -378,6 +386,7 @@ function insertarProfesorExterno(usuario) {
         console.log(err);
         console.log("Se ha producido un error");
         borrarUsuario(idF[0]);
+        return -1;
       })
       // .finally(() => {
       //   knex.destroy();
@@ -796,6 +805,19 @@ function obtenerUsuario(id) {
     .select("*")
     .then(function (response) {
       return response[0];
+    })
+    .catch((err) => {
+      console.log(err);
+      console.log("Se ha producido un error");
+    });
+}
+
+function obtenerUniversidades(){
+  return knex("universidad")
+    .select("id")
+    .select("nombre")
+    .then(function (response) {
+      return response;
     })
     .catch((err) => {
       console.log(err);
@@ -2029,5 +2051,6 @@ module.exports = {
   borrarEstudianteExterno,
   borrarUsuario,
   actualizarUsuario,
+  obtenerUniversidades,
   knex,
 };
