@@ -173,6 +173,18 @@ function crearIniciativa(iniciativa) {
     ;
 }
 
+function crearMatch(idOferta, idDemanda, porcentaje){
+  return knex("matching").insert({
+    id_oferta: idOferta,
+    id_demanda: idDemanda,
+    procesado: 1,
+    emparejamiento: porcentaje
+
+  }).then(function(res){
+    console.log("El match se ha creado con exito");
+  });
+}
+
 //LEER UN ELEMENTO----------------------------------------------------------------------------------------------------
 function obtenerAnuncioServicio(id_anuncio) {
   return knex("anuncio_servicio")
@@ -1148,6 +1160,7 @@ module.exports = {
   crearAnuncio,
   crearDemanda,
   crearIniciativa,
+  crearMatch,
   actualizarDemanda,
   actualizarOfertaServicio,
   actualizarIniciativa,
