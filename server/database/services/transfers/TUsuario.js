@@ -8,7 +8,9 @@ class TUsuario{
         this.updatedAt=updatedAt;
         this.terminos_aceptados=terminos_aceptados;
     }
-
+    displayRol(){
+        return "Profesor";
+    }
     getId(){
         return this.id;
      }

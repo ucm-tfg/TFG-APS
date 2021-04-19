@@ -4,6 +4,17 @@ const Usuario = require('./../models/usuario.model');
 const { generarJWT, verificarJWT } = require('../helpers/jwt');
 const { googleVerify } = require('../helpers/google-verify');
 const { ROL_ESTUDIANTE } = require('../models/rol.model');
+const dao_usuario = require("./../database/services/daos/daoUsuario");
+const tUsuario = require("./../database/services/transfers/TUsuario");
+const tAdmin = require("./../database/services/transfers/TAdmin");
+const tOficinaAps = require("./../database/services/transfers/TOficinaAps");
+const TEstudiante = require("./../database/services/transfers/TEstudiante");
+const tEstInterno = require("./../database/services/transfers/TEstudianteInterno");
+const tProfesor = require("./../database/services/transfers/TProfesor");
+const tEntidad = require("./../database/services/transfers/TEntidad");
+const tProfesorInterno = require("./../database/services/transfers/TProfesorInterno");
+const tEstudianteExterno = require("./../database/services/transfers/TEstudianteExterno");
+const tProfesorExterno = require("./../database/services/transfers/TProfesorExterno");
 
 const login = async(req, res) => {
 
@@ -11,34 +22,37 @@ const login = async(req, res) => {
 
     try {
         // user
-        const usuario = await Usuario.findOne({ email });
+        const usuario = await dao_usuario.obtenerUsuarioSinRolPorEmail(email);
         if(!usuario) {
             return res.status(404).json({
                 ok: false,
                 msg: 'No existe ningún usuario con dichas credenciales.',
             });
         }
-
-        // pass
-        const passwordOk = bcrypt.compareSync( password, usuario.password );
-        if(!passwordOk) {
-            return res.status(404).json({
-                ok: false,
-                msg: 'No existe ningún usuario con dichas credenciales.',
-            });
-        }
-
+        pass = usuario.getPassword();
+        console.log(pass);
+        //DESCOMENTAR CUANDO SE EMPIECEN A CREERAR USUARIOS CON LA INTERFAZ
+        // const passwordOk = bcrypt.compareSync( password, pass );
+        // if(!passwordOk) {
+        //     return res.status(404).json({
+        //         ok: false,
+        //         msg: 'No existe ningún usuario con dichas credenciales.',
+        //     });
+        // }
+        origin = usuario.getOriginLogin();
+        console.log(origin);
+        //DESCOMENTAR
         // comprobar origen de registro
-        if(usuario.origin_login !== 'Portal ApS') {
-            res.status(401).json({
-                ok: false,
-                msg: 'Este usuario está registrado utilizando el acceso "' + usuario.origin_login + '". Por favor, utilice dicho sistema de entrada.',
-            });
-        }
+        // if(origin !== 'Portal ApS') {
+        //     res.status(401).json({
+        //         ok: false,
+        //         msg: 'Este usuario está registrado utilizando el acceso "' + usuario.origin_login + '". Por favor, utilice dicho sistema de entrada.',
+        //     });
+        // }
 
         // generar token
         const token = await generarJWT(usuario);
-
+        console.log(token);
         return res.status(200).json({
             ok: true,
             token,
@@ -52,8 +66,6 @@ const login = async(req, res) => {
             msg: 'Error inesperado',
         });
     }
-
-
 }
 
 const loginUNED = async(req, res) => {
