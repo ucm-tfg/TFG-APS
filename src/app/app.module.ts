@@ -57,6 +57,12 @@ import { IniciativasVerComponent } from './pages/iniciativas-ver/iniciativas-ver
 import { IniciativasCrearComponent } from './pages/iniciativas-crear/iniciativas-crear.component';
 import { IniciativasEditarComponent } from './pages/iniciativas-editar/iniciativas-editar.component';
 
+// ofertas
+// import { OfertasComponent } from './pages/ofertas/ofertas.component';
+// import { OfertasVerComponent } from './pages/ofertas-ver/ofertas-ver.component';
+import { OfertasCrearComponent } from './pages/ofertas-crear/ofertas-crear.component';
+// import { OfertasEditarComponent } from './pages/ofertas-editar/ofertas-editar.component';
+
 // partenariados
 import { PartenariadosComponent } from './pages/partenariados/partenariados.component';
 import { PartenariadosVerComponent } from './pages/partenariados-ver/partenariados-ver.component';

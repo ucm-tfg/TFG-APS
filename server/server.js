@@ -430,6 +430,9 @@ dao_usuario.actualizarProfesorInterno(
 // dao_usuario.obtenerUsuarioSinRol("oficinaapp").then((datos) => {
 //   console.log(datos);
 // })
+dao_usuario.obtenerUsuarioSinRolPorId(115).then((datos) => {
+  console.log(datos);
+})
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 // PRUEBAS DAO TENTATIVA
