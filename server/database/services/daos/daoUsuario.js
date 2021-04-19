@@ -736,66 +736,59 @@ function obtenerUsuarioSinRolPorEmail(email) {
     // });
 }
 
-// function obtenerUsuarioSinRolPorId(id) {
-//   // internos
-//   id_interno = id_interno[0]["id"];
-//   return obtenerProfesorInternoPorDatosPersonales(id_interno)
-//     .then((result) => {
-//       if (result == 0) {
-//         return obtenerEstudianteInternoPorDatosPersonales(
-//           id_interno
-//         ).then((result) => {
-//           if (result == 0) {
-//             return obtenerAdminPorDatosPersonales(id_interno).then(
-//               (result) => {
-//                 if (result == 0) {
-//                   return obtenerOficinaApsPorDatosPersonales(
-//                     id_interno
-//                   ).then((result) => {
-//                     if (result == 0) {
-//                       return obtenerEntidadPorDatosPersonales(id).then(
-//                         (result) => {
-//                           if (result == 0) {
-//                             return obtenerProfesorExternoPorDatosPersonales(
-//                               id
-//                             ).then((result) => {
-//                               if (result == 0) {
-//                                 return obtenerEstudianteExternoPorDatosPersonales(
-//                                   id
-//                                 ).then((result) => {
-//                                   if (result == 0) {
-//                                     console.log(
-//                                       "No se ha encontrado ningún usuario con el email ",
-//                                       email
-//                                     );
-//                                     return 0;
-//                                   }
-//                                   return result;
-//                                 });
-//                               }
-//                               return result;
-//                             });
-//                           }
-//                           return result;
-//                         }
-//                       );
-//                       );
-//                       return 0;
-//                     }
-//                     return result;
-//                   });
-//                 }
-//                 return result;
-//               }
-//             );
-//           }
-//           return result;
-//         });
-//       }
-//       return result;
-//     })
-
-// }
+function obtenerUsuarioSinRolPorId(id) {
+  // internos
+  return obtenerProfesorInterno(id)
+    .then((result) => {
+      if (result == 0) {
+        return obtenerEstudianteInterno(
+          id
+        ).then((result) => {
+          if (result == 0) {
+            return obtenerAdmin(id).then(
+              (result) => {
+                if (result == 0) {
+                  return obtenerOficinaAps(
+                    id
+                  ).then((result) => {
+                    if (result == 0) {
+                      return obtenerEntidad(id).then(
+                        (result) => {
+                          if (result == 0) {
+                            return obtenerProfesorExterno(
+                              id
+                            ).then((result) => {
+                              if (result == 0) {
+                                return obtenerEstudianteExterno(
+                                  id
+                                ).then((result) => {
+                                  if (result == 0) {
+                                    console.log(
+                                      "No se ha encontrado ningún usuario con el id ", 
+                                      id
+                                    );
+                                  }
+                                  return result;
+                                });
+                              }
+                              return result;
+                            });
+                          }
+                          return result;
+                        });
+                    }
+                    return result;
+                  });
+                }
+                return result;
+              });
+          }
+          return result;
+        });
+      }
+      return result;
+    });
+}
 
 function obtenerUsuario(id) {
   return knex("usuario")
@@ -840,6 +833,9 @@ function obtenerAdmin(id) {
     .where({ id: id })
     .select("*")
     .then(function (admin) {
+      if (admin.length == 0) {
+        return 0;
+      }
       return obtenerUsuario(id)
         .then(function (usuario) {
           return obtenerDatosPersonalesInterno(
@@ -902,12 +898,15 @@ function obtenerAdminPorDatosPersonales(id) {
 }
 
 function obtenerOficinaAps(id) {
-  return obtenerUsuario(id)
-    .then(function (usuario) {
-      return knex("oficinaaps")
-        .where({ id: id })
-        .select("*")
-        .then(function (admin) {
+    return knex("oficinaaps")
+    .where({ id: id })
+    .select("*")
+    .then(function (admin) {
+      if (admin.length == 0) {
+        return 0;
+      }
+          return obtenerUsuario(id)
+            .then(function (usuario) {
           return obtenerDatosPersonalesInterno(
             admin[0]["datos_personales_Id"]
           ).then(function (datos) {
@@ -1055,6 +1054,9 @@ function obtenerProfesorInterno(id) {
     .where({ id: id })
     .select("*")
     .then(function (profesorInterno) {
+      if(profesorInterno.length == 0){
+        return 0;
+      }
       return obtenerProfesor(id).then(function (profesor) {
         return obtenerUsuario(id).then(function (usuario) {
           return obtenerDatosPersonalesInterno(
@@ -1203,6 +1205,9 @@ function obtenerProfesorExterno(id) {
     .where({ id: id })
     .select("*")
     .then(function (profesorExterno) {
+      if(profesorExterno.length == 0){
+        return 0;
+      }
       return obtenerProfesor(id).then(function (profesor) {
         return obtenerUsuario(id).then(function (usuario) {
           return obtenerDatosPersonalesExterno(
@@ -1300,6 +1305,9 @@ function obtenerEstudianteInterno(id) {
     .where({ id: id })
     .select("*")
     .then(function (estudianteInterno) {
+      if(estudianteInterno.length == 0){
+        return 0;
+      }
       return obtenerEstudiante(id).then(function (profesor) {
         return obtenerUsuario(id).then(function (usuario) {
           return obtenerDatosPersonalesInterno(
@@ -1380,6 +1388,9 @@ function obtenerEstudianteExterno(id) {
     .where({ id: id })
     .select("*")
     .then(function (estudianteExterno) {
+      if(estudianteExterno.length == 0){
+        return 0;
+      }
       return obtenerEstudiante(id).then(function (profesor) {
         return obtenerUsuario(id).then(function (usuario) {
           return obtenerDatosPersonalesExterno(
@@ -1975,6 +1986,7 @@ function obtenerTitulacionesProfesorInterno(id){
 }
 module.exports = {
   obtenerUsuario,
+  obtenerUsuarioSinRolPorId,
   obtenerEstudianteExterno,
   obtenerProfesorExterno,
   obtenerEstudianteInterno,

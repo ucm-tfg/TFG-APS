@@ -431,7 +431,9 @@ dao_usuario.actualizarProfesorInterno(
 //   console.log(datos);
 // })
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
+// dao_usuario.obtenerUsuarioSinRolPorId(113).then((result) =>{
+//   console.log(result);
+// });
 // PRUEBAS DAO TENTATIVA
 const dao_tentativa = require('./database/services/daos/daoTentativa');
 const TOfertaServicio = require('./database/services/transfers/TOfertaServicio');

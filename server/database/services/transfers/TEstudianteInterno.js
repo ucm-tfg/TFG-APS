@@ -8,6 +8,7 @@ class TEstudianteInterno extends TEstudiante{
         this.nombre=nombre;
         this.apellidos=apellidos;
         this.password=password;
+        this.rol = "ROL_ESTUDIANTE";
     }
 
     getNombre(){

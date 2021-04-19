@@ -7,7 +7,7 @@ class TAdmin extends TUsuario{
       this.nombre=nombre;
       this.apellidos=apellidos;
       this.password=password;
-
+      this.rol = "ROL_GESTOR";
 
     }
 
