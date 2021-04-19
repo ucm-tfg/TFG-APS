@@ -181,8 +181,14 @@ function crearMatch(idOferta, idDemanda, porcentaje){
     emparejamiento: porcentaje
 
   }).then(function(res){
+
     console.log("El match se ha creado con exito");
-  });
+  })
+  .catch((err) => {
+    console.log(err);
+    console.log("Se ha producido un error al intenatar crear el match");
+  })
+  ;
 }
 
 //LEER UN ELEMENTO----------------------------------------------------------------------------------------------------
