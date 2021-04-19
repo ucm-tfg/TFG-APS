@@ -10,7 +10,7 @@ class TProfesorExterno extends TProfesor{
         this.universidad=iduniversidad;
         this.nombreUniversidad=nombreUniversidad;
         this.provinciaUniversidad=provinciaUniversidad;
- 
+        this.rol = "ROL_PROFESOR";
     }
 
     getnombreUniversidad(){

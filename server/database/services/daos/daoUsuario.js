@@ -898,12 +898,15 @@ function obtenerAdminPorDatosPersonales(id) {
 }
 
 function obtenerOficinaAps(id) {
-  return obtenerUsuario(id)
-    .then(function (usuario) {
-      return knex("oficinaaps")
-        .where({ id: id })
-        .select("*")
-        .then(function (admin) {
+    return knex("oficinaaps")
+    .where({ id: id })
+    .select("*")
+    .then(function (admin) {
+      if (admin.length == 0) {
+        return 0;
+      }
+          return obtenerUsuario(id)
+            .then(function (usuario) {
           return obtenerDatosPersonalesInterno(
             admin[0]["datos_personales_Id"]
           ).then(function (datos) {
@@ -1051,6 +1054,9 @@ function obtenerProfesorInterno(id) {
     .where({ id: id })
     .select("*")
     .then(function (profesorInterno) {
+      if(profesorInterno.length == 0){
+        return 0;
+      }
       return obtenerProfesor(id).then(function (profesor) {
         return obtenerUsuario(id).then(function (usuario) {
           return obtenerDatosPersonalesInterno(
@@ -1199,7 +1205,7 @@ function obtenerProfesorExterno(id) {
     .where({ id: id })
     .select("*")
     .then(function (profesorExterno) {
-      if (profesorExterno.length == 0) {
+      if(profesorExterno.length == 0){
         return 0;
       }
       return obtenerProfesor(id).then(function (profesor) {
@@ -1299,7 +1305,7 @@ function obtenerEstudianteInterno(id) {
     .where({ id: id })
     .select("*")
     .then(function (estudianteInterno) {
-      if (estudianteInterno.length == 0) {
+      if(estudianteInterno.length == 0){
         return 0;
       }
       return obtenerEstudiante(id).then(function (profesor) {
@@ -1382,6 +1388,9 @@ function obtenerEstudianteExterno(id) {
     .where({ id: id })
     .select("*")
     .then(function (estudianteExterno) {
+      if(estudianteExterno.length == 0){
+        return 0;
+      }
       return obtenerEstudiante(id).then(function (profesor) {
         return obtenerUsuario(id).then(function (usuario) {
           return obtenerDatosPersonalesExterno(
@@ -1977,6 +1986,7 @@ function obtenerTitulacionesProfesorInterno(id){
 }
 module.exports = {
   obtenerUsuario,
+  obtenerUsuarioSinRolPorId,
   obtenerEstudianteExterno,
   obtenerProfesorExterno,
   obtenerEstudianteInterno,
