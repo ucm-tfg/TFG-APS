@@ -1143,7 +1143,6 @@ function obtenerAreaServicioTitulacionPorArea(servicios){
   });
 }
 
-
 module.exports = {
   crearOferta,
   crearAnuncio,
