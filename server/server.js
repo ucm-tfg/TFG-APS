@@ -585,14 +585,12 @@ const TIniciativa = require('./database/services/transfers/TIniciativa');
 // pesoTemp=0.2;
 
 fs = require('fs')
-
-
-
  dao_tentativa.obtenerDemandaServicio(69).then(function(demanda){
    dao_tentativa.obtenerOfertaServicio(67).then(function(oferta){
 //     //console.log(demanda);
 //     //console.log(oferta);
-     matching.hacerMatch('/TFG/ApS/server/configuracion.txt', oferta, demanda).then(function(res){
+    var path  = "/configuracion.txt";
+     matching.hacerMatch(__dirname + path, oferta, demanda).then(function(res){
        console.log("comprobado si son match");
      });
    });
