@@ -14,7 +14,20 @@ import { SobreApsUnedContactaComponent } from 'src/app/pages/sobre-aps-uned-cont
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit {
-
+  countries: Array<any> = [];
+  selCountries = [
+    {
+      item_id: 1,
+      item_text: "India",
+      image: "http://www.sciencekids.co.nz/images/pictures/flags96/India.jpg"
+    },
+    {
+      item_id: 5,
+      item_text: "Israel",
+      image: "http://www.sciencekids.co.nz/images/pictures/flags96/Israel.jpg"
+    }
+  ];
+  dropdownSettings: any = {};
 
   public formSubmitted = false;
   public codeList: any ;
@@ -57,8 +70,63 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit(): void {
     this.obtenerUniversidades();
+    this.countries = [
+      {
+        item_id: 1,
+        item_text: "India",
+        image: "http://www.sciencekids.co.nz/images/pictures/flags96/India.jpg"
+      },
+      {
+        item_id: 2,
+        item_text: "Spain",
+        image: "http://www.sciencekids.co.nz/images/pictures/flags96/Spain.jpg"
+      },
+      {
+        item_id: 3,
+        item_text: "United Kingdom",
+        image:
+          "http://www.sciencekids.co.nz/images/pictures/flags96/United_Kingdom.jpg"
+      },
+      {
+        item_id: 4,
+        item_text: "Canada",
+        image:
+          "http://www.sciencekids.co.nz/images/pictures/flags96/Canada.jpg",
+      },
+      {
+        item_id: 5,
+        item_text: "Israel",
+        image: "http://www.sciencekids.co.nz/images/pictures/flags96/Israel.jpg"
+      },
+      {
+        item_id: 6,
+        item_text: "Brazil",
+        image: "http://www.sciencekids.co.nz/images/pictures/flags96/Brazil.jpg"
+      },
+      {
+        item_id: 7,
+        item_text: "Barbados",
+        image:
+          "http://www.sciencekids.co.nz/images/pictures/flags96/Barbados.jpg"
+      },
+      {
+        item_id: 8,
+        item_text: "Mexico",
+        image: "http://www.sciencekids.co.nz/images/pictures/flags96/Mexico.jpg"
+      }
+    ]
+    this.dropdownSettings = {
+      singleSelection: false,
+      idField: "item_id",
+      textField: "item_text",
+      selectAllText: "Select All",
+      unSelectAllText: "UnSelect All",
+      itemsShowLimit: 10,
+      allowSearchFilter: true
+    };
   }
 
+  
 
   async  obtenerUniversidades() {
      return this.registerService.obtenerUniversidades()
@@ -201,5 +269,19 @@ export class RegisterComponent implements OnInit {
 
   validarNombreEntidad() {
     return this.validarCampoSegunPerfil('nombreEntidad', [ROL_ENTIDAD]);
+  }
+
+  get getItems() {
+    return this.countries.reduce((acc, curr) => {
+      acc[curr.item_id] = curr;
+      return acc;
+    }, {});
+  }
+  
+  onItemSelect(item: any) {
+    console.log("onItemSelect", item);
+  }
+  onSelectAll(items: any) {
+    console.log("onSelectAll", items);
   }
 }
