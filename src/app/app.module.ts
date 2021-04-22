@@ -137,6 +137,9 @@ import { Code404Component } from './errors/code404/code404.component';
     IniciativasCrearComponent,
     IniciativasEditarComponent,
 
+    // ofertas
+    OfertasCrearComponent,
+    
     // partenariados
     PartenariadosComponent,
     PartenariadosVerComponent,

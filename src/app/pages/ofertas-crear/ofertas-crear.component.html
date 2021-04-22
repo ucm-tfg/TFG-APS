@@ -13,9 +13,9 @@
                     id="form-oferta"
                     role="form"
                     autocomplete="off"
-                    *ngIf="crearofertaForm"
-                    [formGroup]="crearofertaForm"
-                    (ngSubmit)="enviaroferta()">
+                    *ngIf="crearOfertaForm"
+                    [formGroup]="crearOfertaForm"
+                    (ngSubmit)="enviarOferta()">
 
                     <div class="card-body">
 
@@ -24,6 +24,20 @@
                                 <div class="form-group">
                                     <label>Título</label>
                                     <input name="titulo" type="text" id="titulo" class="form-control" autocorrect="off" autocapitalize="none" spellcheck="false" placeholder="Título corto y descriptivo"  formControlName="titulo">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- TO DO: permitir elegir varios -->
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label>Area de servicio</label>
+                                    <input name="areasServicio" type="text" id="areasServicio"  list="codes"  formControlName="area_servicio"  class="form-control" [class.is-invalid] = "crearOfertaForm.get('area_servicio').invalid && crearOfertaForm.get('area_servicio').touched" placeholder="Elija un area de servicio">
+                                    <datalist id="codes">
+                                        <option *ngFor="let area of areasServicio" [value]="area.nombre" ></option>
+                                    </datalist>
+                                    <small class="text-danger" *ngIf="noListMatch()">Debe elegir un area de servicio valido</small>
                                 </div>
                             </div>
                         </div>
@@ -37,17 +51,55 @@
                             </div>
                         </div>
 
-                        <!-- <div class="row">
-                            <div class="col-6">
+                        <!-- TO DO : permitir añadir varias asignaturas -->
+                        <div class="row">
+                            <div class="col">
                                 <div class="form-group">
-                                    <label for="rama">Rama de Conocimiento</label>
-                                    <select id="rama" name="area" class="form-control" formControlName="rama">
-                                        <option value="">Elije una rama de conocimiento</option>
-                                        <option *ngFor="let RAMA of RAMAS" [selected]="this.oferta.rama == RAMA" value="{{ RAMA }}">{{ RAMA }}</option>
+                                    <label>Asignatura</label>
+                                    <input name="asignatura" type="text" id="asignatura" class="form-control" autocorrect="off" autocapitalize="none" spellcheck="false" placeholder="Asignatura objetivo"  formControlName="asignatura">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label>Fecha límite</label>
+                                    <input name="fecha_limite" type="date" id="fecha_limite" class="form-control" autocorrect="off" autocapitalize="none" spellcheck="false"   formControlName="fecha_limite">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="cuatrimestre">Cuatrimestre</label>
+                                    <select name="cuatrimestre" id="cuatrimestre" formControlName="cuatrimestre" class="form-control">
+                                        <option value="primero">Primer cuatrimestre</option>
+                                        <option value="segundo">Segundo cuatrimestre</option>
+                                        <option value="ambos">Anual</option>
                                     </select>
                                 </div>
                             </div>
-                        </div> -->
+                        </div>
+
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label>Año académico</label>
+                                    <input name="anio_academico" type="number" id="anio_academico" class="form-control" autocorrect="off" autocapitalize="none" spellcheck="false" placeholder="Año académico"  formControlName="anio_academico" min="2021" value="2021">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="observaciones">Observaciones temporales</label>
+                                    <textarea id="observaciones" name="observaciones" class="form-control" placeholder="Escribe cualquier observación temporal que consideres adecuada" rows="8" formControlName="observaciones"></textarea>
+                                </div>
+                            </div>
+                        </div>
 
                         <!-- <div class="row" *ngIf="this.oferta_id">
                             <div class="col-6 justify-content-between">
@@ -108,19 +160,19 @@
                             </div> -->
                         <!-- </div> -->
 
-                        <!-- <div class="row" *ngIf="this.usuarioService.usuario.esGestor && USUARIOS">
+                        <div class="row" *ngIf="this.usuarioService.usuario.esGestor && USUARIOS">
                             <div class="col">
                                 <div class="form-group">
-                                    <label for="proponedor">Proponedor (solo modificable por el gestor del portal)</label>
-                                    <select id="proponedor" name="area" class="form-control" formControlName="proponedor">
+                                    <label for="creador">creador (solo modificable por el gestor del portal)</label>
+                                    <select id="creador" name="area" class="form-control" formControlName="creador">
                                         <option value="">Elije un usuario que se haga cargo de la oferta</option>
-                                        <option *ngFor="let USUARIO of USUARIOS" [selected]="this.oferta.proponedor == USUARIO.uid" value="{{ USUARIO.uid }}">{{ USUARIO.email }} - {{ USUARIO.displayRol }}</option>
+                                        <option *ngFor="let USUARIO of USUARIOS" [selected]="this.oferta.creador == USUARIO.uid" value="{{ USUARIO.uid }}">{{ USUARIO.email }} - {{ USUARIO.displayRol }}</option>
                                     </select>
                                 </div>
                             </div>
-                        </div> -->
+                        </div>
 
-                        <!-- <div class="row">
+                        <div class="row">
                           <div class="col">
                             <div class="card text-white bg-info mb-3" *ngIf="!this.oferta_id">
                               <div class="card-body">
@@ -130,33 +182,35 @@
                             </div>
                           </div>
 
-                            <div class="col" *ngIf = "!this.oferta_id">
+                            <!-- <div class="col" *ngIf = "!this.oferta_id">
                                 <div class="form-check text-right m-4">
                                     <input type="checkbox" class="form-check-input" id="terminos_aceptados" formControlName="terminos_aceptados">
                                     <label class="form-check-label">Entiendo <a href="javascript:void(0)" target="_blank" [routerLink]="['/que-es-ApS']">Qué es un Proyecto ApS</a></label>
                                 </div>
 
-                            </div>
-                        </div> -->
+                            </div> -->
+                        </div>
 
 
 
-                        <!-- <div class="d-flex">
-                            <div class="flex-fill alert alert-danger mr-3" role="alert" *ngIf="this.crearofertaForm.invalid && this.formSubmitted">
-                                <div *ngIf="campoNoValido('estado')" class="col">{{ campoNoValido('estado') }}</div>
+                        <div class="d-flex">
+                            <div class="flex-fill alert alert-danger mr-3" role="alert" *ngIf="this.crearOfertaForm.invalid && this.formSubmitted">
                                 <div *ngIf="campoNoValido('titulo')" class="col">{{ campoNoValido('titulo') }}</div>
+                                <div *ngIf="campoNoValido('area_servicio')" class="col">{{ campoNoValido('area_servicio') }}</div>
                                 <div *ngIf="campoNoValido('descripcion')" class="col">{{ campoNoValido('descripcion') }}</div>
-                                <div *ngIf="campoNoValido('rama')" class="col">{{ campoNoValido('rama') }}</div>
-                                <div *ngIf="campoNoValido('ciudad')" class="col">{{ campoNoValido('ciudad') }}</div>
-                                <div *ngIf="campoNoValido('proponedor')" class="col">{{ campoNoValido('proponedor') }}</div>
-                                <div *ngIf="campoNoValido('terminos_aceptados')" class="col">{{ campoNoValido('terminos_aceptados') }}</div>
+                                <div *ngIf="campoNoValido('asignatura')" class="col">{{ campoNoValido('asignatura') }}</div>
+                                <div *ngIf="campoNoValido('fecha_limite')" class="col">{{ campoNoValido('fecha_limite') }}</div>
+                                <div *ngIf="campoNoValido('cuatrimestre')" class="col">{{ campoNoValido('cuatrimestre') }}</div>
+                                <div *ngIf="campoNoValido('anio_academico')" class="col">{{ campoNoValido('anio_academico') }}</div>
+                                <!-- <div *ngIf="campoNoValido('observaciones')" class="col">{{ campoNoValido('observaciones') }}</div> -->
+                                <!-- <div *ngIf="campoNoValido('terminos_aceptados')" class="col">{{ campoNoValido('terminos_aceptados') }}</div> -->
                             </div>
 
                             <div class="ml-auto mb-2">
-                                <input *ngIf="!this.oferta_id" type="submit" [value]="this.formSending ? 'Creando...' : 'Crear oferta'" class="btn btn-default btn-secondary m-4" [disabled]="this.formSending || (this.formSubmitted && this.crearofertaForm.invalid)">
-                                <input *ngIf="this.oferta_id" type="submit" [value]="this.formSending ? 'Actualizando...' : 'Actualizar oferta'" class="btn btn-default btn-secondary m-4" [disabled]="this.formSending || (this.formSubmitted && this.crearIniciativaForm.invalid)">
+                                <input *ngIf="!this.oferta_id" type="submit" [value]="this.formSending ? 'Creando...' : 'Crear oferta'" class="btn btn-default btn-secondary m-4" [disabled]="this.formSending || (this.formSubmitted && this.crearOfertaForm.invalid)">
+                                <input *ngIf="this.oferta_id" type="submit" [value]="this.formSending ? 'Actualizando...' : 'Actualizar oferta'" class="btn btn-default btn-secondary m-4" [disabled]="this.formSending || (this.formSubmitted && this.crearOfertaForm.invalid)">
                             </div>
-                        </div> -->
+                        </div>
 
 
                     </div>

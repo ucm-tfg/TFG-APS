@@ -5,17 +5,17 @@ class TAnuncioServicio {
     imagen;
     created_at;
     updated_at;
-    _v;
     area_servicio;
-    constructor(id, titulo, descripcion, imagen, created_at, updated_at, _v, area_servicio) {
+    dummy;
+    constructor(id, titulo, descripcion, imagen, created_at, updated_at, area_servicio, dummy) {
         this.id = id;
         this.titulo = titulo;
         this.descripcion = descripcion;
         this.imagen = imagen ;
         this.created_at = created_at;
         this.updated_at = updated_at;
-        this._v = _v;
         this.area_servicio = area_servicio;
+        this.dummy = dummy;
     }
 
     getId() {
@@ -66,13 +66,6 @@ class TAnuncioServicio {
         this.updated_at = updated_at;
     }
 
-    get_v() {
-        return this._v;
-    }
-
-    set_v(_v) {
-        this._v = _v;
-    }
     getArea_servicio() {
         return this.area_servicio;
     }

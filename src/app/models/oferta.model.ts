@@ -17,7 +17,7 @@ export class Oferta {
         public cuatrimestre: string,
         public anio_academico: string,
         public fecha_limite: string,
-        public observaciones_temporales: string,
+        public observaciones: string,
         public creador: Usuario,
         public area_servicio: string[],
         public asignatura_objetivo: string[],

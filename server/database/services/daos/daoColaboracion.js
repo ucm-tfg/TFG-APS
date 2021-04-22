@@ -40,7 +40,6 @@ function crearPartenariado(partenariado) {
           id_demanda: partenariado.getId_Demanda(),
           id_oferta: partenariado.getId_Oferta(),
           estado: partenariado.getEstado(),
-          _v: partenariado.getV(),
         })
         .then(() => {
           console.log("Se ha creado un partenariado con id ", id);
@@ -53,9 +52,7 @@ function crearPartenariado(partenariado) {
           );
           return knex("colaboracion").where("id", id).del();
         })
-        .finally(() => {
-          knex.destroy();
-        });
+        
     })
     .catch((err) => {
       console.log(err);
@@ -63,9 +60,7 @@ function crearPartenariado(partenariado) {
         "Se ha producido un error al intentar crear un partenariado "
       );
     })
-    .finally(() => {
-      knex.destroy();
-    });
+    
 }
 
 function crearProyecto(proyecto) {
@@ -178,8 +173,7 @@ function obtenerPartenariado(id) {
             (profesores = colaboracion.getProfesores()),
             (id_demanda = partenariado[0]["id_demanda"]),
             (id_oferta = partenariado[0]["id_oferta"]),
-            (estado = partenariado[0]["estado"]),
-            (_v = partenariado[0]["_v"])
+            (estado = partenariado[0]["estado"])
           );
         })
         .catch((err) => {
@@ -189,9 +183,7 @@ function obtenerPartenariado(id) {
             id
           );
         })
-        .finally(() => {
-          knex.destroy();
-        });
+        
     })
     .catch((err) => {
       console.log(err);
@@ -200,9 +192,7 @@ function obtenerPartenariado(id) {
         id
       );
     })
-    .finally(() => {
-      knex.destroy();
-    });
+    
 }
 
 function obtenerProyecto(id) {
@@ -370,9 +360,7 @@ function eliminarPartenariado(id) {
         id
       );
     })
-    .finally(() => {
-      knex.destroy();
-    });
+    
 }
 
 function eliminarProyecto(id) {
@@ -472,8 +460,7 @@ function actualizarPartenariado(partenariado) {
             .update({
               id_demanda: partenariado.getId_Demanda(),
               id_oferta: partenariado.getId_Oferta(),
-              estado: partenariado.getEstado(),
-              _v: partenariado.getV(),
+              estado: partenariado.getEstado()
             })
             .then(() => {
               console.log(
@@ -496,13 +483,9 @@ function actualizarPartenariado(partenariado) {
                     partenariado.getId()
                   );
                 })
-                .finally(() => {
-                  knex.destroy();
-                });
+                
             })
-            .finally(() => {
-              knex.destroy();
-            });
+            
         })
         .catch((err) => {
           console.log(err);
@@ -511,9 +494,7 @@ function actualizarPartenariado(partenariado) {
             partenariado.getId()
           );
         })
-        .finally(() => {
-          knex.destroy();
-        });
+        
     }
   );
 }
@@ -624,8 +605,7 @@ function obtenerTodosPartenariados() {
               (profesores = profesores),
               (id_demanda = partenariado["id_demanda"]),
               (id_oferta = partenariado["id_oferta"]),
-              (estado = partenariado["estado"]),
-              (_v = partenariado["_v"])
+              (estado = partenariado["estado"])
             );
             transfers.push(transfer);
           });
@@ -637,9 +617,7 @@ function obtenerTodosPartenariados() {
             "Se ha producido un error al intentar obtener de la base de datos los profesores"
           );
         })
-        .finally(() => {
-          knex.destroy();
-        });
+        
     })
     .catch((err) => {
       console.log(err);
@@ -647,9 +625,7 @@ function obtenerTodosPartenariados() {
         "Se ha producido un error al intentar obtener todos los partenariados"
       );
     })
-    .finally(() => {
-      knex.destroy();
-    });
+    
 }
 
 module.exports = {

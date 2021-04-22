@@ -60,18 +60,14 @@ function insertarAdmin(usuario) {
             borrarUsuario(idF[0]);
             borrarDatosPersonalesInternos(result[0]);
           })
-          // .finally(() => {
-          //   knex.destroy();
-          // });
+          
       })
       .catch((err) => {
         console.log(err);
         console.log("Se ha producido un error");
         borrarUsuario(idF[0]);
       })
-      // .finally(() => {
-      //   knex.destroy();
-      // });
+      
   });
 }
 
@@ -98,18 +94,14 @@ function insertarOficinaAps(usuario) {
             borrarUsuario(idF[0]);
             borrarDatosPersonalesInternos(result[0]);
           })
-          // .finally(() => {
-          //   knex.destroy();
-          // });
+          
       })
       .catch((err) => {
         console.log(err);
         console.log("Se ha producido un error");
         borrarUsuario(idF[0]);
       })
-      // .finally(() => {
-      //   knex.destroy();
-      // });
+      
   });
 }
 
@@ -157,18 +149,14 @@ function insertarEstudianteInterno(usuario) {
             borrarUsuario(idF);
             borrarDatosPersonalesInternos(result[0]);
           })
-          // .finally(() => {
-          //   knex.destroy();
-          // });
+          
       })
       .catch((err) => {
         console.log(err);
         console.log("Se ha producido un error");
         borrarUsuario(idF);
       })
-      // .finally(() => {
-      //   knex.destroy();
-      // });
+      
   });
 }
 
@@ -218,9 +206,7 @@ function insertarEntidad(usuario) {
             borrarDatosPersonalesExternos(result[0]);
             return -1;
           })
-          // .finally(() => {
-          //   knex.destroy();
-          // });
+          
       })
       .catch((err) => {
         borrarUsuario(idF[0]);
@@ -228,9 +214,7 @@ function insertarEntidad(usuario) {
         console.log("Se ha producido un error");
         return -1;
       })
-      // .finally(() => {
-      //   knex.destroy();
-      // });
+      
   });
 }
 
@@ -272,9 +256,7 @@ function insertarProfesorInterno(usuario) {
                     console.log(err);
                     console.log("Se ha producido un error");
                   })
-                  // .finally(() => {
-                  //   knex.destroy();
-                  // });
+                  
               })
               .catch((err) => {
                 borrarUsuario(idF[0]);
@@ -282,9 +264,7 @@ function insertarProfesorInterno(usuario) {
                 console.log(err);
                 console.log("Se ha producido un error");
               })
-              // .finally(() => {
-              //   knex.destroy();
-              // });
+              
           })
           .catch((err) => {
             borrarUsuario(idF[0]);
@@ -292,18 +272,14 @@ function insertarProfesorInterno(usuario) {
             console.log(err);
             console.log("Se ha producido un error");
           })
-          // .finally(() => {
-          //   knex.destroy();
-          // });
+          
       })
       .catch((err) => {
         borrarUsuario(idF[0]);
         console.log(err);
         console.log("Se ha producido un error");
       })
-      // .finally(() => {
-      //   knex.destroy();
-      // });
+      
   });
 }
 
@@ -335,9 +311,7 @@ function insertarEstudianteExterno(usuario) {
             borrarDatosPersonalesInternos(result[0]);
             return -1;
           })
-          // .finally(() => {
-          //   knex.destroy();
-          // });
+          
       })
       .catch((err) => {
         console.log(err);
@@ -345,9 +319,7 @@ function insertarEstudianteExterno(usuario) {
         borrarUsuario(idF);
         return -1;
       })
-      // .finally(() => {
-      //   knex.destroy();
-      // });
+      
   });
 }
 
@@ -378,9 +350,7 @@ function insertarProfesorExterno(usuario) {
             borrarDatosPersonalesExternos(result[0]);
             return -1;
           })
-          // .finally(() => {
-          //   knex.destroy();
-          // });
+          
       })
       .catch((err) => {
         console.log(err);
@@ -388,9 +358,7 @@ function insertarProfesorExterno(usuario) {
         borrarUsuario(idF[0]);
         return -1;
       })
-      // .finally(() => {
-      //   knex.destroy();
-      // });
+      
   });
 }
 
@@ -683,9 +651,7 @@ function obtenerUsuarioSinRolPorEmail(email) {
               email
             );
           })
-          // .finally(() => {
-          //   knex.destroy();
-          // });
+          
       } else {
         // internos
         id_interno = id_interno[0]["id"];
@@ -728,9 +694,7 @@ function obtenerUsuarioSinRolPorEmail(email) {
               email
             );
           })
-          // .finally(() => {
-          //   knex.destroy();
-          // });
+          
       }
     })
     .catch((err) => {
@@ -740,9 +704,7 @@ function obtenerUsuarioSinRolPorEmail(email) {
         email
       );
     })
-    // .finally(() => {
-    //   knex.destroy();
-    // });
+    
 }
 
 function obtenerUsuarioSinRolPorId(id) {

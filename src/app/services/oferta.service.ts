@@ -43,12 +43,12 @@ export class OfertaService {
   //                   );
   // }
 
-  // crearIniciativa(body: Object) {
-  //   return this.http.post<{ ok: boolean, iniciativa: Iniciativa}>(`${ base_url }/iniciativas`, body, this.usuarioService.headers)
-  //                   .pipe(
-  //                     map( (resp) => { return resp; } )
-  //                   );
-  // }
+  crearOferta(body: Object) {
+    return this.http.post<{ ok: boolean, oferta: Oferta}>(`${ base_url }/ofertas`, body, this.usuarioService.headers)
+                    .pipe(
+                      map( (resp) => { return resp; } )
+                    );
+  }
 
   // actualizarIniciativa(iniciativa: Iniciativa, body: Object) {
   //   return this.http.put<{ ok: boolean, iniciativa: Iniciativa}>(`${ base_url }/iniciativas/${ iniciativa._id }`, body, this.usuarioService.headers)
@@ -71,5 +71,10 @@ export class OfertaService {
   //                   );
   // }
 
-
+  obtenerAreasServicio(){
+    return this.http.get<{ ok: boolean, areasServicio: any}>(`${ base_url }/ofertas/areasservicio`,this.usuarioService.headers)
+    .pipe(
+      map( (resp) => resp)
+    );
+  }
 }

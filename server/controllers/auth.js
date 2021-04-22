@@ -204,19 +204,15 @@ const renewToken = async(req, res = response) => {
 
     const tokenPrevio =  req.headers['x-token'];
     const verificacionToken = verificarJWT(tokenPrevio);
-    console.log(verificacionToken);
     const { ok, usuario } = verificacionToken;
-    console.log(usuario);
     if(!ok) {
         res.status(401).json({
             ok: false,
             msg: 'El token no es correcto',
         });
     }
-    console.log(usuario)
    //Este valor se usara en detalle cuando se cambiara la interfaz
     const usuario_bd = await dao_usuario.obtenerUsuarioSinRolPorId(usuario.uid);
-   console.log(usuario_bd)
      let user = {
         uid: usuario_bd.id,
         email: usuario_bd.correo,

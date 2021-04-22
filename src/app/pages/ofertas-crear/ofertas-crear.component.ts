@@ -3,9 +3,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { FileUploadService } from 'src/app/services/file-upload.service';
 import { Oferta } from 'src/app/models/oferta.model';
-
-// import { RAMAS } from '../../models/rama.model';
-// import { CIUDADES } from '../../models/ciudad.model';
 import { OfertaService } from 'src/app/services/oferta.service';
 import Swal from 'sweetalert2';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -24,11 +21,8 @@ export class OfertasCrearComponent implements OnInit {
   public oferta: Oferta;
   public imagenSubir: File;
   public imagenPreview: any = null;
-
+  public areasServicio: any ;
   public crearOfertaForm: FormGroup;
-
-  // public RAMAS = RAMAS;
-  // public CIUDADES = CIUDADES;
   public USUARIOS;
 
   constructor( public fb: FormBuilder, public ofertaService: OfertaService, public usuarioService: UsuarioService, public fileUploadService: FileUploadService, public router: Router, public activatedRoute: ActivatedRoute) {
@@ -40,82 +34,108 @@ export class OfertasCrearComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.obtenerAreasServicio();
     await this.cargarOferta();
-
     this.crearOfertaForm = this.fb.group({
       titulo: [this.oferta.titulo || '', Validators.required],
       descripcion: [this.oferta.descripcion || '', Validators.required],
       creador: [this.oferta.creador?.uid || this.usuarioService.usuario.uid, Validators.required],
-      terminos_aceptados: [false, Validators.requiredTrue],
+      // terminos_aceptados: [false, Validators.requiredTrue],
+      area_servicio: [this.oferta.area_servicio || '', Validators.required],
+      asignatura: [this.oferta.asignatura_objetivo || '', Validators.required],
+      fecha_limite: [this.oferta.fecha_limite || '', Validators.required],
+      cuatrimestre: [this.oferta.cuatrimestre || '', Validators.required],
+      anio_academico: [this.oferta.anio_academico || '', Validators.required],
+      // observaciones: [this.oferta.observaciones_temporales || '', Validators.required],
+
     });
+    
   }
 
   async cargarOferta() {
     this.oferta = new Oferta('', '', '', '', '', '', '',  '',  '', null, null,[], [], []);
   }
 
+  async  obtenerAreasServicio() {
+    return this.ofertaService.obtenerAreasServicio()
+       .subscribe( (resp: any) => {
+         console.log(resp)
+         this.areasServicio =resp.areasServicio
+         return this.areasServicio;
+       });
+ }
+
   observableEnviarOferta() {
-    //TO DO
-    // return this.ofertaService.crearOferta(this.crearOfertaForm.value);
+    return this.ofertaService.crearOferta(this.crearOfertaForm.value);
   }
 
   enviarOferta() {
-    //TO DO
-    // this.formSubmitted = true;
+    this.formSubmitted = true;
 
 
-    // if(this.crearOfertaForm.invalid) {
-    //   return;
-    // }
+    if(this.crearOfertaForm.invalid) {
+      return;
+    }
 
-    // this.formSending = true;
-    // this.observableEnviarOferta()
-    //       .subscribe( resp => Oferta
-    //         this. ofertas_id
-    //           ? Swal.fire('Ok', 'Oferta actualizada correctamente', 'success')
-    //           : Swal.fire('Ok', 'Oferta creada correctamente', 'success');
+    this.formSending = true;
+    this.observableEnviarOferta()
+          .subscribe( resp => {
+            this. oferta_id
+              ? Swal.fire('Ok', 'Oferta actualizada correctamente', 'success')
+              : Swal.fire('Ok', 'Oferta creada correctamente', 'success');
 
-    //         this.router.routeReuseStrategy.shouldReuseRoute = () => false;
-    //         this.router.onSameUrlNavigation = 'reload';
-    //         this.router.navigate(['/ofertass']);
+            this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+            this.router.onSameUrlNavigation = 'reload';
+            this.router.navigate(['/ofertas']);
 
-    //         this.formSubmitted = false;
-    //         this.formSending = false;
-    //       }, err => {
-    //         console.log(err);
+            this.formSubmitted = false;
+            this.formSending = false;
+          }, err => {
+            console.log(err);
 
-    //         let msg = [];
-    //         if(err.error.errors) {
-    //           Object.values(err.error.errors).forEach(error_entry => {
-    //             msg.push(error_entry['msg']);
-    //           });
-    //         } else {
-    //           msg.push(err.error.msg);
-    //         }
+            let msg = [];
+            if(err.error.errors) {
+              Object.values(err.error.errors).forEach(error_entry => {
+                msg.push(error_entry['msg']);
+              });
+            } else {
+              msg.push(err.error.msg);
+            }
 
-    //         Swal.fire('Error', msg.join('<br>'), 'error');
-    //         this.formSubmitted = false;
-    //         this.formSending = false;
-    //       });
+            Swal.fire('Error', msg.join('<br>'), 'error');
+            this.formSubmitted = false;
+            this.formSending = false;
+          });
 
 
   }
 
+  noListMatch() {
+    let accept=true;
+        if(this.areasServicio != undefined){
+          for (let v of this.areasServicio) {
+            if (v.nombre === this.crearOfertaForm.get('area_servicio').value || this.crearOfertaForm.get('area_servicio').value === '')
+              accept = false;
+          }
+        }
+          return accept;
+
+  }
 
   campoNoValido(campo): String {
 
     let invalido = this.crearOfertaForm.get(campo) && this.crearOfertaForm.get(campo).invalid;
 
     if(invalido) {
-      switch (campo) {
-        case 'terminos_aceptados':
-          return 'Es obligatorio aceptar las condiciones de uso';
-          break;
+      // switch (campo) {
+      //   case 'terminos_aceptados':
+      //     return 'Es obligatorio aceptar las condiciones de uso';
+      //     break;
 
-        default:
+      //   default:
           return `El campo ${ campo } es obligatorio`;
-          break;
-      }
+      //     break;
+      // }
     }
 
     return '';

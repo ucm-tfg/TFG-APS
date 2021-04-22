@@ -19,8 +19,8 @@ app.use(express.json());
 // Rutas
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/mails", require("./routes/mails"));
-
 app.use("/api/home", require("./routes/home"));
+app.use("/api/ofertas", require("./routes/ofertas"));
 app.use("/api/usuarios", require("./routes/usuarios"));
 app.use("/api/iniciativas", require("./routes/iniciativas"));
 app.use("/api/partenariados", require("./routes/partenariados"));
@@ -430,9 +430,9 @@ dao_usuario.actualizarProfesorInterno(
 // dao_usuario.obtenerUsuarioSinRol("oficinaapp").then((datos) => {
 //   console.log(datos);
 // })
-dao_usuario.obtenerUsuarioSinRolPorId(115).then((datos) => {
-  console.log(datos);
-})
+// dao_usuario.obtenerUsuarioSinRolPorId(115).then((datos) => {
+//   console.log(datos);
+// })
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // dao_usuario.obtenerUsuarioSinRolPorId(113).then((result) =>{
 //   console.log(result);
@@ -452,55 +452,56 @@ const TIniciativa = require('./database/services/transfers/TIniciativa');
 // let anio = 2020;
 // let fecha_limite = new Date (2021, 10, 04);
 // let observaciones = "URGENTE";
-// let creador = 120;
+// let creador = 121;
 // let area = [7,5,35,37,36,29];
-// let profesores = [120];
+// let profesores = [121];
 
-// let oferta1 = new TOfertaServicio(null, titulo, descripcion, imagen, "", "", 0.9, asignatura,
-//     cuatrimestre, anio, fecha_limite, observaciones, creador, area, profesores); 
+// let oferta1 = new TOfertaServicio(null, titulo, descripcion, null, "", "",asignatura,
+//     cuatrimestre, anio, fecha_limite, null, creador, area, profesores,0); 
 // dao_tentativa.crearOferta(oferta1);
-// dao_tentativa.obtenerOfertaServicio(57).then(function(oferta){console.log(oferta);});
+// dao_tentativa.obtenerOfertaServicio(71).then(function(oferta){console.log(oferta);});
 // anio = 2022;
 
 // asignatura = ["Ampliación de Matemáticas"]; 
-// oferta1 = new TOfertaServicio(69, titulo, descripcion, imagen, "", "", 0.9, asignatura,
-//     cuatrimestre, anio, fecha_limite, observaciones, creador, area,profesores);
+// oferta1 = new TOfertaServicio(71, titulo, descripcion, imagen, "", "", asignatura,
+//     cuatrimestre, anio, fecha_limite, observaciones, creador, area,profesores, 1);
 // dao_tentativa.actualizarOfertaServicio(oferta1).then(function(oferta){});
+
 // dao_tentativa.obtenerTodasOfertasServicio().then(function(oferta){console.log(oferta);});
 //  dao_tentativa.limpiarAnuncioServicios(); //Elimina todos los elementos de la tabla
-// dao_tentativa.crearAnuncio(titulo, descripcion, imagen);
+// dao_tentativa.crearAnuncio(titulo, descripcion);
 // dao_tentativa.eliminarOferta(60);
 
 
 // DEMANDAS----------------------------------------------------------------------------------------
-// let titulo = "Anuncio casa";
-// let descripcion = "Construir una casa";
-// let imagen = "Prueba, aquí va la dirección de la imagen";
-// let ciudad = "Madrid"; 
-// let finalidad = "Construir una casa";
-// let periodo_definicion_ini = new Date (2020, 5, 04);
-// let periodo_definicion_fin  = new Date (2020, 6, 04);
-// let periodo_ejecucion_ini = new Date (2020, 6, 05);
-// let periodo_ejecucion_fin = new Date (2021, 2, 11);
-// let fecha_fin  = new Date (2021, 7, 01);
-// let observaciones_temporales = "NADA";
-// let necesidad_social = 18;
-// let titulacionlocal_demandada = [1, 2];
-// let area_servicio = [7,5,35,37,36,29];
-// let creador = 119;
-// let demanda = new TDemandaServicio(null, titulo, descripcion, imagen, "", "", 0.9,
+let titulo = "Anuncio casa";
+let descripcion = "Construir una casa";
+let imagen = "Prueba, aquí va la dirección de la imagen";
+let ciudad = "Madrid"; 
+let finalidad = "Construir una casa";
+let periodo_definicion_ini = new Date (2020, 5, 04);
+let periodo_definicion_fin  = new Date (2020, 6, 04);
+let periodo_ejecucion_ini = new Date (2020, 6, 05);
+let periodo_ejecucion_fin = new Date (2021, 2, 11);
+let fecha_fin  = new Date (2021, 7, 01);
+let observaciones_temporales = "NADA";
+let necesidad_social = 18;
+let titulacionlocal_demandada = [1, 2];
+let area_servicio = [7,5,35,37,36,29];
+let creador = 119;
+// let demanda = new TDemandaServicio(null, titulo, descripcion, imagen, "", "", 
 //     creador, ciudad, finalidad, periodo_definicion_ini, periodo_definicion_fin, periodo_ejecucion_ini,
 //     periodo_ejecucion_fin, fecha_fin, observaciones_temporales, necesidad_social, titulacionlocal_demandada,
-//     area_servicio);
+//     area_servicio, 0);
 // dao_tentativa.crearDemanda(demanda);
-// dao_tentativa.obtenerDemandaServicio(62).then(function(oferta){console.log(oferta);});
+// dao_tentativa.obtenerDemandaServicio(72).then(function(oferta){console.log(oferta);});
 // ciudad = "Barcelona"; 
 // area_servicio = [2];
 // titulacionlocal_demandada = [1, 3];
-// demanda = new TDemandaServicio(54, titulo, descripcion, imagen, "", "", 0.9,
-//     7, ciudad, finalidad, periodo_definicion_ini, periodo_definicion_fin, periodo_ejecucion_ini,
+// demanda = new TDemandaServicio(72, titulo, descripcion, imagen, "", "",
+//     creador, ciudad, finalidad, periodo_definicion_ini, periodo_definicion_fin, periodo_ejecucion_ini,
 //     periodo_ejecucion_fin, fecha_fin, observaciones_temporales, necesidad_social, titulacionlocal_demandada,
-//     area_servicio);
+//     area_servicio, 0);
 // dao_tentativa.obtenerTodasDemandasServicio().then((datos) => {
 //     console.log(datos);
 // })
@@ -555,10 +556,10 @@ const TIniciativa = require('./database/services/transfers/TIniciativa');
 // let createdAt = new Date(); 
 // let updatedAt = new Date();
 // let _v = 0.5; 
-// prueba = new transferUpload(2, almacenamiento, campo, tipo, tipo_id, camino, client_name, nombre, createdAt, updatedAt, _v);
+// prueba = new transferUpload(2, almacenamiento, campo, tipo, tipo_id, camino, client_name, nombre, createdAt, updatedAt);
 // dao_comunicacion.ActualizarUpload(prueba).then(function(upload){});
-// dao_comunicacion.crearUploadAnuncio(almacenamiento, campo, tipo, tipo_id, camino, client_name, nombre, 5, createdAt, updatedAt, _v, 54);
-//dao_comunicacion.crearUploadColab(almacenamiento, campo, tipo, tipo_id, camino, client_name, nombre, creador, createdAt, updatedAt, _v, 1)
+// dao_comunicacion.crearUploadAnuncio(almacenamiento, campo, tipo, tipo_id, camino, client_name, nombre, 5, createdAt, updatedAt, 54);
+//dao_comunicacion.crearUploadColab(almacenamiento, campo, tipo, tipo_id, camino, client_name, nombre, creador, createdAt, updatedAt, 1)
 //dao_comunicacion.obtenerUploads(6).then(function(upload){console.log(upload);});
 //dao_comunicacion.eliminarUpload(6).then();
 //dao_comunicacion.obtenerUploadsAnuncio(9).then(function(upload){console.log(upload);});
@@ -572,7 +573,6 @@ const TIniciativa = require('./database/services/transfers/TIniciativa');
 // id_demanda = 52;
 // id_oferta = 50;
 // estado = 1;
-// _v = 11;
 // let partenariado = new TPartenariado(null, titulo, descripcion, admite_externos, responsable, profesores, id_demanda, id_oferta, estado, _v);
 // dao_colaboracion.crearPartenariado(partenariado);
 // return dao_colaboracion.obtenerPartenariado(4).then((datos) =>{

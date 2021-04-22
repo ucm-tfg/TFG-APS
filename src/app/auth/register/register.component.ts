@@ -138,6 +138,7 @@ export class RegisterComponent implements OnInit {
 
    noListMatch() {
     let accept=true;
+    console.log(this.codeList);
           for (let v of this.codeList) {
             if (v.nombre === this.registerForm.get('universidad').value || this.registerForm.get('universidad').value === '')
               accept = false;
