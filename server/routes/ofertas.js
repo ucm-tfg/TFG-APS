@@ -28,6 +28,7 @@ router.post(
         check('fecha_limite', 'El fecha_limite es un campo obligatorio').not().isEmpty(),
         check('cuatrimestre', 'El cuatrimestre es un campo obligatorio').not().isEmpty(),
         check('anio_academico', 'El anio_academico es un campo obligatorio').not().isEmpty(),
+        check('observaciones', 'El anio_academico es un campo obligatorio').not().isEmpty(),
         validarCampos,
     ],
     crearOferta

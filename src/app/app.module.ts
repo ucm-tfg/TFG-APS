@@ -14,7 +14,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 
-
 // Routes
 import { AppRoutingModule } from './app-routing.module';
 

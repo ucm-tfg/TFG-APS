@@ -23,6 +23,8 @@ export class OfertasCrearComponent implements OnInit {
   public imagenPreview: any = null;
   public areasServicio: any ;
   public crearOfertaForm: FormGroup;
+  public aux_area: string;
+  public htmlStr: string;
   public USUARIOS;
 
   constructor( public fb: FormBuilder, public ofertaService: OfertaService, public usuarioService: UsuarioService, public fileUploadService: FileUploadService, public router: Router, public activatedRoute: ActivatedRoute) {
@@ -46,7 +48,7 @@ export class OfertasCrearComponent implements OnInit {
       fecha_limite: [this.oferta.fecha_limite || '', Validators.required],
       cuatrimestre: [this.oferta.cuatrimestre || '', Validators.required],
       anio_academico: [this.oferta.anio_academico || '', Validators.required],
-      // observaciones: [this.oferta.observaciones_temporales || '', Validators.required],
+      observaciones: this.oferta.observaciones ,
 
     });
     
@@ -59,7 +61,7 @@ export class OfertasCrearComponent implements OnInit {
   async  obtenerAreasServicio() {
     return this.ofertaService.obtenerAreasServicio()
        .subscribe( (resp: any) => {
-         console.log(resp)
+        //  console.log(resp)
          this.areasServicio =resp.areasServicio
          return this.areasServicio;
        });
@@ -67,6 +69,15 @@ export class OfertasCrearComponent implements OnInit {
 
   observableEnviarOferta() {
     return this.ofertaService.crearOferta(this.crearOfertaForm.value);
+  }
+
+  obtenerIdAreaServicio(){
+    var area_seleccionada = this.crearOfertaForm.get('area_servicio').value;
+    let pos_area = 0;
+    while(pos_area < this.areasServicio.length && this.areasServicio[pos_area].nombre != area_seleccionada){
+      pos_area++;
+    }
+    return pos_area;
   }
 
   enviarOferta() {
@@ -78,6 +89,24 @@ export class OfertasCrearComponent implements OnInit {
     }
 
     this.formSending = true;
+    let encontrado= this.obtenerIdAreaServicio();
+    if(encontrado >= this.areasServicio.length){
+      let msg = [];
+      msg.push('El area de servicio seleccionado no es correcto');
+      Swal.fire('Error', msg.join('<br>'), 'error');
+      this.formSubmitted = false;
+      this.formSending = false;
+    }
+    this.aux_area = this.crearOfertaForm.get('area_servicio').value;
+    let cuatrimestre = this.crearOfertaForm.get('cuatrimestre').value;
+    if(cuatrimestre == 'primero'){
+      this.crearOfertaForm.get('cuatrimestre').setValue(1);
+    }else if(cuatrimestre == 'segundo'){
+      this.crearOfertaForm.get('cuatrimestre').setValue(2);
+    }else {
+      this.crearOfertaForm.get('cuatrimestre').setValue(0);
+    }
+    this.crearOfertaForm.get('area_servicio').setValue(this.areasServicio[encontrado].id);
     this.observableEnviarOferta()
           .subscribe( resp => {
             this. oferta_id
@@ -87,12 +116,11 @@ export class OfertasCrearComponent implements OnInit {
             this.router.routeReuseStrategy.shouldReuseRoute = () => false;
             this.router.onSameUrlNavigation = 'reload';
             this.router.navigate(['/ofertas']);
-
+            // this.crearOfertaForm.get('area_servicio').setValue(this.aux_area);
             this.formSubmitted = false;
             this.formSending = false;
           }, err => {
             console.log(err);
-
             let msg = [];
             if(err.error.errors) {
               Object.values(err.error.errors).forEach(error_entry => {
@@ -112,12 +140,11 @@ export class OfertasCrearComponent implements OnInit {
 
   noListMatch() {
     let accept=true;
-        if(this.areasServicio != undefined){
+    // console.log(this.areasServicio);
           for (let v of this.areasServicio) {
             if (v.nombre === this.crearOfertaForm.get('area_servicio').value || this.crearOfertaForm.get('area_servicio').value === '')
               accept = false;
           }
-        }
           return accept;
 
   }
@@ -137,7 +164,7 @@ export class OfertasCrearComponent implements OnInit {
       //     break;
       // }
     }
-
+    
     return '';
   }
 
