@@ -294,10 +294,15 @@ function insertarEstudianteExterno(usuario) {
       })
       .select("id")
       .then(function (result) {
-        return knex("estudiante_externo")
+        return knex("universidad")
+        .select("id")
+        .where('nombre', 'like', `%${usuario.getnombreUniversidad()}%`)
+        .then(function(values){
+          console.log(values[0]["id"])
+          return knex("estudiante_externo")
           .insert({
             id: idF,
-            universidad: usuario.getUniversidad(),
+            universidad: values[0]["id"],
             titulacion: usuario.getTitulacion(),
             datos_personales_Id: result[0],
           })
@@ -334,10 +339,14 @@ function insertarProfesorExterno(usuario) {
       })
       .select("id")
       .then(function (result) {
+        return knex("universidad")
+        .select("id")
+        .where('nombre', 'like', `%${usuario.getnombreUniversidad()}%`)
+        .then(function(values){
         return knex("profesor_externo")
           .insert({
             id: idF[0],
-            universidad: usuario.getUniversidad(),
+            universidad: values[0]["id"],
             datos_personales_Id: result[0],
           })
           .then(function () {
@@ -1212,9 +1221,7 @@ function obtenerProfesorExterno(id) {
                   usuario["createdAt"],
                   usuario["updatedAt"],
                   usuario["terminos_aceptados"],
-                  uni[0]["id"],
-                  uni[0]["nombre"],
-                  uni[0]["provincia"]
+                  uni[0]["nombre"]
                 );
               });
           });
@@ -1256,9 +1263,7 @@ function obtenerProfesorExternoPorDatosPersonales(id) {
                   usuario["createdAt"],
                   usuario["updatedAt"],
                   usuario["terminos_aceptados"],
-                  uni[0]["id"],
-                  uni[0]["nombre"],
-                  uni[0]["provincia"]
+                  uni[0]["nombre"]
                 );
               });
           });
@@ -1395,10 +1400,8 @@ function obtenerEstudianteExterno(id) {
                   usuario["createdAt"],
                   usuario["updatedAt"],
                   usuario["terminos_aceptados"],
-                  uni[0]["id"],
                   estudianteExterno[0]["titulacion"],
-                  uni[0]["nombre"],
-                  uni[0]["provincia"]
+                  uni[0]["nombre"]
                 );
               });
           });
@@ -1440,10 +1443,8 @@ function obtenerEstudianteExternoPorDatosPersonales(id) {
                   usuario["createdAt"],
                   usuario["updatedAt"],
                   usuario["terminos_aceptados"],
-                  uni[0]["id"],
                   estudianteExterno[0]["titulacion"],
-                  uni[0]["nombre"],
-                  uni[0]["provincia"]
+                  uni[0]["nombre"]
                 );
               });
           });

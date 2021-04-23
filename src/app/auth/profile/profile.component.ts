@@ -8,6 +8,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Usuario } from '../../models/usuario.model';
 import { take, tap, first } from 'rxjs/operators';
 import { AuthService } from 'src/app/services/auth.service';
+import { HomeService } from "../../services/home.service";
 //Para usar jQuery -> import * as $ from "jquery";
 
 @Component({
@@ -20,6 +21,7 @@ export class ProfileComponent {
   public editUserTitle: string = 'Edición de perfil de usuario';
   public successMessage: string = 'El perfil ha sido actualizado correctamente';
   public usuario: Usuario;
+  public codeList: any ;
 
   public profileForm: FormGroup;
   public imagenSubir: File;
@@ -27,11 +29,11 @@ export class ProfileComponent {
 
   public roles = this.getRoles();
 
-  constructor( public fb: FormBuilder, public authService: AuthService, public usuarioService: UsuarioService, public fileUploadService: FileUploadService, public router: Router, public activatedRoute: ActivatedRoute) {
+  constructor( public fb: FormBuilder, public authService: AuthService, public usuarioService: UsuarioService,public registerService: HomeService, public fileUploadService: FileUploadService, public router: Router, public activatedRoute: ActivatedRoute) {
   }
 
   async ngOnInit() {
-
+    this.obtenerUniversidades();
     await this.actualizarInformacionOrigenDeUsuario();
 
     this.profileForm = this.fb.group({
@@ -45,7 +47,6 @@ export class ProfileComponent {
         titulacion: [this.usuario.titulacion],
         sector: [this.usuario.sector],
         nombreEntidad: [this.usuario.nombreEntidad],
-        terminos_aceptados: [this.usuario.terminos_aceptados, Validators.requiredTrue],
       }, {
         validators: [
           this.validacionPasswordsNoCoinciden(),
@@ -56,6 +57,15 @@ export class ProfileComponent {
         ]
     });
   }
+
+  async  obtenerUniversidades() {
+    return this.registerService.obtenerUniversidades()
+       .subscribe( (resp: any) => {
+         console.log(resp)
+         this.codeList =resp.codeList
+         return this.codeList;
+       });
+ }
 
   // reload usuario
   async actualizarInformacionOrigenDeUsuario() {
@@ -238,4 +248,14 @@ export class ProfileComponent {
   validarNombreEntidad() {
     return this.validarCampoSegunPerfil('nombreEntidad', [ROL_ENTIDAD]);
   }
+
+  noListMatch() {
+    let accept=true;
+          for (let v of this.codeList) {
+            if (v.nombre === this.profileForm.get('universidad').value || this.profileForm.get('universidad').value === '')
+              accept = false;
+          }
+          return accept;
+
+  } 
 }

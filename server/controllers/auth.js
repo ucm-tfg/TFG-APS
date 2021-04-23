@@ -211,8 +211,10 @@ const renewToken = async(req, res = response) => {
             msg: 'El token no es correcto',
         });
     }
+ 
    //Este valor se usara en detalle cuando se cambiara la interfaz
     const usuario_bd = await dao_usuario.obtenerUsuarioSinRolPorId(usuario.uid);
+
      let user = {
         uid: usuario_bd.id,
         email: usuario_bd.correo,
