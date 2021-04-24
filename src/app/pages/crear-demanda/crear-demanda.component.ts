@@ -3,13 +3,13 @@ import { FormBuilder, Validators, FormGroup, FormControl, AbstractControl, Valid
 import { ROL_ENTIDAD, ROL_PROFESOR, ROL_ESTUDIANTE } from './../../../../server/models/rol.model';
 import { UsuarioService } from '../../services/usuario.service';
 import { FileUploadService } from 'src/app/services/file-upload.service';
-import { Iniciativa } from 'src/app/models/iniciativa.model';
-import { HomeService } from "../../services/home.service";
+import { DemandaService } from 'src/app/services/demanda.service';
+import { Demanda } from 'src/app/models/demanda.model';
 import Swal from 'sweetalert2'
 import { Router } from '@angular/router';
 import { SobreApsUnedContactaComponent } from 'src/app/pages/sobre-aps-uned-contacta/sobre-aps-uned-contacta.component';
 
-
+//HACER EN EL HTML UNA FUNCION FECHAS NO VALIDAS COMO LA DEL PERFIL,
 @Component({
   selector: 'app-crear-demanda',
   templateUrl: './crear-demanda.component.html',
@@ -24,11 +24,11 @@ export class crearDemandaComponent implements OnInit {
   public titulacionList: any;
 
   
-  constructor(public fb: FormBuilder, public usuarioService: UsuarioService, public fileUploadService: FileUploadService, public router: Router, private registerService: HomeService) { 
+  constructor(public fb: FormBuilder, public usuarioService: UsuarioService, public fileUploadService: FileUploadService, public router: Router, private DemandaService: DemandaService, public Demanda: Demanda) { 
     
   }
 
-  public registerForm = this.fb.group({
+  public createForm = this.fb.group({
     titulo: new FormControl('', 
       Validators.required),
     descripcion: new FormControl('', Validators.required),
@@ -48,165 +48,159 @@ export class crearDemandaComponent implements OnInit {
     titulacionLocal: new FormControl('')
   }, {
     validators: [
-      this.validarNecesidad(),
-      this.validarTitulacion(),
-      this.validarFechas(),
-      this.validarAreas()
     ]
   });
 
 
   ngOnInit(): void {
-    this.obtenerUniversidades();
+    this.obtenerAreasServicio();
+    this.obtenerNecesidades();
+    this.obtenerTitulaciones();
   }
 
 
-  async  obtenerUniversidades() {
-     return this.registerService.obtenerUniversidades()
+  async  obtenerAreasServicio() {
+     return this.DemandaService.obtenerAreasServicio()
         .subscribe( (resp: any) => {
           console.log(resp)
-          this.codeList =resp.codeList
-          return this.codeList;
+          this.areaList =resp.areaList
+          return this.areaList;
         });
   }
 
+  async  obtenerNecesidades() {
+    return this.DemandaService.obtenerNecesidades()
+       .subscribe( (resp: any) => {
+         console.log(resp)
+         this.necesidadList =resp.necesidadList
+         return this.necesidadList;
+       });
+ }
+
+ async  obtenerTitulaciones() {
+  return this.DemandaService.obtenerTitulaciones()
+     .subscribe( (resp: any) => {
+       console.log(resp)
+       this.titulacionList =resp.titulacionList
+       return this.titulacionList;
+     });
+}
+
   get getTitulo() {
-    return this.registerForm.get('titulo')
+    return this.createForm.get('titulo')
   }
 
   get GetDescripcion() {
-    return this.registerForm.get('descripcion')
+    return this.createForm.get('descripcion')
   }
-
+  get GetPortada() {
+    return this.createForm.get('portada')
+  }
   get GetAreaServicio() {
-    return this.registerForm.get('areaServicio')
+    return this.createForm.get('areaServicio')
   }
   get getCiudad() {
-    return this.registerForm.get('ciudad')
+    return this.createForm.get('ciudad')
   }
   get getFinalidad() {
-    return this.registerForm.get('finalidad')
+    return this.createForm.get('finalidad')
   }
   get getFechaDefinicionIni() {
-    return this.registerForm.get('nombreEntidad')
+    return this.createForm.get('fechaDefinicionIni')
   }
   get getFechaDefinicionFin() {
-    return this.registerForm.get('nombre')
+    return this.createForm.get('fechaDefinicionFin')
   }
   get getFechaEjecucionIni() {
-    return this.registerForm.get('nombre')
+    return this.createForm.get('fechaEjecucionIni')
   }
   get getFechaEjecucionFin() {
-    return this.registerForm.get('nombre')
+    return this.createForm.get('fechaEjecucionFin')
   }
-  get getTitulacion() {
-    return this.registerForm.get('titulacion')
+  get getFechaFin() {
+    return this.createForm.get('fechaFin')
+  }
+  get getObservacionTemporal() {
+    return this.createForm.get('observacionTemporal')
   }
   
-  get getApellidos() {
-    return this.registerForm.get('apellidos')
+  get getNecesidadSocial() {
+    return this.createForm.get('necesidadSocial')
   }
-  public roles = this.getRoles();
+  get getComunidadBeneficiaria(){
+    return this.createForm.get('comunidadBeneficiaria')
+  }
+  get getTitulacionLocal(){
+    return this.createForm.get('titulacionLocal')
+  }
   
 
-  register(): void {
+  create(): void {
     this.formSubmitted = true;
 
-    if (this.registerForm.invalid) {
+    if (this.createForm.invalid) {
       return;
     }
-
-    this.usuarioService
-      .crearUsuario(this.registerForm.value)
-      .subscribe(resp => {
-        this.router.navigate(['/']);
-      }, err => {
-        Swal.fire('Error', err.error.msg, 'error');
-      });
   }
 
-
-  getRoles() {
-    return [
-      { id: ROL_ENTIDAD, name: 'Entidad' },
-      { id: ROL_PROFESOR, name: 'Profesor' },
-      { id: ROL_ESTUDIANTE, name: 'Estudiante' },
-    ];
-  }
-
-  match(firstControlName: string | (string | number)[], secondControlName: string | (string | number)[], customError = 'mismatch') {
-    return (fg: FormGroup) => {
-      console.log(fg.get(firstControlName).value === fg.get(secondControlName).value ? null : { [customError]: true });
-      
-      return fg.get(firstControlName).value === fg.get(secondControlName).value ? null : { [customError]: true };
-    };
-
-  }
-
-   noListMatch() {
+   noAreaMatch() {
     let accept=true;
-          for (let v of this.codeList) {
-            if (v.nombre === this.registerForm.get('universidad').value || this.registerForm.get('universidad').value === '')
+          for (let a of this.areaList) {
+            if (a.nombre === this.createForm.get('areaServicio').value || this.createForm.get('areaServicio').value === '')
               accept = false;
           }
           return accept;
 
   } 
+  noNecesidadMatch() {
+    let accept=true;
+          for (let n of this.necesidadList) {
+            if (n.nombre === this.createForm.get('necesidadSocial').value || this.createForm.get('necesidadSocial').value === '')
+              accept = false;
+          }
+          return accept;
 
-  passwordsNoCoinciden(): Boolean {
-    return this.formSubmitted && (this.registerForm.get('password').value !== this.registerForm.get('password_2').value);
-  }
+  } 
+  noTitulacionMatch() {
+    let accept=true;
+          for (let t of this.titulacionList) {
+            if (t.nombre === this.createForm.get('titulacionLocal').value || this.createForm.get('titulacionLocal').value === '')
+              accept = false;
+          }
+          return accept;
 
-  validacionPasswordsNoCoinciden() {
-    return (formGroup: FormGroup) => {
-      if (this.passwordsNoCoinciden()) {
-        formGroup.get('password').setErrors({ required: true });
-      } else {
-        formGroup.get('password').setErrors(null);
+  } 
+  validarFechas(fechaDefinicionIni: Date, fechaDefinicionFin: Date, fechaEjecucionIni: Date, fechaEjecucionFin: Date, fechaFin: Date, customError = 'mismatch'){
+    return (FormGroup: FormGroup) =>{
+      if(fechaDefinicionIni >= fechaDefinicionFin){
+        return { [customError]: true };
+      }
+      else if(fechaEjecucionIni >= fechaEjecucionFin){
+        return { [customError]: true };
+      }
+      else if(fechaDefinicionIni >= fechaEjecucionIni){
+        return { [customError]: true };
       }
     }
   }
 
-  passwordsVacias(): Boolean {
-    return this.formSubmitted && (this.registerForm.get('password').value === '');
+
+  async cargarDemanda() {
+    this.Demanda = new Demanda('', '', '', '', '', '', '','','','','','','','','',null,'', '','');
   }
+   subirFichero( file: File ) {
+    if( !file ) { return; }
 
-  validacionPasswordsVacias() {
-    return (formGroup: FormGroup) => {
-      if (this.passwordsVacias()) {
-        formGroup.get('password_2').setErrors({ required: true });
-      } else {
-        formGroup.get('password_2').setErrors(null);
-      }
-    }
-  }
-
-  validarCampoSegunPerfil(campo: string | (string | number)[], roles: string | any[]) {
-    return (formGroup: FormGroup) => {
-      const control_rol = formGroup.get('rol');
-      const campo_bajo_validacion = formGroup.get(campo);
-
-      if (campo_bajo_validacion.value === '' && roles.includes(control_rol.value)) {
-        campo_bajo_validacion.setErrors({ required: true });
-      } else {
-        campo_bajo_validacion.setErrors(null);
-      }
-    }
-  }
-
-  validarUniversidad() {
-    return this.validarCampoSegunPerfil('universidad', [ROL_ESTUDIANTE, ROL_PROFESOR]);
-  }
-
-  validarTitulacion() {
-    return this.validarCampoSegunPerfil('titulacion', [ROL_ESTUDIANTE, ROL_PROFESOR]);
-  }
-
-  validarSector() {
-    return this.validarCampoSegunPerfil('sector', [ROL_ENTIDAD]);
-  }
-
-  validarNombreEntidad() {
-    return this.validarCampoSegunPerfil('nombreEntidad', [ROL_ENTIDAD]);
+    this.fileUploadService
+        .subirFichero(file, 'archivos', 'iniciativas', this.Demanda.id)
+        .then( resp => {
+          const {ok, msg, upload_id} = resp;
+          if(ok) {
+            this.cargarDemanda();
+            Swal.fire('Ok', 'Fichero subido correctamente', 'success');
+          } else {
+            Swal.fire('Error', msg, 'error');
+          }
+        });
   }
 }

@@ -56,7 +56,7 @@
                                             <datalist id="areas">
                                             <option *ngFor="let c of codeList" [value]="c.nombre" ></option>
                                             </datalist>
-                                            <small class="text-danger" *ngIf="noListMatch()">Debe elegir un area de servicio valida</small>
+                                            <small class="text-danger" *ngIf="noAreaMatch()">Debe elegir un area de servicio valida</small>
                                         </div>
 
                                         <div class="form-group flex-fill ml-2">
@@ -126,7 +126,7 @@
                                             <datalist id="necesidades">
                                             <option *ngFor="let n of necesidades" [value]="n.nombre" ></option>
                                             </datalist>
-                                            <small class="text-danger" *ngIf="noListMatch()">Debe elegir una necesidad social valida</small>
+                                            <small class="text-danger" *ngIf="noNecesidadMatch()">Debe elegir una necesidad social valida</small>
                                         </div>
 
                                         <div class="form-group flex-fill ml-2">
@@ -143,7 +143,7 @@
                                             <datalist id="titulaciones">
                                             <option *ngFor="let t of titulaciones" [value]="t.nombre" ></option>
                                             </datalist>
-                                            <small class="text-danger" *ngIf="noListMatch()">Debe elegir una titulacion valida</small>
+                                            <small class="text-danger" *ngIf="noTitulacionMatch()">Debe elegir una titulacion valida</small>
                                         </div>
 
                                 </fieldset>
