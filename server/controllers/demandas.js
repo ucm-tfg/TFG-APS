@@ -66,24 +66,29 @@ const crearDemanda = async(req, res = response) => {//continuar
 
     try {
         console.log("Req.body:\n", req.body);
-        const oferta = new TOferta(
+        const demanda = new TDemanda(
             null,
             req.body.titulo,
             req.body.descripcion,
             req.body.imagen,
-            null,
-            null,
-            req.body.asignatura,
-            req.body.cuatrimestre,
-            req.body.anio_academico,
-            req.body.fecha_limite,
-            req.body.observaciones,
+            req.body.ciudad,
+            req.body.finalidad,
+            req.body.areaServicio,
+            req.body.periodoDefinicionIni,
+            req.body.periodoDefinicionFin,
+            req.body.periodoEjecucionIni,
+            req.body.periodoEjecucionFin,
+            req.body.fechaFin,
+            req.body.observacionesTemporales,
+            req.body.necesidadSocial,
+            req.body.titulacionLocal,
             req.current_user.uid,
-            req.body.area_servicio,
-            req.current_user.uid);
+            re.body.comunidadBeneficiaria,
+            null,
+            null);
         
-            console.log("Oferta:\n", oferta);
-        await dao_tentativa.crearOferta(oferta);
+            console.log("Demanda:\n", demanda);
+        await dao_tentativa.crearDemanda(demanda);
 
         return res.status(200).json({
             ok: true,

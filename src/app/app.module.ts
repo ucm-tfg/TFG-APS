@@ -66,6 +66,9 @@ import { IniciativasVerComponent } from './pages/iniciativas-ver/iniciativas-ver
 import { IniciativasCrearComponent } from './pages/iniciativas-crear/iniciativas-crear.component';
 import { IniciativasEditarComponent } from './pages/iniciativas-editar/iniciativas-editar.component';
 
+//demandas
+import { crearDemandaComponent } from './pages/crear-demanda/crear-demanda.component';
+
 // partenariados
 import { PartenariadosComponent } from './pages/partenariados/partenariados.component';
 import { PartenariadosVerComponent } from './pages/partenariados-ver/partenariados-ver.component';
@@ -137,6 +140,9 @@ import { Code404Component } from './errors/code404/code404.component';
 
     // proyectos
     ProyectosComponent,
+
+    //demandas
+    crearDemandaComponent,
 
     // gestor
     GestionUsuariosEditarComponent,

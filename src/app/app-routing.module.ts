@@ -9,6 +9,7 @@ import { GestorGuard } from './guards/gestor.guard';
 import { IniciativaCrearGuard } from './guards/iniciativa-crear.guard';
 import { IniciativaEditarGuard } from './guards/iniciativa-editar.guard';
 import { PartenariadoVerGuard } from './guards/partenariado-ver.guard';
+import {DemandaCrearGuard} from './guards/demanda-crear.guard';
 
 // auth routes
 import { LoginComponent } from './auth/login/login.component';
@@ -38,6 +39,12 @@ import { IniciativasComponent } from './pages/iniciativas/iniciativas.component'
 import { IniciativasVerComponent } from './pages/iniciativas-ver/iniciativas-ver.component';
 import { IniciativasCrearComponent } from './pages/iniciativas-crear/iniciativas-crear.component';
 import { IniciativasEditarComponent } from './pages/iniciativas-editar/iniciativas-editar.component';
+
+//demanda
+//import {DemandaComponent} from './pages/demanda/demanda.component'
+import {crearDemandaComponent} from './pages/crear-demanda/crear-demanda.component'
+//import {verDemandaComponent} from './pages/ver-demanda/ver-demanda.component'
+//import {editarDemandaComponent} from './pages/editar-demanda/editar-demanda.component'
 
 // partenariados
 import { PartenariadosComponent } from './pages/partenariados/partenariados.component';
@@ -88,6 +95,13 @@ const routes: Routes = [
     { path: 'iniciativas/ver/:id', component: IniciativasVerComponent, data: { titulo: 'Ver Iniciativa' } },
     { path: 'iniciativas/editar/:id', canActivate:[IniciativaEditarGuard], component: IniciativasEditarComponent, data: { titulo: 'Editar Iniciativa' } },
     { path: 'iniciativas/crear', canActivate:[IniciativaCrearGuard], component: IniciativasCrearComponent, data: { titulo: 'Crear Iniciativa' } },
+
+    //demandas
+    // { path: 'demandas', component: demandasComponent, data: { titulo: 'Demandas' } },
+    // { path: 'mis-demandas', component: demandasComponent, data: { titulo: 'Mis Demandas' } },
+    // { path: 'demandas/ver/:id', component: DemandasVerComponent, data: { titulo: 'Ver Demandas' } },
+    // { path: 'demandas/editar/:id', canActivate:[DemandaEditarGuard], component: DemandaEditarComponent, data: { titulo: 'Editar Demanda' } },
+    { path: 'demandas/crear', canActivate:[DemandaCrearGuard], component: crearDemandaComponent, data: { titulo: 'Crear Demanda' } },
 
     // Partenariados
     { path: 'partenariados', component: PartenariadosComponent, data: { titulo: 'Partenariados' } },

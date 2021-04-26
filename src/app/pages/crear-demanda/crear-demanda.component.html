@@ -30,23 +30,22 @@
                                     <div class="form-group">
                                         <label>Introduzca el título</label>
                                         <input name="titulo" type="text" id="titulo" class="form-control" autocorrect="off" autocapitalize="none" spellcheck="false" placeholder="Introduzca el Titulo de la demanda" formControlName="titulo">
-                                        <div *ngIf="titulo.invalid && (titulo.dirty || titulo.touched)" class="alert alert-danger">
-                                            <small *ngIf="titulo.errors?.required" class="text-danger">El título es un campo requerido</small>
-                                        </div>
+                                        <div *ngIf="(getTitulo.invalid && getTitulo.touched)">
+                                            <small *ngIf="getTitulo.errors?.required" class="text-danger">El título es un campo requerido</small>
+                                          </div>
                                     </div>
 
                                     <div class="form-group">
                                         <label for="descripcion">descripcion de la demanda</label>
                                         <input name="descripcion" type="text" id="demanda" class="form-control" autocorrect="off" autocapitalize="none" spellcheck="false" placeholder="Introduzca la descripcion de su demanda" formControlName="demanda">
-                                        <div *ngIf="(descripcion.invalid && (descripcion.touched || descripcion.dirty)"  class="alert alert-danger">
-                                            <small *ngIf="descripcion.errors?.required" class="text-danger">La descripcion es un campo requerido</small>
-                                            <!--question mark(?) is a safe navigation operator-->
+                                        <div *ngIf="(getDescripcion.invalid && getDescripcion.touched)">
+                                            <small *ngIf="getDescripcion.errors?.required" class="text-danger">La descripcion es un campo requerido</small>
                                           </div>
                                     </div>
                                     <div class="d-flex">
                                         <div class="form-group flex-fill mr-2">
                                             <label for="portada">Imagen inicial de la demanda</label>
-                                            <input name="portada" type="file"  id="portada" class="form-control" placeholder="Seleccione la imagen a subir" formControlName="portada" (input)="cambiarImagen($event.target.files[0])">
+                                            <input name="portada" type="file"  id="portada" class="form-control" placeholder="Seleccione la imagen a subir" formControlName="portada" (input)="subirFichero($event.target.files[0])">
                                         </div>
                                     </div>
                                     
@@ -54,7 +53,7 @@
                                             <label for="areaServicio">Area de Servicio</label>
                                             <input name="areaServicio" type="text" id="areaServicio"  list="areas"  formControlName="areaServicio"  class="form-control" [class.is-invalid] = "createDemandForm.get('areaServicio').invalid && createDemandForm.get('areaServicio').touched" placeholder="Introduzca el area de servicio al que corresponde su demanda">
                                             <datalist id="areas">
-                                            <option *ngFor="let c of codeList" [value]="c.nombre" ></option>
+                                            <option *ngFor="let c of areaList" [value]="c.nombre" ></option>
                                             </datalist>
                                             <small class="text-danger" *ngIf="noAreaMatch()">Debe elegir un area de servicio valida</small>
                                         </div>
@@ -78,40 +77,40 @@
                                         <div class="form-group flex-fill ml-2">
                                             <label for="fechaDefinicionIni">Seleccione el comienzo del periodo de definicion</label>
                                             <input name="fechaDefinicionIni" type="date" id="fechaDefinicionIni" class="form-control" [class.is-invalid] = "createDemandForm.get('fechaDefinicionIni').invalid && createDemandForm.get('fechaDefinicionIni').touched" formControlName="fechaDefinicionIni">
-                                            <div *ngIf="(getfechaDefinicionIni.invalid && getfechaDefinicionIni.touched)">
-                                                <small *ngIf="getfechaDefinicionIni.errors?.required" class="text-danger">Debe seleccionar una fecha para el comienzo del periodo de definicion</small>
+                                            <div *ngIf="(getFechaDefinicionIni.invalid && getFechaDefinicionIni.touched)">
+                                                <small *ngIf="getFechaDefinicionIni.errors?.required" class="text-danger">Debe seleccionar una fecha para el comienzo del periodo de definicion</small>
                                               </div>
                                         </div>
 
                                         <div class="form-group flex-fill ml-2">
                                             <label for="fechaDefinicionFin">Seleccione el fin del periodo de definicion</label>
                                             <input name="fechaDefinicionFin" type="date" id="fechaDefinicionFin" class="form-control" [class.is-invalid] = "createDemandForm.get('fechaDefinicionFin').invalid && createDemandForm.get('fechaDefinicionFin').touched" formControlName="fechaDefinicionFin">
-                                            <div *ngIf="(getfechaDefinicionFin.invalid && getfechaDefinicionFin.touched)">
-                                                <small *ngIf="getfechaDefinicionFin.errors?.required" class="text-danger">Debe seleccionar una fecha para el final del periodo de definicion</small>
+                                            <div *ngIf="(getFechaDefinicionFin.invalid && getFechaDefinicionFin.touched)">
+                                                <small *ngIf="getFechaDefinicionFin.errors?.required" class="text-danger">Debe seleccionar una fecha para el final del periodo de definicion</small>
                                               </div>
                                         </div>
 
                                         <div class="form-group flex-fill ml-2">
                                             <label for="fechaEjecucionIni">Seleccione el comienzo del periodo de ejecucion</label>
                                             <input name="fechaEjecucionIni" type="date" id="fechaEjecucionIni" class="form-control" [class.is-invalid] = "createDemandForm.get('fechaEjecucionIni').invalid && createDemandForm.get('fechaEjecucionIni').touched" formControlName="fechaEjecucionIni">
-                                            <div *ngIf="(getfechaEjecucionIni.invalid && getfechaEjecucionIni.touched)">
-                                                <small *ngIf="getfechaEjecucionIni.errors?.required" class="text-danger">Debe seleccionar una fecha para el comienzo del periodo de ejecucion</small>
+                                            <div *ngIf="(getFechaEjecucionIni.invalid && getFechaEjecucionIni.touched)">
+                                                <small *ngIf="getFechaEjecucionIni.errors?.required" class="text-danger">Debe seleccionar una fecha para el comienzo del periodo de ejecucion</small>
                                               </div>
                                         </div>
 
                                         <div class="form-group flex-fill ml-2">
                                             <label for="fechaEjecucionFin">Seleccione el fin del periodo de ejecucion</label>
                                             <input name="fechaEjecucionFin" type="date" id="fechaEjecucionFin" class="form-control" [class.is-invalid] = "createDemandForm.get('fechaEjecucionFin').invalid && createDemandForm.get('fechaEjecucionFin').touched" formControlName="fechaEjecucionFin">
-                                            <div *ngIf="(getfechaEjecucionFin.invalid && getfechaEjecucionFin.touched)">
-                                                <small *ngIf="getfechaEjecucionFin.errors?.required" class="text-danger">Debe seleccionar una fecha para el final del periodo de ejecucion</small>
+                                            <div *ngIf="(getFechaEjecucionFin.invalid && getFechaEjecucionFin.touched)">
+                                                <small *ngIf="getFechaEjecucionFin.errors?.required" class="text-danger">Debe seleccionar una fecha para el final del periodo de ejecucion</small>
                                               </div>
                                         </div>
 
                                         <div class="form-group flex-fill ml-2">
                                             <label for="fechaFin">Seleccione la fecha de finalizacion de la demanda</label>
                                             <input name="fechaFin" type="date" id="fechaFin" class="form-control" [class.is-invalid] = "createDemandForm.get('fechaFin').invalid && createDemandForm.get('fechaFin').touched" formControlName="fechaFin">
-                                            <div *ngIf="(getfechaFin.invalid && getfechaFin.touched)">
-                                                <small *ngIf="getfechaFin.errors?.required" class="text-danger">Debe seleccionar una fecha para el final de la demanda</small>
+                                            <div *ngIf="(getFechaFin.invalid && getFechaFin.touched)">
+                                                <small *ngIf="getFechaFin.errors?.required" class="text-danger">Debe seleccionar una fecha para el final de la demanda</small>
                                               </div>
                                         </div>
 
@@ -124,7 +123,7 @@
                                             <label for="necesidadSocial">Necesidad social a cumplir con esta demanda</label>
                                             <input name="necesidadSocial" type="text" id="necesidadSocial"  list="necesidades"  formControlName="necesidadSocial"  class="form-control" [class.is-invalid] = "createDemandForm.get('necesidadSocial').invalid && createDemandForm.get('necesidadSocial').touched" placeholder="Introduzca la necesidad social">
                                             <datalist id="necesidades">
-                                            <option *ngFor="let n of necesidades" [value]="n.nombre" ></option>
+                                            <option *ngFor="let n of necesidadList" [value]="n.nombre" ></option>
                                             </datalist>
                                             <small class="text-danger" *ngIf="noNecesidadMatch()">Debe elegir una necesidad social valida</small>
                                         </div>
@@ -141,7 +140,7 @@
                                             <label for="titulacionLocal">Titulacion local relacionada con la demanda</label>
                                             <input name="titulacionLocal" type="text" id="titulacionLocal"  list="titulaciones"  formControlName="titulacionLocal"  class="form-control" [class.is-invalid] = "createDemandForm.get('titulacionLocal').invalid && createDemandForm.get('titulacionLocal').touched" placeholder="Introduzca la titulacion local">
                                             <datalist id="titulaciones">
-                                            <option *ngFor="let t of titulaciones" [value]="t.nombre" ></option>
+                                            <option *ngFor="let t of titulacionList" [value]="t.nombre" ></option>
                                             </datalist>
                                             <small class="text-danger" *ngIf="noTitulacionMatch()">Debe elegir una titulacion valida</small>
                                         </div>
@@ -149,7 +148,7 @@
                                 </fieldset>
 
                                 <div class="d-flex">
-                                    <div class="flex-fill alert alert-danger mr-3" role="alert" *ngIf="this.registerForm.invalid && this.formSubmitted">
+                                    <div class="flex-fill alert alert-danger mr-3" role="alert" *ngIf="this.createDemandForm.invalid && this.formSubmitted">
                                         <div class="col">Debes completar/seleccionar correctamente todos los campos</div>
                                         
                                     </div>

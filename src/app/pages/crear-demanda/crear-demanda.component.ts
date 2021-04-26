@@ -28,7 +28,7 @@ export class crearDemandaComponent implements OnInit {
     
   }
 
-  public createForm = this.fb.group({
+  public createDemandForm = this.fb.group({
     titulo: new FormControl('', 
       Validators.required),
     descripcion: new FormControl('', Validators.required),
@@ -87,58 +87,58 @@ export class crearDemandaComponent implements OnInit {
 }
 
   get getTitulo() {
-    return this.createForm.get('titulo')
+    return this.createDemandForm.get('titulo')
   }
 
-  get GetDescripcion() {
-    return this.createForm.get('descripcion')
+  get getDescripcion() {
+    return this.createDemandForm.get('descripcion')
   }
-  get GetPortada() {
-    return this.createForm.get('portada')
+  get getPortada() {
+    return this.createDemandForm.get('portada')
   }
-  get GetAreaServicio() {
-    return this.createForm.get('areaServicio')
+  get getAreaServicio() {
+    return this.createDemandForm.get('areaServicio')
   }
   get getCiudad() {
-    return this.createForm.get('ciudad')
+    return this.createDemandForm.get('ciudad')
   }
   get getFinalidad() {
-    return this.createForm.get('finalidad')
+    return this.createDemandForm.get('finalidad')
   }
   get getFechaDefinicionIni() {
-    return this.createForm.get('fechaDefinicionIni')
+    return this.createDemandForm.get('fechaDefinicionIni')
   }
   get getFechaDefinicionFin() {
-    return this.createForm.get('fechaDefinicionFin')
+    return this.createDemandForm.get('fechaDefinicionFin')
   }
   get getFechaEjecucionIni() {
-    return this.createForm.get('fechaEjecucionIni')
+    return this.createDemandForm.get('fechaEjecucionIni')
   }
   get getFechaEjecucionFin() {
-    return this.createForm.get('fechaEjecucionFin')
+    return this.createDemandForm.get('fechaEjecucionFin')
   }
   get getFechaFin() {
-    return this.createForm.get('fechaFin')
+    return this.createDemandForm.get('fechaFin')
   }
   get getObservacionTemporal() {
-    return this.createForm.get('observacionTemporal')
+    return this.createDemandForm.get('observacionTemporal')
   }
   
   get getNecesidadSocial() {
-    return this.createForm.get('necesidadSocial')
+    return this.createDemandForm.get('necesidadSocial')
   }
   get getComunidadBeneficiaria(){
-    return this.createForm.get('comunidadBeneficiaria')
+    return this.createDemandForm.get('comunidadBeneficiaria')
   }
   get getTitulacionLocal(){
-    return this.createForm.get('titulacionLocal')
+    return this.createDemandForm.get('titulacionLocal')
   }
   
 
   create(): void {
     this.formSubmitted = true;
 
-    if (this.createForm.invalid) {
+    if (this.createDemandForm.invalid) {
       return;
     }
   }
@@ -146,7 +146,7 @@ export class crearDemandaComponent implements OnInit {
    noAreaMatch() {
     let accept=true;
           for (let a of this.areaList) {
-            if (a.nombre === this.createForm.get('areaServicio').value || this.createForm.get('areaServicio').value === '')
+            if (a.nombre === this.createDemandForm.get('areaServicio').value || this.createDemandForm.get('areaServicio').value === '')
               accept = false;
           }
           return accept;
@@ -155,7 +155,7 @@ export class crearDemandaComponent implements OnInit {
   noNecesidadMatch() {
     let accept=true;
           for (let n of this.necesidadList) {
-            if (n.nombre === this.createForm.get('necesidadSocial').value || this.createForm.get('necesidadSocial').value === '')
+            if (n.nombre === this.createDemandForm.get('necesidadSocial').value || this.createDemandForm.get('necesidadSocial').value === '')
               accept = false;
           }
           return accept;
@@ -164,7 +164,7 @@ export class crearDemandaComponent implements OnInit {
   noTitulacionMatch() {
     let accept=true;
           for (let t of this.titulacionList) {
-            if (t.nombre === this.createForm.get('titulacionLocal').value || this.createForm.get('titulacionLocal').value === '')
+            if (t.nombre === this.createDemandForm.get('titulacionLocal').value || this.createDemandForm.get('titulacionLocal').value === '')
               accept = false;
           }
           return accept;
@@ -186,13 +186,13 @@ export class crearDemandaComponent implements OnInit {
 
 
   async cargarDemanda() {
-    this.Demanda = new Demanda('', '', '', '', '', '', '','','','','','','','','',null,'', '','');
+    this.Demanda = new Demanda('', '', '', '', '', '', [],'','','','','','',[],[],null, '','','');
   }
    subirFichero( file: File ) {
     if( !file ) { return; }
 
     this.fileUploadService
-        .subirFichero(file, 'archivos', 'iniciativas', this.Demanda.id)
+        .subirFichero(file, 'archivos', 'demanda', this.Demanda.id)
         .then( resp => {
           const {ok, msg, upload_id} = resp;
           if(ok) {
