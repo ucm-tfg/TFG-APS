@@ -96,7 +96,7 @@ export class Iniciativa {
                 break;
 
             default:
-                console.log('Iniciativa - Rol no definido', user);
+                console.log('Demanda - Rol no definido', user);
                 throw "Rol no definido";
                 break;
         }

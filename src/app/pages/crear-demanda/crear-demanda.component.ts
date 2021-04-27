@@ -5,9 +5,8 @@ import { UsuarioService } from '../../services/usuario.service';
 import { FileUploadService } from 'src/app/services/file-upload.service';
 import { DemandaService } from 'src/app/services/demanda.service';
 import { Demanda } from 'src/app/models/demanda.model';
-import Swal from 'sweetalert2'
-import { Router } from '@angular/router';
-import { SobreApsUnedContactaComponent } from 'src/app/pages/sobre-aps-uned-contacta/sobre-aps-uned-contacta.component';
+import Swal from 'sweetalert2';
+import { Router, ActivatedRoute } from '@angular/router';
 
 //HACER EN EL HTML UNA FUNCION FECHAS NO VALIDAS COMO LA DEL PERFIL,
 @Component({
@@ -16,16 +15,26 @@ import { SobreApsUnedContactaComponent } from 'src/app/pages/sobre-aps-uned-cont
   styleUrls: ['./crear-demanda.component.scss']
 })
 export class crearDemandaComponent implements OnInit {
-
-
   public formSubmitted = false;
   public areaList: any ;
   public necesidadList: any;
   public titulacionList: any;
+  public USUARIOS;
 
   
   constructor(public fb: FormBuilder, public usuarioService: UsuarioService, public fileUploadService: FileUploadService, public router: Router, private DemandaService: DemandaService, public Demanda: Demanda) { 
-    
+    if(this.usuarioService.usuario.esGestor) {
+      this.usuarioService.cargarUsuarios(0, 99999999, {terminoBusqueda: ''}).subscribe( ({total, filtradas, usuarios}) => {
+        this.USUARIOS = usuarios.filter( usuario => ['ROL_ENTIDAD', 'ROL_PROFESOR', 'ROL_GESTOR'].includes(usuario.rol));
+      });
+    }
+  }
+  
+  async ngOnInit(){
+    await this.cargarDemanda();
+    this.obtenerAreasServicio();
+    this.obtenerNecesidades();
+    this.obtenerTitulaciones();
   }
 
   public createDemandForm = this.fb.group({
@@ -52,11 +61,7 @@ export class crearDemandaComponent implements OnInit {
   });
 
 
-  ngOnInit(): void {
-    this.obtenerAreasServicio();
-    this.obtenerNecesidades();
-    this.obtenerTitulaciones();
-  }
+  
 
 
   async  obtenerAreasServicio() {
