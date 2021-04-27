@@ -60,18 +60,18 @@ function insertarAdmin(usuario) {
             borrarUsuario(idF[0]);
             borrarDatosPersonalesInternos(result[0]);
           })
-          // .finally(() => {
-          //   knex.destroy();
-          // });
+        // .finally(() => {
+        //   knex.destroy();
+        // });
       })
       .catch((err) => {
         console.log(err);
         console.log("Se ha producido un error");
         borrarUsuario(idF[0]);
       })
-      // .finally(() => {
-      //   knex.destroy();
-      // });
+    // .finally(() => {
+    //   knex.destroy();
+    // });
   });
 }
 
@@ -98,18 +98,18 @@ function insertarOficinaAps(usuario) {
             borrarUsuario(idF[0]);
             borrarDatosPersonalesInternos(result[0]);
           })
-          // .finally(() => {
-          //   knex.destroy();
-          // });
+        // .finally(() => {
+        //   knex.destroy();
+        // });
       })
       .catch((err) => {
         console.log(err);
         console.log("Se ha producido un error");
         borrarUsuario(idF[0]);
       })
-      // .finally(() => {
-      //   knex.destroy();
-      // });
+    // .finally(() => {
+    //   knex.destroy();
+    // });
   });
 }
 
@@ -157,18 +157,18 @@ function insertarEstudianteInterno(usuario) {
             borrarUsuario(idF);
             borrarDatosPersonalesInternos(result[0]);
           })
-          // .finally(() => {
-          //   knex.destroy();
-          // });
+        // .finally(() => {
+        //   knex.destroy();
+        // });
       })
       .catch((err) => {
         console.log(err);
         console.log("Se ha producido un error");
         borrarUsuario(idF);
       })
-      // .finally(() => {
-      //   knex.destroy();
-      // });
+    // .finally(() => {
+    //   knex.destroy();
+    // });
   });
 }
 
@@ -218,9 +218,9 @@ function insertarEntidad(usuario) {
             borrarDatosPersonalesExternos(result[0]);
             return -1;
           })
-          // .finally(() => {
-          //   knex.destroy();
-          // });
+        // .finally(() => {
+        //   knex.destroy();
+        // });
       })
       .catch((err) => {
         borrarUsuario(idF[0]);
@@ -228,9 +228,9 @@ function insertarEntidad(usuario) {
         console.log("Se ha producido un error");
         return -1;
       })
-      // .finally(() => {
-      //   knex.destroy();
-      // });
+    // .finally(() => {
+    //   knex.destroy();
+    // });
   });
 }
 
@@ -272,9 +272,9 @@ function insertarProfesorInterno(usuario) {
                     console.log(err);
                     console.log("Se ha producido un error");
                   })
-                  // .finally(() => {
-                  //   knex.destroy();
-                  // });
+                // .finally(() => {
+                //   knex.destroy();
+                // });
               })
               .catch((err) => {
                 borrarUsuario(idF[0]);
@@ -282,9 +282,9 @@ function insertarProfesorInterno(usuario) {
                 console.log(err);
                 console.log("Se ha producido un error");
               })
-              // .finally(() => {
-              //   knex.destroy();
-              // });
+            // .finally(() => {
+            //   knex.destroy();
+            // });
           })
           .catch((err) => {
             borrarUsuario(idF[0]);
@@ -292,18 +292,18 @@ function insertarProfesorInterno(usuario) {
             console.log(err);
             console.log("Se ha producido un error");
           })
-          // .finally(() => {
-          //   knex.destroy();
-          // });
+        // .finally(() => {
+        //   knex.destroy();
+        // });
       })
       .catch((err) => {
         borrarUsuario(idF[0]);
         console.log(err);
         console.log("Se ha producido un error");
       })
-      // .finally(() => {
-      //   knex.destroy();
-      // });
+    // .finally(() => {
+    //   knex.destroy();
+    // });
   });
 }
 
@@ -319,37 +319,37 @@ function insertarEstudianteExterno(usuario) {
       .select("id")
       .then(function (result) {
         return knex("universidad")
-        .select("id")
-        .where('nombre', 'like', `%${usuario.getnombreUniversidad()}%`)
-        .then(function(values){
-          console.log(values[0]["id"])
-          return knex("estudiante_externo")
-          .insert({
-            id: idF,
-            universidad: values[0]["id"],
-            titulacion: usuario.getTitulacion(),
-            datos_personales_Id: result[0],
-          })
-          .then(function () {
-            return idF;
+          .select("id")
+          .where('nombre', 'like', `%${usuario.getnombreUniversidad()}%`)
+          .then(function (values) {
+            console.log(values[0]["id"])
+            return knex("estudiante_externo")
+              .insert({
+                id: idF,
+                universidad: values[0]["id"],
+                titulacion: usuario.getTitulacion(),
+                datos_personales_Id: result[0],
+              })
+              .then(function () {
+                return idF;
+              })
+              .catch((err) => {
+                console.log(err);
+                console.log("Se ha producido un error");
+                borrarUsuario(idF);
+                borrarDatosPersonalesInternos(result[0]);
+                return -1;
+              })
+            // .finally(() => {
+            //   knex.destroy();
+            // })
           })
           .catch((err) => {
             console.log(err);
             console.log("Se ha producido un error");
             borrarUsuario(idF);
-            borrarDatosPersonalesInternos(result[0]);
             return -1;
           })
-          // .finally(() => {
-          //   knex.destroy();
-          // })
-        })
-        .catch((err) => {
-          console.log(err);
-          console.log("Se ha producido un error");
-          borrarUsuario(idF);
-          return -1;
-        })
 
       })
       .catch((err) => {
@@ -358,9 +358,9 @@ function insertarEstudianteExterno(usuario) {
         borrarUsuario(idF);
         return -1;
       })
-      // .finally(() => {
-      //   knex.destroy();
-      // });
+    // .finally(() => {
+    //   knex.destroy();
+    // });
   });
 }
 
@@ -376,46 +376,79 @@ function insertarProfesorExterno(usuario) {
       .select("id")
       .then(function (result) {
         return knex("universidad")
-        .select("id")
-        .where('nombre', 'like', `%${usuario.getnombreUniversidad()}%`)
-        .then(function(values){
-        return knex("profesor_externo")
-          .insert({
-            id: idF[0],
-            universidad: values[0]["id"],
-            datos_personales_Id: result[0],
-          })
-          .then(function () {
-            return idF[0];
+          .select("id")
+          .where('nombre', 'like', `%${usuario.getnombreUniversidad()}%`)
+          .then(function (values) {
+            return knex("profesor_externo")
+              .insert({
+                id: idF[0],
+                universidad: values[0]["id"],
+                datos_personales_Id: result[0],
+              })
+              .then(function () {
+                let idAreasC = usuario.getAreaConocimiento();
+                const fieldsToInsertArea = idAreasC.map((field) => ({
+                  id_area: field["id"],
+                  id_profesor: idF[0],
+                }));
+                return knex("areaconocimiento_profesor")
+                  .insert(fieldsToInsertArea)
+                  .then(function () {
+                    return idF[0];
+                  })
+                  .catch((err) => {
+                    borrarUsuario(idF[0]);
+                    borrarDatosPersonalesExternos(result[0]);
+                    console.log(err);
+                    console.log("Se ha producido un error");
+                  })
+                // .finally(() => {
+                //   knex.destroy();
+                // });
+              })
+              .catch((err) => {
+                borrarUsuario(idF[0]);
+                borrarDatosPersonalesInternos(result[0]);
+                console.log(err);
+                console.log("Se ha producido un error");
+              })
+            // .finally(() => {
+            //   knex.destroy();
+            // });
           })
           .catch((err) => {
+            borrarUsuario(idF[0]);
+            borrarDatosPersonalesInternos(result[0]);
             console.log(err);
             console.log("Se ha producido un error");
-            borrarUsuario(idF[0]);
-            borrarDatosPersonalesExternos(result[0]);
-            return -1;
           })
-          // .finally(() => {
-          //   knex.destroy();
-          // });
-        })
-        .catch((err) => {
-          console.log(err);
-          console.log("Se ha producido un error");
-          borrarUsuario(idF[0]);
-          return -1;
-        })
       })
       .catch((err) => {
         console.log(err);
         console.log("Se ha producido un error");
         borrarUsuario(idF[0]);
+        borrarDatosPersonalesExternos(result[0]);
         return -1;
       })
-      // .finally(() => {
-      //   knex.destroy();
-      // });
-  });
+    // .finally(() => {
+    //   knex.destroy();
+    // });
+  })
+    .catch((err) => {
+      console.log(err);
+      console.log("Se ha producido un error");
+      borrarUsuario(idF[0]);
+      return -1;
+    })
+    .catch((err) => {
+      console.log(err);
+      console.log("Se ha producido un error");
+      borrarUsuario(idF[0]);
+      return -1;
+    })
+  // .finally(() => {
+  //   knex.destroy();
+  // });
 }
 
 //ELIMINAR UNO---------------------------------------------------------------------------------------------------
@@ -707,9 +740,9 @@ function obtenerUsuarioSinRolPorEmail(email) {
               email
             );
           })
-          // .finally(() => {
-          //   knex.destroy();
-          // });
+        // .finally(() => {
+        //   knex.destroy();
+        // });
       } else {
         // internos
         id_interno = id_interno[0]["id"];
@@ -752,9 +785,9 @@ function obtenerUsuarioSinRolPorEmail(email) {
               email
             );
           })
-          // .finally(() => {
-          //   knex.destroy();
-          // });
+        // .finally(() => {
+        //   knex.destroy();
+        // });
       }
     })
     .catch((err) => {
@@ -764,9 +797,9 @@ function obtenerUsuarioSinRolPorEmail(email) {
         email
       );
     })
-    // .finally(() => {
-    //   knex.destroy();
-    // });
+  // .finally(() => {
+  //   knex.destroy();
+  // });
 }
 
 function obtenerUsuarioSinRolPorId(id) {
@@ -797,7 +830,7 @@ function obtenerUsuarioSinRolPorId(id) {
                                 ).then((result) => {
                                   if (result == 0) {
                                     console.log(
-                                      "No se ha encontrado ningún usuario con el id ", 
+                                      "No se ha encontrado ningún usuario con el id ",
                                       id
                                     );
                                   }
@@ -836,8 +869,21 @@ function obtenerUsuario(id) {
     });
 }
 
-function obtenerUniversidades(){
+function obtenerUniversidades() {
   return knex("universidad")
+    .select("id")
+    .select("nombre")
+    .then(function (response) {
+      return response;
+    })
+    .catch((err) => {
+      console.log(err);
+      console.log("Se ha producido un error");
+    });
+}
+
+function obtenerAreasConocimiento() {
+  return knex("area_conocimiento")
     .select("id")
     .select("nombre")
     .then(function (response) {
@@ -944,15 +990,15 @@ function obtenerAdminPorDatosPersonales(id) {
 }
 
 function obtenerOficinaAps(id) {
-    return knex("oficinaaps")
+  return knex("oficinaaps")
     .where({ id: id })
     .select("*")
     .then(function (admin) {
       if (admin.length == 0) {
         return 0;
       }
-          return obtenerUsuario(id)
-            .then(function (usuario) {
+      return obtenerUsuario(id)
+        .then(function (usuario) {
           return obtenerDatosPersonalesInterno(
             admin[0]["datos_personales_Id"]
           ).then(function (datos) {
@@ -1100,7 +1146,7 @@ function obtenerProfesorInterno(id) {
     .where({ id: id })
     .select("*")
     .then(function (profesorInterno) {
-      if(profesorInterno.length == 0){
+      if (profesorInterno.length == 0) {
         return 0;
       }
       return obtenerProfesor(id).then(function (profesor) {
@@ -1251,7 +1297,7 @@ function obtenerProfesorExterno(id) {
     .where({ id: id })
     .select("*")
     .then(function (profesorExterno) {
-      if(profesorExterno.length == 0){
+      if (profesorExterno.length == 0) {
         return 0;
       }
       return obtenerProfesor(id).then(function (profesor) {
@@ -1274,7 +1320,8 @@ function obtenerProfesorExterno(id) {
                   usuario["createdAt"],
                   usuario["updatedAt"],
                   usuario["terminos_aceptados"],
-                  uni[0]["nombre"]
+                  uni[0]["nombre"],
+                  profesorExterno[0]["facultad"]
                 );
               });
           });
@@ -1316,7 +1363,9 @@ function obtenerProfesorExternoPorDatosPersonales(id) {
                   usuario["createdAt"],
                   usuario["updatedAt"],
                   usuario["terminos_aceptados"],
-                  uni[0]["nombre"]
+                  uni[0]["nombre"],
+                  profesorExterno[0]["facultad"] 
+                
                 );
               });
           });
@@ -1347,7 +1396,7 @@ function obtenerEstudianteInterno(id) {
     .where({ id: id })
     .select("*")
     .then(function (estudianteInterno) {
-      if(estudianteInterno.length == 0){
+      if (estudianteInterno.length == 0) {
         return 0;
       }
       return obtenerEstudiante(id).then(function (profesor) {
@@ -1430,7 +1479,7 @@ function obtenerEstudianteExterno(id) {
     .where({ id: id })
     .select("*")
     .then(function (estudianteExterno) {
-      if(estudianteExterno.length == 0){
+      if (estudianteExterno.length == 0) {
         return 0;
       }
       return obtenerEstudiante(id).then(function (profesor) {
@@ -1961,8 +2010,8 @@ function obtenerProfesoresInternos(arrayProfesores) {
   return knex
     .raw(
       "select usuario.id,datos_personales_interno.correo,datos_personales_interno.apellidos,datos_personales_interno.nombre, datos_personales_interno.password, usuario.origin_login,usuario.origin_img,usuario.createdAt,usuario.updatedAt,usuario.terminos_aceptados,area_conocimiento.nombre as area,titulacion_local.nombre as titulacion from usuario,profesor,profesor_interno,datos_personales_interno,area_conocimiento,areaconocimiento_profesor,titulacion_local,titulacionlocal_profesor where usuario.id = profesor.id AND usuario.id=profesor_interno.id AND profesor_interno.datos_personales_Id=datos_personales_interno.id AND usuario.id =areaconocimiento_profesor.id_profesor AND titulacionlocal_profesor.id_profesor=usuario.id AND titulacionlocal_profesor.id_titulacion=titulacion_local.id AND area_conocimiento.id = areaconocimiento_profesor.id_area AND usuario.id in (" +
-        arrayProfesores.map((_) => "?").join(",") +
-        ")",
+      arrayProfesores.map((_) => "?").join(",") +
+      ")",
       [...arrayProfesores]
     )
     .then(function (result) {
@@ -2001,14 +2050,14 @@ function obtenerProfesoresInternos(arrayProfesores) {
     });
 }
 
-function obtenerTitulacionesProfesorInterno(id){
+function obtenerTitulacionesProfesorInterno(id) {
   return knex("titulacionlocal_profesor")
     .join("titulacion_local", "titulacionlocal_profesor.id_titulacion", "=", "titulacion_local.id")
-    .where({id_profesor : id})
+    .where({ id_profesor: id })
     .select(
       "titulacion_local.nombre"
     )
-    .then((titulaciones) =>{
+    .then((titulaciones) => {
       var nombres_titulaciones = [];
       titulaciones.forEach(titulacion => {
         nombres_titulaciones.push(titulacion['nombre']);
@@ -2067,5 +2116,6 @@ module.exports = {
   borrarUsuario,
   actualizarUsuario,
   obtenerUniversidades,
+  obtenerAreasConocimiento,
   knex,
 };

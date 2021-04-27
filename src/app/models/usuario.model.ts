@@ -16,6 +16,8 @@ export class Usuario {
         public universidad?: string,
         public titulacion?: string,
         public sector?: string,
+        public facultad?: string,
+        public areaConocimiento?: Array<Object>,
         public nombreEntidad?:String,
         public terminos_aceptados?: boolean,
     ) {}

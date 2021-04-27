@@ -7,6 +7,8 @@ export interface RegisterForm {
     nombre: string;
     apellidos: string;
     universidad: string;
+    facultad: string;
+    areaConocimiento: String;
     titulacion: string;
     sector: string;
     nombreEntidad: String;
