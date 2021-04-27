@@ -1,6 +1,9 @@
 <app-navbar></app-navbar>
 <div class="container mt-4 animate__animated animate__fadeIn animate__faster">
-    <h1>Formulario de registro</h1>
+    <h5 class="px-4 py-2 mb-4 text-white display-block bg-secondary d-flex justify-content-between align-items-center">
+    <b *ngIf="this.Demanda_id">Actualizar Demanda</b>
+    <b *ngIf="!this.Demanda_id">Crear Demanda</b>
+    </h5>
 
  	<main class="container">
         <section role="main">
@@ -53,7 +56,7 @@
                                             <label for="areaServicio">Area de Servicio</label>
                                             <input name="areaServicio" type="text" id="areaServicio"  list="areas"  formControlName="areaServicio"  class="form-control" [class.is-invalid] = "createDemandForm.get('areaServicio').invalid && createDemandForm.get('areaServicio').touched" placeholder="Introduzca el area de servicio al que corresponde su demanda">
                                             <datalist id="areas">
-                                            <option *ngFor="let c of areaList" [value]="c.nombre" ></option>
+                                            <option *ngFor="let c of areaServicio" [value]="c.nombre" ></option>
                                             </datalist>
                                             <small class="text-danger" *ngIf="noAreaMatch()">Debe elegir un area de servicio valida</small>
                                         </div>
@@ -123,7 +126,7 @@
                                             <label for="necesidadSocial">Necesidad social a cumplir con esta demanda</label>
                                             <input name="necesidadSocial" type="text" id="necesidadSocial"  list="necesidades"  formControlName="necesidadSocial"  class="form-control" [class.is-invalid] = "createDemandForm.get('necesidadSocial').invalid && createDemandForm.get('necesidadSocial').touched" placeholder="Introduzca la necesidad social">
                                             <datalist id="necesidades">
-                                            <option *ngFor="let n of necesidadList" [value]="n.nombre" ></option>
+                                            <option *ngFor="let n of necesidadSocial" [value]="n.nombre" ></option>
                                             </datalist>
                                             <small class="text-danger" *ngIf="noNecesidadMatch()">Debe elegir una necesidad social valida</small>
                                         </div>
@@ -140,21 +143,44 @@
                                             <label for="titulacionLocal">Titulacion local relacionada con la demanda</label>
                                             <input name="titulacionLocal" type="text" id="titulacionLocal"  list="titulaciones"  formControlName="titulacionLocal"  class="form-control" [class.is-invalid] = "createDemandForm.get('titulacionLocal').invalid && createDemandForm.get('titulacionLocal').touched" placeholder="Introduzca la titulacion local">
                                             <datalist id="titulaciones">
-                                            <option *ngFor="let t of titulacionList" [value]="t.nombre" ></option>
+                                            <option *ngFor="let t of titulacionLocal" [value]="t.nombre" ></option>
                                             </datalist>
                                             <small class="text-danger" *ngIf="noTitulacionMatch()">Debe elegir una titulacion valida</small>
+                                        </div>
+                                        <div class="row" *ngIf="this.usuarioService.usuario.esGestor && USUARIOS">
+                                            <div class="col">
+                                                <div class="form-group">
+                                                    <label for="creador">creador (solo modificable por el gestor del portal)</label>
+                                                    <select id="creador" name="area" class="form-control" formControlName="creador">
+                                                        <option value="">Elije un usuario que se haga cargo de la oferta</option>
+                                                        <option *ngFor="let USUARIO of USUARIOS" [selected]="this.Demanda.creador == USUARIO.uid" value="{{ USUARIO.uid }}">{{ USUARIO.email }} - {{ USUARIO.displayRol }}</option>
+                                                    </select>
+                                                </div>
+                                            </div>
                                         </div>
 
                                 </fieldset>
 
                                 <div class="d-flex">
                                     <div class="flex-fill alert alert-danger mr-3" role="alert" *ngIf="this.createDemandForm.invalid && this.formSubmitted">
-                                        <div class="col">Debes completar/seleccionar correctamente todos los campos</div>
-                                        
+                                        <div *ngIf="campoNoValido('titulo')" class="col">{{ campoNoValido('titulo') }}</div>
+                                        <div *ngIf="campoNoValido('descripcion')" class="col">{{ campoNoValido('descripcion') }}</div>
+                                        <div *ngIf="campoNoValido('area_servicio')" class="col">{{ campoNoValido('area_servicio') }}</div>
+                                        <div *ngIf="campoNoValido('ciudad')" class="col">{{ campoNoValido('ciudad') }}</div>
+                                        <div *ngIf="campoNoValido('objetivo')" class="col">{{ campoNoValido('objetivo') }}</div>
+                                        <div *ngIf="campoNoValido('fechaDefinicionIni')" class="col">{{ campoNoValido('fechaDefinicionIni') }}</div>
+                                        <div *ngIf="campoNoValido('fechaDefinicionFin')" class="col">{{ campoNoValido('fechaDefinicionFin') }}</div>
+                                        <div *ngIf="campoNoValido('fechaEjecucionIni')" class="col">{{ campoNoValido('fechaEjecucionIni') }}</div>
+                                        <div *ngIf="campoNoValido('fechaEjecucionFin')" class="col">{{ campoNoValido('fechaEjecucionFin') }}</div>
+                                        <div *ngIf="campoNoValido('fechaFin')" class="col">{{ campoNoValido('fechaFin') }}</div>
+                                        <div *ngIf="campoNoValido('necesidadSocial')" class="col">{{ campoNoValido('necesidadSocial') }}</div>
+                                        <div *ngIf="campoNoValido('comunidadBenficiaria')" class="col">{{ campoNoValido('comunidadBeneficiaria') }}</div>
+                                        <div *ngIf="campoNoValido('titulacionLocal')" class="col">{{ campoNoValido('titulacionLocal') }}</div>
                                     </div>
-
+        
                                     <div class="ml-auto mb-2">
-                                        <input type="submit" value="Crear" class="btn btn-default btn-primary">
+                                        <input *ngIf="!this.Demanda_id" type="submit" [value]="this.formSending ? 'Creando...' : 'Crear demanda'" class="btn btn-default btn-secondary m-4" [disabled]="this.formSending || (this.formSubmitted && this.createDemandForm.invalid)">
+                                        <input *ngIf="this.Demanda_id" type="submit" [value]="this.formSending ? 'Actualizando...' : 'Actualizar demanda'" class="btn btn-default btn-secondary m-4" [disabled]="this.formSending || (this.formSubmitted && this.createDemandForm.invalid)">
                                     </div>
                                 </div>
 
@@ -168,5 +194,5 @@
         </section>
  	</main>
 </div>
-<app-footer></app-footer>
+<!-- <app-footer></app-footer> -->
 
