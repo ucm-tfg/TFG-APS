@@ -17,7 +17,7 @@ export class DemandaCrearGuard implements CanActivate {
       if( !this.usuarioService.usuario ) {
         return false;
       }
-
+      console.log("Hemos pasado por el guard")
       return  this.usuarioService.usuario.esGestor
               || this.usuarioService.usuario.esEntidad;
   }
