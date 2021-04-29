@@ -47,12 +47,13 @@ constructor( public fb: FormBuilder, public usuarioService: UsuarioService, publ
   
   async ngOnInit(){
     await this.cargarDemanda();
-    this.obtenerAreasServicio();
-    // this.obtenerNecesidades();
-    // this.obtenerTitulaciones();
+    await this.obtenerAreasServicio();
+    await this.obtenerNecesidades();
+    await this.obtenerTitulaciones();
     this.createDemandForm = this.fb.group({
       titulo: [this.Demanda.titulo || '', Validators.required],
       descripcion: [this.Demanda.descripcion || '', Validators.required],
+      area_servicio: [this.Demanda.area_servicio || '', Validators.required],
       ciudad: [this.Demanda.ciudad || '', Validators.required],
       finalidad: [this.Demanda.finalidad || '', Validators.required],
       fechaDefinicionIni: [this.Demanda.periodoDefinicionIni || '', Validators.required],
@@ -200,8 +201,8 @@ observableEnviarDemanda() {
       this.formSubmitted = false;
       this.formSending = false;
     }
-    this.aux_area = this.createDemandForm.get('areaServicio').value;
-    this.createDemandForm.get('areaServicio').setValue(this.areaServicio[encontrado].id);
+    this.aux_area = this.createDemandForm.get('area_servicio').value;
+    this.createDemandForm.get('area_servicio').setValue(this.areaServicio[encontrado].id);
     this.observableEnviarDemanda().subscribe(resp =>{
       this. Demanda_id
         ? Swal.fire('Ok', 'Demanda actualizada correctamente', 'success')
@@ -230,7 +231,7 @@ observableEnviarDemanda() {
    noAreaMatch() {
     let accept=true;
           for (let a of this.areaServicio) {
-            if (a.nombre === this.createDemandForm.get('areaServicio').value || this.createDemandForm.get('areaServicio').value === '')
+            if (a.nombre === this.createDemandForm.get('area_servicio').value || this.createDemandForm.get('area_servicio').value === '')
               accept = false;
           }
           return accept;

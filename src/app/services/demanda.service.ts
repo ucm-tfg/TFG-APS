@@ -30,13 +30,13 @@ export class DemandaService {
     );
   }
   obtenerNecesidades(){
-    return this.http.get<{ ok: boolean, necesidadSocial: any}>(`${ base_url }/demandas/necesidades`,this.usuarioService.headers)
+    return this.http.get<{ ok: boolean, necesidadSocial: any}>(`${ base_url }/demandas/necesidadsocial`,this.usuarioService.headers)
     .pipe(
       map( (resp) => resp)
     );
   }
   obtenerTitulaciones(){
-    return this.http.get<{ ok: boolean, titulacionLocal: any}>(`${ base_url }/demandas/titulaciones`,this.usuarioService.headers)
+    return this.http.get<{ ok: boolean, titulacionLocal: any}>(`${ base_url }/demandas/titulacionlocal`,this.usuarioService.headers)
     .pipe(
       map( (resp) => resp)
     );

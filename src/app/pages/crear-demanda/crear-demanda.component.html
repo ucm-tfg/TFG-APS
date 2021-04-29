@@ -47,12 +47,12 @@
                                     </div>
                                     
                                     <div class="form-group">
-                                            <label for="areaServicio">Area de Servicio</label>
-                                            <input name="areaServicio" type="text" id="areaServicio"  list="areas"  formControlName="areaServicio"  class="form-control" [class.is-invalid] = "createDemandForm.get('areaServicio').invalid && createDemandForm.get('areaServicio').touched" placeholder="Introduzca el area de servicio al que corresponde su demanda">
+                                            <label for="area_servicio">Area de Servicio</label>
+                                            <input name="area_servicio" type="text" id="area_servicio"  list="areas"  formControlName="area_servicio"  class="form-control" [class.is-invalid] = "createDemandForm.get('area_servicio').invalid && createDemandForm.get('area_servicio').touched" placeholder="Introduzca el area de servicio al que corresponde su demanda">
                                             <datalist id="areas">
                                             <option *ngFor="let c of areaServicio" [value]="c.nombre" ></option>
                                             </datalist>
-                                            <small class="text-danger" *ngIf="noAreaMatch()">Debe elegir un area de servicio valida</small>
+                                            <!-- <small class="text-danger" *ngIf="noAreaMatch()">Debe elegir un area de servicio valida</small> -->
                                         </div>
 
                                         <div class="form-group flex-fill ml-2">

@@ -14,7 +14,7 @@ export class Demanda {
         public imagen: string,
         public ciudad: string,
         public finalidad: string,
-        public areaServicio: string[],
+        public area_servicio: string[],
         public periodoDefinicionIni: string,
         public periodoDefinicionFin: string,
         public periodoEjecucionIni: string,
