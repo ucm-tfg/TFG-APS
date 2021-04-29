@@ -99,7 +99,7 @@ constructor( public fb: FormBuilder, public usuarioService: UsuarioService, publ
      return this.DemandaService.obtenerAreasServicio()
         .subscribe( (resp: any) => {
           console.log(resp)
-          this.areaServicio =resp.areaList
+          this.areaServicio =resp.areasServicio
           console.log("Las areas de servicio son ", this.areaServicio);
           return this.areaServicio;
         });
@@ -109,7 +109,7 @@ constructor( public fb: FormBuilder, public usuarioService: UsuarioService, publ
     return this.DemandaService.obtenerNecesidades()
        .subscribe( (resp: any) => {
          console.log(resp)
-         this.necesidadSocial =resp.necesidadList
+         this.necesidadSocial =resp.necesidadSocial
          console.log("las necesidades sociales son ", this.necesidadSocial);
          return this.necesidadSocial;
        });
@@ -119,7 +119,7 @@ constructor( public fb: FormBuilder, public usuarioService: UsuarioService, publ
   return this.DemandaService.obtenerTitulaciones()
      .subscribe( (resp: any) => {
        console.log(resp)
-       this.titulacionLocal =resp.titulacionList
+       this.titulacionLocal =resp.titulacionLocal
        console.log("Las titulaciones locales son ", this.titulacionLocal);
        return this.titulacionLocal;
      });
@@ -228,15 +228,15 @@ observableEnviarDemanda() {
       this.formSending= false;
     });
   } 
-   noAreaMatch() {
-    let accept=true;
-          for (let a of this.areaServicio) {
-            if (a.nombre === this.createDemandForm.get('area_servicio').value || this.createDemandForm.get('area_servicio').value === '')
-              accept = false;
-          }
-          return accept;
+  //  noAreaMatch() {
+  //   let accept=true;
+  //         for (let a of this.areaServicio) {
+  //           if (a.nombre === this.createDemandForm.get('area_servicio').value || this.createDemandForm.get('area_servicio').value === '')
+  //             accept = false;
+  //         }
+  //         return accept;
 
-  } 
+  // } 
   noNecesidadMatch() {
     let accept=true;
           for (let n of this.necesidadSocial) {

@@ -37,14 +37,14 @@
 
                                     <div class="form-group">
                                         <label for="descripcion">descripcion de la demanda</label>
-                                        <input name="descripcion" type="text" id="demanda" class="form-control" autocorrect="off" autocapitalize="none" spellcheck="false" placeholder="Introduzca la descripcion de su demanda" formControlName="demanda">
+                                        <input name="descripcion" type="text" id="demanda" class="form-control" autocorrect="off" autocapitalize="none" spellcheck="false" placeholder="Introduzca la descripcion de su demanda" formControlName="descripcion">
                                     </div>
-                                    <div class="d-flex">
+                                    <!-- <div class="d-flex">
                                         <div class="form-group flex-fill mr-2">
                                             <label for="portada">Imagen inicial de la demanda</label>
                                             <input name="portada" type="file"  id="portada" class="form-control" placeholder="Seleccione la imagen a subir" formControlName="portada" (input)="subirFichero($event.target.files[0])">
                                         </div>
-                                    </div>
+                                    </div> -->
                                     
                                     <div class="form-group">
                                             <label for="area_servicio">Area de Servicio</label>
@@ -98,7 +98,7 @@
 
                                         <div class="form-group flex-fill ml-2">
                                             <label for="observacionTemporal"> Si tiene alguna peticion especial en cuanto a las fechas, escribala aqui</label>
-                                            <input name="observacionTemporal" type="text" id="observacionTemporal" class="form-control" autocorrect="off" autocapitalize="none" spellcheck="false" placeholder="Introduzca la observacion" formControlName="observacionTemporal">
+                                            <input name="observacionTemporal" type="text" id="observacionTemporal" class="form-control" autocorrect="off" autocapitalize="none" spellcheck="false" placeholder="Introduzca la observacion" formControlName="observaciones">
                                         </div>
 
                                         <!-- <div class="form-group">
