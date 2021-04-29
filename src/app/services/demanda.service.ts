@@ -24,19 +24,19 @@ export class DemandaService {
   }
 
   obtenerAreasServicio(){
-    return this.http.get<{ ok: boolean, areasServicio: any}>(`${ base_url }/demandas/areasservicio`,this.usuarioService.headers)
+    return this.http.get<{ ok: boolean, areaServicio: any}>(`${ base_url }/demandas/areasservicio`,this.usuarioService.headers)
     .pipe(
       map( (resp) => resp)
     );
   }
   obtenerNecesidades(){
-    return this.http.get<{ ok: boolean, Necesidades: any}>(`${ base_url }/demandas/necesidades`,this.usuarioService.headers)
+    return this.http.get<{ ok: boolean, necesidadSocial: any}>(`${ base_url }/demandas/necesidades`,this.usuarioService.headers)
     .pipe(
       map( (resp) => resp)
     );
   }
   obtenerTitulaciones(){
-    return this.http.get<{ ok: boolean, Titulaciones: any}>(`${ base_url }/demandas/titulaciones`,this.usuarioService.headers)
+    return this.http.get<{ ok: boolean, titulacionLocal: any}>(`${ base_url }/demandas/titulaciones`,this.usuarioService.headers)
     .pipe(
       map( (resp) => resp)
     );

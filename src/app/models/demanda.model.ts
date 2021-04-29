@@ -83,7 +83,7 @@ export class Demanda {
                 break;
 
             default:
-                console.log('oferta - Rol no definido', user);
+                console.log('demanda - Rol no definido', user);
                 throw "Rol no definido";
                 break;
         }

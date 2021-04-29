@@ -92,7 +92,7 @@ const crearDemanda = async(req, res = response) => {//continuar
 
         return res.status(200).json({
             ok: true,
-            oferta: oferta,
+            demanda: demanda,
         });
     } catch (error) {
 

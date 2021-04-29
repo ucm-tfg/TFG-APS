@@ -10,7 +10,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 //HACER EN EL HTML UNA FUNCION FECHAS NO VALIDAS COMO LA DEL PERFIL,
 @Component({
-  selector: 'app-crear-demanda',
+  selector: 'app-demanda-crear',
   templateUrl: './crear-demanda.component.html',
   styleUrls: ['./crear-demanda.component.scss']
 })
@@ -22,25 +22,34 @@ export class crearDemandaComponent implements OnInit {
   public areaServicio: any ;
   public necesidadSocial: any;
   public titulacionLocal: any;
+  public Demanda: Demanda;
   public USUARIOS;
   public createDemandForm: FormGroup;
   public aux_area: string;
   public htmlStr: string;
 
   
-  constructor(public fb: FormBuilder, public usuarioService: UsuarioService, public fileUploadService: FileUploadService, public router: Router, private DemandaService: DemandaService, public Demanda: Demanda, public activatedRoute: ActivatedRoute) { 
-    if(this.usuarioService.usuario.esGestor) {
-      this.usuarioService.cargarUsuarios(0, 99999999, {terminoBusqueda: ''}).subscribe( ({total, filtradas, usuarios}) => {
-        this.USUARIOS = usuarios.filter( usuario => ['ROL_ENTIDAD', 'ROL_PROFESOR', 'ROL_GESTOR'].includes(usuario.rol));
-      });
-    }
+//   constructor(public fb: FormBuilder, public usuarioService: UsuarioService, public fileUploadService: FileUploadService, public router: Router, private DemandaService: DemandaService, public Demanda: Demanda, public activatedRoute: ActivatedRoute) { 
+//     if(this.usuarioService.usuario.esGestor) {
+//       this.usuarioService.cargarUsuarios(0, 99999999, {terminoBusqueda: ''}).subscribe( ({total, filtradas, usuarios}) => {
+//         this.USUARIOS = usuarios.filter( usuario => ['ROL_ENTIDAD', 'ROL_PROFESOR', 'ROL_GESTOR'].includes(usuario.rol));
+//       });
+//     }
+//   }
+
+constructor( public fb: FormBuilder, public usuarioService: UsuarioService, public fileUploadService: FileUploadService, public router: Router, public DemandaService: DemandaService, public activatedRoute: ActivatedRoute) {
+  if(this.usuarioService.usuario.esGestor) {
+    this.usuarioService.cargarUsuarios(0, 99999999, {terminoBusqueda: ''}).subscribe( ({total, filtradas, usuarios}) => {
+      this.USUARIOS = usuarios.filter( usuario => ['ROL_ENTIDAD', 'ROL_PROFESOR', 'ROL_GESTOR'].includes(usuario.rol));
+    });
   }
+}
   
   async ngOnInit(){
     await this.cargarDemanda();
     this.obtenerAreasServicio();
-    this.obtenerNecesidades();
-    this.obtenerTitulaciones();
+    // this.obtenerNecesidades();
+    // this.obtenerTitulaciones();
     this.createDemandForm = this.fb.group({
       titulo: [this.Demanda.titulo || '', Validators.required],
       descripcion: [this.Demanda.descripcion || '', Validators.required],
@@ -52,6 +61,7 @@ export class crearDemandaComponent implements OnInit {
       fechaEjecucionFin: [this.Demanda.periodoDefinicionFin || '', Validators.required],
       fechaFin: [this.Demanda.fechaFin || '', Validators.required],
       comunidadBeneficiaria: [this.Demanda.comunidadBeneficiaria || '', Validators.required],
+      observaciones: this.Demanda.observacionesTemporales ,
 
 
     });
@@ -89,6 +99,7 @@ export class crearDemandaComponent implements OnInit {
         .subscribe( (resp: any) => {
           console.log(resp)
           this.areaServicio =resp.areaList
+          console.log("Las areas de servicio son ", this.areaServicio);
           return this.areaServicio;
         });
   }
@@ -98,6 +109,7 @@ export class crearDemandaComponent implements OnInit {
        .subscribe( (resp: any) => {
          console.log(resp)
          this.necesidadSocial =resp.necesidadList
+         console.log("las necesidades sociales son ", this.necesidadSocial);
          return this.necesidadSocial;
        });
  }
@@ -107,6 +119,7 @@ export class crearDemandaComponent implements OnInit {
      .subscribe( (resp: any) => {
        console.log(resp)
        this.titulacionLocal =resp.titulacionList
+       console.log("Las titulaciones locales son ", this.titulacionLocal);
        return this.titulacionLocal;
      });
 }
