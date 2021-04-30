@@ -7,6 +7,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { ProtectedGuard } from './guards/protected.guard';
 import { GestorGuard } from './guards/gestor.guard';
 import { IniciativaCrearGuard } from './guards/iniciativa-crear.guard';
+import { OfertaCrearGuard } from './guards/oferta-crear.guard';
 import { IniciativaEditarGuard } from './guards/iniciativa-editar.guard';
 import { PartenariadoVerGuard } from './guards/partenariado-ver.guard';
 import { PartenariadoCrearProfesorGuard} from './guards/partenariado-crear-profesor.guard'
@@ -39,6 +40,12 @@ import { IniciativasComponent } from './pages/iniciativas/iniciativas.component'
 import { IniciativasVerComponent } from './pages/iniciativas-ver/iniciativas-ver.component';
 import { IniciativasCrearComponent } from './pages/iniciativas-crear/iniciativas-crear.component';
 import { IniciativasEditarComponent } from './pages/iniciativas-editar/iniciativas-editar.component';
+
+// ofertas
+// import { OfertasComponent } from './pages/ofertas/ofertas.component';
+// import { OfertasVerComponent } from './pages/ofertas-ver/ofertas-ver.component';
+import { OfertasCrearComponent } from './pages/ofertas-crear/ofertas-crear.component';
+// import { OfertasEditarComponent } from './pages/ofertas-editar/ofertas-editar.component';
 
 // partenariados
 import { PartenariadosComponent } from './pages/partenariados/partenariados.component';
@@ -90,6 +97,13 @@ const routes: Routes = [
     { path: 'iniciativas/ver/:id', component: IniciativasVerComponent, data: { titulo: 'Ver Iniciativa' } },
     { path: 'iniciativas/editar/:id', canActivate:[IniciativaEditarGuard], component: IniciativasEditarComponent, data: { titulo: 'Editar Iniciativa' } },
     { path: 'iniciativas/crear', canActivate:[IniciativaCrearGuard], component: IniciativasCrearComponent, data: { titulo: 'Crear Iniciativa' } },
+
+    // Ofertas
+    // { path: 'ofertas', component: OfertasComponent, data: { titulo: 'Ofertas' } },
+    // { path: 'mis-ofertas', component: OfertasComponent, data: { titulo: 'Mis Ofertas' } },
+    // { path: 'ofertas/ver/:id', component: OfertasVerComponent, data: { titulo: 'Ver Oferta' } },
+    // { path: 'ofertas/editar/:id', canActivate:[OfertaEditarGuard], component: OfertasEditarComponent, data: { titulo: 'Editar Oferta' } },
+    { path: 'ofertas/crear', canActivate:[OfertaCrearGuard], component: OfertasCrearComponent, data: { titulo: 'Crear Oferta' } },
 
     // Partenariados
     { path: 'partenariados', component: PartenariadosComponent, data: { titulo: 'Partenariados' } },

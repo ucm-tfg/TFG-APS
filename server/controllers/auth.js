@@ -206,7 +206,6 @@ const renewToken = async(req, res = response) => {
     const tokenPrevio =  req.headers['x-token'];
     const verificacionToken = verificarJWT(tokenPrevio);
     const { ok, usuario } = verificacionToken;
-
     if(!ok) {
         res.status(401).json({
             ok: false,

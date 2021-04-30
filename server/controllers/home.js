@@ -33,8 +33,6 @@ const getUniversidades = async(req, res) => {
     console.log("entrabien")
     try {
         codeList = await dao_usuario.obtenerUniversidades();
-        console.log(codeList);
-        console.log("hola");
         
         return res.status(200).json({
             ok: true,

@@ -23,8 +23,7 @@ function obtenerUploads(idUploads) {
         upload[0]["nombre"],
         upload[0]["creador"],
         upload[0]["createdAt"],
-        upload[0]["updatedAt"],
-        upload[0]["_v"]
+        upload[0]["updatedAt"]
       );
     })
     .catch((err) => {
@@ -34,9 +33,7 @@ function obtenerUploads(idUploads) {
         idUploads
       );
     })
-    .finally(() => {
-      knex.destroy();
-    });
+    
 }
 
 // Devuelve el mensaje correspondiente
@@ -68,9 +65,7 @@ function obtenerMensajes(idMensajes) {
             mensaje[0]["usuario"]
           );
         })
-        .finally(() => {
-          knex.destroy();
-        });
+        
     })
     .catch((err) => {
       console.log(err);
@@ -79,9 +74,7 @@ function obtenerMensajes(idMensajes) {
         idMensajes
       );
     })
-    .finally(() => {
-      knex.destroy();
-    });
+    
 }
 
 //Devuelve todos los mensajes de un anuncio
@@ -121,9 +114,7 @@ function obtenerMensajesAnuncio(idAnuncio) {
         idAnuncio
       );
     })
-    .finally(() => {
-      knex.destroy();
-    });
+    
 }
 
 //Devuelve todos los mensajes de una colaboración
@@ -163,9 +154,7 @@ function obtenerMensajesColab(idColab) {
         idColab
       );
     })
-    .finally(() => {
-      knex.destroy();
-    });
+    
 }
 
 //Devuelve todos los uploads de un anuncio
@@ -186,8 +175,7 @@ function obtenerUploadsAnuncio(idAnuncio) {
       "upload.nombre",
       "upload.creador",
       "upload.createdAt",
-      "upload.updatedAt",
-      "upload._v"
+      "upload.updatedAt"
     )
     .then((upload) => {
       uploads = [];
@@ -204,8 +192,7 @@ function obtenerUploadsAnuncio(idAnuncio) {
           u2["nombre"],
           u2["creador"],
           u2["createdAt"],
-          u2["updatedAt"],
-          u2["_v"]
+          u2["updatedAt"]
         );
         uploads.push(u3);
       }
@@ -218,9 +205,7 @@ function obtenerUploadsAnuncio(idAnuncio) {
         idAnuncio
       );
     })
-    .finally(() => {
-      knex.destroy();
-    });
+    
 }
 
 //Devuelve todos los uploads de una colaboracion
@@ -241,8 +226,7 @@ function obtenerUploadsColab(idColab) {
       "upload.nombre",
       "upload.creador",
       "upload.createdAt",
-      "upload.updatedAt",
-      "upload._v"
+      "upload.updatedAt"
     )
     .then((upload) => {
       uploads = [];
@@ -259,8 +243,7 @@ function obtenerUploadsColab(idColab) {
           u2["nombre"],
           u2["creador"],
           u2["createdAt"],
-          u2["updatedAt"],
-          u2["_v"]
+          u2["updatedAt"]
         );
         uploads.push(u3);
       }
@@ -273,9 +256,7 @@ function obtenerUploadsColab(idColab) {
         idColab
       );
     })
-    .finally(() => {
-      knex.destroy();
-    });
+    
 }
 
 //crea un nuevo mensaje
@@ -303,9 +284,7 @@ function crearMensajeAnuncio(mensaje, anuncio) {
         mensaje.getTexto()
       );
     })
-    .finally(() => {
-      knex.destroy();
-    });
+    
 }
 
 function crearMensajeColab(mensaje, colaboracion) {
@@ -332,9 +311,7 @@ function crearMensajeColab(mensaje, colaboracion) {
         mensaje.getTexto()
       );
     })
-    .finally(() => {
-      knex.destroy();
-    });
+    
 }
 
 //crea un nuevo upload
@@ -350,8 +327,7 @@ function crearUploadAnuncio(upload, anuncio) {
       nombre: upload.getNombre(),
       creador: upload.getCreador(),
       createdAt: upload.getCreatedAt(),
-      updatedAt: upload.getUpdatedAt(),
-      _v: upload.get_v(),
+      updatedAt: upload.getUpdatedAt()
     })
     .then((id_upload) => {
       return knex("upload_anuncioservicio")
@@ -370,9 +346,7 @@ function crearUploadAnuncio(upload, anuncio) {
         upload.getNombre()
       );
     })
-    .finally(() => {
-      knex.destroy();
-    });
+    
 }
 
 function crearUploadColab(upload, colaboracion) {
@@ -387,8 +361,7 @@ function crearUploadColab(upload, colaboracion) {
       nombre: upload.getNombre(),
       creador: upload.getCreador(),
       createdAt: upload.getCreatedAt(),
-      updatedAt: upload.getUpdatedAt(),
-      _v: upload.get_v(),
+      updatedAt: upload.getUpdatedAt()
     })
     .then((id_upload) => {
       return knex("uploads_colaboracion")
@@ -407,9 +380,7 @@ function crearUploadColab(upload, colaboracion) {
         upload.getNombre()
       );
     })
-    .finally(() => {
-      knex.destroy();
-    });
+    
 }
 
 function eliminarMensaje(id_mensaje) {
@@ -435,9 +406,7 @@ function eliminarMensaje(id_mensaje) {
         id_mensaje
       );
     })
-    .finally(() => {
-      knex.destroy();
-    });
+    
 }
 
 function eliminarUpload(id_upload) {
@@ -463,9 +432,7 @@ function eliminarUpload(id_upload) {
         id_upload
       );
     })
-    .finally(() => {
-      knex.destroy();
-    });
+    
 }
 function actualizarUpload(upload) {
   return knex("upload")
@@ -490,9 +457,7 @@ function actualizarUpload(upload) {
         upload.getId()
       );
     })
-    .finally(() => {
-      knex.destroy();
-    });
+    
 }
 
 function actualizarMensaje(mensaje) {
@@ -514,9 +479,7 @@ function actualizarMensaje(mensaje) {
         id_upload
       );
     })
-    .finally(() => {
-      knex.destroy();
-    });
+    
 }
 
 function crearMail(mail) {
@@ -543,9 +506,7 @@ function crearMail(mail) {
         subject
       );
     })
-    .finally(() => {
-      knex.destroy();
-    });
+    
 }
 
 function obtenerMail(id_mail) {
@@ -576,9 +537,7 @@ function obtenerMail(id_mail) {
         id_mail
       );
     })
-    .finally(() => {
-      knex.destroy();
-    });
+    
 }
 
 function actualizarMail(mail) {
@@ -604,9 +563,7 @@ function actualizarMail(mail) {
         mail.getId()
       );
     })
-    .finally(() => {
-      knex.destroy();
-    });
+    
 }
 
 function eliminarMail(id_mail) {
@@ -632,9 +589,7 @@ function eliminarMail(id_mail) {
         id_mail
       );
     })
-    .finally(() => {
-      knex.destroy();
-    });
+    
 }
 
 function crearNewsletter(news) {
@@ -654,9 +609,7 @@ function crearNewsletter(news) {
         mail_to
       );
     })
-    .finally(() => {
-      knex.destroy();
-    });
+    
 }
 
 function obtenerNewsletter(id_news) {
@@ -680,9 +633,7 @@ function obtenerNewsletter(id_news) {
         id_news
       );
     })
-    .finally(() => {
-      knex.destroy();
-    });
+    
 }
 
 function actualizarNewsletter(news) {
@@ -704,9 +655,7 @@ function actualizarNewsletter(news) {
         news.getId()
       );
     })
-    .finally(() => {
-      knex.destroy();
-    });
+    
 }
 
 function eliminarNewsletter(id) {
@@ -732,9 +681,7 @@ function eliminarNewsletter(id) {
         id
       );
     })
-    .finally(() => {
-      knex.destroy();
-    });
+    
 }
 
 module.exports = {

@@ -14,7 +14,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 
-
 // Routes
 import { AppRoutingModule } from './app-routing.module';
 
@@ -65,6 +64,12 @@ import { IniciativasComponent } from './pages/iniciativas/iniciativas.component'
 import { IniciativasVerComponent } from './pages/iniciativas-ver/iniciativas-ver.component';
 import { IniciativasCrearComponent } from './pages/iniciativas-crear/iniciativas-crear.component';
 import { IniciativasEditarComponent } from './pages/iniciativas-editar/iniciativas-editar.component';
+
+// ofertas
+// import { OfertasComponent } from './pages/ofertas/ofertas.component';
+// import { OfertasVerComponent } from './pages/ofertas-ver/ofertas-ver.component';
+import { OfertasCrearComponent } from './pages/ofertas-crear/ofertas-crear.component';
+// import { OfertasEditarComponent } from './pages/ofertas-editar/ofertas-editar.component';
 
 // partenariados
 import { PartenariadosComponent } from './pages/partenariados/partenariados.component';
@@ -132,6 +137,9 @@ import { Code404Component } from './errors/code404/code404.component';
     IniciativasCrearComponent,
     IniciativasEditarComponent,
 
+    // ofertas
+    OfertasCrearComponent,
+    
     // partenariados
     PartenariadosComponent,
     PartenariadosVerComponent,
