@@ -25,6 +25,7 @@ export class OfertasCrearComponent implements OnInit {
   public crearOfertaForm: FormGroup;
   public aux_area: string;
   public htmlStr: string;
+  public aux_cuatrimestre: string;
   public USUARIOS;
 
   constructor( public fb: FormBuilder, public ofertaService: OfertaService, public usuarioService: UsuarioService, public fileUploadService: FileUploadService, public router: Router, public activatedRoute: ActivatedRoute) {
@@ -99,12 +100,15 @@ export class OfertasCrearComponent implements OnInit {
     }
     this.aux_area = this.crearOfertaForm.get('area_servicio').value;
     let cuatrimestre = this.crearOfertaForm.get('cuatrimestre').value;
-    if(cuatrimestre == 'primero'){
+    if(cuatrimestre == 'Primer cuatrimestre'){
       this.crearOfertaForm.get('cuatrimestre').setValue(1);
+      this.aux_cuatrimestre='Primer cuatrimestre';
     }else if(cuatrimestre == 'segundo'){
-      this.crearOfertaForm.get('cuatrimestre').setValue(2);
+      this.crearOfertaForm.get('Segundo cuatrimestre').setValue(2);
+      this.aux_cuatrimestre='Segundo cuatrimestre';
     }else {
       this.crearOfertaForm.get('cuatrimestre').setValue(0);
+      this.aux_cuatrimestre='Anual';
     }
     this.crearOfertaForm.get('area_servicio').setValue(this.areasServicio[encontrado].id);
     this.observableEnviarOferta()
@@ -116,7 +120,7 @@ export class OfertasCrearComponent implements OnInit {
             this.router.routeReuseStrategy.shouldReuseRoute = () => false;
             this.router.onSameUrlNavigation = 'reload';
             this.router.navigate(['/ofertas']);
-            // this.crearOfertaForm.get('area_servicio').setValue(this.aux_area);
+            this.crearOfertaForm.get('area_servicio').setValue(this.aux_area);
             this.formSubmitted = false;
             this.formSending = false;
           }, err => {
@@ -129,7 +133,8 @@ export class OfertasCrearComponent implements OnInit {
             } else {
               msg.push(err.error.msg);
             }
-
+            this.crearOfertaForm.get('area_servicio').setValue(this.aux_area);
+            this.crearOfertaForm.get('cuatrimestre').setValue(this.aux_cuatrimestre);
             Swal.fire('Error', msg.join('<br>'), 'error');
             this.formSubmitted = false;
             this.formSending = false;
