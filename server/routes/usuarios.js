@@ -3,6 +3,7 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
 const { validarCampos } = require('./../middlewares/validar-campos');
+const { obtenerProfesores} = require('../controllers/usuarios');
 const { getUsuarios, getUsuario, crearUsuario, actualizarUsuario, borrarUsuario } = require('./../controllers/usuarios');
 const { opcionalJWT, validarJWT, validarEsGestor } = require('../middlewares/validar-jwt');
 
@@ -10,6 +11,12 @@ const router = Router();
 
 // listar usuarios, solo gestor
 router.get('/', [validarJWT, validarEsGestor], getUsuarios);
+
+//Obtener universidades
+router.get(
+    '/profesores',[],
+    obtenerProfesores
+);
 
 // obtener un usuario, solo gestor
 router.get(

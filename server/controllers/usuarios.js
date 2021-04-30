@@ -10,6 +10,25 @@ const TEstudiante = require('../database/services/transfers/TEstudiante');
 const TEstudianteExterno = require('../database/services/transfers/TEstudianteExterno');
 const TProfesorExterno = require('../database/services/transfers/TProfesorExterno');
 
+const obtenerProfesores = async(req, res) => {
+    try {
+        profesores = await dao_usuario.obtenerProfesores();
+        
+        return res.status(200).json({
+            ok: true,
+            profesores,
+        });
+
+    } catch (error) {
+        console.error(error);
+
+        return res.status(500).json({
+            ok: false,
+            msg: 'Error inesperado',
+        });
+    }
+}
+
 const getUsuarios = async (req, res) => {
     try {
         const skip = Number(req.query.skip) || 0;
@@ -402,4 +421,5 @@ module.exports = {
     crearUsuario,
     actualizarUsuario,
     borrarUsuario,
+    obtenerProfesores
 }

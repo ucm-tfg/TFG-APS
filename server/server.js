@@ -21,6 +21,7 @@ app.use("/api/auth", require("./routes/auth"));
 app.use("/api/mails", require("./routes/mails"));
 app.use("/api/home", require("./routes/home"));
 app.use("/api/ofertas", require("./routes/ofertas"));
+app.use("/api/demandas", require("./routes/demandas"));
 app.use("/api/usuarios", require("./routes/usuarios"));
 app.use("/api/iniciativas", require("./routes/iniciativas"));
 app.use("/api/partenariados", require("./routes/partenariados"));
@@ -95,6 +96,9 @@ dao_proyecto.actualizarNota(nota1) */
 
 //BORRAR-------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // dao_usuario.borrarUsuario(140);
+// return dao_usuario.obtenerProfesores().then((result) =>{
+//   console.log(result);
+// });
 // dao_usuario.borrarEstudianteInterno(101);
 // dao_usuario.borrarProfesorInterno(136);
 // dao_usuario.borrarOficinaAPS(123);
@@ -454,10 +458,11 @@ const TIniciativa = require('./database/services/transfers/TIniciativa');
 // let observaciones = "URGENTE";
 // let creador = 121;
 // let area = [7,5,35,37,36,29];
-// let profesores = [121];
+// let profesores = [122];
 
-// let oferta1 = new TOfertaServicio(null, titulo, descripcion, null, "", "",asignatura,
+// let oferta = new TOfertaServicio(94, titulo, descripcion, null, "", "",asignatura,
 //     cuatrimestre, anio, fecha_limite, null, creador, area, profesores,0); 
+// dao_tentativa.actualizarOfertaServicio(oferta);
 // dao_tentativa.crearOferta(oferta1);
 // dao_tentativa.obtenerOfertaServicio(71).then(function(oferta){console.log(oferta);});
 // anio = 2022;
@@ -474,21 +479,22 @@ const TIniciativa = require('./database/services/transfers/TIniciativa');
 
 
 // DEMANDAS----------------------------------------------------------------------------------------
-let titulo = "Anuncio casa";
-let descripcion = "Construir una casa";
-let imagen = "Prueba, aquí va la dirección de la imagen";
-let ciudad = "Madrid"; 
-let finalidad = "Construir una casa";
-let periodo_definicion_ini = new Date (2020, 5, 04);
-let periodo_definicion_fin  = new Date (2020, 6, 04);
-let periodo_ejecucion_ini = new Date (2020, 6, 05);
-let periodo_ejecucion_fin = new Date (2021, 2, 11);
-let fecha_fin  = new Date (2021, 7, 01);
-let observaciones_temporales = "NADA";
-let necesidad_social = 18;
-let titulacionlocal_demandada = [1, 2];
-let area_servicio = [7,5,35,37,36,29];
-let creador = 119;
+// let titulo = "Anuncio casa";
+// let descripcion = "Construir una casa";
+// let imagen = "Prueba, aquí va la dirección de la imagen";
+// let ciudad = "Madrid"; 
+// let finalidad = "Construir una casa";
+// let periodo_definicion_ini = new Date (2020, 5, 04);
+// let periodo_definicion_fin  = new Date (2020, 6, 04);
+// let periodo_ejecucion_ini = new Date (2020, 6, 05);
+// let periodo_ejecucion_fin = new Date (2021, 2, 11);
+// let fecha_fin  = new Date (2021, 7, 01);
+// let observaciones_temporales = "NADA";
+// let necesidad_social = 18;
+// let titulacionlocal_demandada = [1, 2];
+// let area_servicio = [7,5,35,37,36,29];
+// let creador = 122;
+
 // let demanda = new TDemandaServicio(null, titulo, descripcion, imagen, "", "", 
 //     creador, ciudad, finalidad, periodo_definicion_ini, periodo_definicion_fin, periodo_ejecucion_ini,
 //     periodo_ejecucion_fin, fecha_fin, observaciones_temporales, necesidad_social, titulacionlocal_demandada,

@@ -66,6 +66,18 @@ const validarEsEstudianteOrEsGestor = (req, res, next) => {
     next();
 }
 
+const validarEsProfesor = (req, res, next) => {
+
+    if( !esProfesor(req)) {
+        return res.status(401).json({
+            ok: false,
+            msg: 'Acceso no permitido, solo profesores',
+        });
+    }
+
+    next();
+}
+
 const validarEsProfesorOrEsGestor = (req, res, next) => {
 
     if( !esProfesor(req) && !esGestor(req) ) {
@@ -116,6 +128,6 @@ module.exports = {
     validarEsEstudianteOrEsGestor,
     validarEsProfesorOrEsGestor,
     validarEsEntidadOrEsGestor,
-
+    validarEsProfesor,
     validarEsProfesorOrEntidadOrEsGestor,
 }

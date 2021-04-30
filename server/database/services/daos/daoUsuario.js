@@ -1028,6 +1028,23 @@ function obtenerProfesor(id) {
     });
 }
 
+function obtenerProfesores() {
+  return knex("profesor_interno")
+      .join(
+        "datos_personales_interno",
+        "profesor_interno.datos_personales_Id",
+        "=",
+        "datos_personales_interno.id"
+      )
+    .select("profesor_interno.id")
+    .select("datos_personales_interno.nombre")
+    .select("datos_personales_interno.apellidos")
+    .catch((err) => {
+      console.log(err);
+      console.log("Se ha producido un error al obtener todos los profesores");
+    });
+}
+
 function obtenerProfesorInterno(id) {
   return knex("profesor_interno")
     .where({ id: id })
@@ -1985,6 +2002,7 @@ module.exports = {
   obtenerProfesoresInternos,
   obtenerOficinaAps,
   obtenerProfesor,
+  obtenerProfesores,
   obtenerEntidad,
   obtenerAdmin,
   actualizarAdmin,

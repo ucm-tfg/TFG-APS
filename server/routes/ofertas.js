@@ -3,7 +3,7 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
 const { validarCampos } = require('./../middlewares/validar-campos');
-const { getAreasservicio, crearOferta} = require('../controllers/ofertas');
+const { getAreasservicio, crearOferta, obtenerOferta} = require('../controllers/ofertas');
 const { opcionalJWT, validarJWT, validarEsProfesorOrEsGestor } = require('../middlewares/validar-jwt');
 
 const router = Router();
@@ -33,4 +33,9 @@ router.post(
     crearOferta
 );
 
+// obtener una iniciativa
+router.get(
+    '/:id', [],
+    obtenerOferta
+);
 module.exports = router;

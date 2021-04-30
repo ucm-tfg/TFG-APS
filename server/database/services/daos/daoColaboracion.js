@@ -15,10 +15,16 @@ function crearColaboracion(colaboracion) {
     })
     .then((id_colab) => {
       let profesores = colaboracion.getProfesores();
-      const fieldsToInsert = profesores.map((profesor) => ({
-        id_profesor: profesor,
+      let fieldsToInsert = {
+        id_profesor: profesores,
         id_colaboracion: id_colab,
-      }));
+      };
+      if (Array.isArray(profesores)) {
+        fieldsToInsert = profesores.map((profesor) => ({
+          id_profesor: profesor,
+          id_colaboracion: id_colab,
+        }));
+      }
       return knex("profesor_colaboracion")
         .insert(fieldsToInsert)
         .then(() => {
@@ -51,16 +57,14 @@ function crearPartenariado(partenariado) {
             id
           );
           return knex("colaboracion").where("id", id).del();
-        })
-        
+        });
     })
     .catch((err) => {
       console.log(err);
       console.log(
         "Se ha producido un error al intentar crear un partenariado "
       );
-    })
-    
+    });
 }
 
 function crearProyecto(proyecto) {
@@ -182,8 +186,7 @@ function obtenerPartenariado(id) {
             "Se ha producido un error al intentar obtener el partenariado con id ",
             id
           );
-        })
-        
+        });
     })
     .catch((err) => {
       console.log(err);
@@ -191,8 +194,7 @@ function obtenerPartenariado(id) {
         "Se ha producido un error al intentar obtener la colaboración con id ",
         id
       );
-    })
-    
+    });
 }
 
 function obtenerProyecto(id) {
@@ -261,11 +263,11 @@ function obtenerNota(id) {
 }
 //CUANTOS HAY
 function contarProyectos() {
-    return knex("proyecto")
-    .count('*')
+  return knex("proyecto")
+    .count("*")
     .then((result) => {
-      console.log(result[0]['count(*)'])
-      return result[0]['count(*)'];
+      console.log(result[0]["count(*)"]);
+      return result[0]["count(*)"];
     })
     .catch((err) => {
       console.log(err);
@@ -274,38 +276,38 @@ function contarProyectos() {
 
 function contarProyectos() {
   return knex("proyecto")
-  .count('*')
-  .then((result) => {
-    console.log(result[0]['count(*)'])
-    return result[0]['count(*)'];
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+    .count("*")
+    .then((result) => {
+      console.log(result[0]["count(*)"]);
+      return result[0]["count(*)"];
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 }
 
 function contarPartenariados() {
   return knex("partenariado")
-  .count('*')
-  .then((result) => {
-    console.log(result[0]['count(*)'])
-    return result[0]['count(*)'];
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+    .count("*")
+    .then((result) => {
+      console.log(result[0]["count(*)"]);
+      return result[0]["count(*)"];
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 }
 
 function contarIniciativas() {
   return knex("iniciativa")
-  .count('*')
-  .then((result) => {
-    console.log(result[0]['count(*)'])
-    return result[0]['count(*)'];
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+    .count("*")
+    .then((result) => {
+      console.log(result[0]["count(*)"]);
+      return result[0]["count(*)"];
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 }
 //ELIMINAR UNO---------------------------------------------------------------------------------------------------------------------------
 function eliminarColaboracion(id_colab) {
@@ -359,8 +361,7 @@ function eliminarPartenariado(id) {
         "Se ha producido un error al intentar eliminar la colaboracion con id ",
         id
       );
-    })
-    
+    });
 }
 
 function eliminarProyecto(id) {
@@ -460,7 +461,7 @@ function actualizarPartenariado(partenariado) {
             .update({
               id_demanda: partenariado.getId_Demanda(),
               id_oferta: partenariado.getId_Oferta(),
-              estado: partenariado.getEstado()
+              estado: partenariado.getEstado(),
             })
             .then(() => {
               console.log(
@@ -475,17 +476,14 @@ function actualizarPartenariado(partenariado) {
                 partenariado.getId()
               );
               // Restatura el estado original de la colaboración
-              return actualizarColaboracion(copia_colaboracion)
-                .catch((err) => {
-                  console.log(err);
-                  console.log(
-                    "Se ha producido un error al intentar restablecer la colaboracion con id ",
-                    partenariado.getId()
-                  );
-                })
-                
-            })
-            
+              return actualizarColaboracion(copia_colaboracion).catch((err) => {
+                console.log(err);
+                console.log(
+                  "Se ha producido un error al intentar restablecer la colaboracion con id ",
+                  partenariado.getId()
+                );
+              });
+            });
         })
         .catch((err) => {
           console.log(err);
@@ -493,8 +491,7 @@ function actualizarPartenariado(partenariado) {
             "Se ha producido un error al intentar actualizar la colaboracion con id ",
             partenariado.getId()
           );
-        })
-        
+        });
     }
   );
 }
@@ -616,16 +613,34 @@ function obtenerTodosPartenariados() {
           console.log(
             "Se ha producido un error al intentar obtener de la base de datos los profesores"
           );
-        })
-        
+        });
     })
     .catch((err) => {
       console.log(err);
       console.log(
         "Se ha producido un error al intentar obtener todos los partenariados"
       );
+    });
+}
+function crearPrevioPartenariado(
+  id_demanda,
+  id_oferta,
+  completado_profesor,
+  completado_entidad
+) {
+  return knex("previo_partenariado")
+    .insert({
+      id_demanda: id_demanda,
+      id_oferta: id_oferta,
+      completado_profesor: completado_profesor,
+      completado_entidad: completado_entidad,
     })
-    
+    .catch((err) => {
+      console.log(err);
+      console.log(
+        "Se ha producido un error al crear el previo al partenariado"
+      );
+    });
 }
 
 module.exports = {
@@ -633,6 +648,7 @@ module.exports = {
   crearPartenariado,
   crearProyecto,
   crearNota,
+  crearPrevioPartenariado,
   obtenerColaboracion,
   obtenerPartenariado,
   obtenerTodosPartenariados,
@@ -648,5 +664,5 @@ module.exports = {
   eliminarNota,
   contarProyectos,
   contarIniciativas,
-  contarPartenariados
+  contarPartenariados,
 };

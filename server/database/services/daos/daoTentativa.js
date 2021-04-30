@@ -1093,6 +1093,7 @@ function obtenerAsignaturaObjetivo(id_oferta) {
     });
 }
 
+
 function obtenerTitulacionLocal(id_demanda) {
   return knex("titulacionlocal_demanda")
     .where({ id_demanda: id_demanda })
@@ -1103,6 +1104,7 @@ function obtenerTitulacionLocal(id_demanda) {
         titulaciones.push(id_titulacion["id_titulacion"]);
       }
       return knex
+        .select("id")
         .select("nombre")
         .from("titulacion_local")
         .whereIn("id", titulaciones);
