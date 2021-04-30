@@ -113,12 +113,13 @@
                                        
                                     </div>
                                     <div class="form-group" *ngIf="['ROL_PROFESOR'].includes(this.registerForm.get('rol').value)">
-                                        <label for="universidad">Area/s de conocimiento</label>
+                                        <label for="areaConocimiento">Area/s de conocimiento</label>
                                         <ng-multiselect-dropdown
-                                        name="country"
+                                        name="areaConocimiento"
                                         [settings]="dropdownSettings"
                                         [placeholder]="'Selecciona la/s area/s de conocimiento'"
-                                        [data]="countries"
+                                        [data]="areasList"
+                                        formControlName="areaConocimiento"
                                         >
                                         <ng-template
                                             #optionsTemplate
@@ -135,23 +136,15 @@
                                                 top: -2px;
                                             "
                                             >
-                                            <img
-                                                [src]="getItems[id].image"
-                                                style="width: 18px; margin: 0 20px;"
-                                            />
                                             <label
                                                 style="color: #333; min-width: 130px; font-weight: normal;"
                                                 [ngStyle]="{ 'font-weight': isSelected? 'bold':' normal','color': getItems[id].isDisabled? 'lightgrey': ''}"
-                                                >{{getItems[id].item_text}}</label
+                                                >{{getItems[id].nombre}}</label
                                             >
                                             </div>
                                         </ng-template>
                                         <ng-template #optionSelectedTemplate let-option="option" let-id="id">
                                             <div>
-                                            <img
-                                                [src]="getItems[id].image"
-                                                style="width: 18px; margin-right: 2px;"
-                                            />
                                             {{option}}
                                             </div>
                                         </ng-template>
@@ -160,16 +153,23 @@
                                     </div>
                                     
 
-                                    <div class="form-group" *ngIf="['ROL_ESTUDIANTE', 'ROL_PROFESOR'].includes(this.registerForm.get('rol').value)">
+                                    <div class="form-group" *ngIf="['ROL_ESTUDIANTE'].includes(this.registerForm.get('rol').value)">
                                         <label for="titulacion">
-                                            <ng-container *ngIf="this.registerForm.get('rol').value === 'ROL_ESTUDIANTE'; else elseTemplate">
+                                            <ng-container *ngIf="this.registerForm.get('rol').value === 'ROL_ESTUDIANTE';">
                                                 Titulación
                                             </ng-container>
-                                            <ng-template #elseTemplate>
-                                                Facultad / Escuela
-                                            </ng-template>
                                         </label>
                                         <input name="titulacion" type="text" id="titulacion" class="form-control" autocorrect="off" autocapitalize="none" spellcheck="false" placeholder="Introduzca su titulación" [class.is-invalid] = "registerForm.get('titulacion').invalid && registerForm.get('titulacion').touched"  formControlName="titulacion">
+                        
+                                    </div>
+
+                                    <div class="form-group" *ngIf="['ROL_PROFESOR'].includes(this.registerForm.get('rol').value)">
+                                        <label for="facultad">
+                                            <ng-container *ngIf="this.registerForm.get('rol').value === 'ROL_PROFESOR';">
+                                                Facultad / Escuela
+                                            </ng-container>
+                                        </label>
+                                        <input name="facultad" type="text" id="facultad" class="form-control" autocorrect="off" autocapitalize="none" spellcheck="false" placeholder="Introduzca su facultad" [class.is-invalid] = "registerForm.get('facultad').invalid && registerForm.get('facultad').touched"  formControlName="facultad">
                         
                                     </div>
 

@@ -30,7 +30,8 @@ export class RegisterComponent implements OnInit {
   dropdownSettings: any = {};
 
   public formSubmitted = false;
-  public codeList: any ;
+  public codeList: any;
+  public areasList: any;
   
   constructor(private fb: FormBuilder, private usuarioService: UsuarioService, private registerService: HomeService, private router: Router) { 
     
@@ -55,6 +56,8 @@ export class RegisterComponent implements OnInit {
     titulacion: new FormControl(''),
     sector: new FormControl(''),
     nombreEntidad: new FormControl(''),
+    facultad: new FormControl(''),
+    areaConocimiento: new FormControl(''),
     terminos_aceptados: new FormControl(false, Validators.requiredTrue),
 
   }, {
@@ -63,6 +66,8 @@ export class RegisterComponent implements OnInit {
       this.validarTitulacion(),
       this.validarSector(),
       this.validarNombreEntidad(),
+      this.validarFacultad(),
+      this.validarAreaConocimiento(),
       this.match('password', 'password_2', 'password-mismatch'),
     ]
   });
@@ -70,55 +75,11 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit(): void {
     this.obtenerUniversidades();
-    this.countries = [
-      {
-        item_id: 1,
-        item_text: "India",
-        image: "http://www.sciencekids.co.nz/images/pictures/flags96/India.jpg"
-      },
-      {
-        item_id: 2,
-        item_text: "Spain",
-        image: "http://www.sciencekids.co.nz/images/pictures/flags96/Spain.jpg"
-      },
-      {
-        item_id: 3,
-        item_text: "United Kingdom",
-        image:
-          "http://www.sciencekids.co.nz/images/pictures/flags96/United_Kingdom.jpg"
-      },
-      {
-        item_id: 4,
-        item_text: "Canada",
-        image:
-          "http://www.sciencekids.co.nz/images/pictures/flags96/Canada.jpg",
-      },
-      {
-        item_id: 5,
-        item_text: "Israel",
-        image: "http://www.sciencekids.co.nz/images/pictures/flags96/Israel.jpg"
-      },
-      {
-        item_id: 6,
-        item_text: "Brazil",
-        image: "http://www.sciencekids.co.nz/images/pictures/flags96/Brazil.jpg"
-      },
-      {
-        item_id: 7,
-        item_text: "Barbados",
-        image:
-          "http://www.sciencekids.co.nz/images/pictures/flags96/Barbados.jpg"
-      },
-      {
-        item_id: 8,
-        item_text: "Mexico",
-        image: "http://www.sciencekids.co.nz/images/pictures/flags96/Mexico.jpg"
-      }
-    ]
+    this.obtenerAreasConocimiento();
     this.dropdownSettings = {
       singleSelection: false,
-      idField: "item_id",
-      textField: "item_text",
+      idField: "id",
+      textField: "nombre",
       selectAllText: "Select All",
       unSelectAllText: "UnSelect All",
       itemsShowLimit: 10,
@@ -136,6 +97,14 @@ export class RegisterComponent implements OnInit {
           return this.codeList;
         });
   }
+
+  async  obtenerAreasConocimiento() {
+    return this.registerService.obtenerAreasConocimiento()
+       .subscribe( (resp: any) => {
+         this.areasList =resp.areas;
+         return this.areasList;
+       });
+ }
 
   get primEmail() {
     return this.registerForm.get('email')
@@ -163,6 +132,12 @@ export class RegisterComponent implements OnInit {
   }
   get getNombre() {
     return this.registerForm.get('nombre')
+  }
+  get getAreaConocimiento() {
+    return this.registerForm.get('areaConocimiento')
+  }
+  get getFacultad() {
+    return this.registerForm.get('facultad')
   }
   get getApellidos() {
     return this.registerForm.get('apellidos')
@@ -261,7 +236,15 @@ export class RegisterComponent implements OnInit {
   }
 
   validarTitulacion() {
-    return this.validarCampoSegunPerfil('titulacion', [ROL_ESTUDIANTE, ROL_PROFESOR]);
+    return this.validarCampoSegunPerfil('titulacion', [ROL_ESTUDIANTE]);
+  }
+
+  validarFacultad() {
+    return this.validarCampoSegunPerfil('facultad', [ROL_PROFESOR]);
+  }
+
+  validarAreaConocimiento() {
+    return this.validarCampoSegunPerfil('areaConocimiento', [ROL_PROFESOR]);
   }
 
   validarSector() {
@@ -273,8 +256,8 @@ export class RegisterComponent implements OnInit {
   }
 
   get getItems() {
-    return this.countries.reduce((acc, curr) => {
-      acc[curr.item_id] = curr;
+    return this.areasList.reduce((acc, curr) => {
+      acc[curr.id] = curr;
       return acc;
     }, {});
   }

@@ -49,7 +49,29 @@ const getUniversidades = async(req, res) => {
     }
 }
 
+const getAreasConocimiento = async(req, res) => {
+    
+    try {
+        areas = await dao_usuario.obtenerAreasConocimiento();
+     
+        
+        return res.status(200).json({
+            ok: true,
+            areas,
+        });
+
+    } catch (error) {
+        console.error(error);
+
+        return res.status(500).json({
+            ok: false,
+            msg: 'Error inesperado',
+        });
+    }
+}
+
 module.exports = {
     getDatosHome,
-    getUniversidades
+    getUniversidades,
+    getAreasConocimiento
 }

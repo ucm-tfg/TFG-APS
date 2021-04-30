@@ -201,7 +201,7 @@ const crearUsuario = async (req, res = response) => {
                     msg: 'Operación no autorizada, solo gestores.',
                 });
             }
-            let profesor = new TProfesorExterno(null, email, req.body.nombre, req.body.apellidos, passwordNew,  "Portal ApS", "imagen", "fechaAt", "updatedAt", req.body.terminos_aceptados, req.body.universidad)
+            let profesor = new TProfesorExterno(null, email, req.body.nombre, req.body.apellidos, passwordNew,  "Portal ApS", "imagen", "fechaAt", "updatedAt", req.body.terminos_aceptados, req.body.universidad,req.body.facultad,req.body.areaConocimiento)
 
 
             let id = await dao_usuario.insertarProfesorExterno(profesor);
@@ -220,7 +220,8 @@ const crearUsuario = async (req, res = response) => {
                 nombre: req.body.nombre,
                 apellidos: req.body.apellidos,
                 universidad: req.body.universidad,
-                facultad: "any",
+                facultad: req.body.facultad,
+                areaConocimiento: req.body.areaConocimiento,
                 terminos_aceptados: req.body.terminos_aceptados
             }
             const token = await generarJWT(prof);
