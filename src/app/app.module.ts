@@ -69,6 +69,7 @@ import { IniciativasEditarComponent } from './pages/iniciativas-editar/iniciativ
 // partenariados
 import { PartenariadosComponent } from './pages/partenariados/partenariados.component';
 import { PartenariadosVerComponent } from './pages/partenariados-ver/partenariados-ver.component';
+import { PartenariadoCrearProfesorComponent } from './pages/partenariados-crear/partenariado-profesor-crear/partenariado-profesor-crear.component';
 
 // proyectos
 import { ProyectosComponent } from './pages/proyectos/proyectos.component';
@@ -134,6 +135,7 @@ import { Code404Component } from './errors/code404/code404.component';
     // partenariados
     PartenariadosComponent,
     PartenariadosVerComponent,
+    PartenariadoCrearProfesorComponent,
 
     // proyectos
     ProyectosComponent,

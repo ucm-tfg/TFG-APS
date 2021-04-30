@@ -9,6 +9,7 @@ import { GestorGuard } from './guards/gestor.guard';
 import { IniciativaCrearGuard } from './guards/iniciativa-crear.guard';
 import { IniciativaEditarGuard } from './guards/iniciativa-editar.guard';
 import { PartenariadoVerGuard } from './guards/partenariado-ver.guard';
+import { PartenariadoCrearProfesorGuard} from './guards/partenariado-crear-profesor.guard'
 
 // auth routes
 import { LoginComponent } from './auth/login/login.component';
@@ -42,6 +43,7 @@ import { IniciativasEditarComponent } from './pages/iniciativas-editar/iniciativ
 // partenariados
 import { PartenariadosComponent } from './pages/partenariados/partenariados.component';
 import { PartenariadosVerComponent } from './pages/partenariados-ver/partenariados-ver.component';
+import { PartenariadoCrearProfesorComponent } from './pages/partenariados-crear/partenariado-profesor-crear/partenariado-profesor-crear.component';
 
 // proyectos
 import { ProyectosComponent } from './pages/proyectos/proyectos.component';
@@ -93,6 +95,8 @@ const routes: Routes = [
     { path: 'partenariados', component: PartenariadosComponent, data: { titulo: 'Partenariados' } },
     { path: 'mis-partenariados', component: PartenariadosComponent, data: { titulo: 'Mis Partenariados' } },
     { path: 'partenariados/ver/:id', canActivate:[PartenariadoVerGuard], component: PartenariadosVerComponent, data: { titulo: 'Ver Partenariado' } },
+    { path: 'parteneriadoCrearProfesor', canActivate:[PartenariadoCrearProfesorGuard], component: PartenariadoCrearProfesorComponent, data: { titulo: 'Crear Partenariado' } },
+
 
     // Proyectos
     { path: 'proyectos', component: ProyectosComponent, data: { titulo: 'Proyectos' } },

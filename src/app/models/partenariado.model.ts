@@ -9,9 +9,23 @@ const base_url = environment.base_url;
 export class Partenariado {
 
     constructor(
+        //aqui
+        public imagen: string,
         public _id: string,
         public estado: string,
+        public necesidadSocial: String,
+        public finalidad: String,
+        public comunidadBeneficiaria: String,
+        public responsable: Usuario,
+        public fechaInicio: Date,
+        public fechaFin: Date,
+        public entidad: Usuario,
+        public asignaturaObjetivo: String,
+        public titulacionesLocales: Array<Object>,
+        public cuatrimestre: string,
+        public anioAcademico: Number,
         public titulo: string,
+        public externo: Boolean,
         public descripcion: string,
         public rama: string,
         public ciudad: string,
