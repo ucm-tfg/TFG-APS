@@ -4,7 +4,6 @@ const TOferta = require("./../database/services/transfers/TOfertaServicio");
 const getAreasservicio = async(req, res) => {
     try {
         areasServicio = await dao_tentativa.obtenerListaAreasServicio();
-        console.log("Lista de areas de servicio ", areasServicio);
         
         return res.status(200).json({
             ok: true,
@@ -22,10 +21,13 @@ const getAreasservicio = async(req, res) => {
 }
 
 const crearOferta = async(req, res = response) => {
-
     try {
         console.log("Req.body:\n", req.body);
-        const oferta = new TOferta(
+        let areas = [];
+        req.body.area_servicio.forEach(data => {
+            areas.push(data.id);
+        });
+        let oferta = new TOferta(
             null,
             req.body.titulo,
             req.body.descripcion,
@@ -38,10 +40,10 @@ const crearOferta = async(req, res = response) => {
             req.body.fecha_limite,
             req.body.observaciones,
             req.current_user.uid,
-            req.body.area_servicio,
+            areas,
             req.current_user.uid);
         
-            console.log("Oferta:\n", oferta);
+        console.log("Oferta:\n", oferta);
         await dao_tentativa.crearOferta(oferta);
 
         return res.status(200).json({

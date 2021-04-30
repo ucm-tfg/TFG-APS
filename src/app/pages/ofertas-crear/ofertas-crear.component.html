@@ -28,18 +28,45 @@
                             </div>
                         </div>
 
-                        <!-- TO DO: permitir elegir varios -->
-                        <div class="row">
-                            <div class="col">
-                                <div class="form-group">
-                                    <label>Area de servicio</label>
-                                    <input name="areasServicio" type="text" id="areasServicio"  list="codes"  formControlName="area_servicio"  class="form-control" [class.is-invalid] = "crearOfertaForm.get('area_servicio').invalid && crearOfertaForm.get('area_servicio').touched" placeholder="Elija un area de servicio">
-                                    <datalist id="codes">
-                                        <option *ngFor="let area of areasServicio" [value]="area.nombre" ></option>
-                                    </datalist>
-                                    <small class="text-danger" *ngIf="noListMatch()">Debe elegir un area de servicio valido</small>
+                        <div class="form-group">
+                            <label for="area_servicio">Area/s de servicio</label>
+                            <ng-multiselect-dropdown
+                            name="area_servicio"
+                            [settings]="dropdownSettings"
+                            [placeholder]="'Selecciona el area de servicio'"
+                            [data]="areasServicio"
+                            formControlName="area_servicio"
+                            >
+                            <ng-template
+                                #optionsTemplate
+                                let-item
+                                let-option="option"
+                                let-id="id"
+                                let-isSelected="isSelected"
+                            >
+                                <div
+                                style="
+                                    padding: 1px 10px;
+                                    margin: 40px;
+                                    right: 2px;
+                                    top: -2px;
+
+                                "
+                                >
+                                <label
+                                    style="color: #333; min-width: 130px; font-weight: normal;"
+                                    [ngStyle]="{ 'font-weight': isSelected? 'bold':' normal','color': getItems[id].isDisabled? 'lightgrey': ''}"
+                                    >{{getItems[id].nombre}}</label
+                                >
                                 </div>
-                            </div>
+                            </ng-template>
+                            <ng-template #optionSelectedTemplate let-option="option" let-id="id">
+                                <div>
+                                {{option}}
+                                </div>
+                            </ng-template>
+                            </ng-multiselect-dropdown>
+                           
                         </div>
 
                         <div class="row">
@@ -51,7 +78,6 @@
                             </div>
                         </div>
 
-                        <!-- TO DO : permitir añadir varias asignaturas -->
                         <div class="row">
                             <div class="col">
                                 <div class="form-group">
@@ -65,7 +91,7 @@
                             <div class="col">
                                 <div class="form-group">
                                     <label>Fecha límite</label>
-                                    <input name="fecha_limite" type="date" id="fecha_limite" class="form-control" autocorrect="off" autocapitalize="none" spellcheck="false"   formControlName="fecha_limite">
+                                    <input name="fecha_limite" type="date" id="fecha_limite" class="form-control" autocorrect="off" autocapitalize="none" spellcheck="false"   formControlName="fecha_limite" value="2021-07-01">
                                 </div>
                             </div>
                         </div>
@@ -74,7 +100,7 @@
                             <div class="col">
                                 <div class="form-group">
                                     <label for="cuatrimestre">Cuatrimestre</label>
-                                    <select name="cuatrimestre" id="cuatrimestre" formControlName="cuatrimestre" class="form-control">
+                                    <select name="cuatrimestre" id="cuatrimestre" formControlName="cuatrimestre" class="form-control" placeholder="Elige un cuatrimestre">
                                         <option value="Primer cuatrimestre">Primer cuatrimestre</option>
                                         <option value="Segundo cuatrimestre">Segundo cuatrimestre</option>
                                         <option value="Anual">Anual</option>
@@ -87,7 +113,7 @@
                             <div class="col">
                                 <div class="form-group">
                                     <label>Año académico</label>
-                                    <input name="anio_academico" type="number" id="anio_academico" class="form-control" autocorrect="off" autocapitalize="none" spellcheck="false" placeholder="Año académico"  formControlName="anio_academico" min="2021" value="2021">
+                                    <input name="anio_academico" type="number" id="anio_academico" class="form-control" autocorrect="off" autocapitalize="none" spellcheck="false" placeholder="Año académico"  formControlName="anio_academico" min="2021" value="2021" value="2022">
                                 </div>
                             </div>
                         </div>

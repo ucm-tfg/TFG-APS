@@ -16,7 +16,7 @@ function crearAnuncio(anuncio) {
     })
     .then((id_anuncio) => {
       let areasServicio = anuncio.getArea_servicio();
-      const fieldsToInsert = { id_area: areasServicio, id_anuncio: id_anuncio };
+      let fieldsToInsert = { id_area: areasServicio, id_anuncio: id_anuncio };
       if (Array.isArray(areasServicio)) {
         fieldsToInsert = areasServicio.map((area) => ({
           id_area: area,
@@ -59,7 +59,7 @@ function crearOferta(oferta) {
         .then(function (result) {
           id = id_anuncio[0];
           asignaturas = oferta.getAsignatura_objetivo();
-          const fieldsToInsert = {
+          let fieldsToInsert = {
             id_oferta: id_anuncio[0],
             nombre: asignaturas,
           };
@@ -75,7 +75,7 @@ function crearOferta(oferta) {
             .insert(fieldsToInsert)
             .then(() => {
               let profesores = oferta.getProfesores();
-              const fieldsToInsert2 = {
+              let fieldsToInsert2 = {
                 id_profesor: profesores,
                 id_oferta: id_anuncio[0],
               };
@@ -130,8 +130,8 @@ function crearDemanda(demanda) {
           necesidad_social: demanda.getNecesidad_social(),
         })
         .then(function () {
-          const titulaciones = demanda.getTitulacionlocal_demandada();
-          const fieldsToInsert = {
+          let titulaciones = demanda.getTitulacionlocal_demandada();
+          let fieldsToInsert = {
             id_titulacion: titulaciones,
             id_demanda: id_anuncio[0],
           };
@@ -178,12 +178,12 @@ function crearIniciativa(iniciativa) {
       id_demanda: iniciativa.getDemanda(),
     })
     .then((id_iniciativa) => {
-      const fieldsToInsert = {
+      let fieldsToInsert = {
         id_area: iniciativa.getArea_servicio(),
         id_iniciativa: id_iniciativa,
       };
       if (Array.isArray(iniciativa.getArea_servicio())) {
-        const fieldsToInsert = iniciativa.getArea_servicio().map((area) => ({
+        let fieldsToInsert = iniciativa.getArea_servicio().map((area) => ({
           id_area: area,
           id_iniciativa: id_iniciativa,
         }));
@@ -745,7 +745,7 @@ function actualizarAnuncio(anuncio) {
         .del()
         .then(() => {
           let areasServicio = anuncio.getArea_servicio();
-          const fieldsToInsert = {
+          let fieldsToInsert = {
             id_area: areasServicio,
             id_anuncio: anuncio.getId(),
           };
@@ -786,7 +786,7 @@ function actualizarOfertaServicio(oferta) {
               .del()
               .then(() => {
                 asignaturas = oferta.getAsignatura_objetivo();
-                const fieldsToInsert = {
+                let fieldsToInsert = {
                   id_oferta: oferta.getId(),
                   nombre: asignaturas,
                 };
@@ -804,7 +804,7 @@ function actualizarOfertaServicio(oferta) {
                       .del()
                       .then(() => {
                         profesores = oferta.getProfesores();
-                        const fieldsToInsert2 = {
+                        let fieldsToInsert2 = {
                           id_profesor: profesores,
                           id_oferta: oferta.getId(),
                         };
@@ -873,8 +873,8 @@ function actualizarDemanda(demanda) {
               .where("id_demanda", demanda.getId())
               .del()
               .then(() => {
-                const titulaciones = demanda.getTitulacionlocal_demandada();
-                const fieldsToInsert = {
+                let titulaciones = demanda.getTitulacionlocal_demandada();
+                let fieldsToInsert = {
                   id_titulacion: titulaciones,
                   id_demanda: demanda.getId(),
                 };
@@ -933,7 +933,7 @@ function actualizarIniciativa(iniciativa) {
         .del()
         .then(() => {
           areasServicio = iniciativa.getArea_servicio();
-          const fieldsToInsert = {
+          let fieldsToInsert = {
             id_area: areasServicio,
             id_iniciativa: iniciativa.getId(),
           };
@@ -1184,7 +1184,8 @@ function obtenerAreasServicio(id_anuncio) {
 
 function obtenerListaAreasServicio() {
   return knex("area_servicio")
-    .select("*")
+    .select("id")
+    .select("nombre")
     .then((areas) => {
       return areas;
     })
