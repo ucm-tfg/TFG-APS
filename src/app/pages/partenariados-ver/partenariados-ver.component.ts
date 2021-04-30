@@ -29,7 +29,7 @@ export class PartenariadosVerComponent implements OnInit {
     });
   }
 
-  cargarPartenariado(id: string) {
+  /* cargarPartenariado(id: string) {
 
     // ver o editar la partenariado
     this.partenariadoService.cargarPartenariado(id).subscribe( (partenariado: Partenariado) => {
@@ -41,7 +41,7 @@ export class PartenariadosVerComponent implements OnInit {
 
       this.partenariado = this.partenariadoService.mapearPartenariados([partenariado])[0];
     });
-  }
+  } */
 
   cambiarEstado(estado: string) {
     this.partenariadoService.cambiarEstado(this.partenariado, estado)

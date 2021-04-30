@@ -95,7 +95,7 @@ const routes: Routes = [
     { path: 'partenariados', component: PartenariadosComponent, data: { titulo: 'Partenariados' } },
     { path: 'mis-partenariados', component: PartenariadosComponent, data: { titulo: 'Mis Partenariados' } },
     { path: 'partenariados/ver/:id', canActivate:[PartenariadoVerGuard], component: PartenariadosVerComponent, data: { titulo: 'Ver Partenariado' } },
-    { path: 'parteneriadoCrearProfesor', canActivate:[PartenariadoCrearProfesorGuard], component: PartenariadoCrearProfesorComponent, data: { titulo: 'Crear Partenariado' } },
+    { path: 'partenariados/crear', canActivate:[PartenariadoCrearProfesorGuard], component: PartenariadoCrearProfesorComponent, data: { titulo: 'Crear Partenariado' } },
 
 
     // Proyectos
