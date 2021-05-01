@@ -10,6 +10,25 @@ const TEstudiante = require('../database/services/transfers/TEstudiante');
 const TEstudianteExterno = require('../database/services/transfers/TEstudianteExterno');
 const TProfesorExterno = require('../database/services/transfers/TProfesorExterno');
 
+const obtenerProfesores = async(req, res) => {
+    try {
+        profesores = await dao_usuario.obtenerProfesores();
+        
+        return res.status(200).json({
+            ok: true,
+            profesores,
+        });
+
+    } catch (error) {
+        console.error(error);
+
+        return res.status(500).json({
+            ok: false,
+            msg: 'Error inesperado',
+        });
+    }
+}
+
 const getUsuarios = async (req, res) => {
     try {
         const skip = Number(req.query.skip) || 0;
@@ -58,7 +77,6 @@ const getUsuarios = async (req, res) => {
 
 
 const getUsuario = async (req, res) => {
-    console.log("entra")
     try {
         const uid = req.params.uid;
         const usuario = await dao_usuario.obtenerUsuarioSinRolPorId(uid);
@@ -153,10 +171,9 @@ const crearUsuario = async (req, res = response) => {
                 });
             }
 
-            let estudiante = new TEstudianteExterno(null, email, req.body.nombre, req.body.apellidos, passwordNew, "Portal ApS", "imagen", "fechaAt", "updatedAt", req.body.terminos_aceptados, 1,
+            let estudiante = new TEstudianteExterno(null, email, req.body.nombre, req.body.apellidos, passwordNew, "Portal ApS", "imagen", "fechaAt", "updatedAt", req.body.terminos_aceptados,
                 req.body.titulacion,
-                req.body.universidad,
-                null)
+                req.body.universidad)
             let id = await dao_usuario.insertarEstudianteExterno(estudiante);
             if (id === -1) {
                 return res.status(400).json({
@@ -203,7 +220,7 @@ const crearUsuario = async (req, res = response) => {
                     msg: 'Operación no autorizada, solo gestores.',
                 });
             }
-            let profesor = new TProfesorExterno(null, email, req.body.nombre, req.body.apellidos, passwordNew,  "Portal ApS", "imagen", "fechaAt", "updatedAt", req.body.terminos_aceptados, 1, req.body.universidad, "prueba")
+            let profesor = new TProfesorExterno(null, email, req.body.nombre, req.body.apellidos, passwordNew,  "Portal ApS", "imagen", "fechaAt", "updatedAt", req.body.terminos_aceptados, req.body.universidad,req.body.facultad,req.body.areaConocimiento)
 
 
             let id = await dao_usuario.insertarProfesorExterno(profesor);
@@ -222,7 +239,8 @@ const crearUsuario = async (req, res = response) => {
                 nombre: req.body.nombre,
                 apellidos: req.body.apellidos,
                 universidad: req.body.universidad,
-                facultad: "any",
+                facultad: req.body.facultad,
+                areaConocimiento: req.body.areaConocimiento,
                 terminos_aceptados: req.body.terminos_aceptados
             }
             const token = await generarJWT(prof);
@@ -261,7 +279,7 @@ const actualizarUsuario = async (req, res = response) => {
         }
 
         // si actualiza a otro que no soy yo, debo ser gestor
-        if (uid !== usuario.id && !esGestor(req)) {
+        if (uid != usuario.id && !esGestor(req)) {
             return res.status(403).json({
                 ok: false,
                 msg: 'Operación no autorizada, solo gestores.',
@@ -287,7 +305,7 @@ const actualizarUsuario = async (req, res = response) => {
         if (campos.email) {
             // const existeEmail = await Usuario.findOne({ email: campos.email });
             const existeEmail = await dao_usuario.obtenerUsuarioSinRolPorEmail(campos.email);
-            if (existeEmail && uid !== existeEmail.id) {
+            if (existeEmail && uid != existeEmail.id) {
                 return res.status(400).json({
                     ok: false,
                     msg: 'El correo ya está registrado',
@@ -323,8 +341,11 @@ const actualizarUsuario = async (req, res = response) => {
         }
 
 
+        if(usuario.rol === 'ROL_ESTUDIANTE'){
 
-        const usuarioActualizado = await Usuario.findByIdAndUpdate(uid, campos, { new: true });
+        const usuarioActualizado = await dao_usuario.actualizarEstudianteExterno(usuario);
+        }
+        
         const token = await generarJWT(usuarioActualizado);
 
         return res.status(200).json({
@@ -400,4 +421,5 @@ module.exports = {
     crearUsuario,
     actualizarUsuario,
     borrarUsuario,
+    obtenerProfesores
 }

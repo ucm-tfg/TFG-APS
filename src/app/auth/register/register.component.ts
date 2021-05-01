@@ -14,10 +14,24 @@ import { SobreApsUnedContactaComponent } from 'src/app/pages/sobre-aps-uned-cont
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit {
-
+  countries: Array<any> = [];
+  selCountries = [
+    {
+      item_id: 1,
+      item_text: "India",
+      image: "http://www.sciencekids.co.nz/images/pictures/flags96/India.jpg"
+    },
+    {
+      item_id: 5,
+      item_text: "Israel",
+      image: "http://www.sciencekids.co.nz/images/pictures/flags96/Israel.jpg"
+    }
+  ];
+  dropdownSettings: any = {};
 
   public formSubmitted = false;
-  public codeList: any ;
+  public codeList: any;
+  public areasList: any;
   
   constructor(private fb: FormBuilder, private usuarioService: UsuarioService, private registerService: HomeService, private router: Router) { 
     
@@ -42,6 +56,8 @@ export class RegisterComponent implements OnInit {
     titulacion: new FormControl(''),
     sector: new FormControl(''),
     nombreEntidad: new FormControl(''),
+    facultad: new FormControl(''),
+    areaConocimiento: new FormControl(''),
     terminos_aceptados: new FormControl(false, Validators.requiredTrue),
 
   }, {
@@ -50,6 +66,8 @@ export class RegisterComponent implements OnInit {
       this.validarTitulacion(),
       this.validarSector(),
       this.validarNombreEntidad(),
+      this.validarFacultad(),
+      this.validarAreaConocimiento(),
       this.match('password', 'password_2', 'password-mismatch'),
     ]
   });
@@ -57,8 +75,19 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit(): void {
     this.obtenerUniversidades();
+    this.obtenerAreasConocimiento();
+    this.dropdownSettings = {
+      singleSelection: false,
+      idField: "id",
+      textField: "nombre",
+      selectAllText: "Select All",
+      unSelectAllText: "UnSelect All",
+      itemsShowLimit: 10,
+      allowSearchFilter: true
+    };
   }
 
+  
 
   async  obtenerUniversidades() {
      return this.registerService.obtenerUniversidades()
@@ -68,6 +97,14 @@ export class RegisterComponent implements OnInit {
           return this.codeList;
         });
   }
+
+  async  obtenerAreasConocimiento() {
+    return this.registerService.obtenerAreasConocimiento()
+       .subscribe( (resp: any) => {
+         this.areasList =resp.areas;
+         return this.areasList;
+       });
+ }
 
   get primEmail() {
     return this.registerForm.get('email')
@@ -95,6 +132,12 @@ export class RegisterComponent implements OnInit {
   }
   get getNombre() {
     return this.registerForm.get('nombre')
+  }
+  get getAreaConocimiento() {
+    return this.registerForm.get('areaConocimiento')
+  }
+  get getFacultad() {
+    return this.registerForm.get('facultad')
   }
   get getApellidos() {
     return this.registerForm.get('apellidos')
@@ -138,6 +181,7 @@ export class RegisterComponent implements OnInit {
 
    noListMatch() {
     let accept=true;
+    console.log(this.codeList);
           for (let v of this.codeList) {
             if (v.nombre === this.registerForm.get('universidad').value || this.registerForm.get('universidad').value === '')
               accept = false;
@@ -192,7 +236,15 @@ export class RegisterComponent implements OnInit {
   }
 
   validarTitulacion() {
-    return this.validarCampoSegunPerfil('titulacion', [ROL_ESTUDIANTE, ROL_PROFESOR]);
+    return this.validarCampoSegunPerfil('titulacion', [ROL_ESTUDIANTE]);
+  }
+
+  validarFacultad() {
+    return this.validarCampoSegunPerfil('facultad', [ROL_PROFESOR]);
+  }
+
+  validarAreaConocimiento() {
+    return this.validarCampoSegunPerfil('areaConocimiento', [ROL_PROFESOR]);
   }
 
   validarSector() {
@@ -201,5 +253,19 @@ export class RegisterComponent implements OnInit {
 
   validarNombreEntidad() {
     return this.validarCampoSegunPerfil('nombreEntidad', [ROL_ENTIDAD]);
+  }
+
+  get getItems() {
+    return this.areasList.reduce((acc, curr) => {
+      acc[curr.id] = curr;
+      return acc;
+    }, {});
+  }
+  
+  onItemSelect(item: any) {
+    console.log("onItemSelect", item);
+  }
+  onSelectAll(items: any) {
+    console.log("onSelectAll", items);
   }
 }

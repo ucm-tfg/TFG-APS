@@ -15,6 +15,12 @@ export class DemandaService {
 
   constructor( private http: HttpClient, private usuarioService: UsuarioService, private fileUploadService: FileUploadService) { }
 
+  obtenerDemanda(){
+    return this.http.get<{ ok: boolean, demanda: any}>(`${ base_url }/demandas/98`,this.usuarioService.headers)
+    .pipe(
+      map( (resp) => resp)
+    );
+  }
 
   crearDemanda(body: Object) {
     return this.http.post<{ ok: boolean, Demanda: Demanda}>(`${ base_url }/demandas`, body, this.usuarioService.headers)

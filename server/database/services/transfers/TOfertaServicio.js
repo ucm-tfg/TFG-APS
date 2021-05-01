@@ -7,11 +7,10 @@ class TOfertaServicio extends TAnuncioServicio{
     observaciones_temporales;
     creador;
     profesores;
-
-    constructor(id, titulo, descripcion, imagen, created_at, updated_at, _v, asignatura_objetivo,
-         cuatrimestre, anio_academico, fecha_limite, observaciones_temporales, creador, area_servicio, profesores) 
+    constructor(id, titulo, descripcion, imagen, created_at, updated_at, asignatura_objetivo,
+         cuatrimestre, anio_academico, fecha_limite, observaciones_temporales, creador, area_servicio, profesores, dummy) 
     {
-        super(id, titulo, descripcion, imagen, created_at, updated_at, _v, area_servicio);
+        super(id, titulo, descripcion, imagen, created_at, updated_at, area_servicio,dummy);
         this.asignatura_objetivo = asignatura_objetivo;
         this.cuatrimestre = cuatrimestre;
         this.anio_academico = anio_academico;

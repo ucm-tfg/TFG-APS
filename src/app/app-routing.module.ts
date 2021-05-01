@@ -7,8 +7,10 @@ import { AuthGuard } from './guards/auth.guard';
 import { ProtectedGuard } from './guards/protected.guard';
 import { GestorGuard } from './guards/gestor.guard';
 import { IniciativaCrearGuard } from './guards/iniciativa-crear.guard';
+import { OfertaCrearGuard } from './guards/oferta-crear.guard';
 import { IniciativaEditarGuard } from './guards/iniciativa-editar.guard';
 import { PartenariadoVerGuard } from './guards/partenariado-ver.guard';
+import { PartenariadoCrearProfesorGuard} from './guards/partenariado-crear-profesor.guard'
 import {DemandaCrearGuard} from './guards/demanda-crear.guard';
 
 // auth routes
@@ -40,6 +42,12 @@ import { IniciativasVerComponent } from './pages/iniciativas-ver/iniciativas-ver
 import { IniciativasCrearComponent } from './pages/iniciativas-crear/iniciativas-crear.component';
 import { IniciativasEditarComponent } from './pages/iniciativas-editar/iniciativas-editar.component';
 
+// ofertas
+// import { OfertasComponent } from './pages/ofertas/ofertas.component';
+// import { OfertasVerComponent } from './pages/ofertas-ver/ofertas-ver.component';
+import { OfertasCrearComponent } from './pages/ofertas-crear/ofertas-crear.component';
+// import { OfertasEditarComponent } from './pages/ofertas-editar/ofertas-editar.component';
+
 //demanda
 //import {DemandaComponent} from './pages/demanda/demanda.component'
 import {crearDemandaComponent} from './pages/crear-demanda/crear-demanda.component'
@@ -49,6 +57,7 @@ import {crearDemandaComponent} from './pages/crear-demanda/crear-demanda.compone
 // partenariados
 import { PartenariadosComponent } from './pages/partenariados/partenariados.component';
 import { PartenariadosVerComponent } from './pages/partenariados-ver/partenariados-ver.component';
+import { PartenariadoCrearProfesorComponent } from './pages/partenariados-crear/partenariado-profesor-crear/partenariado-profesor-crear.component';
 
 // proyectos
 import { ProyectosComponent } from './pages/proyectos/proyectos.component';
@@ -96,6 +105,13 @@ const routes: Routes = [
     { path: 'iniciativas/editar/:id', canActivate:[IniciativaEditarGuard], component: IniciativasEditarComponent, data: { titulo: 'Editar Iniciativa' } },
     { path: 'iniciativas/crear', canActivate:[IniciativaCrearGuard], component: IniciativasCrearComponent, data: { titulo: 'Crear Iniciativa' } },
 
+    // Ofertas
+    // { path: 'ofertas', component: OfertasComponent, data: { titulo: 'Ofertas' } },
+    // { path: 'mis-ofertas', component: OfertasComponent, data: { titulo: 'Mis Ofertas' } },
+    // { path: 'ofertas/ver/:id', component: OfertasVerComponent, data: { titulo: 'Ver Oferta' } },
+    // { path: 'ofertas/editar/:id', canActivate:[OfertaEditarGuard], component: OfertasEditarComponent, data: { titulo: 'Editar Oferta' } },
+    { path: 'ofertas/crear', canActivate:[OfertaCrearGuard], component: OfertasCrearComponent, data: { titulo: 'Crear Oferta' } },
+
     //demandas
     // { path: 'demandas', component: demandasComponent, data: { titulo: 'Demandas' } },
     // { path: 'mis-demandas', component: demandasComponent, data: { titulo: 'Mis Demandas' } },
@@ -107,6 +123,8 @@ const routes: Routes = [
     { path: 'partenariados', component: PartenariadosComponent, data: { titulo: 'Partenariados' } },
     { path: 'mis-partenariados', component: PartenariadosComponent, data: { titulo: 'Mis Partenariados' } },
     { path: 'partenariados/ver/:id', canActivate:[PartenariadoVerGuard], component: PartenariadosVerComponent, data: { titulo: 'Ver Partenariado' } },
+    { path: 'partenariados/crear', canActivate:[PartenariadoCrearProfesorGuard], component: PartenariadoCrearProfesorComponent, data: { titulo: 'Crear Partenariado' } },
+
 
     // Proyectos
     { path: 'proyectos', component: ProyectosComponent, data: { titulo: 'Proyectos' } },

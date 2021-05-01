@@ -10,8 +10,7 @@ class TUpload{
     creador;
     createdAt;
     updatedAt;
-    _v;
-    constructor(id, almacenamiento, campo, tipo, tipo_id, path, client_name, nombre, creador, createdAt, updatedAt, _v){
+    constructor(id, almacenamiento, campo, tipo, tipo_id, path, client_name, nombre, creador, createdAt, updatedAt){
         this.id = id;
         this.almacenamiento = almacenamiento;
         this.campo = campo;
@@ -23,7 +22,6 @@ class TUpload{
         this.creador = creador;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
-        this._v = _v;
     }
     getId(){
         return this.id;
@@ -90,12 +88,6 @@ class TUpload{
     }
     setUpdatedAt(updatedat_upload){
         this.updatedAt = updatedat_upload;
-    }
-    get_v(){
-        return this._v;
-    }
-    set_v(_v_upload){
-        this._v = _v_upload;
     }
 }
 module.exports = TUpload;

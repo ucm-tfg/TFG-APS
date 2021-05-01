@@ -32,7 +32,8 @@ const login = async(req, res) => {
             nombre: usuario_bd.nombre,
             apellidos: usuario_bd.apellidos,
             universidad: usuario_bd.nombreUniversidad,
-            facultad: "any",
+            facultad: usuario_bd.facultad,
+            areaConocimiento: usuario_bd.area_conocimiento,
             sector:usuario_bd.sector,
             nombreEntidad: usuario_bd.nombre_entidad,
             origin_img: usuario_bd.origin_img,
@@ -205,7 +206,6 @@ const renewToken = async(req, res = response) => {
     const tokenPrevio =  req.headers['x-token'];
     const verificacionToken = verificarJWT(tokenPrevio);
     const { ok, usuario } = verificacionToken;
-
     if(!ok) {
         res.status(401).json({
             ok: false,
@@ -215,7 +215,7 @@ const renewToken = async(req, res = response) => {
     //console.log(usuario)
    //Este valor se usara en detalle cuando se cambiara la interfaz
     const usuario_bd = await dao_usuario.obtenerUsuarioSinRolPorId(usuario.uid);
-   console.log(usuario_bd)
+
      let user = {
         uid: usuario_bd.id,
         email: usuario_bd.correo,
@@ -226,7 +226,8 @@ const renewToken = async(req, res = response) => {
         apellidos: usuario_bd.apellidos,
         universidad: usuario_bd.nombreUniversidad,
         titulacion: usuario_bd.titulacion,
-        facultad: "any",
+        facultad: usuario_bd.facultad,
+        areaConocimiento: usuario_bd.area_conocimiento,
         sector:usuario_bd.sector,
         nombreEntidad: usuario_bd.nombre_entidad,
         origin_img: usuario_bd.origin_img,

@@ -20,6 +20,16 @@ const UsuarioSchema = new Schema({
     required: false
   },
 
+  facultad: {
+    type: String,
+    required: false
+  },
+
+  areaConocimiento: {
+    type: Array,
+    required: false
+  },
+
   password: {
     type: String,
     required: true

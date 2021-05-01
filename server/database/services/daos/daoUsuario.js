@@ -59,19 +59,13 @@ function insertarAdmin(usuario) {
             console.log("Se ha producido un error");
             borrarUsuario(idF[0]);
             borrarDatosPersonalesInternos(result[0]);
-          })
-          // .finally(() => {
-          //   knex.destroy();
-          // });
+          });
       })
       .catch((err) => {
         console.log(err);
         console.log("Se ha producido un error");
         borrarUsuario(idF[0]);
-      })
-      // .finally(() => {
-      //   knex.destroy();
-      // });
+      });
   });
 }
 
@@ -97,19 +91,13 @@ function insertarOficinaAps(usuario) {
             console.log("Se ha producido un error");
             borrarUsuario(idF[0]);
             borrarDatosPersonalesInternos(result[0]);
-          })
-          // .finally(() => {
-          //   knex.destroy();
-          // });
+          });
       })
       .catch((err) => {
         console.log(err);
         console.log("Se ha producido un error");
         borrarUsuario(idF[0]);
-      })
-      // .finally(() => {
-      //   knex.destroy();
-      // });
+      });
   });
 }
 
@@ -156,19 +144,13 @@ function insertarEstudianteInterno(usuario) {
             console.log("Se ha producido un error");
             borrarUsuario(idF);
             borrarDatosPersonalesInternos(result[0]);
-          })
-          // .finally(() => {
-          //   knex.destroy();
-          // });
+          });
       })
       .catch((err) => {
         console.log(err);
         console.log("Se ha producido un error");
         borrarUsuario(idF);
-      })
-      // .finally(() => {
-      //   knex.destroy();
-      // });
+      });
   });
 }
 
@@ -217,20 +199,14 @@ function insertarEntidad(usuario) {
             borrarUsuario(idF[0]);
             borrarDatosPersonalesExternos(result[0]);
             return -1;
-          })
-          // .finally(() => {
-          //   knex.destroy();
-          // });
+          });
       })
       .catch((err) => {
         borrarUsuario(idF[0]);
         console.log(err);
         console.log("Se ha producido un error");
         return -1;
-      })
-      // .finally(() => {
-      //   knex.destroy();
-      // });
+      });
   });
 }
 
@@ -271,39 +247,27 @@ function insertarProfesorInterno(usuario) {
                     borrarDatosPersonalesInternos(result[0]);
                     console.log(err);
                     console.log("Se ha producido un error");
-                  })
-                  // .finally(() => {
-                  //   knex.destroy();
-                  // });
+                  });
               })
               .catch((err) => {
                 borrarUsuario(idF[0]);
                 borrarDatosPersonalesInternos(result[0]);
                 console.log(err);
                 console.log("Se ha producido un error");
-              })
-              // .finally(() => {
-              //   knex.destroy();
-              // });
+              });
           })
           .catch((err) => {
             borrarUsuario(idF[0]);
             borrarDatosPersonalesInternos(result[0]);
             console.log(err);
             console.log("Se ha producido un error");
-          })
-          // .finally(() => {
-          //   knex.destroy();
-          // });
+          });
       })
       .catch((err) => {
         borrarUsuario(idF[0]);
         console.log(err);
         console.log("Se ha producido un error");
-      })
-      // .finally(() => {
-      //   knex.destroy();
-      // });
+      });
   });
 }
 
@@ -318,36 +282,36 @@ function insertarEstudianteExterno(usuario) {
       })
       .select("id")
       .then(function (result) {
-        return knex("estudiante_externo")
-          .insert({
-            id: idF,
-            universidad: usuario.getUniversidad(),
-            titulacion: usuario.getTitulacion(),
-            datos_personales_Id: result[0],
-          })
-          .then(function () {
-            return idF;
+        return knex("universidad")
+          .select("id")
+          .where("nombre", "like", `%${usuario.getnombreUniversidad()}%`)
+          .then(function (values) {
+            console.log(values[0]["id"]);
+            return knex("estudiante_externo")
+              .insert({
+                id: idF,
+                universidad: values[0]["id"],
+                titulacion: usuario.getTitulacion(),
+                datos_personales_Id: result[0],
+              })
+              .then(function () {
+                return idF;
+              })
+              .catch((err) => {
+                console.log(err);
+                console.log("Se ha producido un error");
+                borrarUsuario(idF);
+                borrarDatosPersonalesInternos(result[0]);
+                return -1;
+              });
           })
           .catch((err) => {
             console.log(err);
             console.log("Se ha producido un error");
             borrarUsuario(idF);
-            borrarDatosPersonalesInternos(result[0]);
             return -1;
-          })
-          // .finally(() => {
-          //   knex.destroy();
-          // });
-      })
-      .catch((err) => {
-        console.log(err);
-        console.log("Se ha producido un error");
-        borrarUsuario(idF);
-        return -1;
-      })
-      // .finally(() => {
-      //   knex.destroy();
-      // });
+          });
+      });
   });
 }
 
@@ -362,35 +326,46 @@ function insertarProfesorExterno(usuario) {
       })
       .select("id")
       .then(function (result) {
-        return knex("profesor_externo")
-          .insert({
-            id: idF[0],
-            universidad: usuario.getUniversidad(),
-            datos_personales_Id: result[0],
-          })
-          .then(function () {
-            return idF[0];
+        const fieldsToInsert = usuario.getAreaConocimiento().map((area) => ({
+          id_area: area.id,
+          id_profesor: idF[0],
+        }));
+        console.log(fieldsToInsert);
+        return knex("areaconocimiento_profesor")
+          .insert(fieldsToInsert)
+          .then(() => {
+        return knex("universidad")
+          .select("id")
+          .where("nombre", "like", `%${usuario.getnombreUniversidad()}%`)
+          .then(function (values) {
+            return knex("profesor_externo")
+              .insert({
+                id: idF[0],
+                universidad: values[0]["id"],
+                datos_personales_Id: result[0],
+                facultad :usuario.getFacultad()
+              })
+              .then(function () {
+                return idF[0];
+              })
+              .catch((err) => {
+                console.log(err);
+                console.log("Se ha producido un error");
+                borrarUsuario(idF[0]);
+                borrarDatosPersonalesExternos(result[0]);
+                return -1;
+              });
           })
           .catch((err) => {
+            borrarUsuario(idF[0]);
+            borrarDatosPersonalesInternos(result[0]);
             console.log(err);
             console.log("Se ha producido un error");
             borrarUsuario(idF[0]);
-            borrarDatosPersonalesExternos(result[0]);
             return -1;
-          })
-          // .finally(() => {
-          //   knex.destroy();
-          // });
-      })
-      .catch((err) => {
-        console.log(err);
-        console.log("Se ha producido un error");
-        borrarUsuario(idF[0]);
-        return -1;
-      })
-      // .finally(() => {
-      //   knex.destroy();
-      // });
+          });
+        })
+      });
   });
 }
 
@@ -682,10 +657,7 @@ function obtenerUsuarioSinRolPorEmail(email) {
               "Se ha producido un error al intentar obtener de la base de datos el usuario con email",
               email
             );
-          })
-          // .finally(() => {
-          //   knex.destroy();
-          // });
+          });
       } else {
         // internos
         id_interno = id_interno[0]["id"];
@@ -727,10 +699,7 @@ function obtenerUsuarioSinRolPorEmail(email) {
               "Se ha producido un error al intentar obtener de la base de datos el usuario con email",
               email
             );
-          })
-          // .finally(() => {
-          //   knex.destroy();
-          // });
+          });
       }
     })
     .catch((err) => {
@@ -739,64 +708,50 @@ function obtenerUsuarioSinRolPorEmail(email) {
         "Se ha producido un error al intentar obtener de la base de datos el usuario con email ",
         email
       );
-    })
-    // .finally(() => {
-    //   knex.destroy();
-    // });
+    });
 }
 
 function obtenerUsuarioSinRolPorId(id) {
   // internos
-  return obtenerProfesorInterno(id)
-    .then((result) => {
-      if (result == 0) {
-        return obtenerEstudianteInterno(
-          id
-        ).then((result) => {
-          if (result == 0) {
-            return obtenerAdmin(id).then(
-              (result) => {
+  return obtenerProfesorInterno(id).then((result) => {
+    if (result == 0) {
+      return obtenerEstudianteInterno(id).then((result) => {
+        if (result == 0) {
+          return obtenerAdmin(id).then((result) => {
+            if (result == 0) {
+              return obtenerOficinaAps(id).then((result) => {
                 if (result == 0) {
-                  return obtenerOficinaAps(
-                    id
-                  ).then((result) => {
+                  return obtenerEntidad(id).then((result) => {
                     if (result == 0) {
-                      return obtenerEntidad(id).then(
-                        (result) => {
-                          if (result == 0) {
-                            return obtenerProfesorExterno(
-                              id
-                            ).then((result) => {
-                              if (result == 0) {
-                                return obtenerEstudianteExterno(
-                                  id
-                                ).then((result) => {
-                                  if (result == 0) {
-                                    console.log(
-                                      "No se ha encontrado ningún usuario con el id ", 
-                                      id
-                                    );
-                                  }
-                                  return result;
-                                });
-                              }
-                              return result;
-                            });
-                          }
-                          return result;
-                        });
+                      return obtenerProfesorExterno(id).then((result) => {
+                        if (result == 0) {
+                          return obtenerEstudianteExterno(id).then((result) => {
+                            if (result == 0) {
+                              console.log(
+                                "No se ha encontrado ningún usuario con el id ",
+                                id
+                              );
+                            }
+                            return result;
+                          });
+                        }
+                        return result;
+                      });
                     }
                     return result;
                   });
                 }
                 return result;
               });
-          }
-          return result;
-        });
-      }
-      return result;
-    });
+            }
+            return result;
+          });
+        }
+        return result;
+      });
+    }
+    return result;
+  });
 }
 
 function obtenerUsuario(id) {
@@ -812,8 +767,21 @@ function obtenerUsuario(id) {
     });
 }
 
-function obtenerUniversidades(){
+function obtenerUniversidades() {
   return knex("universidad")
+    .select("id")
+    .select("nombre")
+    .then(function (response) {
+      return response;
+    })
+    .catch((err) => {
+      console.log(err);
+      console.log("Se ha producido un error");
+    });
+}
+
+function obtenerAreasConocimiento() {
+  return knex("area_conocimiento")
     .select("id")
     .select("nombre")
     .then(function (response) {
@@ -920,32 +888,31 @@ function obtenerAdminPorDatosPersonales(id) {
 }
 
 function obtenerOficinaAps(id) {
-    return knex("oficinaaps")
+  return knex("oficinaaps")
     .where({ id: id })
     .select("*")
     .then(function (admin) {
       if (admin.length == 0) {
         return 0;
       }
-          return obtenerUsuario(id)
-            .then(function (usuario) {
-          return obtenerDatosPersonalesInterno(
-            admin[0]["datos_personales_Id"]
-          ).then(function (datos) {
-            return new TOficinaAps(
-              usuario["id"],
-              datos["correo"],
-              datos["nombre"],
-              datos["apellidos"],
-              datos["password"],
-              usuario["origin_login"],
-              usuario["origin_img"],
-              usuario["createdAt"],
-              usuario["updatedAt"],
-              usuario["terminos_aceptados"]
-            );
-          });
+      return obtenerUsuario(id).then(function (usuario) {
+        return obtenerDatosPersonalesInterno(
+          admin[0]["datos_personales_Id"]
+        ).then(function (datos) {
+          return new TOficinaAps(
+            usuario["id"],
+            datos["correo"],
+            datos["nombre"],
+            datos["apellidos"],
+            datos["password"],
+            usuario["origin_login"],
+            usuario["origin_img"],
+            usuario["createdAt"],
+            usuario["updatedAt"],
+            usuario["terminos_aceptados"]
+          );
         });
+      });
     })
     .catch((err) => {
       console.log(err);
@@ -1071,12 +1038,29 @@ function obtenerProfesor(id) {
     });
 }
 
+function obtenerProfesores() {
+  return knex("profesor_interno")
+      .join(
+        "datos_personales_interno",
+        "profesor_interno.datos_personales_Id",
+        "=",
+        "datos_personales_interno.id"
+      )
+    .select("profesor_interno.id")
+    .select("datos_personales_interno.nombre")
+    .select("datos_personales_interno.apellidos")
+    .catch((err) => {
+      console.log(err);
+      console.log("Se ha producido un error al obtener todos los profesores");
+    });
+}
+
 function obtenerProfesorInterno(id) {
   return knex("profesor_interno")
     .where({ id: id })
     .select("*")
     .then(function (profesorInterno) {
-      if(profesorInterno.length == 0){
+      if (profesorInterno.length == 0) {
         return 0;
       }
       return obtenerProfesor(id).then(function (profesor) {
@@ -1227,7 +1211,7 @@ function obtenerProfesorExterno(id) {
     .where({ id: id })
     .select("*")
     .then(function (profesorExterno) {
-      if(profesorExterno.length == 0){
+      if (profesorExterno.length == 0) {
         return 0;
       }
       return obtenerProfesor(id).then(function (profesor) {
@@ -1250,9 +1234,8 @@ function obtenerProfesorExterno(id) {
                   usuario["createdAt"],
                   usuario["updatedAt"],
                   usuario["terminos_aceptados"],
-                  uni[0]["id"],
                   uni[0]["nombre"],
-                  uni[0]["provincia"]
+                  profesorExterno[0]["facultad"]
                 );
               });
           });
@@ -1294,9 +1277,9 @@ function obtenerProfesorExternoPorDatosPersonales(id) {
                   usuario["createdAt"],
                   usuario["updatedAt"],
                   usuario["terminos_aceptados"],
-                  uni[0]["id"],
                   uni[0]["nombre"],
-                  uni[0]["provincia"]
+                  profesorExterno[0]["facultad"] 
+                
                 );
               });
           });
@@ -1327,7 +1310,7 @@ function obtenerEstudianteInterno(id) {
     .where({ id: id })
     .select("*")
     .then(function (estudianteInterno) {
-      if(estudianteInterno.length == 0){
+      if (estudianteInterno.length == 0) {
         return 0;
       }
       return obtenerEstudiante(id).then(function (profesor) {
@@ -1410,7 +1393,7 @@ function obtenerEstudianteExterno(id) {
     .where({ id: id })
     .select("*")
     .then(function (estudianteExterno) {
-      if(estudianteExterno.length == 0){
+      if (estudianteExterno.length == 0) {
         return 0;
       }
       return obtenerEstudiante(id).then(function (profesor) {
@@ -1433,10 +1416,8 @@ function obtenerEstudianteExterno(id) {
                   usuario["createdAt"],
                   usuario["updatedAt"],
                   usuario["terminos_aceptados"],
-                  uni[0]["id"],
                   estudianteExterno[0]["titulacion"],
-                  uni[0]["nombre"],
-                  uni[0]["provincia"]
+                  uni[0]["nombre"]
                 );
               });
           });
@@ -1478,10 +1459,8 @@ function obtenerEstudianteExternoPorDatosPersonales(id) {
                   usuario["createdAt"],
                   usuario["updatedAt"],
                   usuario["terminos_aceptados"],
-                  uni[0]["id"],
                   estudianteExterno[0]["titulacion"],
-                  uni[0]["nombre"],
-                  uni[0]["provincia"]
+                  uni[0]["nombre"]
                 );
               });
           });
@@ -1945,8 +1924,8 @@ function obtenerProfesoresInternos(arrayProfesores) {
   return knex
     .raw(
       "select usuario.id,datos_personales_interno.correo,datos_personales_interno.apellidos,datos_personales_interno.nombre, datos_personales_interno.password, usuario.origin_login,usuario.origin_img,usuario.createdAt,usuario.updatedAt,usuario.terminos_aceptados,area_conocimiento.nombre as area,titulacion_local.nombre as titulacion from usuario,profesor,profesor_interno,datos_personales_interno,area_conocimiento,areaconocimiento_profesor,titulacion_local,titulacionlocal_profesor where usuario.id = profesor.id AND usuario.id=profesor_interno.id AND profesor_interno.datos_personales_Id=datos_personales_interno.id AND usuario.id =areaconocimiento_profesor.id_profesor AND titulacionlocal_profesor.id_profesor=usuario.id AND titulacionlocal_profesor.id_titulacion=titulacion_local.id AND area_conocimiento.id = areaconocimiento_profesor.id_area AND usuario.id in (" +
-        arrayProfesores.map((_) => "?").join(",") +
-        ")",
+      arrayProfesores.map((_) => "?").join(",") +
+      ")",
       [...arrayProfesores]
     )
     .then(function (result) {
@@ -1985,24 +1964,28 @@ function obtenerProfesoresInternos(arrayProfesores) {
     });
 }
 
-function obtenerTitulacionesProfesorInterno(id){
+function obtenerTitulacionesProfesorInterno(id) {
   return knex("titulacionlocal_profesor")
-    .join("titulacion_local", "titulacionlocal_profesor.id_titulacion", "=", "titulacion_local.id")
-    .where({id_profesor : id})
-    .select(
-      "titulacion_local.nombre"
+    .join(
+      "titulacion_local",
+      "titulacionlocal_profesor.id_titulacion",
+      "=",
+      "titulacion_local.id"
     )
-    .then((titulaciones) =>{
+    .where({ id_profesor: id })
+    .select("titulacion_local.nombre")
+    .then((titulaciones) => {
       var nombres_titulaciones = [];
-      titulaciones.forEach(titulacion => {
-        nombres_titulaciones.push(titulacion['nombre']);
+      titulaciones.forEach((titulacion) => {
+        nombres_titulaciones.push(titulacion["nombre"]);
       });
       return nombres_titulaciones;
     })
     .catch((err) => {
       console.log(err);
       console.log(
-        "Se ha producido un error al intentar obtener las titulaciones del profesor ", id
+        "Se ha producido un error al intentar obtener las titulaciones del profesor ",
+        id
       );
     });
 }
@@ -2025,9 +2008,11 @@ module.exports = {
   insertarUsuario,
   borrarUsuario,
   obtenerUsuarioSinRolPorEmail,
+  obtenerUsuarioSinRolPorId,
   obtenerProfesoresInternos,
   obtenerOficinaAps,
   obtenerProfesor,
+  obtenerProfesores,
   obtenerEntidad,
   obtenerAdmin,
   actualizarAdmin,
@@ -2051,5 +2036,6 @@ module.exports = {
   borrarUsuario,
   actualizarUsuario,
   obtenerUniversidades,
+  obtenerAreasConocimiento,
   knex,
 };

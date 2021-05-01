@@ -37,8 +37,8 @@ export class UsuarioService {
       localStorage.setItem('token', '');
       return;
     }
-    const { uid, rol, email, nombre, apellidos, origin_login, origin_img, universidad, titulacion, sector,nombreEntidad, terminos_aceptados } = resp.usuario;
-    this.usuario = new Usuario( uid, rol, email, nombre, apellidos, origin_login, origin_img || '', universidad || '', titulacion || '', sector || '',nombreEntidad || '', terminos_aceptados || false);
+    const { uid, rol, email, nombre, apellidos, origin_login, origin_img, universidad, titulacion, sector,facultad, areaConocimiento, nombreEntidad, terminos_aceptados } = resp.usuario;
+    this.usuario = new Usuario( uid, rol, email, nombre, apellidos, origin_login, origin_img || '', universidad || '', titulacion || '', sector || '', facultad || '',  areaConocimiento || null,nombreEntidad || '', terminos_aceptados || false);
     localStorage.setItem('token', resp.token);
   }
 
