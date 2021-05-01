@@ -107,6 +107,7 @@ function crearDemanda(demanda) {
           fecha_fin: demanda.getFecha_fin(),
           observaciones_temporales: demanda.getObservaciones_temporales(),
           necesidad_social: demanda.getNecesidad_social(),
+          comunidad_beneficiaria: demanda.getComunidad_Beneficiaria()
         })
         .then(function () {
           const titulaciones = demanda.getTitulacionlocal_demandada();

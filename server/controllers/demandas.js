@@ -62,29 +62,36 @@ const getNecesidades = async(req, res) => {
 const crearDemanda = async(req, res = response) => {//continuar 
 
     try {
+        console.log("El body es ", req.body);
         const demanda = new TDemanda(
             null,
             req.body.titulo,
             req.body.descripcion,
             req.body.imagen,
-            req.body.ciudad,
-            req.body.finalidad,
-            req.body.areaServicio,
-            req.body.periodoDefinicionIni,
-            req.body.periodoDefinicionFin,
-            req.body.periodoEjecucionIni,
-            req.body.periodoEjecucionFin,
-            req.body.fechaFin,
-            req.body.observacionesTemporales,
-            req.body.necesidadSocial,
-            req.body.titulacionLocal,
-            req.current_user.uid,
-            req.body.comunidadBeneficiaria,
             null,
-            null);
-        
-            console.log("Demanda:\n", demanda);
+            null,
+            "",
+            req.current_user.uid,
+            req.body.ciudad,
+            req.body.objetivo,
+            req.body.fechaDefinicionIni,
+            req.body.fechaDefinicionFin,
+            req.body.fechaEjecucionIni,
+            req.body.fechaEjecucionFin,
+            req.body.fechaFin,
+            req.body.observaciones,
+            req.body.necesidad_social,
+            req.body.titulacion_local,
+            req.body.area_servicio,
+            req.body.comunidadBeneficiaria,
+            );
+            // constructor( id_oferta, titulo, descripcion, imagen, created_at, updated_at, _v,
+            //     creador, ciudad, finalidad, periodo_definicion_ini, periodo_definicion_fin, periodo_ejecucion_ini,
+            //     periodo_ejecucion_fin, fecha_fin, observaciones_temporales, necesidad_social, titulacionlocal,
+            //     area_servicio, comunidad_beneficiaria) 
+        console.log("La demanda es ", demanda);
         await dao_tentativa.crearDemanda(demanda);
+
 
         return res.status(200).json({
             ok: true,
