@@ -14,8 +14,8 @@ const base_url = environment.base_url;
 export class PartenariadoService {
 
   constructor( private http: HttpClient, private usuarioService: UsuarioService, private fileUploadService: FileUploadService) { }
-
-  /* mapearPartenariados( partenariados: any ): Partenariado[] {
+/* 
+   mapearPartenariados( partenariados: any ): Partenariado[] {
     return partenariados.map( (partenariado) => {
         return new Partenariado(
           partenariado.
@@ -37,7 +37,7 @@ export class PartenariadoService {
           partenariado.createdAt
         );
     });
-  } */
+  }  */
 
   crearPartenariadoProfesor(body: Object) {
     return this.http.post<{ ok: boolean, parteneriado: Partenariado}>(`${ base_url }/partenariados/crearProfesor`, body, this.usuarioService.headers)

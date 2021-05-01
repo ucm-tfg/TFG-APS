@@ -24,12 +24,12 @@ export class PartenariadosVerComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.activatedRoute.params.subscribe( ({ id }) => {
+    /* this.activatedRoute.params.subscribe( ({ id }) => {
       this.cargarPartenariado(id);
-    });
+    }); */
   }
 
-  /* cargarPartenariado(id: string) {
+  /*  cargarPartenariado(id: string) {
 
     // ver o editar la partenariado
     this.partenariadoService.cargarPartenariado(id).subscribe( (partenariado: Partenariado) => {
@@ -41,8 +41,8 @@ export class PartenariadosVerComponent implements OnInit {
 
       this.partenariado = this.partenariadoService.mapearPartenariados([partenariado])[0];
     });
-  } */
-
+  }  */
+/* 
   cambiarEstado(estado: string) {
     this.partenariadoService.cambiarEstado(this.partenariado, estado)
         .subscribe( (resp: any) => {
@@ -94,7 +94,7 @@ export class PartenariadosVerComponent implements OnInit {
             Swal.fire('Error', msg, 'error');
           }
         });
-  }
+  } */
 
 /*   borrarFichero( id: string ) {
     this.fileUploadService
