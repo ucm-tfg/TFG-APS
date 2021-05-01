@@ -1139,6 +1139,48 @@ function obtenerAreaServicio(id_anuncio) {
     });
 }
 
+function obtenerListaAreasServicio() {
+  return knex("area_servicio")
+    .select("*")
+    .then((areas) => {
+      return areas;
+    })
+    .catch((err) => {
+      console.log(err);
+      console.log(
+        "Se ha producido un error al intentar obtener todas las areas de servicio"
+      );
+    });
+}
+
+function obtenerListaTitulacionLocal() {
+  return knex("titulacion_local")
+    .select("*")
+    .then((areas) => {
+      return areas;
+    })
+    .catch((err) => {
+      console.log(err);
+      console.log(
+        "Se ha producido un error al intentar obtener todas las titulaciones locales"
+      );
+    });
+}
+
+function obtenerListaNecesidadSocial() {
+  return knex("necesidad_social")
+    .select("*")
+    .then((areas) => {
+      return areas;
+    })
+    .catch((err) => {
+      console.log(err);
+      console.log(
+        "Se ha producido un error al intentar obtener todas las necesidades sociales"
+      );
+    });
+}
+
 function obtenerIdsAreas(nombre_areas) {
   return knex("area_servicio")
     .whereIn("nombre", nombre_areas)
@@ -1259,7 +1301,10 @@ module.exports = {
   obtenerTodasDemandasServicio,
   obtenerTodasIniciativas,
   obtenerAreasServicio,
+  obtenerListaAreasServicio,
   obtenerTitulacionLocal,
+  obtenerListaTitulacionLocal,
+  obtenerListaNecesidadSocial,
   obtenerCreadorOferta,
   obtenerListaAreasServicio,
   eliminarOferta,

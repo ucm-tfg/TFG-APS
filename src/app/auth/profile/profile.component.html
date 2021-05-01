@@ -202,8 +202,8 @@
                                         <div *ngIf="campoNoValido('universidad')" class="col">{{ campoNoValido('universidad') }}</div>
                                         <div *ngIf="campoNoValido('titulacion') && ['ROL_ESTUDIANTE'].includes(usuario.rol)" class="col">{{ campoNoValido('titulacion') }}</div>
                                         <div *ngIf="campoNoValido('facultad') && ['ROL_PROFESOR'].includes(usuario.rol)" class="col">{{ campoNoValido('facultad') }}</div>
-                                        <div *ngIf="campoNoValido('sector')" class="col">{{ campoNoValido('sector') }}</div>
-                                        <div *ngIf="campoNoValido('nombreEntidad')" class="col">{{ campoNoValido('nombreEntidad') }}</div>
+                                        <div *ngIf="campoNoValido('sector') && ['ROL_ENTIDAD'].includes(usuario.rol)" class="col">{{ campoNoValido('sector') }}</div>
+                                        <div *ngIf="campoNoValido('nombreEntidad') && ['ROL_ENTIDAD'].includes(usuario.rol)" class="col">{{ campoNoValido('nombreEntidad') }}</div>
                                     </div> 
 
                                     <div class="ml-auto mb-2">

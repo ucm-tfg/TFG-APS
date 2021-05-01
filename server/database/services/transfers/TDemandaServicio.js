@@ -8,7 +8,6 @@ class TDemandaServicio extends TAnuncioServicio{
     periodo_ejecucion_ini;
     periodo_ejecucion_fin;
     fecha_fin;
-    fecha_fin;
     observaciones_temporales;
     necesidad_social;
     titulacionlocal;

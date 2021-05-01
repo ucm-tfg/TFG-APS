@@ -24,9 +24,28 @@ export class HomeService {
   
   obtenerUniversidades(){
     return this.http.get<{ ok: boolean, universidades: any}>(`${ base_url }/home/universidades`,this.usuarioService.headers)
-    .pipe(
-      map( (resp) => resp)
-    );
+                    .pipe(
+                     map( (resp) => resp)
+                    );
+  }
+
+  obtenerAreasServicio(){
+    return this.http.get<{ ok: boolean, areasServicio: any}>(`${ base_url }/home/areasServicio`,this.usuarioService.headers)
+                    .pipe(
+                      map( (resp) => resp)
+                    );
+  }
+  obtenerNecesidades(){
+    return this.http.get<{ ok: boolean, necesidades: any}>(`${ base_url }/home/necesidades`,this.usuarioService.headers)
+                    .pipe(
+                      map( (resp) => resp)
+                    );
+  }
+  obtenerTitulaciones(){
+    return this.http.get<{ ok: boolean, titulaciones: any}>(`${ base_url }/home/titulaciones`,this.usuarioService.headers)
+                    .pipe(
+                      map( (resp) => resp)
+                    );
   }
 
   obtenerAreasConocimiento(){
