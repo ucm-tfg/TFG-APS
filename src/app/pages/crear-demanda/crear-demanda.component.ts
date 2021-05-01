@@ -26,6 +26,8 @@ export class crearDemandaComponent implements OnInit {
   public USUARIOS;
   public createDemandForm: FormGroup;
   public aux_area: string;
+  public aux_area2: string;
+  public aux_area3: string;
   public htmlStr: string;
 
   
@@ -188,6 +190,24 @@ observableEnviarDemanda() {
     return pos_area;
   }
 
+  obtenerIdTitulaciones(){
+    var area_seleccionada = this.createDemandForm.get('titulacion_local').value;
+    let pos_area = 0;
+    while(pos_area < this.titulacionLocal.length && this.titulacionLocal[pos_area].nombre != area_seleccionada){
+      pos_area++;
+    }
+    return pos_area;
+  }
+
+  obtenerIdNecesidades(){
+    var area_seleccionada = this.createDemandForm.get('necesidad_social').value;
+    let pos_area = 0;
+    while(pos_area < this.necesidadSocial.length && this.necesidadSocial[pos_area].nombre != area_seleccionada){
+      pos_area++;
+    }
+    return pos_area;
+  }
+
   create(): void {
     this.formSubmitted = true;
 
@@ -207,6 +227,32 @@ observableEnviarDemanda() {
     console.log("La posicion del area de servicio es ",encontrado)
     console.log("Y su valor es ", this.aux_area);
     this.createDemandForm.get('area_servicio').setValue(this.areaServicio[encontrado].id);
+
+    let encontrado2 = this.obtenerIdTitulaciones();
+    if(encontrado2 >= this.titulacionLocal.length){
+      let msg = [];
+      msg.push('La titulacion seleccionada no es correcta');
+      Swal.fire('Error', msg.join('<br>'), 'error');
+      this.formSubmitted = false;
+      this.formSending = false;
+    }
+    this.aux_area2 = this.createDemandForm.get('titulacion_local').value;
+    console.log("La posicion de la titulacion es ",encontrado)
+    console.log("Y su valor es ", this.aux_area2);
+    this.createDemandForm.get('titulacion_local').setValue(this.titulacionLocal[encontrado].id);
+
+    let encontrado3 = this.obtenerIdNecesidades();
+    if(encontrado3 >= this.necesidadSocial.length){
+      let msg = [];
+      msg.push('La necesidad seleccionada no es correcta');
+      Swal.fire('Error', msg.join('<br>'), 'error');
+      this.formSubmitted = false;
+      this.formSending = false;
+    }
+    this.aux_area3 = this.createDemandForm.get('necesidad_social').value;
+    console.log("La posicion de la necesidad es ",encontrado)
+    console.log("Y su valor es ", this.aux_area3);
+    this.createDemandForm.get('necesidad_social').setValue(this.necesidadSocial[encontrado].id);
     this.observableEnviarDemanda().subscribe(resp =>{
       this. Demanda_id
         ? Swal.fire('Ok', 'Demanda actualizada correctamente', 'success')

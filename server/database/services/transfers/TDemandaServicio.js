@@ -12,12 +12,13 @@ class TDemandaServicio extends TAnuncioServicio{
     necesidad_social;
     titulacionlocal;
     comunidad_beneficiaria;
+    dummy;
 
 
     constructor( id_oferta, titulo, descripcion, imagen, created_at, updated_at,
         creador, ciudad, finalidad, periodo_definicion_ini, periodo_definicion_fin, periodo_ejecucion_ini,
         periodo_ejecucion_fin, fecha_fin, observaciones_temporales, necesidad_social, titulacionlocal,
-        area_servicio, comunidad_beneficiaria) 
+        area_servicio, comunidad_beneficiaria, dummy) 
     {
         super(id_oferta, titulo, descripcion, imagen, created_at, updated_at, area_servicio, dummy);
         this.creador = creador; 
@@ -32,6 +33,7 @@ class TDemandaServicio extends TAnuncioServicio{
         this.necesidad_social = necesidad_social; 
         this.titulacionlocal = titulacionlocal;
         this.comunidad_beneficiaria = comunidad_beneficiaria;
+        this.dummy = dummy;
     }
 
     getCreador() {
