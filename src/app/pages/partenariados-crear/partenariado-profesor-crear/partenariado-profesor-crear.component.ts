@@ -11,6 +11,8 @@ import Swal from 'sweetalert2';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Oferta } from 'src/app/models/oferta.model';
 import { OfertaService } from 'src/app/services/oferta.service';
+import { DemandaService } from 'src/app/services/demanda.service';
+import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-partenariado-crear-profesor',
@@ -35,16 +37,17 @@ export class PartenariadoCrearProfesorComponent implements OnInit {
   public CIUDADES = CIUDADES;
   public USUARIOS;
 
-  constructor( public fb: FormBuilder, public ofertaService: OfertaService, public partenariadoService: PartenariadoService, public usuarioService: UsuarioService, public fileUploadService: FileUploadService, public router: Router, public activatedRoute: ActivatedRoute) {
+  constructor( public fb: FormBuilder, public demandaService: DemandaService,public ofertaService: OfertaService, public partenariadoService: PartenariadoService, public usuarioService: UsuarioService, public fileUploadService: FileUploadService, public router: Router, public activatedRoute: ActivatedRoute) {
   }
 
   async ngOnInit() {
     await this.cargarPartenariado();
-     this.obtenerOferta();
+    await this.obtenerOferta();
+     this.obtenerDemanda();
 
     this.crearPartenariadoProfesorForm = this.fb.group({
       estado: [this.partenariado.estado || 'Abierta', Validators.required],
-      titulo: [this.partenariado.titulo || '', Validators.required],
+      titulo: [this.oferta.titulo+" ok" || '', Validators.required],
       descripcion: [this.partenariado.descripcion || '', Validators.required],
       rama: [this.partenariado.rama || '', Validators.required],
       ciudad: [this.partenariado.ciudad || '', Validators.required],
@@ -87,10 +90,28 @@ export class PartenariadoCrearProfesorComponent implements OnInit {
   }
 
   async obtenerOferta() {
-    return this.ofertaService.obtenerOferta()
+    //await this.activatedRoute.params.pipe(first()).toPromise().then( (params) => { this.iniciativa_id = params.id; });
+
+    await this.ofertaService.obtenerOferta().pipe(first()).toPromise().then( (resp: any) => {
+      let value =resp.oferta;
+        console.log(value.titulo)
+      this.oferta = this.oferta = new Oferta(value.id,value.titulo,value.descripcion,value.imagen,value.created_at,value.upload_at,value.cuatrimestre,value.anio_academica,value.fecha_limite,null,null,null,null,null)
+      ;
+    });
+  /*   return this.ofertaService.obtenerOferta()
       .subscribe((resp: any) => {
         console.log(resp)
-        
+        let value =resp.oferta;
+        console.log(value.titulo)
+        this.oferta = new Oferta(value.id,value.titulo,value.descripcion,value.imagen,value.created_at,value.upload_at,value.cuatrimestre,value.anio_academica,value.fecha_limite,null,null,null,null,null)
+        return resp
+      }); */
+  }
+
+  async obtenerDemanda() {
+    return this.demandaService.obtenerDemanda()
+      .subscribe((resp: any) => {
+        console.log(resp)
         return resp
       });
   }

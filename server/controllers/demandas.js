@@ -105,12 +105,6 @@ const crearDemanda = async(req, res = response) => {//continuar
     }
 }
 
-module.exports = {
-    getAreasservicio,
-    getNecesidades,
-    getTitulaciones,
-    crearDemanda
-}
 const obtenerDemanda = async(req, res) => {
     try {
 
@@ -131,4 +125,13 @@ const obtenerDemanda = async(req, res) => {
         });
     }
 }
+
+module.exports = {
+    getAreasservicio,
+    getNecesidades,
+    getTitulaciones,
+    crearDemanda,
     obtenerDemanda
+}
+
+    

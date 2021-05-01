@@ -448,7 +448,7 @@ const TDemandaServicio = require('./database/services/transfers/TDemandaServicio
 const TIniciativa = require('./database/services/transfers/TIniciativa');
 
 //OFERTAS-----------------------------------------------------------------------
-let titulo = "Anuncio 9";
+/* let titulo = "Anuncio 9";
 let descripcion = "Prueba 9";
 let imagen = "Prueba, aquí va la dirección de la imagen";
 let asignatura = ["Ampliación de Matemáticas", "Matemáticas"]; 
@@ -462,7 +462,7 @@ let cuatrimestre = 1;
 
  let oferta = new TOfertaServicio(null, titulo, descripcion, null, "", "",asignatura,     cuatrimestre, anio, fecha_limite, null, creador, area, profesores,0); 
  //dao_tentativa.actualizarOfertaServicio(oferta);
- dao_tentativa.crearOferta(oferta);
+ dao_tentativa.crearOferta(oferta); */
 // dao_tentativa.obtenerOfertaServicio(71).then(function(oferta){console.log(oferta);});
 // anio = 2022;
 
