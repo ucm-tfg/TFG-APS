@@ -40,82 +40,119 @@
                         </div>
 
                         <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="entidad">Entidad</label>
+                                   <input type="text" class="form-control" id="entidad" formControlName="entidad">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="responsable">Profesor responsable</label>
+                                    <input type="text" class="form-control" id="responsable" formControlName="responsable">
+                                    </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="profesores">Equipo de profesores</label>
+                                    <input type="text" class="form-control" id="profesores" formControlName="profesores">
+                                   </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
                             <div class="col-6">
                                 <div class="form-group">
                                     <label for="ciudad">Localización de desarrollo del partenariado</label>
-                                    <label>Ciudad</label>
                                     <input name="ciudad" type="text" id="ciudad" class="form-control" autocorrect="off" autocapitalize="none" spellcheck="false" formControlName="ciudad">
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="form-group">
-                                    <label for="rama">Rama de Conocimiento</label>
-                                    <select id="rama" name="area" class="form-control" formControlName="rama">
-                                        <option value="">Elije una rama de conocimiento</option>
-                                        <option *ngFor="let RAMA of RAMAS" [selected]="this.iniciativa.rama == RAMA" value="{{ RAMA }}">{{ RAMA }}</option>
-                                    </select>
+                                    <label for="necesidadSocial">Necesidad social</label>
+                                    <input name="necesidadSocial" type="text" id="necesidadSocial" class="form-control" autocorrect="off" autocapitalize="none" spellcheck="false" formControlName="necesidadSocial">
                                 </div>
                             </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="finalidad">Finalidad</label>
+                                    <input name="finalidad" type="text" id="finalidad" class="form-control" autocorrect="off" autocapitalize="none" spellcheck="false" formControlName="finalidad">
+                                </div>
+                            </div>
+
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="comunidadBeneficiaria">Comunidad beneficiaria</label>
+                                    <input name="comunidadBeneficiaria" type="text" id="comunidadBeneficiaria" class="form-control" autocorrect="off" autocapitalize="none" spellcheck="false" formControlName="comunidadBeneficiaria">
+                                </div>
+                            </div>
+
+                           
+
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="fechaInicio">Fecha inicio</label>
+                                    <input name="fechaInicio" type="date" id="fechaInicio" class="form-control" autocorrect="off" autocapitalize="none" spellcheck="false" formControlName="fechaInicio">
+                                </div>
+                            </div>
+
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="fechaFin">Fecha final</label>
+                                    <input name="fechaFin" type="date" id="fechaFin" class="form-control" autocorrect="off" autocapitalize="none" spellcheck="false" formControlName="fechaFin">
+                                </div>
+                            </div>
+
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="asignaturaObjetivo">Asignatura objetivo</label>
+                                    <input name="asignaturaObjetivo" type="text" id="asignaturaObjetivo" class="form-control" autocorrect="off" autocapitalize="none" spellcheck="false" formControlName="asignaturaObjetivo">
+                                </div>
+                            </div>
+
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="titulacionesLocales">Titulaciones locales</label>
+                                    <input name="titulacionesLocales" type="text" id="titulacionesLocales" class="form-control" autocorrect="off" autocapitalize="none" spellcheck="false" formControlName="titulacionesLocales">
+                                </div>
+                            </div>
+
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="anioAcademico">Año academico</label>
+                                    <input name="anioAcademico" type="number" id="anioAcademico" class="form-control" autocorrect="off" autocapitalize="none" spellcheck="false" formControlName="anioAcademico">
+                                </div>
+                            </div>
+
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="cuatrimestre">Cuatrimestre</label>
+                                    <input name="cuatrimestre" type="number" id="cuatrimestre" class="form-control" autocorrect="off" autocapitalize="none" spellcheck="false" formControlName="cuatrimestre">
+                                </div>
+                            </div>
+
+                            <div class="col" >
+                                <div class="form-group">
+                                    <label for="externo">Externo</label>
+                                    <input type="checkbox" class="form-group" id="externo" formControlName="externo">
+                                    
+                                </div>
+
+                            </div>
+
+                          
+
                         </div>
 
-                        <div class="row" *ngIf="this.iniciativa_id">
-                            <div class="col-6 justify-content-between">
-                                <div class="border p-3 w-100 mb-3">
-                                    <div class="form-group">
-                                        <label for="ficheros">Ficheros</label>
+                        
 
-                                        <div class="form-group">
-                                            <label for="file-upload-2" class="custom-file-upload">
-                                                <i class="fa fa-cloud-upload"></i> Subir Fichero (solo pdf)
-                                            </label>
-                                            <input id="file-upload-2" type="file" (change)="subirFichero($event.target.files[0])"/>
-                                        </div>
 
-                                    </div>
-
-                                    <p *ngIf="iniciativa.archivos.length === 0">No se ha subido ningún archivo para esta iniciativa</p>
-
-                                    <ul *ngIf="iniciativa.archivos.length > 0" class="list-group">
-                                        <li *ngFor="let archivo of iniciativa.archivos" class="list-group-item">
-                                            <a href="{{ archivo.url }}" target="_blank">{{ archivo.client_name }}</a>
-                                            <span class="float-right cursor-pointer text-danger" aria-label="Borrar Fichero" (click)="borrarFichero(archivo._id)"><fa-icon [icon]="['fas', 'trash']"></fa-icon></span>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <div class="col-6 justify-content-between">
-
-                                <div class="border p-3 w-100 mb-3">
-
-                                    <div class="d-flex justify-content-between">
-                                        <label>Imagen de iniciativa {{ iniciativa.imagen === '' ? ' (actualmente por defecto)' : '' }}</label>
-                                        <span class="remove-image-btn" aria-label="Borrar Imagen" *ngIf="!this.imagenPreview && iniciativa.imagen != ''" (click)="borrarImagen()">borrar actual</span>
-                                    </div>
-
-                                    <div class="row">
-
-                                        <div class="col-6">
-                                            <img *ngIf="this.imagenPreview" [src]="this.imagenPreview" class="img-fluid" />
-                                            <img *ngIf="!this.imagenPreview" [src]="iniciativa.imagenUrl" class="img-fluid" />
-                                        </div>
-
-                                        <div class="col-6 d-flex flex-column justify-content-between">
-
-                                            <div class="form-group">
-                                                <label for="file-upload" class="custom-file-upload">
-                                                    <i class="fa fa-cloud-upload"></i> Subir imagen
-                                                </label>
-                                                <input id="file-upload" type="file" (change)="cambiarImagen($event.target.files[0])"/>
-                                            </div>
-
-                                            <button type="button" class="btn btn-secondary btn-sm" [disabled]="!imagenSubir" (click)="actualizarImagen()">Actualizar Imagen</button>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
+                       
 
                         <div class="row" *ngIf="this.usuarioService.usuario.esGestor && USUARIOS">
                             <div class="col">
@@ -129,24 +166,8 @@
                             </div>
                         </div>
 
-                        <div class="row">
-                          <div class="col">
-                            <div class="card text-white bg-info mb-3" *ngIf="!this.iniciativa_id">
-                              <div class="card-body">
-                                <h5 class="card-title text-center"><fa-icon [icon]="['fas', 'info-circle']"></fa-icon> Info</h5>
-                                <p class="card-text">Una vez creados los datos básicos de la iniciativa, se podrán subir archivos e imágenes a la misma, así como editar sus datos básicos.</p>
-                              </div>
-                            </div>
-                          </div>
+    
 
-                            <div class="col" *ngIf = "!this.iniciativa_id">
-                                <div class="form-check text-right m-4">
-                                    <input type="checkbox" class="form-check-input" id="terminos_aceptados" formControlName="terminos_aceptados">
-                                    <label class="form-check-label">Entiendo <a href="javascript:void(0)" target="_blank" [routerLink]="['/que-es-ApS']">Qué es un Proyecto ApS</a></label>
-                                </div>
-
-                            </div>
-                        </div>
 
 
 
@@ -162,8 +183,7 @@
                             </div>
 
                             <div class="ml-auto mb-2">
-                                <input *ngIf="!this.iniciativa_id" type="submit" [value]="this.formSending ? 'Creando...' : 'Crear Iniciativa'" class="btn btn-default btn-secondary m-4" [disabled]="this.formSending || (this.formSubmitted && this.crearIniciativaForm.invalid)">
-                                <input *ngIf="this.iniciativa_id" type="submit" [value]="this.formSending ? 'Actualizando...' : 'Actualizar Iniciativa'" class="btn btn-default btn-secondary m-4" [disabled]="this.formSending || (this.formSubmitted && this.crearIniciativaForm.invalid)">
+                                <input  type="submit" [value]="this.formSending ? 'Creando...' : 'Crear Iniciativa'" class="btn btn-default btn-secondary m-4" >
                             </div>
                         </div>
 

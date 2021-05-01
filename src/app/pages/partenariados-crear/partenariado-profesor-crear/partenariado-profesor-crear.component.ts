@@ -9,6 +9,8 @@ import { CIUDADES } from '../../../models/ciudad.model';
 import { PartenariadoService } from '../../../services/partenariado.service';
 import Swal from 'sweetalert2';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Oferta } from 'src/app/models/oferta.model';
+import { OfertaService } from 'src/app/services/oferta.service';
 
 @Component({
   selector: 'app-partenariado-crear-profesor',
@@ -23,6 +25,7 @@ export class PartenariadoCrearProfesorComponent implements OnInit {
 
   public parteneriado_id: string = null;
   public partenariado : Partenariado;
+  public oferta : Oferta;
   public imagenSubir: File;
   public imagenPreview: any = null;
 
@@ -32,11 +35,12 @@ export class PartenariadoCrearProfesorComponent implements OnInit {
   public CIUDADES = CIUDADES;
   public USUARIOS;
 
-  constructor( public fb: FormBuilder, public partenariadoService: PartenariadoService, public usuarioService: UsuarioService, public fileUploadService: FileUploadService, public router: Router, public activatedRoute: ActivatedRoute) {
+  constructor( public fb: FormBuilder, public ofertaService: OfertaService, public partenariadoService: PartenariadoService, public usuarioService: UsuarioService, public fileUploadService: FileUploadService, public router: Router, public activatedRoute: ActivatedRoute) {
   }
 
   async ngOnInit() {
     await this.cargarPartenariado();
+     this.obtenerUniversidades();
 
     this.crearPartenariadoProfesorForm = this.fb.group({
       estado: [this.partenariado.estado || 'Abierta', Validators.required],
@@ -46,11 +50,48 @@ export class PartenariadoCrearProfesorComponent implements OnInit {
       ciudad: [this.partenariado.ciudad || '', Validators.required],
       proponedor: [this.partenariado.proponedor?.uid || this.usuarioService.usuario.uid, Validators.required],
       terminos_aceptados: [false, Validators.requiredTrue],
+      necesidadSocial: [this.partenariado.necesidadSocial],
+      finalidad: [this.partenariado.finalidad],
+      comunidadBeneficiaria:  [this.partenariado.comunidadBeneficiaria],
+      //responsable : [this.oferta.creador]
+     /*  public responsable: Usuario,
+      public fechaInicio: Date,
+      public fechaFin: Date,
+      public entidad: Usuario,
+      public asignaturaObjetivo: String,
+      public titulacionesLocales: Array<Object>,
+      public cuatrimestre: string,
+      public anioAcademico: Number,
+      public titulo: string,
+      public externo: Boolean,
+      public descripcion: string,
+      public rama: string,
+      public ciudad: string,
+      public iniciativa: string,
+      public proyecto: Proyecto,
+      public profesores: Usuario[],
+      public entidades: Usuario[],
+      public mensajes: Object,
+      public archivos: Upload[],
+      public proponedor: Usuario,
+      public creador: Usuario,
+      public createdAt: string, */
     });
   }
 
+
+
   async cargarPartenariado() {
     this.partenariado = new Partenariado('','', '','','','',null,null,null,null,'', null,'',null,'',false, '', '','','',null, [], [], null, null,null,null, '');
+  }
+
+  async obtenerUniversidades() {
+    return this.ofertaService.obtenerOferta()
+      .subscribe((resp: any) => {
+        console.log(resp)
+        
+        return resp
+      });
   }
 
   observableEnviarPartenariado() {

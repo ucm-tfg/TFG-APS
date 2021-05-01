@@ -10,10 +10,24 @@ export class Partenariado {
 
     constructor(
         //aqui
-        public imagen: string,
+        
         public _id: string,
         public estado: string,
-        public necesidadSocial: String,
+        public titulo: string,
+        public descripcion: string,
+        public rama: string,
+        public ciudad: string,
+        public creador: Usuario,
+        public createdAt: string,
+        public profesores: Usuario[],
+        public entidades: Usuario[],
+        public mensajes: Object,
+        public archivos: Upload[],
+        public proponedor: Usuario,
+
+
+        /* public necesidadSocial: String,
+        public externo: Boolean,
         public finalidad: String,
         public comunidadBeneficiaria: String,
         public responsable: Usuario,
@@ -22,13 +36,8 @@ export class Partenariado {
         public entidad: Usuario,
         public asignaturaObjetivo: String,
         public titulacionesLocales: Array<Object>,
-        public cuatrimestre: string,
-        public anioAcademico: Number,
-        public titulo: string,
-        public externo: Boolean,
-        public descripcion: string,
-        public rama: string,
-        public ciudad: string,
+       
+       
         public iniciativa: string,
         public proyecto: Proyecto,
         public profesores: Usuario[],
@@ -36,8 +45,8 @@ export class Partenariado {
         public mensajes: Object,
         public archivos: Upload[],
         public proponedor: Usuario,
-        public creador: Usuario,
-        public createdAt: string,
+        
+        public createdAt: string, */
     ) {}
 
     get parsedCreatedAt() {

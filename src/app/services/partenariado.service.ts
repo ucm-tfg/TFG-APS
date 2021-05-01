@@ -74,4 +74,12 @@ export class PartenariadoService {
                     );
   }
 
+ 
+
+  obtenerDemanda(){
+    return this.http.get<{ ok: boolean, demanda: any}>(`${ base_url }/demandas/98`,this.usuarioService.headers)
+    .pipe(
+      map( (resp) => resp)
+    );
+  }
 }

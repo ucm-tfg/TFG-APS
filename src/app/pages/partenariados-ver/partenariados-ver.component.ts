@@ -96,7 +96,7 @@ export class PartenariadosVerComponent implements OnInit {
         });
   }
 
-  borrarFichero( id: string ) {
+/*   borrarFichero( id: string ) {
     this.fileUploadService
         .borrarFichero(id)
         .then( resp => {
@@ -109,6 +109,6 @@ export class PartenariadosVerComponent implements OnInit {
           }
         });
         (<HTMLInputElement>document.getElementById("file-upload-2")).value="";
-  }
+  } */
 
 }
