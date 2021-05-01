@@ -10,20 +10,21 @@ export class Partenariado {
 
     constructor(
         //aqui
-        
+        public imagen: String,
         public _id: string,
         public estado: string,
         public titulo: string,
         public descripcion: string,
         public rama: string,
         public ciudad: string,
-        public creador: Usuario,
+        
         public createdAt: string,
         public profesores: Usuario[],
         public entidades: Usuario[],
         public mensajes: Object,
         public archivos: Upload[],
         public proponedor: Usuario,
+        public creador: Usuario,
 
 
         /* public necesidadSocial: String,

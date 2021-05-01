@@ -40,7 +40,7 @@ export class PartenariadoCrearProfesorComponent implements OnInit {
 
   async ngOnInit() {
     await this.cargarPartenariado();
-     this.obtenerUniversidades();
+     this.obtenerOferta();
 
     this.crearPartenariadoProfesorForm = this.fb.group({
       estado: [this.partenariado.estado || 'Abierta', Validators.required],
@@ -50,9 +50,9 @@ export class PartenariadoCrearProfesorComponent implements OnInit {
       ciudad: [this.partenariado.ciudad || '', Validators.required],
       proponedor: [this.partenariado.proponedor?.uid || this.usuarioService.usuario.uid, Validators.required],
       terminos_aceptados: [false, Validators.requiredTrue],
-      necesidadSocial: [this.partenariado.necesidadSocial],
+      /* necesidadSocial: [this.partenariado.necesidadSocial],
       finalidad: [this.partenariado.finalidad],
-      comunidadBeneficiaria:  [this.partenariado.comunidadBeneficiaria],
+      comunidadBeneficiaria:  [this.partenariado.comunidadBeneficiaria], */
       //responsable : [this.oferta.creador]
      /*  public responsable: Usuario,
       public fechaInicio: Date,
@@ -82,10 +82,11 @@ export class PartenariadoCrearProfesorComponent implements OnInit {
 
 
   async cargarPartenariado() {
-    this.partenariado = new Partenariado('','', '','','','',null,null,null,null,'', null,'',null,'',false, '', '','','',null, [], [], null, null,null,null, '');
+    this.partenariado = new Partenariado('','','', '','','','','',null,null,null,null,null,null);
+    //,null,null,null,'', null,'',null,'',false, '', '','','',null, [], [], null, null,null,null, '');
   }
 
-  async obtenerUniversidades() {
+  async obtenerOferta() {
     return this.ofertaService.obtenerOferta()
       .subscribe((resp: any) => {
         console.log(resp)
@@ -227,7 +228,7 @@ export class PartenariadoCrearProfesorComponent implements OnInit {
         });
   }
 
-  borrarImagen() {
+  /* borrarImagen() {
 
     if(this.partenariado.imagen == '') {
         Swal.fire('Error', 'No hay ninguna imagen definida para la iniciativa.', 'error');
@@ -246,7 +247,7 @@ export class PartenariadoCrearProfesorComponent implements OnInit {
           }
         });
         (<HTMLInputElement>document.getElementById("file-upload")).value="";
-  }
+  } */
 
 
 }
