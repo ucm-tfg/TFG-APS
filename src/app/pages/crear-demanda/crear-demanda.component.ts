@@ -55,13 +55,15 @@ constructor( public fb: FormBuilder, public usuarioService: UsuarioService, publ
       descripcion: [this.Demanda.descripcion || '', Validators.required],
       area_servicio: [this.Demanda.area_servicio || '', Validators.required],
       ciudad: [this.Demanda.ciudad || '', Validators.required],
-      finalidad: [this.Demanda.finalidad || '', Validators.required],
+      objetivo: [this.Demanda.objetivo || '', Validators.required],
       fechaDefinicionIni: [this.Demanda.periodoDefinicionIni || '', Validators.required],
       fechaDefinicionFin: [this.Demanda.periodoDefinicionFin || '', Validators.required],
       fechaEjecucionIni: [this.Demanda.periodoEjecucionIni || '', Validators.required],
       fechaEjecucionFin: [this.Demanda.periodoDefinicionFin || '', Validators.required],
       fechaFin: [this.Demanda.fechaFin || '', Validators.required],
+      necesidad_social: [this.Demanda.necesidad_social || '', Validators.required],
       comunidadBeneficiaria: [this.Demanda.comunidadBeneficiaria || '', Validators.required],
+      titulacion_local: [this.Demanda.titulacion_local || '', Validators.required],
       observaciones: this.Demanda.observacionesTemporales ,
 
 
@@ -145,8 +147,8 @@ observableEnviarDemanda() {
   get getCiudad() {
     return this.createDemandForm.get('ciudad')
   }
-  get getFinalidad() {
-    return this.createDemandForm.get('finalidad')
+  get getObjetivo() {
+    return this.createDemandForm.get('objetivo')
   }
   get getFechaDefinicionIni() {
     return this.createDemandForm.get('fechaDefinicionIni')
@@ -202,6 +204,8 @@ observableEnviarDemanda() {
       this.formSending = false;
     }
     this.aux_area = this.createDemandForm.get('area_servicio').value;
+    console.log("La posicion del area de servicio es ",encontrado)
+    console.log("Y su valor es ", this.aux_area);
     this.createDemandForm.get('area_servicio').setValue(this.areaServicio[encontrado].id);
     this.observableEnviarDemanda().subscribe(resp =>{
       this. Demanda_id
@@ -228,19 +232,19 @@ observableEnviarDemanda() {
       this.formSending= false;
     });
   } 
-  //  noAreaMatch() {
-  //   let accept=true;
-  //         for (let a of this.areaServicio) {
-  //           if (a.nombre === this.createDemandForm.get('area_servicio').value || this.createDemandForm.get('area_servicio').value === '')
-  //             accept = false;
-  //         }
-  //         return accept;
+   noAreaMatch() {
+    let accept=true;
+          for (let a of this.areaServicio) {
+            if (a.nombre === this.createDemandForm.get('area_servicio').value || this.createDemandForm.get('area_servicio').value === '')
+              accept = false;
+          }
+          return accept;
 
-  // } 
+  } 
   noNecesidadMatch() {
     let accept=true;
           for (let n of this.necesidadSocial) {
-            if (n.nombre === this.createDemandForm.get('necesidadSocial').value || this.createDemandForm.get('necesidadSocial').value === '')
+            if (n.nombre === this.createDemandForm.get('necesidad_social').value || this.createDemandForm.get('necesidad_social').value === '')
               accept = false;
           }
           return accept;
@@ -249,7 +253,7 @@ observableEnviarDemanda() {
   noTitulacionMatch() {
     let accept=true;
           for (let t of this.titulacionLocal) {
-            if (t.nombre === this.createDemandForm.get('titulacionLocal').value || this.createDemandForm.get('titulacionLocal').value === '')
+            if (t.nombre === this.createDemandForm.get('titulacion_local').value || this.createDemandForm.get('titulacion_local').value === '')
               accept = false;
           }
           return accept;

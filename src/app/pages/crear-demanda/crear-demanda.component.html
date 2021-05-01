@@ -61,8 +61,8 @@
                                         </div>
 
                                         <div class="form-group flex-fill ml-2">
-                                            <label for="finalidad">Objetivo que va a cumplir la demanda</label>
-                                            <input name="finalidad" type="text" id="finalidad" class="form-control" autocorrect="off" autocapitalize="none" spellcheck="false" placeholder="Introduzca la ciudad" [class.is-invalid] = "createDemandForm.get('finalidad').invalid && createDemandForm.get('finalidad').touched" formControlName="finalidad">
+                                            <label for="objetivo">Objetivo que va a cumplir la demanda</label>
+                                            <input name="objetivo" type="text" id="objetivo" class="form-control" autocorrect="off" autocapitalize="none" spellcheck="false" placeholder="Introduzca la ciudad" [class.is-invalid] = "createDemandForm.get('objetivo').invalid && createDemandForm.get('objetivo').touched" formControlName="objetivo">
                                             
                                         </div>
 
@@ -101,14 +101,14 @@
                                             <input name="observacionTemporal" type="text" id="observacionTemporal" class="form-control" autocorrect="off" autocapitalize="none" spellcheck="false" placeholder="Introduzca la observacion" formControlName="observaciones">
                                         </div>
 
-                                        <!-- <div class="form-group">
-                                            <label for="necesidadSocial">Necesidad social a cumplir con esta demanda</label>
-                                            <input name="necesidadSocial" type="text" id="necesidadSocial"  list="necesidades"  formControlName="necesidadSocial"  class="form-control" [class.is-invalid] = "createDemandForm.get('necesidadSocial').invalid && createDemandForm.get('necesidadSocial').touched" placeholder="Introduzca la necesidad social">
+                                        <div class="form-group">
+                                            <label for="necesidad_social">Necesidad social a cumplir con esta demanda</label>
+                                            <input name="necesidad_social" type="text" id="necesidad_social"  list="necesidades"  formControlName="necesidad_social"  class="form-control" [class.is-invalid] = "createDemandForm.get('necesidad_social').invalid && createDemandForm.get('necesidad_social').touched" placeholder="Introduzca la necesidad social">
                                             <datalist id="necesidades">
                                             <option *ngFor="let n of necesidadSocial" [value]="n.nombre" ></option>
                                             </datalist>
-                                            <small class="text-danger" *ngIf="noNecesidadMatch()">Debe elegir una necesidad social valida</small>
-                                        </div> -->
+                                            <!-- <small class="text-danger" *ngIf="noNecesidadMatch()">Debe elegir una necesidad social valida</small> -->
+                                        </div>
 
                                         <div class="form-group flex-fill ml-2">
                                             <label for="comunidadBeneficiaria">Comunidad Beneficiaria de esta demanda</label>
@@ -116,14 +116,14 @@
                                             
                                         </div>
 
-                                        <!-- <div class="form-group">
+                                        <div class="form-group">
                                             <label for="titulacionLocal">Titulacion local relacionada con la demanda</label>
-                                            <input name="titulacionLocal" type="text" id="titulacionLocal"  list="titulaciones"  formControlName="titulacionLocal"  class="form-control" [class.is-invalid] = "createDemandForm.get('titulacionLocal').invalid && createDemandForm.get('titulacionLocal').touched" placeholder="Introduzca la titulacion local">
+                                            <input name="titulacion_local" type="text" id="titulacion_local"  list="titulaciones"  formControlName="titulacion_local"  class="form-control" [class.is-invalid] = "createDemandForm.get('titulacion_local').invalid && createDemandForm.get('titulacion_local').touched" placeholder="Introduzca la titulacion local">
                                             <datalist id="titulaciones">
                                             <option *ngFor="let t of titulacionLocal" [value]="t.nombre" ></option>
                                             </datalist>
-                                            <small class="text-danger" *ngIf="noTitulacionMatch()">Debe elegir una titulacion valida</small>
-                                        </div> -->
+                                            <!-- <small class="text-danger" *ngIf="noTitulacionMatch()">Debe elegir una titulacion valida</small> -->
+                                        </div>
                                         <div class="row" *ngIf="this.usuarioService.usuario.esGestor && USUARIOS">
                                             <div class="col">
                                                 <div class="form-group">
@@ -150,9 +150,9 @@
                                         <div *ngIf="campoNoValido('fechaEjecucionIni')" class="col">{{ campoNoValido('fechaEjecucionIni') }}</div>
                                         <div *ngIf="campoNoValido('fechaEjecucionFin')" class="col">{{ campoNoValido('fechaEjecucionFin') }}</div>
                                         <div *ngIf="campoNoValido('fechaFin')" class="col">{{ campoNoValido('fechaFin') }}</div>
-                                        <!-- <div *ngIf="campoNoValido('necesidadSocial')" class="col">{{ campoNoValido('necesidadSocial') }}</div> -->
+                                        <div *ngIf="campoNoValido('necesidadSocial')" class="col">{{ campoNoValido('necesidadSocial') }}</div>
                                         <div *ngIf="campoNoValido('comunidadBenficiaria')" class="col">{{ campoNoValido('comunidadBeneficiaria') }}</div>
-                                        <!-- <div *ngIf="campoNoValido('titulacionLocal')" class="col">{{ campoNoValido('titulacionLocal') }}</div> -->
+                                        <div *ngIf="campoNoValido('titulacionLocal')" class="col">{{ campoNoValido('titulacionLocal') }}</div>
                                     </div>
         
                                     <div class="ml-auto mb-2">
