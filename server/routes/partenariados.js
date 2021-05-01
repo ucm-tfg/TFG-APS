@@ -10,7 +10,7 @@ const router = Router();
 
 // crear partenariado_profesor
 router.post(
-    '/',
+    '/crearProfesor',
     [
         validarJWT,
         validarEsProfesor,

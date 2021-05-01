@@ -157,8 +157,8 @@ let admin1 = new tAdmin(
 );
 dao_usuario.insertarAdmin(admin1); */
 
-/* let area_conocimiento = [4, 5];
-let titulacion_local = [48, 49];
+/*  let area_conocimiento = [4, 5];
+let titulacion_local = [1, 5];
 let profesorInterno = new tProfesorInterno(
   null,
   "profesorInterno.com",
@@ -177,8 +177,8 @@ dao_usuario.insertarProfesorInterno(
   profesorInterno,
   titulacion_local,
   area_conocimiento
-);
- */
+); */
+ 
 /* //Insertar estudiante Externo
 let estudianteExterno = new tEstudianteExterno(
   null,
@@ -447,23 +447,22 @@ const TOfertaServicio = require('./database/services/transfers/TOfertaServicio')
 const TDemandaServicio = require('./database/services/transfers/TDemandaServicio');
 const TIniciativa = require('./database/services/transfers/TIniciativa');
 
-// OFERTAS-----------------------------------------------------------------------
-// let titulo = "Anuncio 9";
-// let descripcion = "Prueba 9";
-// let imagen = "Prueba, aquí va la dirección de la imagen";
-// let asignatura = ["Ampliación de Matemáticas", "Matemáticas"]; 
-// let cuatrimestre = 1;
-// let anio = 2020;
-// let fecha_limite = new Date (2021, 10, 04);
-// let observaciones = "URGENTE";
-// let creador = 121;
-// let area = [7,5,35,37,36,29];
-// let profesores = [122];
+//OFERTAS-----------------------------------------------------------------------
+let titulo = "Anuncio 9";
+let descripcion = "Prueba 9";
+let imagen = "Prueba, aquí va la dirección de la imagen";
+let asignatura = ["Ampliación de Matemáticas", "Matemáticas"]; 
+let cuatrimestre = 1;
+ let anio = 2020;
+ let fecha_limite = new Date (2021, 10, 04);
+ let observaciones = "URGENTE";
+ let creador = 120;
+ let area = [7,5];
+ let profesores = [120];
 
-// let oferta = new TOfertaServicio(94, titulo, descripcion, null, "", "",asignatura,
-//     cuatrimestre, anio, fecha_limite, null, creador, area, profesores,0); 
-// dao_tentativa.actualizarOfertaServicio(oferta);
-// dao_tentativa.crearOferta(oferta1);
+ let oferta = new TOfertaServicio(null, titulo, descripcion, null, "", "",asignatura,     cuatrimestre, anio, fecha_limite, null, creador, area, profesores,0); 
+ //dao_tentativa.actualizarOfertaServicio(oferta);
+ dao_tentativa.crearOferta(oferta);
 // dao_tentativa.obtenerOfertaServicio(71).then(function(oferta){console.log(oferta);});
 // anio = 2022;
 

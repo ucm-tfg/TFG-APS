@@ -65,8 +65,8 @@ function crearOferta(oferta) {
           };
           if (Array.isArray(asignaturas)) {
             console.log(asignaturas, "es un array.");
-            fieldsToInsert = null;
-            fieldsToInsert = asignaturas((asignatura) => ({
+            
+            fieldsToInsert = asignaturas.map((asignatura) => ({
               id_oferta: id_anuncio[0],
               nombre: asignatura,
             }));
