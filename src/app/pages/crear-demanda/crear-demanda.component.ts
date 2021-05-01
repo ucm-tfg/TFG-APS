@@ -214,7 +214,7 @@ observableEnviarDemanda() {
 
       this.router.routeReuseStrategy.shouldReuseRoute = () => false;
       this.router.onSameUrlNavigation = 'reload';
-      this.router.navigate(['/demandas']);
+      this.router.navigate(['/']);
       this.formSubmitted = false;
       this.formSending = false;
     }, err => {

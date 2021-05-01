@@ -4,7 +4,6 @@ const TDemanda = require("./../database/services/transfers/TDemandaServicio");
 const getAreasservicio = async(req, res) => {
     try {
         areasServicio = await dao_tentativa.obtenerListaAreasServicio();
-        console.log("Lista de areas de servicio ", areasServicio);
         
         return res.status(200).json({
             ok: true,
@@ -25,7 +24,6 @@ const getAreasservicio = async(req, res) => {
 const getTitulaciones = async(req, res) => {
     try {
         titulacionLocal = await dao_tentativa.obtenerListaTitulacionLocal();
-        console.log("Lista de titulaciones locales ", titulacionLocal);
         
         return res.status(200).json({
             ok: true,
@@ -45,7 +43,6 @@ const getTitulaciones = async(req, res) => {
 const getNecesidades = async(req, res) => {
     try {
         necesidadSocial = await dao_tentativa.obtenerListaNecesidadSocial();
-        console.log("Lista de areas de servicio ", necesidadSocial);
         
         return res.status(200).json({
             ok: true,
@@ -65,7 +62,6 @@ const getNecesidades = async(req, res) => {
 const crearDemanda = async(req, res = response) => {//continuar 
 
     try {
-        console.log("Req.body:\n", req.body);
         const demanda = new TDemanda(
             null,
             req.body.titulo,
@@ -83,7 +79,7 @@ const crearDemanda = async(req, res = response) => {//continuar
             req.body.necesidadSocial,
             req.body.titulacionLocal,
             req.current_user.uid,
-            re.body.comunidadBeneficiaria,
+            req.body.comunidadBeneficiaria,
             null,
             null);
         
