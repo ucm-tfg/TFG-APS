@@ -47,13 +47,39 @@
                                     </div> -->
                                     
                                     <div class="form-group">
-                                            <label for="area_servicio">Area de Servicio</label>
-                                            <input name="area_servicio" type="text" id="area_servicio"  list="areas"  formControlName="area_servicio"  class="form-control" [class.is-invalid] = "createDemandForm.get('area_servicio').invalid && createDemandForm.get('area_servicio').touched" placeholder="Introduzca el area de servicio al que corresponde su demanda">
-                                            <datalist id="areas">
-                                            <option *ngFor="let c of areaServicio" [value]="c.nombre" ></option>
-                                            </datalist>
-                                            <!-- <small class="text-danger" *ngIf="noAreaMatch()">Debe elegir un area de servicio valida</small> -->
+                                        <label for="area_servicio">Area/s de servicio</label>
+                                        <ng-multiselect-dropdown
+                                        name="area_servicio"
+                                        [settings]="dropdownSettings"
+                                        [placeholder]="'Selecciona el area de servicio'"
+                                        [data]="areaServicio"
+                                        formControlName="area_servicio"
+                                        >
+                                        <ng-template
+                                            #optionsTemplate
+                                            let-item
+                                            let-option="option"
+                                            let-id="id"
+                                            let-isSelected="isSelected">
+                                            <div
+                                            style="
+                                                padding: 1px 10px;
+                                                margin: 40px;
+                                                right: 2px;
+                                                top: -2px;">
+                                            <label
+                                                style="color: #333; min-width: 130px; font-weight: normal;"
+                                                [ngStyle]="{ 'font-weight': isSelected? 'bold':' normal','color': getAreas[id].isDisabled? 'lightgrey': ''}"
+                                                >{{getAreas[id].nombre}}</label>
                                         </div>
+                                        </ng-template>
+                                        <ng-template #optionSelectedTemplate let-option="option" let-id="id">
+                                            <div>
+                                            {{option}}
+                                            </div>
+                                        </ng-template>
+                                        </ng-multiselect-dropdown>
+                                    </div>
 
                                         <div class="form-group flex-fill ml-2">
                                             <label for="ciudad">Ciudad en la que se va a realizar el servicio, si va a ser de manera remota, escriba online</label>
@@ -62,7 +88,7 @@
 
                                         <div class="form-group flex-fill ml-2">
                                             <label for="objetivo">Objetivo que va a cumplir la demanda</label>
-                                            <input name="objetivo" type="text" id="objetivo" class="form-control" autocorrect="off" autocapitalize="none" spellcheck="false" placeholder="Introduzca la ciudad" [class.is-invalid] = "createDemandForm.get('objetivo').invalid && createDemandForm.get('objetivo').touched" formControlName="objetivo">
+                                            <input name="objetivo" type="text" id="objetivo" class="form-control" autocorrect="off" autocapitalize="none" spellcheck="false" placeholder="Introduzca el objetivo" [class.is-invalid] = "createDemandForm.get('objetivo').invalid && createDemandForm.get('objetivo').touched" formControlName="objetivo">
                                             
                                         </div>
 
@@ -100,7 +126,6 @@
                                             <label for="observacionTemporal"> Si tiene alguna peticion especial en cuanto a las fechas, escribala aqui</label>
                                             <input name="observacionTemporal" type="text" id="observacionTemporal" class="form-control" autocorrect="off" autocapitalize="none" spellcheck="false" placeholder="Introduzca la observacion" formControlName="observaciones">
                                         </div>
-
                                         <div class="form-group">
                                             <label for="necesidad_social">Necesidad social a cumplir con esta demanda</label>
                                             <input name="necesidad_social" type="text" id="necesidad_social"  list="necesidades"  formControlName="necesidad_social"  class="form-control" [class.is-invalid] = "createDemandForm.get('necesidad_social').invalid && createDemandForm.get('necesidad_social').touched" placeholder="Introduzca la necesidad social">
@@ -117,13 +142,48 @@
                                         </div>
 
                                         <div class="form-group">
+                                            <label for="area_servicio">titulacion/es local/es</label>
+                                            <ng-multiselect-dropdown
+                                            name="area_servicio"
+                                            [settings]="dropdownSettings"
+                                            [placeholder]="'Selecciona el area de servicio'"
+                                            [data]="titulacionLocal"
+                                            formControlName="titulacion_local"
+                                            >
+                                            <ng-template
+                                                #optionsTemplate
+                                                let-item
+                                                let-option="option"
+                                                let-id="id"
+                                                let-isSelected="isSelected">
+                                                <div
+                                                style="
+                                                    padding: 1px 10px;
+                                                    margin: 40px;
+                                                    right: 2px;
+                                                    top: -2px;">
+                                                <label
+                                                    style="color: #333; min-width: 130px; font-weight: normal;"
+                                                    [ngStyle]="{ 'font-weight': isSelected? 'bold':' normal','color': getTitulaciones[id].isDisabled? 'lightgrey': ''}"
+                                                    >{{getTitulaciones[id].nombre}}</label>
+                                            </div>
+                                            </ng-template>
+                                            <ng-template #optionSelectedTemplate let-option="option" let-id="id">
+                                                <div>
+                                                {{option}}
+                                                </div>
+                                            </ng-template>
+                                            </ng-multiselect-dropdown>
+                                        </div>
+
+                                        <!-- <div class="form-group">
                                             <label for="titulacionLocal">Titulacion local relacionada con la demanda</label>
                                             <input name="titulacion_local" type="text" id="titulacion_local"  list="titulaciones"  formControlName="titulacion_local"  class="form-control" [class.is-invalid] = "createDemandForm.get('titulacion_local').invalid && createDemandForm.get('titulacion_local').touched" placeholder="Introduzca la titulacion local">
                                             <datalist id="titulaciones">
                                             <option *ngFor="let t of titulacionLocal" [value]="t.nombre" ></option>
                                             </datalist>
-                                            <!-- <small class="text-danger" *ngIf="noTitulacionMatch()">Debe elegir una titulacion valida</small> -->
-                                        </div>
+                                            <small class="text-danger" *ngIf="noTitulacionMatch()">Debe elegir una titulacion valida</small>
+                                        </div> -->
                                         <div class="row" *ngIf="this.usuarioService.usuario.esGestor && USUARIOS">
                                             <div class="col">
                                                 <div class="form-group">

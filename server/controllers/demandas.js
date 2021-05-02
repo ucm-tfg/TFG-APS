@@ -61,8 +61,17 @@ const getNecesidades = async(req, res) => {
 
 const crearDemanda = async(req, res = response) => {//continuar 
 
+
     try {
         console.log("El body es ", req.body);
+        let areas = [];
+        req.body.area_servicio.forEach(data => {
+            areas.push(data.id);
+        });
+        let titulaciones = [];
+        req.body.titulacion_local.forEach(data => {
+            titulaciones.push(data.id);
+        });
         const demanda = new TDemanda(
             null,
             req.body.titulo,
@@ -80,8 +89,8 @@ const crearDemanda = async(req, res = response) => {//continuar
             req.body.fechaFin,
             req.body.observaciones,
             req.body.necesidad_social,
-            req.body.titulacion_local,
-            req.body.area_servicio,
+            titulaciones,
+            areas,
             req.body.comunidadBeneficiaria,
             0,
             );

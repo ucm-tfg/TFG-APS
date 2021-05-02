@@ -29,6 +29,7 @@ export class crearDemandaComponent implements OnInit {
   public aux_area2: string;
   public aux_area3: string;
   public htmlStr: string;
+  public dropdownSettings: any = {};
 
   
 //   constructor(public fb: FormBuilder, public usuarioService: UsuarioService, public fileUploadService: FileUploadService, public router: Router, private DemandaService: DemandaService, public Demanda: Demanda, public activatedRoute: ActivatedRoute) { 
@@ -52,6 +53,15 @@ constructor( public fb: FormBuilder, public usuarioService: UsuarioService, publ
     await this.obtenerAreasServicio();
     await this.obtenerNecesidades();
     await this.obtenerTitulaciones();
+    this.dropdownSettings = {
+      singleSelection: false,
+      idField: "id",
+      textField: "nombre",
+      selectAllText: "Select All",
+      unSelectAllText: "UnSelect All",
+      itemsShowLimit: 10,
+      allowSearchFilter: true
+    };
     this.createDemandForm = this.fb.group({
       titulo: [this.Demanda.titulo || '', Validators.required],
       descripcion: [this.Demanda.descripcion || '', Validators.required],
@@ -108,6 +118,10 @@ constructor( public fb: FormBuilder, public usuarioService: UsuarioService, publ
           return this.areaServicio;
         });
   }
+
+nuevaAsign(){
+
+}
 
   async  obtenerNecesidades() {
     return this.DemandaService.obtenerNecesidades()
@@ -181,24 +195,18 @@ observableEnviarDemanda() {
     return this.createDemandForm.get('titulacionLocal')
   }
 
-  obtenerIdAreaServicio(){
-    var area_seleccionada = this.createDemandForm.get('area_servicio').value;
-    let pos_area = 0;
-    while(pos_area < this.areaServicio.length && this.areaServicio[pos_area].nombre != area_seleccionada){
-      pos_area++;
-    }
-    return pos_area;
+  get getAreas() {
+    return this.areaServicio.reduce((acc, curr) => {
+      acc[curr.id] = curr;
+      return acc;
+    }, {});
   }
-
-  obtenerIdTitulaciones(){
-    var area_seleccionada = this.createDemandForm.get('titulacion_local').value;
-    let pos_area = 0;
-    while(pos_area < this.titulacionLocal.length && this.titulacionLocal[pos_area].nombre != area_seleccionada){
-      pos_area++;
-    }
-    return pos_area;
+  get getTitulaciones() {
+    return this.titulacionLocal.reduce((acc, curr) => {
+      acc[curr.id] = curr;
+      return acc;
+    }, {});
   }
-
   obtenerIdNecesidades(){
     var area_seleccionada = this.createDemandForm.get('necesidad_social').value;
     let pos_area = 0;
@@ -215,43 +223,17 @@ observableEnviarDemanda() {
       return;
     }
     this.formSending=true;
-    let encontrado = this.obtenerIdAreaServicio();
-    if(encontrado >= this.areaServicio.length){
-      let msg = [];
-      msg.push('El area de servicio seleccionado no es correcto');
-      Swal.fire('Error', msg.join('<br>'), 'error');
-      this.formSubmitted = false;
-      this.formSending = false;
-    }
-    this.aux_area = this.createDemandForm.get('area_servicio').value;
-    console.log("La posicion del area de servicio es ",encontrado)
-    console.log("Y su valor es ", this.aux_area);
-    this.createDemandForm.get('area_servicio').setValue(this.areaServicio[encontrado].id);
-
-    let encontrado2 = this.obtenerIdTitulaciones();
-    if(encontrado2 >= this.titulacionLocal.length){
-      let msg = [];
-      msg.push('La titulacion seleccionada no es correcta');
-      Swal.fire('Error', msg.join('<br>'), 'error');
-      this.formSubmitted = false;
-      this.formSending = false;
-    }
-    this.aux_area2 = this.createDemandForm.get('titulacion_local').value;
-    console.log("La posicion de la titulacion es ",encontrado)
-    console.log("Y su valor es ", this.aux_area2);
-    this.createDemandForm.get('titulacion_local').setValue(this.titulacionLocal[encontrado].id);
-
-    let encontrado3 = this.obtenerIdNecesidades();
-    if(encontrado3 >= this.necesidadSocial.length){
+    let encontrado = this.obtenerIdNecesidades();
+    if(encontrado >= this.necesidadSocial.length){
       let msg = [];
       msg.push('La necesidad seleccionada no es correcta');
       Swal.fire('Error', msg.join('<br>'), 'error');
       this.formSubmitted = false;
       this.formSending = false;
     }
-    this.aux_area3 = this.createDemandForm.get('necesidad_social').value;
+    this.aux_area = this.createDemandForm.get('necesidad_social').value;
     console.log("La posicion de la necesidad es ",encontrado)
-    console.log("Y su valor es ", this.aux_area3);
+    console.log("Y su valor es ", this.aux_area);
     this.createDemandForm.get('necesidad_social').setValue(this.necesidadSocial[encontrado].id);
     this.observableEnviarDemanda().subscribe(resp =>{
       this. Demanda_id
@@ -278,15 +260,15 @@ observableEnviarDemanda() {
       this.formSending= false;
     });
   } 
-   noAreaMatch() {
-    let accept=true;
-          for (let a of this.areaServicio) {
-            if (a.nombre === this.createDemandForm.get('area_servicio').value || this.createDemandForm.get('area_servicio').value === '')
-              accept = false;
-          }
-          return accept;
+  //  noAreaMatch() {
+  //   let accept=true;
+  //         for (let a of this.areaServicio) {
+  //           if (a.nombre === this.createDemandForm.get('area_servicio').value || this.createDemandForm.get('area_servicio').value === '')
+  //             accept = false;
+  //         }
+  //         return accept;
 
-  } 
+  // } 
   noNecesidadMatch() {
     let accept=true;
           for (let n of this.necesidadSocial) {
@@ -296,15 +278,15 @@ observableEnviarDemanda() {
           return accept;
 
   } 
-  noTitulacionMatch() {
-    let accept=true;
-          for (let t of this.titulacionLocal) {
-            if (t.nombre === this.createDemandForm.get('titulacion_local').value || this.createDemandForm.get('titulacion_local').value === '')
-              accept = false;
-          }
-          return accept;
+  // noTitulacionMatch() {
+  //   let accept=true;
+  //         for (let t of this.titulacionLocal) {
+  //           if (t.nombre === this.createDemandForm.get('titulacion_local').value || this.createDemandForm.get('titulacion_local').value === '')
+  //             accept = false;
+  //         }
+  //         return accept;
 
-  } 
+  // } 
 
   campoNoValido(campo): String {
 
@@ -337,6 +319,8 @@ observableEnviarDemanda() {
       }
     }
   }
+
+  
 
 
   async cargarDemanda() {
