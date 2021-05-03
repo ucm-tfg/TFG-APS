@@ -456,14 +456,14 @@ const TIniciativa = require('./database/services/transfers/TIniciativa');
 // let anio = 2020;
 // let fecha_limite = new Date (2021, 10, 04);
 // let observaciones = "URGENTE";
-// let creador = 121;
+// let creador = 120;
 // let area = [7,5,35,37,36,29];
-// let profesores = [122];
+// let profesores = [120];
 
-// let oferta = new TOfertaServicio(94, titulo, descripcion, null, "", "",asignatura,
+// let oferta = new TOfertaServicio(null, titulo, descripcion, null, "", "",asignatura,
 //     cuatrimestre, anio, fecha_limite, null, creador, area, profesores,0); 
-// dao_tentativa.actualizarOfertaServicio(oferta);
-// dao_tentativa.crearOferta(oferta1);
+// // dao_tentativa.actualizarOfertaServicio(oferta);
+// dao_tentativa.crearOferta(oferta);
 // dao_tentativa.obtenerOfertaServicio(71).then(function(oferta){console.log(oferta);});
 // anio = 2022;
 
@@ -493,14 +493,15 @@ const TIniciativa = require('./database/services/transfers/TIniciativa');
 // let necesidad_social = 18;
 // let titulacionlocal_demandada = [1, 2];
 // let area_servicio = [7,5,35,37,36,29];
-// let creador = 122;
+// let creador = 119;
 
 // let demanda = new TDemandaServicio(null, titulo, descripcion, imagen, "", "", 
 //     creador, ciudad, finalidad, periodo_definicion_ini, periodo_definicion_fin, periodo_ejecucion_ini,
 //     periodo_ejecucion_fin, fecha_fin, observaciones_temporales, necesidad_social, titulacionlocal_demandada,
 //     area_servicio, 0);
 // dao_tentativa.crearDemanda(demanda);
-// dao_tentativa.obtenerDemandaServicio(72).then(function(oferta){console.log(oferta);});
+// dao_tentativa.obtenerDemandaServicio(101).then(function(oferta){console.log(oferta);});
+
 // ciudad = "Barcelona"; 
 // area_servicio = [2];
 // titulacionlocal_demandada = [1, 3];
@@ -597,7 +598,7 @@ const TIniciativa = require('./database/services/transfers/TIniciativa');
 
 // fs = require('fs')
 //  dao_tentativa.obtenerDemandaServicio(69).then(function(demanda){
-//    dao_tentativa.obtenerOfertaServicio(67).then(function(oferta){
+  //  dao_tentativa.obtenerOfertaServicio(100).then(function(oferta){console.log(oferta)});
 // //     //console.log(demanda);
 // //     //console.log(oferta);
 //     var path  = "/configuracion.txt";
