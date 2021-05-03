@@ -26,8 +26,6 @@ export class crearDemandaComponent implements OnInit {
   public USUARIOS;
   public createDemandForm: FormGroup;
   public aux_area: string;
-  public aux_area2: string;
-  public aux_area3: string;
   public htmlStr: string;
   public dropdownSettings: any = {};
 
@@ -65,6 +63,7 @@ constructor( public fb: FormBuilder, public usuarioService: UsuarioService, publ
     this.createDemandForm = this.fb.group({
       titulo: [this.Demanda.titulo || '', Validators.required],
       descripcion: [this.Demanda.descripcion || '', Validators.required],
+      imagen: this.Demanda.imagen,
       area_servicio: [this.Demanda.area_servicio || '', Validators.required],
       ciudad: [this.Demanda.ciudad || '', Validators.required],
       objetivo: [this.Demanda.objetivo || '', Validators.required],
@@ -77,7 +76,8 @@ constructor( public fb: FormBuilder, public usuarioService: UsuarioService, publ
       comunidadBeneficiaria: [this.Demanda.comunidadBeneficiaria || '', Validators.required],
       titulacion_local: [this.Demanda.titulacion_local || '', Validators.required],
       observaciones: this.Demanda.observacionesTemporales ,
-
+    }, {
+      validator: this.dateRangeValidator('fechaDefinicionIni', 'fechaDefinicionFin', 'fechaEjecucionIni', 'fechaEjecucionFin', 'fechaFin')
 
     });
   }
@@ -119,9 +119,6 @@ constructor( public fb: FormBuilder, public usuarioService: UsuarioService, publ
         });
   }
 
-nuevaAsign(){
-
-}
 
   async  obtenerNecesidades() {
     return this.DemandaService.obtenerNecesidades()
@@ -234,6 +231,8 @@ observableEnviarDemanda() {
     this.aux_area = this.createDemandForm.get('necesidad_social').value;
     console.log("La posicion de la necesidad es ",encontrado)
     console.log("Y su valor es ", this.aux_area);
+    console.log("fecha1 es ", this.createDemandForm.get('fechaDefinicionIni'))
+    console.log("fecha2 es ", this.createDemandForm.get('fechaDefinicionFin'))
     this.createDemandForm.get('necesidad_social').setValue(this.necesidadSocial[encontrado].id);
     this.observableEnviarDemanda().subscribe(resp =>{
       this. Demanda_id
@@ -306,21 +305,55 @@ observableEnviarDemanda() {
     
     return '';
   }
-  validarFechas(fechaDefinicionIni: Date, fechaDefinicionFin: Date, fechaEjecucionIni: Date, fechaEjecucionFin: Date, fechaFin: Date, customError = 'mismatch'){
-    return (FormGroup: FormGroup) =>{
-      if(fechaDefinicionIni >= fechaDefinicionFin){
-        return { [customError]: true };
+  // validarFechas() :String{
+  //   console.log("La primera fecha es ", this.getFechaDefinicionIni)
+  //     if(this.getFechaDefinicionIni >= this.getFechaDefinicionFin){
+  //       return `La fecha de comienzo del periodo de definicion no puede ser mayor a la de finalizacion`;
+  //     }
+  //     else if(this.getFechaEjecucionIni >= this.getFechaEjecucionFin){
+  //       return `la fecha de comienzo del periodo de ejecucion no puede ser mayor que la de finalizacion`;
+  //     }
+  //     else if(this.getFechaDefinicionIni >= this.getFechaEjecucionIni){
+  //       return `La fecha de comienzo del periodo de definicion no puede ser mayor que la de comienzo del periodo de ejecucion`;
+  //     }
+  //     else{
+  //       return `todo correcto`;
+  //     }
+  //     return'';
+  // }
+
+  dateRangeValidator(fechaDefinicionIni: string, fechaDefinicionFin: string, fechaEjecucionIni: string, fechaEjecucionFin: string, fechaFin: string): ValidatorFn {
+    return (group: FormGroup): {[key: string]: any} => {
+      let fechadefinicionini = group.controls[fechaDefinicionIni].value;
+      let fechadefinicionfin = group.controls[fechaDefinicionFin].value;
+      let fechaejecucionini = group.controls[fechaEjecucionIni].value;
+      let fechaejecucionfin = group.controls[fechaEjecucionFin].value;
+      let fechafin = group.controls[fechaFin].value;
+      if (fechadefinicionfin < fechadefinicionini) {
+        return {
+          dates: "el comienzo del periodo de definicion no puede ser despues de su finalizacion"
+        };
       }
-      else if(fechaEjecucionIni >= fechaEjecucionFin){
-        return { [customError]: true };
+  
+      if (fechaejecucionfin < fechaejecucionini) {
+        return {
+          dates: "la fecha de inicio de ejecucion no puede ser mayor que la de fin"
+        };
       }
-      else if(fechaDefinicionIni >= fechaEjecucionIni){
-        return { [customError]: true };
+
+      if(fechadefinicionini > fechaejecucionini){
+        return {
+          dates: "la fecha de inicio de definicion no puede ser mayor que la de inicio de ejecucion"
+        };
       }
+      if(fechaejecucionfin > fechafin){
+        return {
+          dates: "la fecha de finalizacion de la demanda no puede ser menor que la de fin de ejecucion"
+        };
+      }
+      return {};
     }
   }
-
-  
 
 
   async cargarDemanda() {

@@ -290,6 +290,7 @@ function obtenerDemandaServicio(id_demanda) {
                   necesidad_social,
                   titulaciones_ref,
                   anuncio.getArea_servicio(),
+                  demanda[0]["comunidad_beneficiaria"],
                   anuncio.dummy
                 );
               });

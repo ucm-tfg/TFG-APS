@@ -595,7 +595,7 @@ let cuatrimestre = 1;
 // pesoTemp=0.2;
 
 // fs = require('fs')
-//  dao_tentativa.obtenerDemandaServicio(69).then(function(demanda){
+  // dao_tentativa.obtenerDemandaServicio(105).then(function(demanda){
 //    dao_tentativa.obtenerOfertaServicio(67).then(function(oferta){
 // //     //console.log(demanda);
 // //     //console.log(oferta);

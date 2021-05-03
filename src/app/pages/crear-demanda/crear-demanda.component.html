@@ -218,6 +218,7 @@
                                     <div class="ml-auto mb-2">
                                         <input *ngIf="!this.Demanda_id" type="submit" [value]="this.formSending ? 'Creando...' : 'Crear demanda'" class="btn btn-default btn-secondary m-4" [disabled]="this.formSending || (this.formSubmitted && this.createDemandForm.invalid)">
                                         <input *ngIf="this.Demanda_id" type="submit" [value]="this.formSending ? 'Actualizando...' : 'Actualizar demanda'" class="btn btn-default btn-secondary m-4" [disabled]="this.formSending || (this.formSubmitted && this.createDemandForm.invalid)">
+                                        <label *ngIf="createDemandForm.errors">{{ createDemandForm.errors?.dates | json }}</label>
                                     </div>
                                 </div>
 
