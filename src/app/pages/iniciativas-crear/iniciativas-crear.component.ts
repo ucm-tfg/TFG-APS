@@ -69,6 +69,9 @@ export class IniciativasCrearComponent implements OnInit {
       return;
     }
 
+
+    
+
     this.formSending = true;
     this.observableEnviarIniciativa()
           .subscribe( resp => {

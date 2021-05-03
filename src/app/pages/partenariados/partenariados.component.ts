@@ -138,13 +138,13 @@ export class PartenariadosComponent implements OnInit {
   }
 
   cargarPartenariados() {
-    this.partenariadoService.cargarPartenariados(this.skip, this.limit, this.getFiltros())
+    /* this.partenariadoService.cargarPartenariados(this.skip, this.limit, this.getFiltros())
         .subscribe( ({total, filtradas, partenariados}) => {
           this.totalPartenariados = total.valueOf();
           this.totalPartenariadosBuscados = filtradas.valueOf();
           this.partenariados = partenariados;
           this.cargando = false;
-        });
+        }); */
   }
 
   notNull(e) {

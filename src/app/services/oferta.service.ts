@@ -15,6 +15,13 @@ export class OfertaService {
 
   constructor( private http: HttpClient, private usuarioService: UsuarioService, private fileUploadService: FileUploadService) { }
 
+  obtenerOferta(){
+    return this.http.get<{ ok: boolean, oferta: any}>(`${ base_url }/ofertas/100`,this.usuarioService.headers)
+    .pipe(
+      map( (resp) => resp)
+    );
+  }
+
   // mapearIniciativas( iniciativas: any ): Iniciativa[] {
   //   return iniciativas.map(
   //     iniciativa => new Iniciativa(iniciativa._id, iniciativa.estado, iniciativa.titulo, iniciativa.descripcion, iniciativa.imagen || '', iniciativa.rama, iniciativa.ciudad, iniciativa.partenariados || [], this.fileUploadService.mapearUploads(iniciativa.archivos || []), this.usuarioService.mapearUsuarios([iniciativa.proponedor])[0], iniciativa.creador, iniciativa.createdAt)
@@ -70,6 +77,7 @@ export class OfertaService {
   //                     map( (resp) => { return resp; } )
   //                   );
   // }
+
 
   obtenerAreasServicio(){
     return this.http.get<{ ok: boolean, areasServicio: any}>(`${ base_url }/ofertas/areasservicio`,this.usuarioService.headers)

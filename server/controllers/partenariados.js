@@ -13,7 +13,7 @@ const crearPartenariadoProfesor = async (req, res = response) => {
     if (id_oferta == undefined) {
       //Caso: no existe oferta
       let areasServicio = [];
-      data.areasServicio.forEach((dato) => {
+      data.ofertaAreaServicio.forEach((dato) => {
         areasServicio.push(dato.id);
       });
       let oferta = new TOfertaServicio(
@@ -26,8 +26,8 @@ const crearPartenariadoProfesor = async (req, res = response) => {
         data.asignaturaObjetivo,
         data.cuatrimestre,
         data.anioAcademico,
-        data.fechaLimite,
-        data.observacionesTemporales,
+        data.fecha_limite,
+        data.ofertaObservacionesTemporales,
         req.current_user.uid,
         areasServicio,
         req.current_user.uid,

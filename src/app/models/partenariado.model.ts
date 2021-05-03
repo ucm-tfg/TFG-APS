@@ -9,12 +9,36 @@ const base_url = environment.base_url;
 export class Partenariado {
 
     constructor(
+        //aqui
+        public imagen: String,
         public _id: string,
         public estado: string,
         public titulo: string,
         public descripcion: string,
         public rama: string,
         public ciudad: string,
+        
+        public createdAt: string,
+        public profesores: Usuario[],
+        public entidades: Usuario[],
+        public mensajes: Object,
+        public archivos: Upload[],
+        public proponedor: Usuario,
+        public creador: Usuario,
+
+
+        /* public necesidadSocial: String,
+        public externo: Boolean,
+        public finalidad: String,
+        public comunidadBeneficiaria: String,
+        public responsable: Usuario,
+        public fechaInicio: Date,
+        public fechaFin: Date,
+        public entidad: Usuario,
+        public asignaturaObjetivo: String,
+        public titulacionesLocales: Array<Object>,
+       
+       
         public iniciativa: string,
         public proyecto: Proyecto,
         public profesores: Usuario[],
@@ -22,8 +46,8 @@ export class Partenariado {
         public mensajes: Object,
         public archivos: Upload[],
         public proponedor: Usuario,
-        public creador: Usuario,
-        public createdAt: string,
+        
+        public createdAt: string, */
     ) {}
 
     get parsedCreatedAt() {

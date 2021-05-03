@@ -32,7 +32,7 @@ export class PartenariadoVerGuard implements CanActivate {
         return true;
       }
 
-      // miro si el usuario actual es gestor o profesor/entidad de este partenariado
+      /* // miro si el usuario actual es gestor o profesor/entidad de este partenariado
       return this.partenariadoService.cargarPartenariado(next.paramMap.get('id')).pipe(
         map( (partenariado: Partenariado) => {
             partenariado = this.partenariadoService.mapearPartenariados([partenariado])[0];
@@ -52,7 +52,7 @@ export class PartenariadoVerGuard implements CanActivate {
             return acceso_permitido;
           }
         )
-      );
+      ); */
 
   }
 

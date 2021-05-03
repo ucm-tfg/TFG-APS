@@ -1,14 +1,13 @@
-const dao_tentativa = require("../database/services/daos/daoTentativa");
-const TOferta = require("../database/services/transfers/TOfertaServicio");
+const dao_tentativa = require("./../database/services/daos/daoTentativa");
+const TDemanda = require("./../database/services/transfers/TDemandaServicio");
 
-const getTitulaciones = async(req, res) => {
+const getAreasservicio = async(req, res) => {
     try {
-        let id_demanda = req.body.id_demanda;
-        titulaciones = await dao_tentativa.obtenerTitulacionLocal(id_demanda);
+        areasServicio = await dao_tentativa.obtenerListaAreasServicio();
         
         return res.status(200).json({
             ok: true,
-            titulaciones,
+            areasServicio,
         });
 
     } catch (error) {
@@ -20,6 +19,104 @@ const getTitulaciones = async(req, res) => {
         });
     }
 }
+
+
+const getTitulaciones = async(req, res) => {
+    try {
+        titulacionLocal = await dao_tentativa.obtenerListaTitulacionLocal();
+        
+        return res.status(200).json({
+            ok: true,
+            titulacionLocal,
+        });
+
+    } catch (error) {
+        console.error(error);
+
+        return res.status(500).json({
+            ok: false,
+            msg: 'Error inesperado',
+        });
+    }
+}
+
+const getNecesidades = async(req, res) => {
+    try {
+        necesidadSocial = await dao_tentativa.obtenerListaNecesidadSocial();
+        
+        return res.status(200).json({
+            ok: true,
+            necesidadSocial,
+        });
+
+    } catch (error) {
+        console.error(error);
+
+        return res.status(500).json({
+            ok: false,
+            msg: 'Error inesperado',
+        });
+    }
+}
+
+const crearDemanda = async(req, res = response) => {//continuar 
+
+
+    try {
+        console.log("El body es ", req.body);
+        let areas = [];
+        req.body.area_servicio.forEach(data => {
+            areas.push(data.id);
+        });
+        let titulaciones = [];
+        req.body.titulacion_local.forEach(data => {
+            titulaciones.push(data.id);
+        });
+        const demanda = new TDemanda(
+            null,
+            req.body.titulo,
+            req.body.descripcion,
+            req.body.imagen,
+            null,
+            null,
+            req.current_user.uid,
+            req.body.ciudad,
+            req.body.objetivo,
+            req.body.fechaDefinicionIni,
+            req.body.fechaDefinicionFin,
+            req.body.fechaEjecucionIni,
+            req.body.fechaEjecucionFin,
+            req.body.fechaFin,
+            req.body.observaciones,
+            req.body.necesidad_social,
+            titulaciones,
+            areas,
+            req.body.comunidadBeneficiaria,
+            0,
+            );
+            // constructor( id_oferta, titulo, descripcion, imagen, created_at, updated_at,
+            //     creador, ciudad, finalidad, periodo_definicion_ini, periodo_definicion_fin, periodo_ejecucion_ini,
+            //     periodo_ejecucion_fin, fecha_fin, observaciones_temporales, necesidad_social, titulacionlocal,
+            //     area_servicio, comunidad_beneficiaria, dummy) 
+        console.log("La demanda es ", demanda);
+        await dao_tentativa.crearDemanda(demanda);
+
+
+        return res.status(200).json({
+            ok: true,
+            demanda: demanda,
+        });
+    } catch (error) {
+
+        console.error(error);
+
+        return res.status(500).json({
+            ok: false,
+            msg: 'Error inesperado',
+        });
+    }
+}
+
 const obtenerDemanda = async(req, res) => {
     try {
 
@@ -31,8 +128,8 @@ const obtenerDemanda = async(req, res) => {
             demanda,
         });
 
-    } catch (error) {
         console.error(error);
+    } catch (error) {
 
         return res.status(500).json({
             ok: false,
@@ -40,7 +137,13 @@ const obtenerDemanda = async(req, res) => {
         });
     }
 }
+
 module.exports = {
+    getAreasservicio,
+    getNecesidades,
     getTitulaciones,
+    crearDemanda,
     obtenerDemanda
 }
+
+    

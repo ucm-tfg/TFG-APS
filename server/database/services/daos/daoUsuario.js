@@ -326,6 +326,14 @@ function insertarProfesorExterno(usuario) {
       })
       .select("id")
       .then(function (result) {
+        const fieldsToInsert = usuario.getAreaConocimiento().map((area) => ({
+          id_area: area.id,
+          id_profesor: idF[0],
+        }));
+        console.log(fieldsToInsert);
+        return knex("areaconocimiento_profesor")
+          .insert(fieldsToInsert)
+          .then(() => {
         return knex("universidad")
           .select("id")
           .where("nombre", "like", `%${usuario.getnombreUniversidad()}%`)
@@ -335,6 +343,7 @@ function insertarProfesorExterno(usuario) {
                 id: idF[0],
                 universidad: values[0]["id"],
                 datos_personales_Id: result[0],
+                facultad :usuario.getFacultad()
               })
               .then(function () {
                 return idF[0];
@@ -355,6 +364,7 @@ function insertarProfesorExterno(usuario) {
             borrarUsuario(idF[0]);
             return -1;
           });
+        })
       });
   });
 }
