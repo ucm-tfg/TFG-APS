@@ -74,7 +74,12 @@ export class PartenariadoService {
                     );
   }
 
- 
+  obtenerProfesores() {
+    return this.http.get<{ ok: boolean, datos: Object}>(`${ base_url }/usuarios/profesores`, this.usuarioService.headers)
+                    .pipe(
+                      map( (resp) => resp )
+                    );
+  }
 
  
 }

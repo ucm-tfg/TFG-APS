@@ -3,7 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { UsuarioService } from '../../../services/usuario.service';
 import { FileUploadService } from '../../../services/file-upload.service';
 import { Partenariado } from '../../../models/partenariado.model';
-
+import * as moment from 'moment';
 import { RAMAS } from '../../../models/rama.model';
 import { CIUDADES } from '../../../models/ciudad.model';
 import { PartenariadoService } from '../../../services/partenariado.service';
@@ -42,34 +42,57 @@ export class PartenariadoCrearProfesorComponent implements OnInit {
   constructor(public fb: FormBuilder, public demandaService: DemandaService, public ofertaService: OfertaService, public partenariadoService: PartenariadoService, public usuarioService: UsuarioService, public fileUploadService: FileUploadService, public router: Router, public activatedRoute: ActivatedRoute) {
   }
 
+  dropdownSettings: any = {};
+  public profesoresList: any;
+  public selProfesores: any;
+
   async ngOnInit() {
     await this.cargarPartenariado();
     await this.obtenerOferta();
     await this.obtenerDemanda();
+    await this.obtenerProfesores();
+
 
     this.crearPartenariadoProfesorForm = this.fb.group({
-      anioAcademico :[ this.oferta.anio_academico],
-      titulo: [this.demanda.titulo + " | " + this.oferta.titulo || '', Validators.required],
-      descripcion: [this.demanda.descripcion + " | " + this.oferta.descripcion || '', Validators.required],
-      proponedor: [this.partenariado.proponedor?.uid || this.usuarioService.usuario.uid, Validators.required],
-      terminos_aceptados: [false, Validators.requiredTrue],
-      entidad: [this.demanda.creador || '', Validators.required],
-      necesidadSocial : [this.demanda.necesidad_social],
-      finalidad : [this.demanda.objetivo, Validators.required],
-      comunidadBeneficiaria : [this.demanda.comunidadBeneficiaria],
-      cuatrimestre: [this.oferta.cuatrimestre, Validators.required],
-      responsable : [this.oferta.creador],
-      ciudad : [this.demanda.ciudad],
-      externo : new FormControl(''),
-      asignaturaObjetivo : [this.oferta.asignatura_objetivo],
+      anioAcademico: [this.oferta.anio_academico],
+      titulo: [this.demanda.titulo + " | " + this.oferta.titulo || '', /* Validators.required */],
+      descripcion: [this.demanda.descripcion + " | " + this.oferta.descripcion || ''],
+      entidad: [this.demanda.creador || ''],
+      necesidadSocial: [this.demanda.necesidad_social],
+      finalidad: [this.demanda.objetivo],
+      comunidadBeneficiaria: [this.demanda.comunidadBeneficiaria],
+      cuatrimestre: [this.oferta.cuatrimestre],
+      responsable: [this.oferta.creador],
+      ciudad: [this.demanda.ciudad],
+      externos: new FormControl(''),
+      id_demanda: [this.demanda.id],
+      id_oferta: [this.oferta.id],
+      ofertaObservacionesTemporales: [this.oferta.observaciones],
+      demandaObservacionesTemporales: [this.demanda.observacionesTemporales],
+      asignaturaObjetivo: [this.oferta.asignatura_objetivo],
       titulacionesLocales: [this.demanda.titulacion_local],
-      ofertaAreaServicio :[this.oferta.area_servicio],
-      demandaAreaServicio:[this.demanda.area_servicio],
-      fechaInicio :new FormControl(''),
-      fechaFin:new FormControl(''),
+      ofertaAreaServicio: [this.oferta.area_servicio],
+      demandaAreaServicio: [this.demanda.area_servicio],
+      periodo_definicion_fin:[this.demanda.periodoDefinicionFin],
+      periodo_definicion_ini: [this.demanda.periodoDefinicionIni],
+      periodo_ejecucion_fin: [this.demanda.periodoEjecucionFin],
+      periodo_ejecucion_ini: [this.demanda.periodoEjecucionIni],
       profesores: new FormControl(''),
+      fecha_limite :[this.oferta.fecha_limite],
+      fecha_fin : [this.demanda.fechaFin],
 
     });
+
+
+    this.dropdownSettings = {
+      singleSelection: false,
+      idField: "id",
+      textField: "nombreCompleto",
+      selectAllText: "Select All",
+      unSelectAllText: "UnSelect All",
+      itemsShowLimit: 10,
+      allowSearchFilter: true
+    };
   }
 
 
@@ -84,20 +107,51 @@ export class PartenariadoCrearProfesorComponent implements OnInit {
     await this.ofertaService.obtenerOferta().pipe(first()).toPromise().then((resp: any) => {
       let value = resp.oferta;
       console.log(value)
+      let arrayP =[]
+      for(let val of value.profesores){
+        arrayP.push({
+          id: val.id,
+          nombreCompleto: val.nombre + " " + val.apellidos
+        })
+
+      }
+      this.selProfesores= arrayP;
+      let fecha_fin = moment(value.fecha_limite).format('YYYY-MM-DD');
       this.oferta = new Oferta(value.id, value.titulo, value.descripcion, value.imagen, value.created_at, value.upload_at, value.cuatrimestre,
-         value.anio_academico, value.fecha_limite, value.observaciones_temporales, value.creador, value.area_servicio, value.asignatura_objetivo, null)
+        value.anio_academico, fecha_fin, value.observaciones_temporales, value.creador, value.area_servicio, value.asignatura_objetivo, value.profesores)
         ;
     });
+  }
+
+  async obtenerProfesores() {
+    return this.partenariadoService.obtenerProfesores()
+      .subscribe((resp: any) => {
+        console.log(resp)
+        let arrayProfesores = []
+        for (let value of resp.profesores) {
+          arrayProfesores.push({
+            id: value.id,
+            nombreCompleto: value.nombre + " " + value.apellidos
+          })
+        }
+        this.profesoresList =arrayProfesores
+        return arrayProfesores;
+      });
   }
 
   async obtenerDemanda() {
     await this.demandaService.obtenerDemanda().pipe(first()).toPromise().then((resp: any) => {
       let value = resp.demanda;
       console.log(value)
+      let periodo_definicion_ini = moment(value.periodo_definicion_ini).format('YYYY-MM-DD');
+      let periodo_definicion_fin = moment(value.periodo_definicion_fin).format('YYYY-MM-DD');
+      let periodo_ejecucion_ini = moment(value.periodo_ejecucion_ini).format('YYYY-MM-DD');
+      let periodo_ejecucion_fin = moment(value.periodo_ejecucion_fin).format('YYYY-MM-DD');
+      let fecha_fin = moment(value.fecha_fin).format('YYYY-MM-DD');
       this.demanda = new Demanda(value.id, value.titulo, value.descripcion, value.imagen, value.ciudad, value.finalidad, value.area_servicio,
-        value.periodoDefinicionIni, value.periodoDefinicionFin, value.periodoEjecucionIni, value.periodoEjecucionFin,
-        value.fechaFin, value.observacionesTemporales, value.necesidad_social, value.titulacionlocal,
-        value.creador, value.comunidadBeneficiaria, value.created_at, value.upload_at);
+        periodo_definicion_ini, periodo_definicion_fin, periodo_ejecucion_ini, periodo_ejecucion_fin,
+        fecha_fin, value.observaciones_temporales, value.necesidad_social, value.titulacionlocal,
+        value.creador, value.comunidad_beneficiaria, value.created_at, value.upload_at);
     });
 
   }
@@ -106,7 +160,7 @@ export class PartenariadoCrearProfesorComponent implements OnInit {
     return this.partenariadoService.crearPartenariadoProfesor(this.crearPartenariadoProfesorForm.value);
   }
 
-  enviarIni() {
+  enviarPartenariado() {
 
     this.formSubmitted = true;
 
@@ -255,6 +309,18 @@ export class PartenariadoCrearProfesorComponent implements OnInit {
         });
         (<HTMLInputElement>document.getElementById("file-upload")).value="";
   } */
+  get getItems() {
+    return this.profesoresList.reduce((acc, curr) => {
+      acc[curr.id] = curr;
+      return acc;
+    }, {});
+  }
 
+  onItemSelect(item: any) {
+    console.log("onItemSelect", item);
+  }
+  onSelectAll(items: any) {
+    console.log("onSelectAll", items);
+  }
 
 }
