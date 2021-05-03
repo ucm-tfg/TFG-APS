@@ -78,6 +78,7 @@ const crearPartenariadoEntidad = async (req, res = response) => {
 
     if (id_demanda == undefined) {//Caso: no existe demanda
       estado = "EN_CREACION";
+
       let areasServicio = [];
       data.areasServicio.forEach((dato) => {
         areasServicio.push(dato.id);
@@ -110,38 +111,38 @@ const crearPartenariadoEntidad = async (req, res = response) => {
         1
       );
       id_demanda = await dao_tentativa.crearDemanda(demanda);
+
+      let partenariado = new TPartenariado(
+        null,
+        data.titulo,
+        data.descripcion,
+        data.externos,
+        data.responsable,
+        profesores,
+        data.id_demanda,
+        id_oferta,
+        estado
+      );
+      await dao_colaboracion.crearPartenariado(partenariado);
+
+      dao_colaboracion.crearPrevioPartenariado(id_demanda, data.id_oferta, 0, 1);
     }
 
-    let profesores = [];
-    data.profesores.forEach((dato) => {
-      profesores.push(dato.id);
-    });
+    let id_partenariado = dao_tentativa.obtenerIdPartenariado(id_demanda, id_oferta);
+    let partenariado = new TPartenariado(
+      id_partenariado,
+      data.titulo,
+      data.descripcion,
+      data.externos,
+      data.responsable,
+      profesores,
+      id_demanda,
+      data.id_oferta,
+      estado
+    );
+    await dao_colaboracion.actualizarPartenariado(partenariado);
 
-    //ACTUALIZAR PARTENARIADO Y PREVIO_PARTENARIADO
-    // let partenariado = new TPartenariado(
-    //   null,
-    //   data.titulo,
-    //   data.descripcion,
-    //   data.externos,
-    //   data.responsable,
-    //   profesores,
-    //   id_demanda,
-    //   data.id_oferta,
-    //   estado
-    //   );
-    // await dao_colaboracion.crearPartenariado(partenariado);
-    // dao_colaboracion.crearPrevioPartenariado(data.id_demanda, id_oferta, 1, 0);
-    //NO EXISTE DEMANDA
-    //entidad
-    //dummy
-    //finalidad
-    //comunidad
-    //areas
-    //necesidad_social
-    //OPCIONAL
-    //peridos
-    //titulaciones
-    //observaciones
+    dao_colaboracion.actualizarPrevioPartenariado(id_demanda, data.id_oferta, 0, 1);
 
     return res.status(200).json({
       ok: true,
@@ -426,5 +427,5 @@ module.exports = {
   cambiarEstadoPartenariado,
   enviarMensajePartenariado,
   crearPartenariadoProfesor,
-  crearPartenariadoEntidad
+  crearPartenariadoEntidad,
 };

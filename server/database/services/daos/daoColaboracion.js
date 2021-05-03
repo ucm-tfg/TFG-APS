@@ -643,6 +643,37 @@ function crearPrevioPartenariado(
     });
 }
 
+function actualizarPrevioPartenariado(
+  id_demanda,
+  id_oferta,
+  completado_profesor,
+  completado_entidad
+) {
+  return knex("previo_partenariado")
+    .where({id_demanda: id_demanda, id_oferta:id_oferta})
+    .update({
+      id_demanda: id_demanda,
+      id_oferta: id_oferta,
+      completado_profesor: completado_profesor,
+      completado_entidad: completado_entidad,
+    })
+    .catch((err) => {
+      console.log(err);
+      console.log(
+        "Se ha producido un error al actualizar el previo al partenariado"
+      );
+    });
+}
+
+function obtenerIdPartenariado(id_demanda, id_oferta){
+  return knex('partenariado').where({ id_demanda: id_demanda, id_oferta: id_oferta })
+  .select('id')
+  .catch((err) => {
+    console.log(err);
+    console.log("Se ha producido un error al intentar obtener de la base de datos");
+  })
+}
+
 module.exports = {
   crearColaboracion,
   crearPartenariado,
@@ -652,11 +683,13 @@ module.exports = {
   obtenerColaboracion,
   obtenerPartenariado,
   obtenerTodosPartenariados,
+  obtenerIdPartenariado,
   obtenerProyecto,
   obtenerNota,
   actualizarColaboracion,
   actualizarPartenariado,
   actualizarProyecto,
+  actualizarPrevioPartenariado,
   actualizarNota,
   eliminarColaboracion,
   eliminarPartenariado,

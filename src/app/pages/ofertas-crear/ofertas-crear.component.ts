@@ -98,7 +98,7 @@ export class OfertasCrearComponent implements OnInit {
       this.crearOfertaForm.get('Segundo cuatrimestre').setValue(2);
       this.aux_cuatrimestre='Segundo cuatrimestre';
     }else {
-      this.crearOfertaForm.get('cuatrimestre').setValue(0);
+      this.crearOfertaForm.get('cuatrimestre').setValue(3);
       this.aux_cuatrimestre='Anual';
     }
     this.observableEnviarOferta()
@@ -109,7 +109,7 @@ export class OfertasCrearComponent implements OnInit {
 
             this.router.routeReuseStrategy.shouldReuseRoute = () => false;
             this.router.onSameUrlNavigation = 'reload';
-            this.router.navigate(['/ofertas']);
+            this.router.navigate(['/ofertas/crear']);
             this.formSubmitted = false;
             this.formSending = false;
           }, err => {
