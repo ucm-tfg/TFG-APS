@@ -4,7 +4,6 @@ const TDemanda = require("./../database/services/transfers/TDemandaServicio");
 const getAreasservicio = async(req, res) => {
     try {
         areasServicio = await dao_tentativa.obtenerListaAreasServicio();
-        console.log("Lista de areas de servicio ", areasServicio);
         
         return res.status(200).json({
             ok: true,
@@ -25,7 +24,6 @@ const getAreasservicio = async(req, res) => {
 const getTitulaciones = async(req, res) => {
     try {
         titulacionLocal = await dao_tentativa.obtenerListaTitulacionLocal();
-        console.log("Lista de titulaciones locales ", titulacionLocal);
         
         return res.status(200).json({
             ok: true,
@@ -45,7 +43,6 @@ const getTitulaciones = async(req, res) => {
 const getNecesidades = async(req, res) => {
     try {
         necesidadSocial = await dao_tentativa.obtenerListaNecesidadSocial();
-        console.log("Lista de areas de servicio ", necesidadSocial);
         
         return res.status(200).json({
             ok: true,
@@ -64,31 +61,46 @@ const getNecesidades = async(req, res) => {
 
 const crearDemanda = async(req, res = response) => {//continuar 
 
+
     try {
-        console.log("Req.body:\n", req.body);
+        console.log("El body es ", req.body);
+        let areas = [];
+        req.body.area_servicio.forEach(data => {
+            areas.push(data.id);
+        });
+        let titulaciones = [];
+        req.body.titulacion_local.forEach(data => {
+            titulaciones.push(data.id);
+        });
         const demanda = new TDemanda(
             null,
             req.body.titulo,
             req.body.descripcion,
             req.body.imagen,
-            req.body.ciudad,
-            req.body.finalidad,
-            req.body.areaServicio,
-            req.body.periodoDefinicionIni,
-            req.body.periodoDefinicionFin,
-            req.body.periodoEjecucionIni,
-            req.body.periodoEjecucionFin,
-            req.body.fechaFin,
-            req.body.observacionesTemporales,
-            req.body.necesidadSocial,
-            req.body.titulacionLocal,
-            req.current_user.uid,
-            re.body.comunidadBeneficiaria,
             null,
-            null);
-        
-            console.log("Demanda:\n", demanda);
+            null,
+            req.current_user.uid,
+            req.body.ciudad,
+            req.body.objetivo,
+            req.body.fechaDefinicionIni,
+            req.body.fechaDefinicionFin,
+            req.body.fechaEjecucionIni,
+            req.body.fechaEjecucionFin,
+            req.body.fechaFin,
+            req.body.observaciones,
+            req.body.necesidad_social,
+            titulaciones,
+            areas,
+            req.body.comunidadBeneficiaria,
+            0,
+            );
+            // constructor( id_oferta, titulo, descripcion, imagen, created_at, updated_at,
+            //     creador, ciudad, finalidad, periodo_definicion_ini, periodo_definicion_fin, periodo_ejecucion_ini,
+            //     periodo_ejecucion_fin, fecha_fin, observaciones_temporales, necesidad_social, titulacionlocal,
+            //     area_servicio, comunidad_beneficiaria, dummy) 
+        console.log("La demanda es ", demanda);
         await dao_tentativa.crearDemanda(demanda);
+
 
         return res.status(200).json({
             ok: true,

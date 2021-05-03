@@ -27,6 +27,7 @@ export class crearDemandaComponent implements OnInit {
   public createDemandForm: FormGroup;
   public aux_area: string;
   public htmlStr: string;
+  public dropdownSettings: any = {};
 
   
 //   constructor(public fb: FormBuilder, public usuarioService: UsuarioService, public fileUploadService: FileUploadService, public router: Router, private DemandaService: DemandaService, public Demanda: Demanda, public activatedRoute: ActivatedRoute) { 
@@ -50,9 +51,19 @@ constructor( public fb: FormBuilder, public usuarioService: UsuarioService, publ
     await this.obtenerAreasServicio();
     await this.obtenerNecesidades();
     await this.obtenerTitulaciones();
+    this.dropdownSettings = {
+      singleSelection: false,
+      idField: "id",
+      textField: "nombre",
+      selectAllText: "Select All",
+      unSelectAllText: "UnSelect All",
+      itemsShowLimit: 10,
+      allowSearchFilter: true
+    };
     this.createDemandForm = this.fb.group({
       titulo: [this.Demanda.titulo || '', Validators.required],
       descripcion: [this.Demanda.descripcion || '', Validators.required],
+      imagen: this.Demanda.imagen,
       area_servicio: [this.Demanda.area_servicio || '', Validators.required],
       ciudad: [this.Demanda.ciudad || '', Validators.required],
       objetivo: [this.Demanda.objetivo || '', Validators.required],
@@ -65,7 +76,8 @@ constructor( public fb: FormBuilder, public usuarioService: UsuarioService, publ
       comunidadBeneficiaria: [this.Demanda.comunidadBeneficiaria || '', Validators.required],
       titulacion_local: [this.Demanda.titulacion_local || '', Validators.required],
       observaciones: this.Demanda.observacionesTemporales ,
-
+    }, {
+      validator: this.dateRangeValidator('fechaDefinicionIni', 'fechaDefinicionFin', 'fechaEjecucionIni', 'fechaEjecucionFin', 'fechaFin')
 
     });
   }
@@ -106,6 +118,7 @@ constructor( public fb: FormBuilder, public usuarioService: UsuarioService, publ
           return this.areaServicio;
         });
   }
+
 
   async  obtenerNecesidades() {
     return this.DemandaService.obtenerNecesidades()
@@ -179,10 +192,22 @@ observableEnviarDemanda() {
     return this.createDemandForm.get('titulacionLocal')
   }
 
-  obtenerIdAreaServicio(){
-    var area_seleccionada = this.createDemandForm.get('area_servicio').value;
+  get getAreas() {
+    return this.areaServicio.reduce((acc, curr) => {
+      acc[curr.id] = curr;
+      return acc;
+    }, {});
+  }
+  get getTitulaciones() {
+    return this.titulacionLocal.reduce((acc, curr) => {
+      acc[curr.id] = curr;
+      return acc;
+    }, {});
+  }
+  obtenerIdNecesidades(){
+    var area_seleccionada = this.createDemandForm.get('necesidad_social').value;
     let pos_area = 0;
-    while(pos_area < this.areaServicio.length && this.areaServicio[pos_area].nombre != area_seleccionada){
+    while(pos_area < this.necesidadSocial.length && this.necesidadSocial[pos_area].nombre != area_seleccionada){
       pos_area++;
     }
     return pos_area;
@@ -195,18 +220,20 @@ observableEnviarDemanda() {
       return;
     }
     this.formSending=true;
-    let encontrado = this.obtenerIdAreaServicio();
-    if(encontrado >= this.areaServicio.length){
+    let encontrado = this.obtenerIdNecesidades();
+    if(encontrado >= this.necesidadSocial.length){
       let msg = [];
-      msg.push('El area de servicio seleccionado no es correcto');
+      msg.push('La necesidad seleccionada no es correcta');
       Swal.fire('Error', msg.join('<br>'), 'error');
       this.formSubmitted = false;
       this.formSending = false;
     }
-    this.aux_area = this.createDemandForm.get('area_servicio').value;
-    console.log("La posicion del area de servicio es ",encontrado)
+    this.aux_area = this.createDemandForm.get('necesidad_social').value;
+    console.log("La posicion de la necesidad es ",encontrado)
     console.log("Y su valor es ", this.aux_area);
-    this.createDemandForm.get('area_servicio').setValue(this.areaServicio[encontrado].id);
+    console.log("fecha1 es ", this.createDemandForm.get('fechaDefinicionIni'))
+    console.log("fecha2 es ", this.createDemandForm.get('fechaDefinicionFin'))
+    this.createDemandForm.get('necesidad_social').setValue(this.necesidadSocial[encontrado].id);
     this.observableEnviarDemanda().subscribe(resp =>{
       this. Demanda_id
         ? Swal.fire('Ok', 'Demanda actualizada correctamente', 'success')
@@ -214,7 +241,7 @@ observableEnviarDemanda() {
 
       this.router.routeReuseStrategy.shouldReuseRoute = () => false;
       this.router.onSameUrlNavigation = 'reload';
-      this.router.navigate(['/demandas']);
+      this.router.navigate(['/']);
       this.formSubmitted = false;
       this.formSending = false;
     }, err => {
@@ -232,15 +259,15 @@ observableEnviarDemanda() {
       this.formSending= false;
     });
   } 
-   noAreaMatch() {
-    let accept=true;
-          for (let a of this.areaServicio) {
-            if (a.nombre === this.createDemandForm.get('area_servicio').value || this.createDemandForm.get('area_servicio').value === '')
-              accept = false;
-          }
-          return accept;
+  //  noAreaMatch() {
+  //   let accept=true;
+  //         for (let a of this.areaServicio) {
+  //           if (a.nombre === this.createDemandForm.get('area_servicio').value || this.createDemandForm.get('area_servicio').value === '')
+  //             accept = false;
+  //         }
+  //         return accept;
 
-  } 
+  // } 
   noNecesidadMatch() {
     let accept=true;
           for (let n of this.necesidadSocial) {
@@ -250,15 +277,15 @@ observableEnviarDemanda() {
           return accept;
 
   } 
-  noTitulacionMatch() {
-    let accept=true;
-          for (let t of this.titulacionLocal) {
-            if (t.nombre === this.createDemandForm.get('titulacion_local').value || this.createDemandForm.get('titulacion_local').value === '')
-              accept = false;
-          }
-          return accept;
+  // noTitulacionMatch() {
+  //   let accept=true;
+  //         for (let t of this.titulacionLocal) {
+  //           if (t.nombre === this.createDemandForm.get('titulacion_local').value || this.createDemandForm.get('titulacion_local').value === '')
+  //             accept = false;
+  //         }
+  //         return accept;
 
-  } 
+  // } 
 
   campoNoValido(campo): String {
 
@@ -278,17 +305,53 @@ observableEnviarDemanda() {
     
     return '';
   }
-  validarFechas(fechaDefinicionIni: Date, fechaDefinicionFin: Date, fechaEjecucionIni: Date, fechaEjecucionFin: Date, fechaFin: Date, customError = 'mismatch'){
-    return (FormGroup: FormGroup) =>{
-      if(fechaDefinicionIni >= fechaDefinicionFin){
-        return { [customError]: true };
+  // validarFechas() :String{
+  //   console.log("La primera fecha es ", this.getFechaDefinicionIni)
+  //     if(this.getFechaDefinicionIni >= this.getFechaDefinicionFin){
+  //       return `La fecha de comienzo del periodo de definicion no puede ser mayor a la de finalizacion`;
+  //     }
+  //     else if(this.getFechaEjecucionIni >= this.getFechaEjecucionFin){
+  //       return `la fecha de comienzo del periodo de ejecucion no puede ser mayor que la de finalizacion`;
+  //     }
+  //     else if(this.getFechaDefinicionIni >= this.getFechaEjecucionIni){
+  //       return `La fecha de comienzo del periodo de definicion no puede ser mayor que la de comienzo del periodo de ejecucion`;
+  //     }
+  //     else{
+  //       return `todo correcto`;
+  //     }
+  //     return'';
+  // }
+
+  dateRangeValidator(fechaDefinicionIni: string, fechaDefinicionFin: string, fechaEjecucionIni: string, fechaEjecucionFin: string, fechaFin: string): ValidatorFn {
+    return (group: FormGroup): {[key: string]: any} => {
+      let fechadefinicionini = group.controls[fechaDefinicionIni].value;
+      let fechadefinicionfin = group.controls[fechaDefinicionFin].value;
+      let fechaejecucionini = group.controls[fechaEjecucionIni].value;
+      let fechaejecucionfin = group.controls[fechaEjecucionFin].value;
+      let fechafin = group.controls[fechaFin].value;
+      if (fechadefinicionfin < fechadefinicionini) {
+        return {
+          dates: "el comienzo del periodo de definicion no puede ser despues de su finalizacion"
+        };
       }
-      else if(fechaEjecucionIni >= fechaEjecucionFin){
-        return { [customError]: true };
+  
+      if (fechaejecucionfin < fechaejecucionini) {
+        return {
+          dates: "la fecha de inicio de ejecucion no puede ser mayor que la de fin"
+        };
       }
-      else if(fechaDefinicionIni >= fechaEjecucionIni){
-        return { [customError]: true };
+
+      if(fechadefinicionini > fechaejecucionini){
+        return {
+          dates: "la fecha de inicio de definicion no puede ser mayor que la de inicio de ejecucion"
+        };
       }
+      if(fechaejecucionfin > fechafin){
+        return {
+          dates: "la fecha de finalizacion de la demanda no puede ser menor que la de fin de ejecucion"
+        };
+      }
+      return {};
     }
   }
 

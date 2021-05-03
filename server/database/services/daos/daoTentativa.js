@@ -18,6 +18,7 @@ function crearAnuncio(anuncio) {
       let areasServicio = anuncio.getArea_servicio();
       let fieldsToInsert = { id_area: areasServicio, id_anuncio: id_anuncio };
       if (Array.isArray(areasServicio)) {
+        console.log("Se va a proceder a insertar las areas de servicio");
         fieldsToInsert = areasServicio.map((area) => ({
           id_area: area,
           id_anuncio: id_anuncio,
@@ -25,6 +26,7 @@ function crearAnuncio(anuncio) {
         return knex("areaservicio_anuncioservicio")
           .insert(fieldsToInsert)
           .then(() => {
+            console.log("Se han insertado las areas de servicio")
             return id_anuncio;
           });
       } else {
@@ -115,6 +117,7 @@ function crearOferta(oferta) {
 function crearDemanda(demanda) {
   return crearAnuncio(demanda)
     .then(function (id_anuncio) {
+      console.log("Hemos creado el anuncio correctamnete")
       return knex("demanda_servicio")
         .insert({
           id: id_anuncio[0],
@@ -128,14 +131,17 @@ function crearDemanda(demanda) {
           fecha_fin: demanda.getFecha_fin(),
           observaciones_temporales: demanda.getObservaciones_temporales(),
           necesidad_social: demanda.getNecesidad_social(),
+          comunidad_beneficiaria: demanda.getComunidad_Beneficiaria()
         })
         .then(function () {
           let titulaciones = demanda.getTitulacionlocal_demandada();
+          console.log("Las titulaciones a insertar son ", titulaciones);
           let fieldsToInsert = {
             id_titulacion: titulaciones,
             id_demanda: id_anuncio[0],
           };
           if (Array.isArray(titulaciones)) {
+            console.log("Ahora se va a proceder a insertar el array de titulaciones ", titulaciones);
             fieldsToInsert = titulaciones.map((titulacion) => ({
               id_titulacion: titulacion,
               id_demanda: id_anuncio[0],
@@ -284,6 +290,7 @@ function obtenerDemandaServicio(id_demanda) {
                   necesidad_social,
                   titulaciones_ref,
                   anuncio.getArea_servicio(),
+                  demanda[0]["comunidad_beneficiaria"],
                   anuncio.dummy
                 );
               });
