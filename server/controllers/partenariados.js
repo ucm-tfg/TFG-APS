@@ -2,6 +2,7 @@ const dao_colaboracion = require("./../database/services/daos/daoColaboracion");
 const TPartenariado = require("./../database/services/transfers/TPartenariado");
 const dao_tentativa = require("./../database/services/daos/daoTentativa");
 const TOfertaServicio = require("./../database/services/transfers/TOfertaServicio");
+const TDemandaServicio = require("./../database/services/transfers/TDemandaServicio");
 
 const crearPartenariadoProfesor = async (req, res = response) => {
   try {
@@ -27,9 +28,9 @@ const crearPartenariadoProfesor = async (req, res = response) => {
         data.anioAcademico,
         data.fechaLimite,
         data.observacionesTemporales,
-        data.creador,
+        req.current_user.uid,
         areasServicio,
-        [],
+        req.current_user.uid,
         1
       );
       id_oferta = await dao_tentativa.crearOferta(oferta);
@@ -53,6 +54,94 @@ const crearPartenariadoProfesor = async (req, res = response) => {
     );
     await dao_colaboracion.crearPartenariado(partenariado);
     dao_colaboracion.crearPrevioPartenariado(data.id_demanda, id_oferta, 1, 0);
+
+    return res.status(200).json({
+      ok: true,
+      partenariado: partenariado,
+    });
+  } catch (error) {
+    console.error(error);
+
+    return res.status(500).json({
+      ok: false,
+      msg: "Error inesperado",
+    });
+  }
+};
+
+const crearPartenariadoEntidad = async (req, res = response) => {
+  try {
+    console.log("Req.body:\n", req.body);
+    let data = req.body;
+    let id_demanda = data.id_demanda;
+    let estado = "EN_NEGOCIACION";
+
+    if (id_demanda == undefined) {//Caso: no existe demanda
+      estado = "EN_CREACION";
+      let areasServicio = [];
+      data.areasServicio.forEach((dato) => {
+        areasServicio.push(dato.id);
+      });
+
+      let titulaciones = [];
+      data.titulaciones.forEach((dato) => {
+        titulaciones.push(dato.id);
+      });
+
+      let demanda = new TDemandaServicio(
+        null,
+        data.titulo,
+        data.descripcion,
+        data.imagen,
+        null,
+        null,
+        req.current_user.uid,
+        data.ciudad,
+        data.finalidad,
+        data.periodo_definicion_ini,
+        data.periodo_definicion_fin,
+        data.periodo_ejecucion_ini,
+        data.periodo_ejecucion_fin,
+        data.fecha_fin,
+        data.observaciones_temporales,
+        data.necesidad_social,
+        titulaciones,
+        areasServicio,
+        1
+      );
+      id_demanda = await dao_tentativa.crearDemanda(demanda);
+    }
+
+    let profesores = [];
+    data.profesores.forEach((dato) => {
+      profesores.push(dato.id);
+    });
+
+    //ACTUALIZAR PARTENARIADO Y PREVIO_PARTENARIADO
+    // let partenariado = new TPartenariado(
+    //   null,
+    //   data.titulo,
+    //   data.descripcion,
+    //   data.externos,
+    //   data.responsable,
+    //   profesores,
+    //   id_demanda,
+    //   data.id_oferta,
+    //   estado
+    //   );
+    // await dao_colaboracion.crearPartenariado(partenariado);
+    // dao_colaboracion.crearPrevioPartenariado(data.id_demanda, id_oferta, 1, 0);
+    //NO EXISTE DEMANDA
+    //entidad
+    //dummy
+    //finalidad
+    //comunidad
+    //areas
+    //necesidad_social
+    //OPCIONAL
+    //peridos
+    //titulaciones
+    //observaciones
 
     return res.status(200).json({
       ok: true,
@@ -337,4 +426,5 @@ module.exports = {
   cambiarEstadoPartenariado,
   enviarMensajePartenariado,
   crearPartenariadoProfesor,
+  crearPartenariadoEntidad
 };

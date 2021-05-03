@@ -102,6 +102,17 @@ const validarEsEntidadOrEsGestor = (req, res, next) => {
     next();
 }
 
+const validarEsEntidad = (req, res, next) => {
+
+    if( !esEntidad(req) ) {
+        return res.status(401).json({
+            ok: false,
+            msg: 'Acceso no permitido, solo entidades',
+        });
+    }
+
+    next();
+}
 
 // combinacion de tres
 const validarEsProfesorOrEntidadOrEsGestor = (req, res, next) => {
@@ -124,7 +135,7 @@ module.exports = {
     opcionalJWT,
 
     validarEsGestor,
-
+    validarEsEntidad,
     validarEsEstudianteOrEsGestor,
     validarEsProfesorOrEsGestor,
     validarEsEntidadOrEsGestor,

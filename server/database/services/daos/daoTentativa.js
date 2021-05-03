@@ -4,7 +4,6 @@ const transferIniciativa = require("../transfers/TIniciativa");
 const transferOfertaServicio = require("../transfers/TOfertaServicio");
 const transferAnuncioServicio = require("../transfers/TAnuncioServicio");
 const transferDemandaServicio = require("../transfers/TDemandaServicio");
-
 //INSERTAR------------------------------------------------------------------------------------------------
 function crearAnuncio(anuncio) {
   return knex("anuncio_servicio")
@@ -66,8 +65,6 @@ function crearOferta(oferta) {
             nombre: asignaturas,
           };
           if (Array.isArray(asignaturas)) {
-            console.log(asignaturas, "es un array.");
-            
             fieldsToInsert = asignaturas.map((asignatura) => ({
               id_oferta: id_anuncio[0],
               nombre: asignatura,
@@ -263,6 +260,7 @@ function obtenerDemandaServicio(id_demanda) {
             .where({ id: demanda[0]["necesidad_social"] })
             .select("nombre")
             .then(function (necesidad_social) {
+              return daoUsuario.obtenerEntidad(demanda[0]['creador']).then((entidad)=>{
               return obtenerTitulacionLocal(id_demanda).then(function (
                 titulaciones
               ) {
@@ -278,7 +276,7 @@ function obtenerDemandaServicio(id_demanda) {
                   anuncio.getImagen(),
                   anuncio.getCreated_at(),
                   anuncio.getUpdated_at(),
-                  demanda[0]["creador"],
+                  entidad.getNombreEntidad(),
                   demanda[0]["ciudad"],
                   demanda[0]["finalidad"],
                   demanda[0]["periodo_definicion_ini"],
@@ -295,6 +293,7 @@ function obtenerDemandaServicio(id_demanda) {
                 );
               });
             });
+          });
         });
     })
     .catch((err) => {
@@ -322,6 +321,7 @@ function obtenerOfertaServicio(id_oferta) {
               datos_profesores.forEach((profesor) => {
                 arrayProfesores.push(profesor["id_profesor"]);
               });
+              return daoUsuario.obtenerProfesorInterno(oferta[0]['creador']).then((responsable) =>{
               return daoUsuario
                 .obtenerProfesoresInternos(arrayProfesores)
                 .then(function (profesores) {
@@ -343,7 +343,7 @@ function obtenerOfertaServicio(id_oferta) {
                         oferta[0]["anio_academico"],
                         oferta[0]["fecha_limite"],
                         oferta[0]["observaciones_temporales"],
-                        oferta[0]["creador"],
+                        responsable.getNombre() + " "+ responsable.getApellidos(),
                         anuncio.getArea_servicio(),
                         profesores,
                         oferta[0]["dummy"]
@@ -351,6 +351,7 @@ function obtenerOfertaServicio(id_oferta) {
                     }
                   );
                 });
+              });
             });
         });
     })
