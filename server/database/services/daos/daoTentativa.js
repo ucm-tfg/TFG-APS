@@ -346,9 +346,10 @@ function obtenerOfertaServicio(id_oferta) {
                             oferta[0]["anio_academico"],
                             oferta[0]["fecha_limite"],
                             oferta[0]["observaciones_temporales"],
-                            responsable.getNombre() +
-                              " " +
-                              responsable.getApellidos(),
+                            { id: responsable.getId(), 
+                              nombre: responsable.getNombre(), 
+                              apellidos: responsable.getApellidos()
+                            },
                             anuncio.getArea_servicio(),
                             profesores,
                             oferta[0]["dummy"]
@@ -1140,7 +1141,7 @@ function obtenerAreaServicio(id_anuncio) {
       for (id_area of id_areas) {
         areas.push(id_area["id_area"]);
       }
-      return knex.select("nombre").from("area_servicio").whereIn("id", areas);
+      return knex.select("*").from("area_servicio").whereIn("id", areas);
     })
     .catch((err) => {
       console.log(

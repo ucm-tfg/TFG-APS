@@ -478,27 +478,27 @@ let cuatrimestre = 1;
 
 
 //DEMANDAS----------------------------------------------------------------------------------------
-let titulo = "Anuncio casa";
-let descripcion = "Construir una casa";
-let imagen = "Prueba, aquí va la dirección de la imagen";
-let ciudad = "Madrid"; 
-let finalidad = "Construir una casa";
-let periodo_definicion_ini = new Date (2020, 5, 04);
-let periodo_definicion_fin  = new Date (2020, 6, 04);
-let periodo_ejecucion_ini = new Date (2020, 6, 05);
-let periodo_ejecucion_fin = new Date (2021, 2, 11);
-let fecha_fin  = new Date (2021, 7, 01);
-let observaciones_temporales = "NADA";
-let necesidad_social = 18;
-let titulacionlocal_demandada = [1, 2];
-let area_servicio = [7,5,35,37,36,29];
-let creador = 119;
+// let titulo = "Anuncio casa";
+// let descripcion = "Construir una casa";
+// let imagen = "Prueba, aquí va la dirección de la imagen";
+// let ciudad = "Madrid"; 
+// let finalidad = "Construir una casa";
+// let periodo_definicion_ini = new Date (2020, 5, 04);
+// let periodo_definicion_fin  = new Date (2020, 6, 04);
+// let periodo_ejecucion_ini = new Date (2020, 6, 05);
+// let periodo_ejecucion_fin = new Date (2021, 2, 11);
+// let fecha_fin  = new Date (2021, 7, 01);
+// let observaciones_temporales = "NADA";
+// let necesidad_social = 18;
+// let titulacionlocal_demandada = [1, 2];
+// let area_servicio = [7,5,35,37,36,29];
+// let creador = 119;
 
-let demanda = new TDemandaServicio(null, titulo, descripcion, imagen, "", "", 
-    creador, ciudad, finalidad, periodo_definicion_ini, periodo_definicion_fin, periodo_ejecucion_ini,
-    periodo_ejecucion_fin, fecha_fin, observaciones_temporales, necesidad_social, titulacionlocal_demandada,
-    area_servicio, 0);
-dao_tentativa.crearDemanda(demanda);
+// let demanda = new TDemandaServicio(null, titulo, descripcion, imagen, "", "", 
+//     creador, ciudad, finalidad, periodo_definicion_ini, periodo_definicion_fin, periodo_ejecucion_ini,
+//     periodo_ejecucion_fin, fecha_fin, observaciones_temporales, necesidad_social, titulacionlocal_demandada,
+//     area_servicio, 0);
+// dao_tentativa.crearDemanda(demanda);
 // dao_tentativa.obtenerDemandaServicio(101).then(function(oferta){console.log(oferta);});
 
 // ciudad = "Barcelona"; 
