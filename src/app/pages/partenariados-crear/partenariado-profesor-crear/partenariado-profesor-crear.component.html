@@ -1,198 +1,254 @@
 <app-navbar></app-navbar>
 <div class="container mt-4 animate__animated animate__fadeIn animate__faster">
-    <h5 class="px-4 py-2 mb-4 text-white display-block bg-secondary d-flex justify-content-between align-items-center">
-        <b>Crear Partenariado</b>
-    </h5>
+    <h1>Crear partenariado</h1>
 
-    <div class="row">
+    <main class="container">
+        <section role="main">
 
-        <div class="col-12">
+            <form id="form-partenariado" role="form" autocomplete="off" *ngIf="crearPartenariadoProfesorForm"
+                [formGroup]="crearPartenariadoProfesorForm" (ngSubmit)="enviarPartenariado()">
 
-            <div class="card">
+                <div class="card my-2 mr-2 p-4">
 
-                <form
-                    id="form-partenariado"
-                    role="form"
-                    autocomplete="off"
-                    *ngIf="crearPartenariadoProfesorForm"
-                    [formGroup]="crearPartenariadoProfesorForm"
-                    (ngSubmit)="enviarPartenariado()">
 
-                    <div class="card-body">
+                    <div class="panel-body">
 
-                        <div class="row">
-                            <div class="col">
-                                <div class="form-group">
+                        <fieldset class="p-4 mb-2">
+                            <legend class="mb-0 px-2"><strong>Información general</strong></legend>
+
+
+                            <div>
+                                <div class="form-group flex-fill ml-2">
                                     <label>Título</label>
-                                    <input name="titulo" type="text" id="titulo" class="form-control" autocorrect="off" autocapitalize="none" spellcheck="false" placeholder="Título corto y descriptivo"  formControlName="titulo">
-                                </div>
-                            </div>
-                        </div>
+                                    <input name="titulo" type="text" id="titulo" class="form-control" autocorrect="off"
+                                        autocapitalize="none" spellcheck="false"
+                                        placeholder="Título corto y descriptivo" formControlName="titulo">
 
-                        <div class="row">
-                            <div class="col">
-                                <div class="form-group">
+                                </div>
+
+                                <div class="form-group flex-fill ml-2">
                                     <label for="descripcion">Descripción</label>
-                                    <textarea id="descripcion" name="descripcion" class="form-control" placeholder="Descripción del partenariado" rows="8" formControlName="descripcion"></textarea>
-                                </div>
-                            </div>
-                        </div>
+                                    <textarea id="descripcion" name="descripcion" class="form-control"
+                                        placeholder="Descripción del partenariado" rows="8"
+                                        formControlName="descripcion"></textarea>
 
-                        <div class="row">
-                            <div class="col">
-                                <div class="form-group">
-                                    <label for="entidad">Entidad</label>
-                                   <input type="text" class="form-control" id="entidad" formControlName="entidad">
                                 </div>
-                            </div>
-                        </div>
 
-                        <div class="row">
-                            <div class="col">
-                                <div class="form-group">
-                                    <label for="responsable">Profesor responsable</label>
-                                    <input type="text" class="form-control" id="responsable" formControlName="responsable">
-                                    </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <div class="form-group">
-                                    <label for="profesores">Equipo de profesores</label>
-                                    <input type="text" class="form-control" id="profesores" formControlName="profesores">
-                                   </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-6">
-                                <div class="form-group">
-                                    <label for="ciudad">Localización de desarrollo del partenariado</label>
-                                    <input name="ciudad" type="text" id="ciudad" class="form-control" autocorrect="off" autocapitalize="none" spellcheck="false" formControlName="ciudad">
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="form-group">
-                                    <label for="necesidadSocial">Necesidad social</label>
-                                    <input name="necesidadSocial" type="text" id="necesidadSocial" class="form-control" autocorrect="off" autocapitalize="none" spellcheck="false" formControlName="necesidadSocial">
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="form-group">
-                                    <label for="finalidad">Finalidad</label>
-                                    <input name="finalidad" type="text" id="finalidad" class="form-control" autocorrect="off" autocapitalize="none" spellcheck="false" formControlName="finalidad">
-                                </div>
-                            </div>
-
-                            <div class="col-6">
-                                <div class="form-group">
-                                    <label for="comunidadBeneficiaria">Comunidad beneficiaria</label>
-                                    <input name="comunidadBeneficiaria" type="text" id="comunidadBeneficiaria" class="form-control" autocorrect="off" autocapitalize="none" spellcheck="false" formControlName="comunidadBeneficiaria">
-                                </div>
-                            </div>
-
-                           
-
-                            <div class="col-6">
-                                <div class="form-group">
-                                    <label for="fechaInicio">Fecha inicio</label>
-                                    <input name="fechaInicio" type="date" id="fechaInicio" class="form-control" autocorrect="off" autocapitalize="none" spellcheck="false" formControlName="fechaInicio">
-                                </div>
-                            </div>
-
-                            <div class="col-6">
-                                <div class="form-group">
-                                    <label for="fechaFin">Fecha final</label>
-                                    <input name="fechaFin" type="date" id="fechaFin" class="form-control" autocorrect="off" autocapitalize="none" spellcheck="false" formControlName="fechaFin">
-                                </div>
-                            </div>
-
-                            <div class="col-6">
-                                <div class="form-group">
-                                    <label for="asignaturaObjetivo">Asignatura objetivo</label>
-                                    <input name="asignaturaObjetivo" type="text" id="asignaturaObjetivo" class="form-control" autocorrect="off" autocapitalize="none" spellcheck="false" formControlName="asignaturaObjetivo">
-                                </div>
-                            </div>
-
-                            <div class="col-6">
-                                <div class="form-group">
-                                    <label for="titulacionesLocales">Titulaciones locales</label>
-                                    <input name="titulacionesLocales" type="text" id="titulacionesLocales" class="form-control" autocorrect="off" autocapitalize="none" spellcheck="false" formControlName="titulacionesLocales">
-                                </div>
-                            </div>
-
-                            <div class="col-6">
-                                <div class="form-group">
-                                    <label for="anioAcademico">Año academico</label>
-                                    <input name="anioAcademico" type="number" id="anioAcademico" class="form-control" autocorrect="off" autocapitalize="none" spellcheck="false" formControlName="anioAcademico">
-                                </div>
-                            </div>
-
-                            <div class="col-6">
-                                <div class="form-group">
-                                    <label for="cuatrimestre">Cuatrimestre</label>
-                                    <input name="cuatrimestre" type="number" id="cuatrimestre" class="form-control" autocorrect="off" autocapitalize="none" spellcheck="false" formControlName="cuatrimestre">
-                                </div>
-                            </div>
-
-                            <div class="col" >
-                                <div class="form-group">
+                                <div class="form-group flex-fill ml-2">
                                     <label for="externo">Externo</label>
                                     <input type="checkbox" class="form-group" id="externo" formControlName="externo">
-                                    
-                                </div>
 
-                            </div>
-
-                          
-
-                        </div>
-
-                        
-
-
-                       
-
-                        <div class="row" *ngIf="this.usuarioService.usuario.esGestor && USUARIOS">
-                            <div class="col">
-                                <div class="form-group">
-                                    <label for="proponedor">Proponedor (solo modificable por el gestor del portal)</label>
-                                    <select id="proponedor" name="area" class="form-control" formControlName="proponedor">
-                                        <option value="">Elije un usuario que se haga cargo de la iniciativa</option>
-                                        <option *ngFor="let USUARIO of USUARIOS" [selected]="this.iniciativa.proponedor == USUARIO.uid" value="{{ USUARIO.uid }}">{{ USUARIO.email }} - {{ USUARIO.displayRol }}</option>
-                                    </select>
                                 </div>
                             </div>
-                        </div>
 
-    
+                        </fieldset>
+
+                        <fieldset class="p-4 mb-2">
+                            <legend class="mb-0 px-2"><strong>Información demanda</strong></legend>
 
 
+                            <div>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label for="entidad">Entidad</label>
+                                            <input type="text" class="form-control" id="entidad"
+                                                formControlName="entidad" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label for="ciudad">Localización de desarrollo del partenariado</label>
+                                            <input name="ciudad" type="text" id="ciudad" class="form-control"
+                                                autocorrect="off" autocapitalize="none" spellcheck="false"
+                                                formControlName="ciudad" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label for="necesidadSocial">Necesidad social</label>
+                                            <input name="necesidadSocial" type="text" id="necesidadSocial" readonly
+                                                class="form-control" autocorrect="off" autocapitalize="none"
+                                                spellcheck="false" formControlName="necesidadSocial">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label for="finalidad">Finalidad</label>
+                                            <input name="finalidad" type="text" id="finalidad" readonly
+                                                class="form-control" autocorrect="off" autocapitalize="none"
+                                                spellcheck="false" formControlName="finalidad">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label for="comunidadBeneficiaria">Comunidad beneficiaria</label>
+                                            <input name="comunidadBeneficiaria" type="text" readonly
+                                                id="comunidadBeneficiaria" class="form-control" autocorrect="off"
+                                                autocapitalize="none" spellcheck="false"
+                                                formControlName="comunidadBeneficiaria">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label for="demandaAreaServicio">Area servicio</label>
+                                            <input name="demandaAreaServicio" readonly type="text"
+                                                id="demandaAreaServicio" class="form-control" autocorrect="off"
+                                                autocapitalize="none" spellcheck="false"
+                                                formControlName="demandaAreaServicio">
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label for="fechaInicio">Fecha inicio</label>
+                                            <input name="fechaInicio" type="date" readonly id="fechaInicio"
+                                                class="form-control" autocorrect="off" autocapitalize="none"
+                                                spellcheck="false" formControlName="fechaInicio">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label for="fechaFin">Fecha final</label>
+                                            <input name="fechaFin" type="date" readonly id="fechaFin"
+                                                class="form-control" autocorrect="off" autocapitalize="none"
+                                                spellcheck="false" formControlName="fechaFin">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                
+                            </div>
+
+                        </fieldset>
+                        <fieldset class="p-4 mb-2">
+                            <legend class="mb-0 px-2"><strong>Información oferta</strong></legend>
+
+
+                            <div>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label for="responsable">Profesor responsable</label>
+                                            <input type="text" class="form-control" id="responsable" formControlName="responsable">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label for="profesores">Equipo de profesores</label>
+                                            <input type="text" class="form-control" id="profesores"
+                                                formControlName="profesores">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label for="titulacionesLocales">Titulaciones locales</label>
+                                            <input name="titulacionesLocales" readonly type="text"
+                                                id="titulacionesLocales" class="form-control" autocorrect="off"
+                                                autocapitalize="none" spellcheck="false"
+                                                formControlName="titulacionesLocales">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label for="titulacionesLocales">Año academico</label>
+                                            <input name="anioAcademico" readonly type="text" id="anioAcademico"
+                                                class="form-control" autocorrect="off" autocapitalize="none"
+                                                spellcheck="false" formControlName="anioAcademico">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label for="cuatrimestre">Cuatrimestre</label>
+                                            <input type="text" readonly id="cuatrimestre" class="form-control"
+                                                autocorrect="off" autocapitalize="none" spellcheck="false"
+                                                formControlName="cuatrimestre">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label for="asignaturaObjetivo">Asignatura objetivo</label>
+                                            <input name="asignaturaObjetivo" readonly type="text"
+                                                id="asignaturaObjetivo" class="form-control" autocorrect="off"
+                                                autocapitalize="none" spellcheck="false"
+                                                formControlName="asignaturaObjetivo">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label for="ofertaAreaServicio">Area servicio</label>
+                                            <input name="ofertaAreaServicio" readonly type="text"
+                                                id="ofertaAreaServicio" class="form-control" autocorrect="off"
+                                                autocapitalize="none" spellcheck="false"
+                                                formControlName="ofertaAreaServicio">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
 
 
                         <div class="d-flex">
-                            <div class="flex-fill alert alert-danger mr-3" role="alert" *ngIf="this.crearIniciativaForm.invalid && this.formSubmitted">
-                                <div *ngIf="campoNoValido('estado')" class="col">{{ campoNoValido('estado') }}</div>
-                                <div *ngIf="campoNoValido('titulo')" class="col">{{ campoNoValido('titulo') }}</div>
-                                <div *ngIf="campoNoValido('descripcion')" class="col">{{ campoNoValido('descripcion') }}</div>
-                                <div *ngIf="campoNoValido('rama')" class="col">{{ campoNoValido('rama') }}</div>
-                                <div *ngIf="campoNoValido('ciudad')" class="col">{{ campoNoValido('ciudad') }}</div>
-                                <div *ngIf="campoNoValido('proponedor')" class="col">{{ campoNoValido('proponedor') }}</div>
-                                <div *ngIf="campoNoValido('terminos_aceptados')" class="col">{{ campoNoValido('terminos_aceptados') }}</div>
-                            </div>
+                            <div class="flex-fill alert alert-danger mr-3" role="alert" *ngIf="this.crearPartenariadoProfesorForm.invalid">
+                               <div *ngIf="campoNoValido('titulo')" class="col">{{ campoNoValido('titulo') }}</div>
+                               <div *ngIf="campoNoValido('descripcion')" class="col">{{ campoNoValido('descripcion') }}</div>
+                               <div *ngIf="campoNoValido('cuatrimestre')" class="col">{{ campoNoValido('cuatrimestre') }}</div>
+                           </div> 
 
-                            <div class="ml-auto mb-2">
-                                <input  type="submit" [value]="this.formSending ? 'Creando...' : 'Crear Iniciativa'" class="btn btn-default btn-secondary m-4" >
-                            </div>
-                        </div>
-
+                           <div class="ml-auto mb-2">
+                                <input type="submit" value="Crear" class="btn btn-default btn-primary" [disabled]="crearPartenariadoProfesorForm.invalid">
+                           </div>
+                       </div>
 
                     </div>
-                </form>
+                </div>
 
-            </div>
-        </div>
-    </div>
+                
+                
+            </form>
+
+        </section>
+    </main>
 
 </div>
 <app-footer></app-footer>
