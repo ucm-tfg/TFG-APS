@@ -16,7 +16,7 @@ export class DemandaService {
   constructor( private http: HttpClient, private usuarioService: UsuarioService, private fileUploadService: FileUploadService) { }
 
   obtenerDemanda(){
-    return this.http.get<{ ok: boolean, demanda: any}>(`${ base_url }/demandas/demanda/98`,this.usuarioService.headers)
+    return this.http.get<{ ok: boolean, demanda: any}>(`${ base_url }/demandas/demanda/101`,this.usuarioService.headers)
     .pipe(
       map( (resp) => resp)
     );

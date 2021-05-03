@@ -168,6 +168,7 @@ export class PartenariadoCrearProfesorComponent implements OnInit {
       return;
     }
 
+    this.crearPartenariadoProfesorForm.get('responsable').setValue(this.oferta.creador.uid);
     this.formSending = true;
     this.observableEnviarPartenariado()
       .subscribe(resp => {
@@ -177,7 +178,7 @@ export class PartenariadoCrearProfesorComponent implements OnInit {
 
         this.router.routeReuseStrategy.shouldReuseRoute = () => false;
         this.router.onSameUrlNavigation = 'reload';
-        this.router.navigate(['/partenariadoCrear']);
+        this.router.navigate(['/']);
 
         this.formSubmitted = false;
         this.formSending = false;

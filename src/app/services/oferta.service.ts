@@ -16,7 +16,7 @@ export class OfertaService {
   constructor( private http: HttpClient, private usuarioService: UsuarioService, private fileUploadService: FileUploadService) { }
 
   obtenerOferta(){
-    return this.http.get<{ ok: boolean, oferta: any}>(`${ base_url }/ofertas/106`,this.usuarioService.headers)
+    return this.http.get<{ ok: boolean, oferta: any}>(`${ base_url }/ofertas/100`,this.usuarioService.headers)
     .pipe(
       map( (resp) => resp)
     );
