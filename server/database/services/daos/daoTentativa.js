@@ -260,40 +260,41 @@ function obtenerDemandaServicio(id_demanda) {
             .where({ id: demanda[0]["necesidad_social"] })
             .select("nombre")
             .then(function (necesidad_social) {
-              return daoUsuario.obtenerEntidad(demanda[0]['creador']).then((entidad)=>{
-              return obtenerTitulacionLocal(id_demanda).then(function (
-                titulaciones
-              ) {
-                titulaciones_ref = [];
-                for (titulacion of titulaciones) {
-                  titulaciones_ref.push(titulacion["nombre"]);
-                }
-                necesidad_social = necesidad_social[0]["nombre"];
-                return new transferDemandaServicio(
-                  demanda[0]["id"],
-                  anuncio.getTitulo(),
-                  anuncio.getDescripcion(),
-                  anuncio.getImagen(),
-                  anuncio.getCreated_at(),
-                  anuncio.getUpdated_at(),
-                  entidad.getNombreEntidad(),
-                  demanda[0]["ciudad"],
-                  demanda[0]["finalidad"],
-                  demanda[0]["periodo_definicion_ini"],
-                  demanda[0]["periodo_definicion_fin"],
-                  demanda[0]["periodo_ejecucion_ini"],
-                  demanda[0]["periodo_ejecucion_fin"],
-                  demanda[0]["fecha_fin"],
-                  demanda[0]["observaciones_temporales"],
-                  necesidad_social,
-                  titulaciones_ref,
-                  anuncio.getArea_servicio(),
-                  demanda[0]["comunidad_beneficiaria"],
-                  anuncio.dummy
-                );
-              });
+              return daoUsuario
+                .obtenerEntidad(demanda[0]["creador"])
+                .then((entidad) => {
+                  return obtenerTitulacionLocal(id_demanda).then(function (
+                    titulaciones
+                  ) {
+                    titulaciones_ref = [];
+                    for (titulacion of titulaciones) {
+                      titulaciones_ref.push(titulacion["nombre"]);
+                    }
+                    necesidad_social = necesidad_social[0]["nombre"];
+                    return new transferDemandaServicio(
+                      demanda[0]["id"],
+                      anuncio.getTitulo(),
+                      anuncio.getDescripcion(),
+                      anuncio.getImagen(),
+                      anuncio.getCreated_at(),
+                      anuncio.getUpdated_at(),
+                      entidad.getNombreEntidad(),
+                      demanda[0]["ciudad"],
+                      demanda[0]["finalidad"],
+                      demanda[0]["periodo_definicion_ini"],
+                      demanda[0]["periodo_definicion_fin"],
+                      demanda[0]["periodo_ejecucion_ini"],
+                      demanda[0]["periodo_ejecucion_fin"],
+                      demanda[0]["fecha_fin"],
+                      demanda[0]["observaciones_temporales"],
+                      necesidad_social,
+                      titulaciones_ref,
+                      anuncio.getArea_servicio(),
+                      anuncio.dummy
+                    );
+                  });
+                });
             });
-          });
         });
     })
     .catch((err) => {
@@ -321,37 +322,42 @@ function obtenerOfertaServicio(id_oferta) {
               datos_profesores.forEach((profesor) => {
                 arrayProfesores.push(profesor["id_profesor"]);
               });
-              return daoUsuario.obtenerProfesorInterno(oferta[0]['creador']).then((responsable) =>{
               return daoUsuario
-                .obtenerProfesoresInternos(arrayProfesores)
-                .then(function (profesores) {
-                  return obtenerAsignaturaObjetivo(id_oferta).then(
-                    (asignaturas) => {
-                      asignaturas_ref = [];
-                      for (asignatura of asignaturas) {
-                        asignaturas_ref.push(asignatura["nombre"]);
-                      }
-                      return new transferOfertaServicio(
-                        oferta[0]["id"],
-                        anuncio.getTitulo(),
-                        anuncio.getDescripcion(),
-                        anuncio.getImagen(),
-                        anuncio.getCreated_at(),
-                        anuncio.getUpdated_at(),
-                        asignaturas_ref,
-                        oferta[0]["cuatrimestre"],
-                        oferta[0]["anio_academico"],
-                        oferta[0]["fecha_limite"],
-                        oferta[0]["observaciones_temporales"],
-                        responsable.getNombre() + " "+ responsable.getApellidos(),
-                        anuncio.getArea_servicio(),
-                        profesores,
-                        oferta[0]["dummy"]
+                .obtenerProfesorInterno(oferta[0]["creador"])
+                .then((responsable) => {
+                  return daoUsuario
+                    .obtenerProfesoresInternos(arrayProfesores)
+                    .then(function (profesores) {
+                      return obtenerAsignaturaObjetivo(id_oferta).then(
+                        (asignaturas) => {
+                          asignaturas_ref = [];
+                          for (asignatura of asignaturas) {
+                            asignaturas_ref.push(asignatura["nombre"]);
+                          }
+                          return new transferOfertaServicio(
+                            oferta[0]["id"],
+                            anuncio.getTitulo(),
+                            anuncio.getDescripcion(),
+                            anuncio.getImagen(),
+                            anuncio.getCreated_at(),
+                            anuncio.getUpdated_at(),
+                            asignaturas_ref,
+                            oferta[0]["cuatrimestre"],
+                            oferta[0]["anio_academico"],
+                            oferta[0]["fecha_limite"],
+                            oferta[0]["observaciones_temporales"],
+                            { id: responsable.getId(), 
+                              nombre: responsable.getNombre(), 
+                              apellidos: responsable.getApellidos()
+                            },
+                            anuncio.getArea_servicio(),
+                            profesores,
+                            oferta[0]["dummy"]
+                          );
+                        }
                       );
-                    }
-                  );
+                    });
                 });
-              });
             });
         });
     })
@@ -1101,7 +1107,6 @@ function obtenerAsignaturaObjetivo(id_oferta) {
     });
 }
 
-
 function obtenerTitulacionLocal(id_demanda) {
   return knex("titulacionlocal_demanda")
     .where({ id_demanda: id_demanda })
@@ -1136,7 +1141,7 @@ function obtenerAreaServicio(id_anuncio) {
       for (id_area of id_areas) {
         areas.push(id_area["id_area"]);
       }
-      return knex.select("nombre").from("area_servicio").whereIn("id", areas);
+      return knex.select("*").from("area_servicio").whereIn("id", areas);
     })
     .catch((err) => {
       console.log(

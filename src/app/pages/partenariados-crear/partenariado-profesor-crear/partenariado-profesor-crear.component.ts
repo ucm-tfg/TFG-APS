@@ -32,7 +32,7 @@ export class PartenariadoCrearProfesorComponent implements OnInit {
   public demanda: Demanda;
   public imagenSubir: File;
   public imagenPreview: any = null;
-
+  public responsable_data:any;
   public crearPartenariadoProfesorForm: FormGroup;
 
   public RAMAS = RAMAS;
@@ -62,7 +62,7 @@ export class PartenariadoCrearProfesorComponent implements OnInit {
       finalidad: [this.demanda.objetivo],
       comunidadBeneficiaria: [this.demanda.comunidadBeneficiaria],
       cuatrimestre: [this.oferta.cuatrimestre],
-      responsable: [this.oferta.creador],
+      responsable: '',
       ciudad: [this.demanda.ciudad],
       externos: new FormControl(''),
       id_demanda: [this.demanda.id],
@@ -116,6 +116,7 @@ export class PartenariadoCrearProfesorComponent implements OnInit {
 
       }
       this.selProfesores= arrayP;
+    
       let fecha_fin = moment(value.fecha_limite).format('YYYY-MM-DD');
       this.oferta = new Oferta(value.id, value.titulo, value.descripcion, value.imagen, value.created_at, value.upload_at, value.cuatrimestre,
         value.anio_academico, fecha_fin, value.observaciones_temporales, value.creador, value.area_servicio, value.asignatura_objetivo, value.profesores)
@@ -168,13 +169,21 @@ export class PartenariadoCrearProfesorComponent implements OnInit {
       return;
     }
 
-    this.crearPartenariadoProfesorForm.get('responsable').setValue(this.oferta.creador.uid);
+    let id_responsable = this.obtenerIdResponsable();
+    if(id_responsable == -1){
+      let msg = [];
+      msg.push("El responsable debe ser un valor válido");
+      Swal.fire('Error', msg.join('<br>'), 'error');
+      this.formSubmitted = false;
+      this.formSending = false;
+    }
+    this.crearPartenariadoProfesorForm.get('responsable').setValue(id_responsable);
     this.formSending = true;
     this.observableEnviarPartenariado()
       .subscribe(resp => {
         this.parteneriado_id
-          ? Swal.fire('Ok', 'Partenariado actualizado correctamente', 'success')
-          : Swal.fire('Ok', 'Partenariado actualizado correctamente', 'success');
+          ? Swal.fire('Ok', 'Partenariado creado correctamente', 'success')
+          : Swal.fire('Ok', 'Partenariado creado correctamente', 'success');
 
         this.router.routeReuseStrategy.shouldReuseRoute = () => false;
         this.router.onSameUrlNavigation = 'reload';
@@ -202,6 +211,15 @@ export class PartenariadoCrearProfesorComponent implements OnInit {
 
   }
 
+  obtenerIdResponsable(){
+    let i=0;
+    let resp = this.crearPartenariadoProfesorForm.get('responsable').value;
+    while(i < this.selProfesores.length && 
+      this.selProfesores[i].nombreCompleto != resp){
+        i++;
+      }
+    return (i < this.selProfesores.length) ? this.selProfesores[i].id : -1;
+  }
 
   campoNoValido(campo): String {
 

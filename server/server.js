@@ -478,27 +478,27 @@ let cuatrimestre = 1;
 
 
 //DEMANDAS----------------------------------------------------------------------------------------
-let titulo = "Anuncio casa";
-let descripcion = "Construir una casa";
-let imagen = "Prueba, aquí va la dirección de la imagen";
-let ciudad = "Madrid"; 
-let finalidad = "Construir una casa";
-let periodo_definicion_ini = new Date (2020, 5, 04);
-let periodo_definicion_fin  = new Date (2020, 6, 04);
-let periodo_ejecucion_ini = new Date (2020, 6, 05);
-let periodo_ejecucion_fin = new Date (2021, 2, 11);
-let fecha_fin  = new Date (2021, 7, 01);
-let observaciones_temporales = "NADA";
-let necesidad_social = 18;
-let titulacionlocal_demandada = [1, 2];
-let area_servicio = [7,5,35,37,36,29];
-let creador = 119;
+// let titulo = "Anuncio casa";
+// let descripcion = "Construir una casa";
+// let imagen = "Prueba, aquí va la dirección de la imagen";
+// let ciudad = "Madrid"; 
+// let finalidad = "Construir una casa";
+// let periodo_definicion_ini = new Date (2020, 5, 04);
+// let periodo_definicion_fin  = new Date (2020, 6, 04);
+// let periodo_ejecucion_ini = new Date (2020, 6, 05);
+// let periodo_ejecucion_fin = new Date (2021, 2, 11);
+// let fecha_fin  = new Date (2021, 7, 01);
+// let observaciones_temporales = "NADA";
+// let necesidad_social = 18;
+// let titulacionlocal_demandada = [1, 2];
+// let area_servicio = [7,5,35,37,36,29];
+// let creador = 119;
 
-let demanda = new TDemandaServicio(null, titulo, descripcion, imagen, "", "", 
-    creador, ciudad, finalidad, periodo_definicion_ini, periodo_definicion_fin, periodo_ejecucion_ini,
-    periodo_ejecucion_fin, fecha_fin, observaciones_temporales, necesidad_social, titulacionlocal_demandada,
-    area_servicio, 0);
-dao_tentativa.crearDemanda(demanda);
+// let demanda = new TDemandaServicio(null, titulo, descripcion, imagen, "", "", 
+//     creador, ciudad, finalidad, periodo_definicion_ini, periodo_definicion_fin, periodo_ejecucion_ini,
+//     periodo_ejecucion_fin, fecha_fin, observaciones_temporales, necesidad_social, titulacionlocal_demandada,
+//     area_servicio, 0);
+// dao_tentativa.crearDemanda(demanda);
 // dao_tentativa.obtenerDemandaServicio(101).then(function(oferta){console.log(oferta);});
 
 // ciudad = "Barcelona"; 
@@ -539,9 +539,9 @@ dao_tentativa.crearDemanda(demanda);
 // const TMensajes = require('./database/services/transfers/TMensajes');
 // const TMail = require('./database/services/transfers/TMail');
 // const TNewsletter = require('./database/services/transfers/TNewsletter');
-// const dao_colaboracion = require('./database/services/daos/daoColaboracion');
-// const TColaboracion = require('./database/services/transfers/TColaboracion');
-// const TPartenariado = require('./database/services/transfers/TPartenariado');
+const dao_colaboracion = require('./database/services/daos/daoColaboracion');
+const TColaboracion = require('./database/services/transfers/TColaboracion');
+const TPartenariado = require('./database/services/transfers/TPartenariado');
 // const { date } = require('faker');
 
 // let texto = "texto de prueba para mensaje de colaboracion";
@@ -574,12 +574,12 @@ dao_tentativa.crearDemanda(demanda);
 // titulo  = "Partenariado 1 editado";
 // descripcion = "Descripción partenariado 1";
 // admite_externos = 1;
-// responsable = 105;
-// profesores =[105, 107, 109];
-// id_demanda = 52;
-// id_oferta = 50;
+// responsable = 120;
+// profesores =[];
+// id_demanda = 101;
+// id_oferta = 100;
 // estado = 1;
-// let partenariado = new TPartenariado(null, titulo, descripcion, admite_externos, responsable, profesores, id_demanda, id_oferta, estado, _v);
+// let partenariado = new TPartenariado(27, titulo, descripcion, admite_externos, responsable, profesores, id_demanda, id_oferta, estado);
 // dao_colaboracion.crearPartenariado(partenariado);
 // return dao_colaboracion.obtenerPartenariado(4).then((datos) =>{
 //   console.log(datos);

@@ -206,14 +206,12 @@
 
 
                             <div>
-                                <div class="form-group">
-                                    <label for="responsable">Profesor responsable</label>
-                                    <input name="responsable" type="text" id="responsable" list="responsable"
-                                        formControlName="responsable" class="form-control"
-                                        placeholder="Introduzca su profesor">
-                                    <datalist id="responsable">
-                                        <option *ngFor="let c of profesorList" [value]="c.nombre"></option>
-                                    </datalist>
+                                <div class="form-group" >
+                                    <label for="responsable">Responsable del partenariado</label>
+                                    <input name="responsable" type="text" id="responsable"  list="selProfesores"  formControlName="responsable"  class="form-control" [class.is-invalid] = "crearPartenariadoProfesorForm.get('responsable').invalid && crearPartenariadoProfesorForm.get('responsable').touched" placeholder="Elija un responsable">
+                                    <datalist id="selProfesores">
+                                    <option *ngFor="let c of selProfesores" [value]="c.nombreCompleto" ></option>
+                                    </datalist>                                   
                                 </div>
 
                                 <div class="row">
