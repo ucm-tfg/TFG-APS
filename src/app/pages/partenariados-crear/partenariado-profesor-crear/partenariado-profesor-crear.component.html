@@ -135,6 +135,17 @@
                                     </div>
                                 </div>
 
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label for="titulacionesLocales">Titulaciones locales</label>
+                                            <input name="titulacionesLocales" readonly type="text"
+                                                id="titulacionesLocales" class="form-control" autocorrect="off"
+                                                autocapitalize="none" spellcheck="false"
+                                                formControlName="titulacionesLocales">
+                                        </div>
+                                    </div>
+                                </div>
 
 
                                 <div class="row">
@@ -269,22 +280,11 @@
 
                                 </div>
 
-                                <div class="row">
-                                    <div class="col">
-                                        <div class="form-group">
-                                            <label for="titulacionesLocales">Titulaciones locales</label>
-                                            <input name="titulacionesLocales" readonly type="text"
-                                                id="titulacionesLocales" class="form-control" autocorrect="off"
-                                                autocapitalize="none" spellcheck="false"
-                                                formControlName="titulacionesLocales">
-                                        </div>
-                                    </div>
-                                </div>
 
                                 <div class="row">
                                     <div class="col">
                                         <div class="form-group">
-                                            <label for="titulacionesLocales">Año academico</label>
+                                            <label for="anioAcademico">Año academico</label>
                                             <input name="anioAcademico" readonly type="text" id="anioAcademico"
                                                 class="form-control" autocorrect="off" autocapitalize="none"
                                                 spellcheck="false" formControlName="anioAcademico">
@@ -334,10 +334,16 @@
                             <div class="flex-fill alert alert-danger mr-3" role="alert"
                                 *ngIf="this.crearPartenariadoProfesorForm.invalid">
                                 <div *ngIf="campoNoValido('titulo')" class="col">{{ campoNoValido('titulo') }}</div>
-                                <div *ngIf="campoNoValido('descripcion')" class="col">{{ campoNoValido('descripcion') }}
-                                </div>
-                                <div *ngIf="campoNoValido('cuatrimestre')" class="col">{{ campoNoValido('cuatrimestre')
-                                    }}</div>
+                                <div *ngIf="campoNoValido('descripcion')" class="col">{{ campoNoValido('descripcion') }}</div>
+                                <div *ngIf="campoNoValido('cuatrimestre')" class="col">{{ campoNoValido('cuatrimestre')}}</div>
+                                <div *ngIf="campoNoValido('anioAcademico')" class="col">{{ campoNoValido('anioAcademico')}}</div>
+                                <div *ngIf="campoNoValido('cuatrimestre')" class="col">{{ campoNoValido('cuatrimestre')}}</div>
+                                <div *ngIf="campoNoValido('responsable')" class="col">{{ campoNoValido('responsable')}}</div>
+                                <div *ngIf="campoNoValido('ofertaObservacionesTemporales')" class="col">{{ campoNoValido('ofertaObservacionesTemporales')}}</div>
+                                <div *ngIf="campoNoValido('asignaturaObjetivo')" class="col">{{ campoNoValido('asignaturaObjetivo')}}</div>
+                                <div *ngIf="campoNoValido('ofertaAreaServicio')" class="col">{{ campoNoValido('ofertaAreaServicio')}}</div>
+                                <div *ngIf="campoNoValido('profesores')" class="col">{{ campoNoValido('profesores')}}</div>
+                                <div *ngIf="campoNoValido('fecha_limite')" class="col">{{ campoNoValido('fecha_limite')}}</div>
                             </div>
 
                             <div class="ml-auto mb-2">

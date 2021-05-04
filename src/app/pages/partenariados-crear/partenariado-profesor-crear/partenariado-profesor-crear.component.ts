@@ -35,9 +35,6 @@ export class PartenariadoCrearProfesorComponent implements OnInit {
   public responsable_data:any;
   public crearPartenariadoProfesorForm: FormGroup;
 
-  public RAMAS = RAMAS;
-  public CIUDADES = CIUDADES;
-  public USUARIOS;
 
   constructor(public fb: FormBuilder, public demandaService: DemandaService, public ofertaService: OfertaService, public partenariadoService: PartenariadoService, public usuarioService: UsuarioService, public fileUploadService: FileUploadService, public router: Router, public activatedRoute: ActivatedRoute) {
   }
@@ -54,31 +51,31 @@ export class PartenariadoCrearProfesorComponent implements OnInit {
 
 
     this.crearPartenariadoProfesorForm = this.fb.group({
-      anioAcademico: [this.oferta.anio_academico],
-      titulo: [this.demanda.titulo + " | " + this.oferta.titulo || '', /* Validators.required */],
-      descripcion: [this.demanda.descripcion + " | " + this.oferta.descripcion || ''],
+      anioAcademico: [this.oferta.anio_academico || '', Validators.required ],
+      titulo: [this.demanda.titulo + " | " + this.oferta.titulo || '',  Validators.required ],
+      descripcion: [this.demanda.descripcion + " | " + this.oferta.descripcion || '' ,  Validators.required],
       entidad: [this.demanda.creador || ''],
       necesidadSocial: [this.demanda.necesidad_social],
       finalidad: [this.demanda.objetivo],
       comunidadBeneficiaria: [this.demanda.comunidadBeneficiaria],
-      cuatrimestre: [this.oferta.cuatrimestre],
-      responsable: '',
+      cuatrimestre: [this.oferta.cuatrimestre || '', Validators.required ],
+      responsable: ['',  Validators.required ],
       ciudad: [this.demanda.ciudad],
-      externos: new FormControl(''),
+      externos: [false],
       id_demanda: [this.demanda.id],
-      id_oferta: [this.oferta.id],
-      ofertaObservacionesTemporales: [this.oferta.observaciones],
+      id_oferta: [this.oferta.id || ''],
+      ofertaObservacionesTemporales: [this.oferta.observaciones, Validators.required ],
       demandaObservacionesTemporales: [this.demanda.observacionesTemporales],
-      asignaturaObjetivo: [this.oferta.asignatura_objetivo],
+      asignaturaObjetivo: [this.oferta.asignatura_objetivo, Validators.required ],
       titulacionesLocales: [this.demanda.titulacion_local],
-      ofertaAreaServicio: [this.oferta.area_servicio],
+      ofertaAreaServicio: [this.oferta.area_servicio, Validators.required ],
       demandaAreaServicio: [this.demanda.area_servicio],
       periodo_definicion_fin:[this.demanda.periodoDefinicionFin],
       periodo_definicion_ini: [this.demanda.periodoDefinicionIni],
       periodo_ejecucion_fin: [this.demanda.periodoEjecucionFin],
       periodo_ejecucion_ini: [this.demanda.periodoEjecucionIni],
-      profesores: new FormControl(''),
-      fecha_limite :[this.oferta.fecha_limite],
+      profesores: [new FormControl(''), Validators.required ],
+      fecha_limite :[this.oferta.fecha_limite, Validators.required ],
       fecha_fin : [this.demanda.fechaFin],
 
     });
@@ -99,7 +96,6 @@ export class PartenariadoCrearProfesorComponent implements OnInit {
 
   async cargarPartenariado() {
     this.partenariado = new Partenariado('', '', '', '', '', '', '', '', null, null, null, null, null, null);
-    //,null,null,null,'', null,'',null,'',false, '', '','','',null, [], [], null, null,null,null, '');
   }
 
   async obtenerOferta() {
