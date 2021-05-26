@@ -37,8 +37,7 @@
 
                                     <div class="form-group">
                                         <label for="descripcion">descripcion de la demanda</label>
-                                        <input name="descripcion" type="text" id="demanda" class="form-control" autocorrect="off" autocapitalize="none" spellcheck="false" placeholder="Introduzca la descripcion de su demanda" formControlName="descripcion">
-                                    </div>
+                                        <textarea  name="descripcion" id="demanda" class="form-control" placeholder="Escribe una descripción sobre la demanda" rows="8" formControlName="descripcion"></textarea>                                    </div>
                                     <!-- <div class="d-flex">
                                         <div class="form-group flex-fill mr-2">
                                             <label for="portada">Imagen inicial de la demanda</label>
@@ -47,7 +46,7 @@
                                     </div> -->
                                     
                                     <div class="form-group">
-                                        <label for="area_servicio">Area/s de servicio</label>
+                                        <label for="area_servicio">Area de implementación</label>
                                         <ng-multiselect-dropdown
                                         name="area_servicio"
                                         [settings]="dropdownSettings"
