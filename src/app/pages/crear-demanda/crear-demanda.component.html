@@ -31,12 +31,12 @@
                                     <legend class="mb-0 px-2"><strong>Informacion de la demanda</strong></legend>
 
                                     <div class="form-group">
-                                        <label>Introduzca el título</label>
+                                        <label>Introduzca el título *</label>
                                         <input name="titulo" type="text" id="titulo" class="form-control" autocorrect="off" autocapitalize="none" spellcheck="false" placeholder="Introduzca el Titulo de la demanda" formControlName="titulo">
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="descripcion">descripcion de la demanda</label>
+                                        <label for="descripcion">Descripcion de la demanda *</label>
                                         <textarea  name="descripcion" id="demanda" class="form-control" placeholder="Escribe una descripción sobre la demanda" rows="8" formControlName="descripcion"></textarea>                                    </div>
                                     <!-- <div class="d-flex">
                                         <div class="form-group flex-fill mr-2">
@@ -46,7 +46,7 @@
                                     </div> -->
                                     
                                     <div class="form-group">
-                                        <label for="area_servicio">Area de implementación</label>
+                                        <label for="area_servicio">Area de implementación *</label>
                                         <ng-multiselect-dropdown
                                         name="area_servicio"
                                         [settings]="dropdownSettings"
@@ -86,47 +86,51 @@
                                         </div>
 
                                         <div class="form-group flex-fill ml-2">
-                                            <label for="objetivo">Objetivo que va a cumplir la demanda</label>
+                                            <label for="objetivo">Objetivo que va a cumplir la demanda *</label>
                                             <input name="objetivo" type="text" id="objetivo" class="form-control" autocorrect="off" autocapitalize="none" spellcheck="false" placeholder="Introduzca el objetivo" [class.is-invalid] = "createDemandForm.get('objetivo').invalid && createDemandForm.get('objetivo').touched" formControlName="objetivo">
                                             
                                         </div>
 
                                         <div class="form-group flex-fill ml-2">
-                                            <label for="fechaDefinicionIni">Seleccione el comienzo del periodo de definicion</label>
+                                            <label for="fechaDefinicionIni">Comienzo del periodo de disponibilidad para trabajar en la definición
+                                                de un proyecto ApS</label>
                                             <input name="fechaDefinicionIni" type="date" id="fechaDefinicionIni" class="form-control" [class.is-invalid] = "createDemandForm.get('fechaDefinicionIni').invalid && createDemandForm.get('fechaDefinicionIni').touched" formControlName="fechaDefinicionIni">
                                     
                                         </div>
 
                                         <div class="form-group flex-fill ml-2">
-                                            <label for="fechaDefinicionFin">Seleccione el fin del periodo de definicion</label>
+                                            <label for="fechaDefinicionFin">Fin del periodo de disponibilidad para trabajar en la definición de un
+                                                proyecto ApS</label>
                                             <input name="fechaDefinicionFin" type="date" id="fechaDefinicionFin" class="form-control" [class.is-invalid] = "createDemandForm.get('fechaDefinicionFin').invalid && createDemandForm.get('fechaDefinicionFin').touched" formControlName="fechaDefinicionFin">
                                         
                                         </div>
 
                                         <div class="form-group flex-fill ml-2">
-                                            <label for="fechaEjecucionIni">Seleccione el comienzo del periodo de ejecucion</label>
+                                            <label for="fechaEjecucionIni">Comienzo del periodo de disponibilidad para trabajar en la realización
+                                                del proyecto ApS</label>
                                             <input name="fechaEjecucionIni" type="date" id="fechaEjecucionIni" class="form-control" [class.is-invalid] = "createDemandForm.get('fechaEjecucionIni').invalid && createDemandForm.get('fechaEjecucionIni').touched" formControlName="fechaEjecucionIni">
                                             
                                         </div>
 
                                         <div class="form-group flex-fill ml-2">
-                                            <label for="fechaEjecucionFin">Seleccione el fin del periodo de ejecucion</label>
+                                            <label for="fechaEjecucionFin">Fin del periodo de disponibilidad para trabajar en la realización
+                                                del proyecto ApS</label>
                                             <input name="fechaEjecucionFin" type="date" id="fechaEjecucionFin" class="form-control" [class.is-invalid] = "createDemandForm.get('fechaEjecucionFin').invalid && createDemandForm.get('fechaEjecucionFin').touched" formControlName="fechaEjecucionFin">
                                             
                                         </div>
 
                                         <div class="form-group flex-fill ml-2">
-                                            <label for="fechaFin">Seleccione la fecha de finalizacion de la demanda</label>
+                                            <label for="fechaFin">Fecha límite para el fin de la realización del proyecto ApS</label>
                                             <input name="fechaFin" type="date" id="fechaFin" class="form-control" [class.is-invalid] = "createDemandForm.get('fechaFin').invalid && createDemandForm.get('fechaFin').touched" formControlName="fechaFin">
                                             
                                         </div>
 
                                         <div class="form-group flex-fill ml-2">
-                                            <label for="observacionTemporal"> Si tiene alguna peticion especial en cuanto a las fechas, escribala aqui</label>
+                                            <label for="observacionTemporal">Si tiene algún requisito especial en cuanto a las fechas, escríbala aquí</label>
                                             <input name="observacionTemporal" type="text" id="observacionTemporal" class="form-control" autocorrect="off" autocapitalize="none" spellcheck="false" placeholder="Introduzca la observacion" formControlName="observaciones">
                                         </div>
                                         <div class="form-group">
-                                            <label for="necesidad_social">Necesidad social a cumplir con esta demanda</label>
+                                            <label for="necesidad_social">Necesidad social a cumplir con esta demanda *</label>
                                             <input name="necesidad_social" type="text" id="necesidad_social"  list="necesidades"  formControlName="necesidad_social"  class="form-control" [class.is-invalid] = "createDemandForm.get('necesidad_social').invalid && createDemandForm.get('necesidad_social').touched" placeholder="Introduzca la necesidad social">
                                             <datalist id="necesidades">
                                             <option *ngFor="let n of necesidadSocial" [value]="n.nombre" ></option>
@@ -135,17 +139,18 @@
                                         </div>
 
                                         <div class="form-group flex-fill ml-2">
-                                            <label for="comunidadBeneficiaria">Comunidad Beneficiaria de esta demanda</label>
+                                            <label for="comunidadBeneficiaria">Comunidad Beneficiaria de esta demanda *</label>
                                             <input name="comunidadBeneficiaria" type="text" id="comunidadBeneficiaria" class="form-control" autocorrect="off" autocapitalize="none" spellcheck="false" placeholder="Introduzca la comunidad beneficiaria" [class.is-invalid] = "createDemandForm.get('comunidadBeneficiaria').invalid && createDemandForm.get('comunidadBeneficiaria').touched" formControlName="comunidadBeneficiaria">
                                             
                                         </div>
 
                                         <div class="form-group">
-                                            <label for="area_servicio">titulacion/es local/es</label>
+                                            <label for="area_servicio">Si tiene una idea de una titulación o unas titulaciones en las que
+                                                podría cuadrar el proyecto, escríbalas</label>
                                             <ng-multiselect-dropdown
                                             name="area_servicio"
                                             [settings]="dropdownSettings"
-                                            [placeholder]="'Selecciona el area de servicio'"
+                                            [placeholder]="'Introduzca la(s) titulación(es)'"
                                             [data]="titulacionLocal"
                                             formControlName="titulacion_local"
                                             >

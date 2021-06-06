@@ -39,7 +39,7 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="email">Correo electrónico (se usará como login)</label>
+                                        <label for="email">Correo electrónico (se usará como login) *</label>
                                         <input name="email" type="email" [class.is-invalid] = "registerForm.get('email').invalid && registerForm.get('email').touched" id="email" class="form-control" autocorrect="off" autocapitalize="none" spellcheck="false" placeholder="Introduzca su Correo" formControlName="email">
                                         <div *ngIf="(primEmail.invalid && primEmail.touched) || primEmail.dirty">
                                             <small *ngIf="primEmail.errors?.required" class="text-danger">El email es un campo requerido</small>
@@ -52,7 +52,7 @@
 
                                     <div class="d-flex">
                                         <div class="form-group flex-fill mr-2">
-                                            <label for="password">Contraseña</label>
+                                            <label for="password">Contraseña *</label>
                                             <input name="password" type="password" [class.is-invalid] = "registerForm.get('password').invalid && registerForm.get('password').touched"  id="password" class="form-control" autocorrect="off" autocapitalize="none" spellcheck="false" placeholder="Introduzca su Contraseña" formControlName="password">
                                             <div id="mensajePassword" *ngIf="(GetPassword.invalid && GetPassword.touched)">
                                                 <small *ngIf="GetPassword.errors?.required" class="text-danger"> La contraseña es un campo requerido</small>
@@ -61,7 +61,7 @@
                                         </div>
 
                                         <div class="form-group flex-fill ml-2">
-                                            <label for="password_2">Repetir Contraseña</label>
+                                            <label for="password_2">Repetir Contraseña *</label>
                                             <input name="password_2" type="password" id="password_2" class="form-control" autocorrect="off" [class.is-invalid] = "registerForm.get('password_2').invalid && registerForm.get('password_2').touched " autocapitalize="none" spellcheck="false" placeholder="Repita su Contraseña" formControlName="password_2">
                                             <div *ngIf="(GetPasswordConfirm.invalid && GetPasswordConfirm.touched)">
                                             <small *ngIf="GetPasswordConfirm.errors?.required" class="text-danger">Confirmar contraseña es un campo requerido</small>
@@ -82,7 +82,7 @@
 
                                     <div class="d-flex">
                                         <div class="form-group flex-fill mr-2">
-                                            <label for="nombre">Nombre</label>
+                                            <label for="nombre">Nombre *</label>
                                             <input name="nombre" type="text" id="nombre" class="form-control" autocorrect="off" autocapitalize="none" spellcheck="false" placeholder="Introduzca su Nombre" [class.is-invalid] = "registerForm.get('nombre').invalid && registerForm.get('nombre').touched" formControlName="nombre">
                                             <div *ngIf="(getNombre.invalid && getNombre.touched)">
                                                 <small *ngIf="getNombre.errors?.required" class="text-danger">El nombre es un campo requerido</small>
@@ -90,7 +90,7 @@
                                         </div>
 
                                         <div class="form-group flex-fill ml-2">
-                                            <label for="apellidos">Apellidos</label>
+                                            <label for="apellidos">Apellidos *</label>
                                             <input name="apellidos" type="text" id="apellidos" class="form-control" autocorrect="off" autocapitalize="none" spellcheck="false" placeholder="Introduzca su(s) Apellido(s)" [class.is-invalid] = "registerForm.get('apellidos').invalid && registerForm.get('apellidos').touched" formControlName="apellidos">
                                             <div *ngIf="(getApellidos.invalid && getApellidos.touched)">
                                                 <small *ngIf="getApellidos.errors?.required" class="text-danger">El apellido es un campo requerido</small>
@@ -103,7 +103,7 @@
                                 <fieldset class="p-4 mb-2" *ngIf="this.registerForm.get('rol').value !== ''">
                                     <legend class="mb-0 px-2"><strong>Informacion de perfil</strong></legend>
                                     <div class="form-group" *ngIf="['ROL_ESTUDIANTE', 'ROL_PROFESOR'].includes(this.registerForm.get('rol').value)">
-                                        <label for="universidad">Universidad</label>
+                                        <label for="universidad">Universidad *</label>
                                         <!-- <input name="universidad" type="text" id="universidad" class="form-control" autocorrect="off" autocapitalize="none" spellcheck="false" placeholder="Introduzca su universidad" [class.is-invalid] = "registerForm.get('universidad').invalid && registerForm.get('universidad').touched" formControlName="universidad"> -->
                                         <input name="universidad" type="text" id="universidad"  list="codes"  formControlName="universidad"  class="form-control" [class.is-invalid] = "registerForm.get('universidad').invalid && registerForm.get('universidad').touched" placeholder="Introduzca su universidad">
                                         <datalist id="codes">
@@ -113,7 +113,7 @@
                                        
                                     </div>
                                     <div class="form-group" *ngIf="['ROL_PROFESOR'].includes(this.registerForm.get('rol').value)">
-                                        <label for="areaConocimiento">Area/s de conocimiento</label>
+                                        <label for="areaConocimiento">Area/s de conocimiento UNESCO *</label>
                                         <ng-multiselect-dropdown
                                         name="areaConocimiento"
                                         [settings]="dropdownSettings"
@@ -156,7 +156,7 @@
                                     <div class="form-group" *ngIf="['ROL_ESTUDIANTE'].includes(this.registerForm.get('rol').value)">
                                         <label for="titulacion">
                                             <ng-container *ngIf="this.registerForm.get('rol').value === 'ROL_ESTUDIANTE';">
-                                                Titulación
+                                                Titulación *
                                             </ng-container>
                                         </label>
                                         <input name="titulacion" type="text" id="titulacion" class="form-control" autocorrect="off" autocapitalize="none" spellcheck="false" placeholder="Introduzca su titulación" [class.is-invalid] = "registerForm.get('titulacion').invalid && registerForm.get('titulacion').touched"  formControlName="titulacion">
@@ -166,7 +166,7 @@
                                     <div class="form-group" *ngIf="['ROL_PROFESOR'].includes(this.registerForm.get('rol').value)">
                                         <label for="facultad">
                                             <ng-container *ngIf="this.registerForm.get('rol').value === 'ROL_PROFESOR';">
-                                                Facultad / Escuela
+                                                Facultad / Escuela *
                                             </ng-container>
                                         </label>
                                         <input name="facultad" type="text" id="facultad" class="form-control" autocorrect="off" autocapitalize="none" spellcheck="false" placeholder="Introduzca su facultad" [class.is-invalid] = "registerForm.get('facultad').invalid && registerForm.get('facultad').touched"  formControlName="facultad">

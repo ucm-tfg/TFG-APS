@@ -22,14 +22,14 @@
                         <div class="row">
                             <div class="col">
                                 <div class="form-group">
-                                    <label>Título</label>
+                                    <label>Título *</label>
                                     <input name="titulo" type="text" id="titulo" class="form-control" autocorrect="off" autocapitalize="none" spellcheck="false" placeholder="Título corto y descriptivo"  formControlName="titulo">
                                 </div>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label for="area_servicio">Area de implementación</label>
+                            <label for="area_servicio">Area de implementación *</label>
                             <ng-multiselect-dropdown
                             name="area_servicio"
                             [settings]="dropdownSettings"
@@ -72,7 +72,7 @@
                         <div class="row">
                             <div class="col">
                                 <div class="form-group">
-                                    <label for="descripcion">Descripción</label>
+                                    <label for="descripcion">Descripción *</label>
                                     <textarea id="descripcion" name="descripcion" class="form-control" placeholder="Escribe una descripción sobre la oferta" rows="8" formControlName="descripcion"></textarea>
                                 </div>
                             </div>
@@ -81,7 +81,7 @@
                         <div class="row">
                             <div class="col">
                                 <div class="form-group">
-                                    <label>Asignatura objetivo (Tenga en cuenta que también se consideran asignaturas un TFG o un TFM)</label>
+                                    <label>Asignatura objetivo (Tenga en cuenta que también se consideran asignaturas un TFG o un TFM) *</label>
                                     <input name="asignatura" type="text" id="asignatura" class="form-control" autocorrect="off" autocapitalize="none" spellcheck="false" placeholder="Asignatura objetivo"  formControlName="asignatura">
                                 </div>
                             </div>
