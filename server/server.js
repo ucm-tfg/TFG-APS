@@ -595,14 +595,12 @@ const TPartenariado = require('./database/services/transfers/TPartenariado');
 // pesoDescripcion=0.2;
 // pesoTemp=0.2;
 
-// fs = require('fs')
-  // dao_tentativa.obtenerDemandaServicio(105).then(function(demanda){
-//    dao_tentativa.obtenerOfertaServicio(67).then(function(oferta){
-// //     //console.log(demanda);
-// //     //console.log(oferta);
-//     var path  = "/configuracion.txt";
-//      matching.hacerMatch(__dirname + path, oferta, demanda).then(function(res){
-//        console.log("comprobado si son match");
-//      });
-//    });
-//  });
+fs = require('fs')
+  dao_tentativa.obtenerDemandaServicio(130).then(function(demanda){
+   dao_tentativa.obtenerOfertaServicio(131).then(function(oferta){
+    var path  = "/configuracion.txt";
+     matching.hacerMatch(__dirname + path, oferta, demanda).then(function(res){
+       console.log("comprobado si son match");
+     });
+   });
+ });

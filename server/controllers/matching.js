@@ -77,10 +77,13 @@ async function emparejar(oferta, demanda){
     console.log("Las areas de servicio de la demanda son ", areasServicio_demanda);
     var areasServicio_oferta = oferta.getArea_servicio();
     console.log("Las areas de servicio de la oferta son ", areasServicio_oferta);
-    var creador = await dao_usuario.obtenerProfesorInterno(oferta.getCreador());
+    console.log(oferta.getCreador(),"bb")
+    var creador = await dao_usuario.obtenerProfesorInterno(oferta.getCreador().id);
     var areasConocimiento = creador.getAreaConocimiento();
     var titulaciones_profesor = creador.getTitulacionLocal();
+    console.log(titulaciones_profesor)
     var titulaciones_demanda = demanda.getTitulacionlocal_demandada();
+    console.log(titulaciones_demanda)
 
     // Cambiar el nombre de las variables
     var comprobacionAreasServicioConocimiento 
@@ -294,6 +297,7 @@ function hacerMatch(fichero,oferta, demanda){
         }
         console.log(valores);
         return matchDefinitivo(oferta, demanda, valores[0], valores[1], valores[2], valores[3], valores[4]).then(function(res){
+    
             if(res >= 0.5){
                 return dao_tentativa.crearMatch(oferta.getId(), demanda.getId(), res)//hacer funcion en DAO para insertar en tabla matching
             }
