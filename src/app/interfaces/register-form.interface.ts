@@ -11,6 +11,9 @@ export interface RegisterForm {
     areaConocimiento: String;
     titulacion: string;
     sector: string;
-    nombreEntidad: String;
+    nombreSocioComunitario: String;
     terminos_aceptados: boolean;
+    telefono: Number;
+    url: string;
+    mision: string;
 }

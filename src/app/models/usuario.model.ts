@@ -18,8 +18,11 @@ export class Usuario {
         public sector?: string,
         public facultad?: string,
         public areaConocimiento?: Array<Object>,
-        public nombreEntidad?:String,
+        public nombreSocioComunitario?:String,
         public terminos_aceptados?: boolean,
+        public telefono?: Number,
+        public url?: string,
+        public mision?: string,
     ) {}
 
     get imagenUrl() {
@@ -44,9 +47,11 @@ export class Usuario {
             if(this.titulacion && this.titulacion !== '') { info.push(this.titulacion); }
         }
 
-        if(['ROL_ENTIDAD', 'ROL_GESTOR'].includes(this.rol)) {
+        if(['ROL_SOCIO_COMUNITARIO', 'ROL_GESTOR'].includes(this.rol)) {
             if(this.sector && this.sector !== '') { info.push(this.sector); }
-            if(this.nombreEntidad && this.nombreEntidad !== '') { info.push(this.nombreEntidad); }
+            if(this.url && this.url !== '') { info.push(this.url); }
+            if(this.mision && this.mision !== '') { info.push(this.mision); }
+            if(this.nombreSocioComunitario && this.nombreSocioComunitario !== '') { info.push(this.nombreSocioComunitario); }
         }
 
         return info;
@@ -71,8 +76,8 @@ export class Usuario {
                 return 'Profesor';
                 break;
 
-            case 'ROL_ENTIDAD':
-                return 'Entidad';
+            case 'ROL_SOCIO_COMUNITARIO':
+                return 'Socio comunitario';
                 break;
 
             case 'ROL_GESTOR':
@@ -98,7 +103,7 @@ export class Usuario {
         return ['ROL_PROFESOR'].includes(this.rol);
     }
 
-    get esEntidad() {
-        return ['ROL_ENTIDAD'].includes(this.rol);
+    get esSocioComunitario() {
+        return ['ROL_SOCIO_COMUNITARIO'].includes(this.rol);
     }
 }

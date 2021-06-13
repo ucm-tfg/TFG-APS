@@ -47,7 +47,7 @@ const tOficinaAps = require("./database/services/transfers/TOficinaAps");
 const TEstudiante = require("./database/services/transfers/TEstudiante");
 const tEstInterno = require("./database/services/transfers/TEstudianteInterno");
 const tProfesor = require("./database/services/transfers/TProfesor");
-const tEntidad = require("./database/services/transfers/TEntidad");
+const tSocioComunitario = require("./database/services/transfers/TSocioComunitario");
 const tProfesorInterno = require("./database/services/transfers/TProfesorInterno");
 const tEstudianteExterno = require("./database/services/transfers/TEstudianteExterno");
 const tProfesorExterno = require("./database/services/transfers/TProfesorExterno");
@@ -103,7 +103,7 @@ dao_proyecto.actualizarNota(nota1) */
 // dao_usuario.borrarProfesorInterno(136);
 // dao_usuario.borrarOficinaAPS(123);
 //dao_usuario.borrarAdmin(107);
-//dao_usuario.borrarEntidad();
+//dao_usuario.borrarSocioComunitario();
 //dao_usuario.borrarProfesorExterno(122)
 //dao_usuario.borrarProfesorInterno(123)
 
@@ -125,7 +125,7 @@ let estudinateInterno1 = new tEstInterno(
 );
 dao_usuario.insertarEstudianteInterno(estudinateInterno1);  */
 
-//Insertar entidad
+//Insertar socio comunitario
 /* let entidad1 = new tEntidad(
   null,
   "nuevaentidad2@ucm.es",
@@ -595,12 +595,10 @@ const TPartenariado = require('./database/services/transfers/TPartenariado');
 // pesoDescripcion=0.2;
 // pesoTemp=0.2;
 
-fs = require('fs')
+/* fs = require('fs')
   dao_tentativa.obtenerDemandaServicio(130).then(function(demanda){
    dao_tentativa.obtenerOfertaServicio(131).then(function(oferta){
     var path  = "/configuracion.txt";
-     matching.hacerMatch(__dirname + path, oferta, demanda).then(function(res){
-       console.log("comprobado si son match");
-     });
+     matching.hacerMatch(__dirname + path, oferta, demanda);
    });
- });
+ }); */

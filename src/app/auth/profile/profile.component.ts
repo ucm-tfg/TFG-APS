@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-import { ROL_GESTOR, ROL_ENTIDAD, ROL_PROFESOR, ROL_ESTUDIANTE } from './../../../../server/models/rol.model';
+import { ROL_GESTOR, ROL_SOCIO_COMUNITARIO, ROL_PROFESOR, ROL_ESTUDIANTE } from './../../../../server/models/rol.model';
 import { UsuarioService } from '../../services/usuario.service';
 import { FileUploadService } from '../../services/file-upload.service';
 import Swal from 'sweetalert2'
@@ -55,12 +55,15 @@ export class ProfileComponent {
       password_2: [''],
       nombre: [this.usuario.nombre, Validators.required],
       apellidos: [this.usuario.apellidos, Validators.required],
+      telefono: [this.usuario.telefono, Validators.required],
       universidad: [this.usuario.universidad],
       titulacion: [this.usuario.titulacion],
       facultad: [this.usuario.facultad],
       areaConocimiento: [this.usuario.areaConocimiento],
       sector: [this.usuario.sector],
-      nombreEntidad: [this.usuario.nombreEntidad],
+      url: [this.usuario.url],
+      mision: [this.usuario.mision],
+      nombreSocioComunitario: [this.usuario.nombreSocioComunitario],
     }, {
       validators: [
         this.validacionPasswordsNoCoinciden(),
@@ -69,7 +72,7 @@ export class ProfileComponent {
         this.validarAreaConocimiento(),
         this.validarTitulacion(),
         this.validarSector(),
-        this.validarNombreEntidad(),
+        this.validarNombreSocioComunitario(),
       ]
     });
     this.dropdownSettings = {
@@ -86,7 +89,6 @@ export class ProfileComponent {
   async obtenerUniversidades() {
     return this.registerService.obtenerUniversidades()
       .subscribe((resp: any) => {
-        console.log(resp)
         this.codeList = resp.codeList
         return this.codeList;
       });
@@ -95,7 +97,6 @@ export class ProfileComponent {
   async obtenerAreasConocimiento() {
     return this.registerService.obtenerAreasConocimiento()
       .subscribe((resp: any) => {
-        console.log(resp)
         this.areasList = resp.areas;
         return this.areasList;
       });
@@ -199,7 +200,7 @@ export class ProfileComponent {
 
   getRoles() {
     return [
-      { id: ROL_ENTIDAD, name: 'Entidad' },
+      { id: ROL_SOCIO_COMUNITARIO, name: 'Socio comunitario' },
       { id: ROL_PROFESOR, name: 'Profesor' },
       { id: ROL_ESTUDIANTE, name: 'Estudiante' },
     ];
@@ -231,7 +232,7 @@ export class ProfileComponent {
     if (invalido) {
       switch (campo) {
         case 'rol':
-          return 'Debe elegir un tipo de perfil con el que será registrado en la aplicación: Estudiante, Profesor o Entidad';
+          return 'Debe elegir un tipo de perfil con el que será registrado en la aplicación: Estudiante, Profesor o Socio Comunitario';
           break;
 
         case 'email':
@@ -281,14 +282,23 @@ export class ProfileComponent {
   }
 
   validarTitulacion() {
-    return this.validarCampoSegunPerfil('titulacion', [ROL_ESTUDIANTE, ROL_PROFESOR]);
+    return this.validarCampoSegunPerfil('titulacion', [ROL_ESTUDIANTE]);
   }
 
   validarSector() {
-    return this.validarCampoSegunPerfil('sector', [ROL_ENTIDAD]);
+    return this.validarCampoSegunPerfil('sector', [ROL_SOCIO_COMUNITARIO]);
   }
-  validarNombreEntidad() {
-    return this.validarCampoSegunPerfil('nombreEntidad', [ROL_ENTIDAD]);
+
+  validarUrl() {
+    return this.validarCampoSegunPerfil('url', [ROL_SOCIO_COMUNITARIO]);
+  }
+
+  validarMision() {
+    return this.validarCampoSegunPerfil('mision', [ROL_SOCIO_COMUNITARIO]);
+  }
+
+  validarNombreSocioComunitario() {
+    return this.validarCampoSegunPerfil('nombreSocioComunitario', [ROL_SOCIO_COMUNITARIO]);
   }
 
   validarFacultad() {

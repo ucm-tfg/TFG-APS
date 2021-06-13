@@ -45,13 +45,11 @@ export class SobreApsUnedContactaComponent implements OnInit {
     this.formSending = true;
     this.mailerService.enviarMailContacto(subject, html)
           .subscribe( resp => {
-            console.log(resp);
             Swal.fire('Ok', 'Formulario enviado correctamente', 'success');
             this.formSubmitted = false;
             this.formSending = false;
           }, err => {
             console.log(err);
-
             let msg = [];
             if(err.error.errors) {
               Object.values(err.error.errors).forEach(error_entry => {

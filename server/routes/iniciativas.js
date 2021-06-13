@@ -4,7 +4,7 @@ const { Router } = require('express');
 const { check } = require('express-validator');
 const { validarCampos } = require('./../middlewares/validar-campos');
 const { getIniciativas, getIniciativa, respaldarIniciativa, crearIniciativa, actualizarIniciativa, archivarIniciativa, desarchivarIniciativa } = require('./../controllers/iniciativas');
-const { opcionalJWT, validarJWT, validarEsProfesorOrEntidadOrEsGestor, validarEsGestor } = require('../middlewares/validar-jwt');
+const { opcionalJWT, validarJWT, validarEsProfesorOrSocioComunitarioOrEsGestor, validarEsGestor } = require('../middlewares/validar-jwt');
 
 const router = Router();
 
@@ -30,12 +30,12 @@ router.put(
 );
 
 
-// crear iniciativa, profesor, entidad o gestor
+// crear iniciativa, profesor, socio o gestor
 router.post(
     '/',
     [
         validarJWT,
-        validarEsProfesorOrEntidadOrEsGestor,
+        validarEsProfesorOrSocioComunitarioOrEsGestor,
         check('titulo', 'El título es un campo obligatorio').not().isEmpty(),
         check('descripcion', 'La descripción es un campo obligatorio').not().isEmpty(),
         check('rama', 'El rama es un campo obligatorio').not().isEmpty(),
@@ -52,7 +52,7 @@ router.put(
     '/:id',
     [
         validarJWT,
-        validarEsProfesorOrEntidadOrEsGestor,
+        validarEsProfesorOrSocioComunitarioOrEsGestor,
         check('titulo', 'El título es un campo obligatorio').not().isEmpty(),
         check('descripcion', 'La descripción es un campo obligatorio').not().isEmpty(),
         check('rama', 'El rama es un campo obligatorio').not().isEmpty(),
@@ -67,7 +67,7 @@ router.put(
 router.delete('/:id',
     [
         validarJWT,
-        validarEsProfesorOrEntidadOrEsGestor,
+        validarEsProfesorOrSocioComunitarioOrEsGestor,
     ],
     archivarIniciativa
 );

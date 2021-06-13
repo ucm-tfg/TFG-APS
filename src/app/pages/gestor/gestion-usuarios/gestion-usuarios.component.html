@@ -52,7 +52,7 @@
                             <select class="form-control" [(ngModel)]="usuario.rol" (change)="cambiarRol(usuario)" [disabled]="esUsuarioActual(usuario)">
                                 <option [selected]="usuario.rol == 'ROL_ESTUDIANTE'" value="ROL_ESTUDIANTE">Estudiante</option>
                                 <option [selected]="usuario.rol == 'ROL_PROFESOR'" value="ROL_PROFESOR">Profesor</option>
-                                <option [selected]="usuario.rol == 'ROL_ENTIDAD'" value="ROL_ENTIDAD">Entidad</option>
+                                <option [selected]="usuario.rol == 'ROL_SOCIO_COMUNITARIO'" value="ROL_SOCIO_COMUNITARIO">Socio comunitario</option>
                                 <option [selected]="usuario.rol == 'ROL_GESTOR'" value="ROL_GESTOR">Gestor</option>
                             </select>
                         </td>

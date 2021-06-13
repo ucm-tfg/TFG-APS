@@ -80,8 +80,8 @@ export class Oferta {
                 return 'Profesor';
                 break;
 
-            case 'ROL_ENTIDAD':
-                return 'Entidad';
+            case 'ROL_SOCIO_COMUNITARIO':
+                return 'Socio comunitario';
                 break;
 
             case 'ROL_GESTOR':

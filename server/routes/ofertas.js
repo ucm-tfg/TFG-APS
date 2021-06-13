@@ -14,7 +14,7 @@ router.get(
     getAreasservicio
 );
 
-// crear iniciativa, profesor, entidad o gestor
+// crear iniciativa, profesor, socio o gestor
 router.post(
     '/',
     [

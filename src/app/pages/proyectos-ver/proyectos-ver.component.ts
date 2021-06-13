@@ -37,7 +37,7 @@ export class ProyectosVerComponent implements OnInit {
 
       if(    ! this.usuarioService.usuario.esGestor
           && ! this.usuarioService.usuario.esProfesor
-          && ! this.usuarioService.usuario.esEntidad
+          && ! this.usuarioService.usuario.esSocioComunitario
           && ! this.usuarioService.usuario.esEstudiante
       ) {
         return false;
@@ -58,7 +58,7 @@ export class ProyectosVerComponent implements OnInit {
         }
       });
 
-      this.proyecto.entidades.forEach(entidad => {
+      this.proyecto.sociosComunitarios.forEach(entidad => {
         if(entidad.uid == this.usuarioService.usuario.uid) {
           acceso_permitido = true;
         }

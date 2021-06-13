@@ -29,7 +29,6 @@ export class NewsletterSubscribeComponent {
     this.formSending = true;
     this.mailerService.suscribirMailNewsletter(email_field.value)
           .subscribe( resp => {
-            console.log(resp);
             if(resp.ok) {
               Swal.fire('Ok', 'Te has suscrito satisfactoriamente a nuestra newsletter', 'success');
             } else {

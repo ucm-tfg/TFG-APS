@@ -34,7 +34,7 @@ export class IniciativasCrearComponent implements OnInit {
   constructor( public fb: FormBuilder, public iniciativaService: IniciativaService, public usuarioService: UsuarioService, public fileUploadService: FileUploadService, public router: Router, public activatedRoute: ActivatedRoute) {
     if(this.usuarioService.usuario.esGestor) {
       this.usuarioService.cargarUsuarios(0, 99999999, {terminoBusqueda: ''}).subscribe( ({total, filtradas, usuarios}) => {
-        this.USUARIOS = usuarios.filter( usuario => ['ROL_ENTIDAD', 'ROL_PROFESOR', 'ROL_GESTOR'].includes(usuario.rol));
+        this.USUARIOS = usuarios.filter( usuario => ['ROL_SOCIO_COMUNITARIO', 'ROL_PROFESOR', 'ROL_GESTOR'].includes(usuario.rol));
       });
     }
   }

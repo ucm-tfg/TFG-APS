@@ -37,8 +37,8 @@ export class UsuarioService {
       localStorage.setItem('token', '');
       return;
     }
-    const { uid, rol, email, nombre, apellidos, origin_login, origin_img, universidad, titulacion, sector,facultad, areaConocimiento, nombreEntidad, terminos_aceptados } = resp.usuario;
-    this.usuario = new Usuario( uid, rol, email, nombre, apellidos, origin_login, origin_img || '', universidad || '', titulacion || '', sector || '', facultad || '',  areaConocimiento || null,nombreEntidad || '', terminos_aceptados || false);
+    const { uid, rol, email, nombre, apellidos, origin_login, origin_img, universidad, titulacion, sector,facultad, areaConocimiento, nombreSocioComunitario, terminos_aceptados , telefono, url, mision} = resp.usuario;
+    this.usuario = new Usuario( uid, rol, email, nombre, apellidos, origin_login, origin_img || '', universidad || '', titulacion || '', sector || '', facultad || '',  areaConocimiento || null,nombreSocioComunitario || '', terminos_aceptados || false, telefono || null, url || '', mision || '');
     localStorage.setItem('token', resp.token);
   }
 
@@ -94,7 +94,7 @@ googleInit() {
           //scope: 'additional_scope'
         });
 
-        resolve();
+        //resolve();
       });
     });
 }
@@ -141,7 +141,7 @@ googleInit() {
     return usuarios.map(
       (user) => {
         if(!user) { return null; }
-        return new Usuario(user.uid || user.id || user._id, user.rol, user.email, user.nombre, user.apellidos, user.origin_login, user.origin_img || '', user.universidad || '', user.titulacion || '', user.sector || '',user.nombreEntidad || '', user.terminos_aceptados || false);
+        return new Usuario(user.uid || user.id || user._id, user.rol, user.email, user.nombre, user.apellidos, user.origin_login, user.origin_img || '', user.universidad || '', user.titulacion || '', user.sector || '',user.nombreS || '', user.terminos_aceptados || false, user.telefono || null);
       }
 
     );

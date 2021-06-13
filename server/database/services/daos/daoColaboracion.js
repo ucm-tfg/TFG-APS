@@ -266,7 +266,6 @@ function contarProyectos() {
   return knex("proyecto")
     .count("*")
     .then((result) => {
-      console.log(result[0]["count(*)"]);
       return result[0]["count(*)"];
     })
     .catch((err) => {
@@ -278,7 +277,6 @@ function contarProyectos() {
   return knex("proyecto")
     .count("*")
     .then((result) => {
-      console.log(result[0]["count(*)"]);
       return result[0]["count(*)"];
     })
     .catch((err) => {
@@ -290,7 +288,6 @@ function contarPartenariados() {
   return knex("partenariado")
     .count("*")
     .then((result) => {
-      console.log(result[0]["count(*)"]);
       return result[0]["count(*)"];
     })
     .catch((err) => {
@@ -302,7 +299,6 @@ function contarIniciativas() {
   return knex("iniciativa")
     .count("*")
     .then((result) => {
-      console.log(result[0]["count(*)"]);
       return result[0]["count(*)"];
     })
     .catch((err) => {
@@ -626,14 +622,14 @@ function crearPrevioPartenariado(
   id_demanda,
   id_oferta,
   completado_profesor,
-  completado_entidad
+  completado_socioComunitario
 ) {
   return knex("previo_partenariado")
     .insert({
       id_demanda: id_demanda,
       id_oferta: id_oferta,
       completado_profesor: completado_profesor,
-      completado_entidad: completado_entidad,
+      completado_socioComunitario: completado_socioComunitario,
     })
     .catch((err) => {
       console.log(err);
@@ -647,7 +643,7 @@ function actualizarPrevioPartenariado(
   id_demanda,
   id_oferta,
   completado_profesor,
-  completado_entidad
+  completado_socioComunitario
 ) {
   return knex("previo_partenariado")
     .where({id_demanda: id_demanda, id_oferta:id_oferta})
@@ -655,7 +651,7 @@ function actualizarPrevioPartenariado(
       id_demanda: id_demanda,
       id_oferta: id_oferta,
       completado_profesor: completado_profesor,
-      completado_entidad: completado_entidad,
+      completado_socioComunitario: completado_socioComunitario,
     })
     .catch((err) => {
       console.log(err);

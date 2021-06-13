@@ -11,7 +11,7 @@ const tOficinaAps = require("./../database/services/transfers/TOficinaAps");
 const TEstudiante = require("./../database/services/transfers/TEstudiante");
 const tEstInterno = require("./../database/services/transfers/TEstudianteInterno");
 const tProfesor = require("./../database/services/transfers/TProfesor");
-const tEntidad = require("./../database/services/transfers/TEntidad");
+const tSocioComunitario = require("./../database/services/transfers/TSocioComunitario");
 const tProfesorInterno = require("./../database/services/transfers/TProfesorInterno");
 const tEstudianteExterno = require("./../database/services/transfers/TEstudianteExterno");
 const tProfesorExterno = require("./../database/services/transfers/TProfesorExterno");
@@ -35,10 +35,13 @@ const login = async(req, res) => {
             facultad: usuario_bd.facultad,
             areaConocimiento: usuario_bd.area_conocimiento,
             sector:usuario_bd.sector,
-            nombreEntidad: usuario_bd.nombre_entidad,
+            nombreSocioComunitario: usuario_bd.nombre_socioComunitario,
             origin_img: usuario_bd.origin_img,
             origin_login: usuario_bd.origin_login,
-            terminos_aceptados: usuario_bd.terminos_aceptados
+            terminos_aceptados: usuario_bd.terminos_aceptados,
+            telefono: usuario_bd.telefono,
+            url: usuario_bd.url,
+            mision: usuario_bd.mision
         }
         if(!usuario_bd) {
             return res.status(404).json({
@@ -157,8 +160,11 @@ const loginGoogle = async(req, res) => {
                 // universidad: '',
                 titulacion: '',
                 sector: '',
-                nombreEntidad: '',
-                terminos_aceptados: true
+                nombreSocioComunitario: '',
+                terminos_aceptados: true,
+                telefono:'',
+                url: '',
+                mision: ''
             });
         }
 
@@ -212,7 +218,7 @@ const renewToken = async(req, res = response) => {
             msg: 'El token no es correcto',
         });
     }
-    //console.log(usuario)
+
    //Este valor se usara en detalle cuando se cambiara la interfaz
     const usuario_bd = await dao_usuario.obtenerUsuarioSinRolPorId(usuario.uid);
 
@@ -229,11 +235,14 @@ const renewToken = async(req, res = response) => {
         facultad: usuario_bd.facultad,
         areaConocimiento: usuario_bd.area_conocimiento,
         sector:usuario_bd.sector,
-        nombreEntidad: usuario_bd.nombre_entidad,
+        nombreSocioComunitario: usuario_bd.nombre_socioComunitario,
         origin_img: usuario_bd.origin_img,
         origin_login: usuario_bd.origin_login,
         terminos_aceptados: usuario_bd.terminos_aceptados,
         titulacion: usuario_bd.titulacion,
+        telefono: usuario_bd.telefono,
+        url: usuario_bd.url,
+        mision: usuario_bd.mision
 
     } 
     const token = await generarJWT(user);

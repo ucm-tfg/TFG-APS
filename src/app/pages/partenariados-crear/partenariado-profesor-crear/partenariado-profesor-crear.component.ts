@@ -54,7 +54,7 @@ export class PartenariadoCrearProfesorComponent implements OnInit {
       anioAcademico: [this.oferta.anio_academico || '', Validators.required ],
       titulo: [this.demanda.titulo + " | " + this.oferta.titulo || '',  Validators.required ],
       descripcion: [this.demanda.descripcion + " | " + this.oferta.descripcion || '' ,  Validators.required],
-      entidad: [this.demanda.creador || ''],
+      socio: [this.demanda.creador || ''],
       necesidadSocial: [this.demanda.necesidad_social],
       finalidad: [this.demanda.objetivo],
       comunidadBeneficiaria: [this.demanda.comunidadBeneficiaria],
@@ -102,7 +102,6 @@ export class PartenariadoCrearProfesorComponent implements OnInit {
 
     await this.ofertaService.obtenerOferta().pipe(first()).toPromise().then((resp: any) => {
       let value = resp.oferta;
-      console.log(value)
       let arrayP =[]
       for(let val of value.profesores){
         arrayP.push({
@@ -123,7 +122,6 @@ export class PartenariadoCrearProfesorComponent implements OnInit {
   async obtenerProfesores() {
     return this.partenariadoService.obtenerProfesores()
       .subscribe((resp: any) => {
-        console.log(resp)
         let arrayProfesores = []
         for (let value of resp.profesores) {
           arrayProfesores.push({
@@ -139,7 +137,6 @@ export class PartenariadoCrearProfesorComponent implements OnInit {
   async obtenerDemanda() {
     await this.demandaService.obtenerDemanda().pipe(first()).toPromise().then((resp: any) => {
       let value = resp.demanda;
-      console.log(value)
       let periodo_definicion_ini = moment(value.periodo_definicion_ini).format('YYYY-MM-DD');
       let periodo_definicion_fin = moment(value.periodo_definicion_fin).format('YYYY-MM-DD');
       let periodo_ejecucion_ini = moment(value.periodo_ejecucion_ini).format('YYYY-MM-DD');

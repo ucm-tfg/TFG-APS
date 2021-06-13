@@ -26,7 +26,7 @@ export class ProyectoService {
           proyecto.ciudad,
           proyecto.partenariado,
           this.usuarioService.mapearUsuarios(proyecto.profesores),
-          this.usuarioService.mapearUsuarios(proyecto.entidades),
+          this.usuarioService.mapearUsuarios(proyecto.sociosComunitarios),
           this.usuarioService.mapearUsuarios(proyecto.estudiantes),
           proyecto.mensajes || {},
           this.fileUploadService.mapearUploads(proyecto.archivos || []),

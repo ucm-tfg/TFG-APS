@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const { esEstudiante, esProfesor, esEntidad, esGestor } = require('../helpers/auth');
+const { esEstudiante, esProfesor, esSocioComunitario, esGestor } = require('../helpers/auth');
 
 const validarJWT = (req, res, next) => {
     const token = req.header('x-token');
@@ -90,24 +90,24 @@ const validarEsProfesorOrEsGestor = (req, res, next) => {
     next();
 }
 
-const validarEsEntidadOrEsGestor = (req, res, next) => {
+const validarEsSocioComunitarioOrEsGestor = (req, res, next) => {
 
-    if( !esEntidad(req) && !esGestor(req) ) {
+    if( !esSocioComunitario(req) && !esGestor(req) ) {
         return res.status(401).json({
             ok: false,
-            msg: 'Acceso no permitido, solo entidades',
+            msg: 'Acceso no permitido, solo socios comunitarios',
         });
     }
 
     next();
 }
 
-const validarEsEntidad = (req, res, next) => {
+const validarEsSocioComunitario = (req, res, next) => {
 
-    if( !esEntidad(req) ) {
+    if( !esSocioComunitario(req) ) {
         return res.status(401).json({
             ok: false,
-            msg: 'Acceso no permitido, solo entidades',
+            msg: 'Acceso no permitido, solo socios comunitarios',
         });
     }
 
@@ -115,12 +115,12 @@ const validarEsEntidad = (req, res, next) => {
 }
 
 // combinacion de tres
-const validarEsProfesorOrEntidadOrEsGestor = (req, res, next) => {
+const validarEsProfesorOrSocioComunitarioOrEsGestor = (req, res, next) => {
 
-    if( !esProfesor(req) && !esEntidad(req) && !esGestor(req) ) {
+    if( !esProfesor(req) && !esSocioComunitario(req) && !esGestor(req) ) {
         return res.status(401).json({
             ok: false,
-            msg: 'Acceso no permitido, solo gestores, profesores o entidades',
+            msg: 'Acceso no permitido, solo gestores, profesores o socios comunitarios',
         });
     }
 
@@ -135,10 +135,10 @@ module.exports = {
     opcionalJWT,
 
     validarEsGestor,
-    validarEsEntidad,
+    validarEsSocioComunitario,
     validarEsEstudianteOrEsGestor,
     validarEsProfesorOrEsGestor,
-    validarEsEntidadOrEsGestor,
+    validarEsSocioComunitarioOrEsGestor,
     validarEsProfesor,
-    validarEsProfesorOrEntidadOrEsGestor,
+    validarEsProfesorOrSocioComunitarioOrEsGestor,
 }

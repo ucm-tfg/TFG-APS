@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, FormControl, AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
-import { ROL_ENTIDAD, ROL_PROFESOR, ROL_ESTUDIANTE } from './../../../../server/models/rol.model';
+import { ROL_SOCIO_COMUNITARIO, ROL_PROFESOR, ROL_ESTUDIANTE } from './../../../../server/models/rol.model';
 import { UsuarioService } from '../../services/usuario.service';
 import { HomeService } from "../../services/home.service";
 import Swal from 'sweetalert2'
@@ -52,10 +52,13 @@ export class RegisterComponent implements OnInit {
 
     nombre: new FormControl('', Validators.required),
     apellidos: new FormControl('', Validators.required),
+    telefono: new FormControl('', Validators.required),
     universidad: new FormControl(''),
     titulacion: new FormControl(''),
     sector: new FormControl(''),
-    nombreEntidad: new FormControl(''),
+    url: new FormControl(''),
+    mision: new FormControl(''),
+    nombreSocioComunitario: new FormControl(''),
     facultad: new FormControl(''),
     areaConocimiento: new FormControl(''),
     terminos_aceptados: new FormControl(false, Validators.requiredTrue),
@@ -65,7 +68,9 @@ export class RegisterComponent implements OnInit {
       this.validarUniversidad(),
       this.validarTitulacion(),
       this.validarSector(),
-      this.validarNombreEntidad(),
+      this.validarUrl(),
+      this.validarMision(),
+      this.validarNombreSocioComunitario(),
       this.validarFacultad(),
       this.validarAreaConocimiento(),
       this.match('password', 'password_2', 'password-mismatch'),
@@ -92,7 +97,6 @@ export class RegisterComponent implements OnInit {
   async  obtenerUniversidades() {
      return this.registerService.obtenerUniversidades()
         .subscribe( (resp: any) => {
-          console.log(resp)
           this.codeList =resp.codeList
           return this.codeList;
         });
@@ -123,8 +127,17 @@ export class RegisterComponent implements OnInit {
   get getSector() {
     return this.registerForm.get('sector')
   }
-  get getNombreEntidad() {
-    return this.registerForm.get('nombreEntidad')
+
+  get getUrl() {
+    return this.registerForm.get('url')
+  }
+
+  get getMision() {
+    return this.registerForm.get('mision')
+  }
+
+  get getNombreSocioComunitario() {
+    return this.registerForm.get('nombreSocioComunitario')
   }
 
   get getTitulacion() {
@@ -141,6 +154,9 @@ export class RegisterComponent implements OnInit {
   }
   get getApellidos() {
     return this.registerForm.get('apellidos')
+  }
+  get getTelefono() {
+    return this.registerForm.get('telefono')
   }
   public roles = this.getRoles();
   
@@ -164,7 +180,7 @@ export class RegisterComponent implements OnInit {
 
   getRoles() {
     return [
-      { id: ROL_ENTIDAD, name: 'Entidad' },
+      { id: ROL_SOCIO_COMUNITARIO, name: 'Socio comunitario' },
       { id: ROL_PROFESOR, name: 'Profesor' },
       { id: ROL_ESTUDIANTE, name: 'Estudiante' },
     ];
@@ -172,8 +188,6 @@ export class RegisterComponent implements OnInit {
 
   match(firstControlName: string | (string | number)[], secondControlName: string | (string | number)[], customError = 'mismatch') {
     return (fg: FormGroup) => {
-      console.log(fg.get(firstControlName).value === fg.get(secondControlName).value ? null : { [customError]: true });
-      
       return fg.get(firstControlName).value === fg.get(secondControlName).value ? null : { [customError]: true };
     };
 
@@ -181,7 +195,6 @@ export class RegisterComponent implements OnInit {
 
    noListMatch() {
     let accept=true;
-    console.log(this.codeList);
           for (let v of this.codeList) {
             if (v.nombre === this.registerForm.get('universidad').value || this.registerForm.get('universidad').value === '')
               accept = false;
@@ -248,11 +261,19 @@ export class RegisterComponent implements OnInit {
   }
 
   validarSector() {
-    return this.validarCampoSegunPerfil('sector', [ROL_ENTIDAD]);
+    return this.validarCampoSegunPerfil('sector', [ROL_SOCIO_COMUNITARIO]);
   }
 
-  validarNombreEntidad() {
-    return this.validarCampoSegunPerfil('nombreEntidad', [ROL_ENTIDAD]);
+  validarUrl() {
+    return this.validarCampoSegunPerfil('url', [ROL_SOCIO_COMUNITARIO]);
+  }
+
+  validarMision() {
+    return this.validarCampoSegunPerfil('mision', [ROL_SOCIO_COMUNITARIO]);
+  }
+
+  validarNombreSocioComunitario() {
+    return this.validarCampoSegunPerfil('nombreSocioComunitario', [ROL_SOCIO_COMUNITARIO]);
   }
 
   get getItems() {

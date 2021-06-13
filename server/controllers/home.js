@@ -30,7 +30,6 @@ const getDatosHome = async(req, res) => {
 }
 
 const getUniversidades = async(req, res) => {
-    //console.log("entrabien")
     try {
         codeList = await dao_usuario.obtenerUniversidades();
         

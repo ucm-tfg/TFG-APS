@@ -60,7 +60,7 @@ export class ProyectosComponent implements OnInit {
 
       if(    ! this.usuarioService.usuario.esGestor
           && ! this.usuarioService.usuario.esProfesor
-          && ! this.usuarioService.usuario.esEntidad
+          && ! this.usuarioService.usuario.esSocioComunitario
       ) {
         return false;
       }
@@ -80,7 +80,7 @@ export class ProyectosComponent implements OnInit {
         }
       });
 
-      proyecto.entidades.forEach(entidad => {
+      proyecto.sociosComunitarios.forEach(entidad => {
         if(entidad.uid == this.usuarioService.usuario.uid) {
           acceso_permitido = true;
         }

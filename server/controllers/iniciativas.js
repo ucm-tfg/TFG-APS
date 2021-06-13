@@ -119,24 +119,24 @@ const respaldarIniciativa = async(req, res) => {
             });
         }
 
-        if( req.current_user.rol !== 'ROL_GESTOR' && req.current_user.rol !== 'ROL_PROFESOR' &&  req.current_user.rol !== 'ROL_ENTIDAD') {
+        if( req.current_user.rol !== 'ROL_GESTOR' && req.current_user.rol !== 'ROL_PROFESOR' &&  req.current_user.rol !== 'ROL_SOCIO_COMUNITARIO') {
             return res.status(200).json({
                 ok: false,
-                msg: 'Una iniciativa solo puede ser respaldada por un profesor o una entidad',
+                msg: 'Una iniciativa solo puede ser respaldada por un profesor o un socio comunitario',
             });
         }
 
-        if(iniciativa.proponedor.rol === 'ROL_ENTIDAD' && req.current_user.rol !== 'ROL_GESTOR' && req.current_user.rol !== 'ROL_PROFESOR') {
+        if(iniciativa.proponedor.rol === 'ROL_SOCIO_COMUNITARIO' && req.current_user.rol !== 'ROL_GESTOR' && req.current_user.rol !== 'ROL_PROFESOR') {
             return res.status(200).json({
                 ok: false,
-                msg: 'Una iniciativa presentada por una entidad solo puede ser respaldada por un profesor',
+                msg: 'Una iniciativa presentada por un socio comunitario solo puede ser respaldada por un profesor',
             });
         }
 
-        if(iniciativa.proponedor.rol === 'ROL_PROFESOR' && req.current_user.rol === 'ROL_GESTOR' && req.current_user.rol === 'ROL_ENTIDAD') {
+        if(iniciativa.proponedor.rol === 'ROL_PROFESOR' && req.current_user.rol === 'ROL_GESTOR' && req.current_user.rol === 'ROL_SOCIO_COMUNITARIO') {
             return res.status(200).json({
                 ok: false,
-                msg: 'Una iniciativa presentada por un profesor solo puede ser respaldada por una entidad',
+                msg: 'Una iniciativa presentada por un profesor solo puede ser respaldada por un socio comunitario',
             });
         }
 
@@ -153,13 +153,13 @@ const respaldarIniciativa = async(req, res) => {
         if(iniciativa.proponedor.rol === 'ROL_PROFESOR' || iniciativa.proponedor.rol === 'ROL_GESTOR') {
             partenariado.profesores.push(iniciativa.proponedor);
         } else {
-            partenariado.entidades.push(iniciativa.proponedor);
+            partenariado.sociosComunitarios.push(iniciativa.proponedor);
         }
 
         if(req.current_user.rol === 'ROL_PROFESOR' || req.current_user.rol === 'ROL_GESTOR') {
             partenariado.profesores.push(req.current_user.uid);
         } else {
-            partenariado.entidades.push(req.current_user.uid);
+            partenariado.sociosComunitarios.push(req.current_user.uid);
         }
 
         partenariado.mensajes = [];

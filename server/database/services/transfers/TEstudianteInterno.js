@@ -1,7 +1,7 @@
 const TEstudiante =require("./TEstudiante")
 class TEstudianteInterno extends TEstudiante{
 
-    constructor(id,correo,nombre,apellidos,password,origin_login,origin_img,createdAt,updatedAt,terminos_aceptados,titulacion_local){
+    constructor(id,correo,nombre,apellidos,password,origin_login,origin_img,createdAt,updatedAt,terminos_aceptados,titulacion_local,telefono){
         super(id,origin_login,origin_img,createdAt,updatedAt,terminos_aceptados);
         this.titulacion_local=titulacion_local;
         this.correo=correo;
@@ -9,8 +9,16 @@ class TEstudianteInterno extends TEstudiante{
         this.apellidos=apellidos;
         this.password=password;
         this.rol = "ROL_ESTUDIANTE";
+        this.telefono = telefono;
     }
 
+    getTelefono(){
+        return this.telefono;
+     }
+ 
+     setTelefono(telefono){
+         this.telefono=telefono;
+     }
     getNombre(){
         return this.nombre;
      }

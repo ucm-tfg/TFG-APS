@@ -5,7 +5,7 @@ const { generarJWT } = require('../helpers/jwt');
 const { esGestor } = require('../helpers/auth');
 const { ROL_GESTOR } = require('./../models/rol.model');
 const dao_usuario = require('../database/services/daos/daoUsuario');
-var TEntidad = require('../database/services/transfers/TEntidad');
+var TSocioComunitario = require('../database/services/transfers/TSocioComunitario');
 const TEstudiante = require('../database/services/transfers/TEstudiante');
 const TEstudianteExterno = require('../database/services/transfers/TEstudianteExterno');
 const TProfesorExterno = require('../database/services/transfers/TProfesorExterno');
@@ -103,7 +103,7 @@ const crearUsuario = async (req, res = response) => {
 
     try {
 
-        if (req.body.rol === 'ROL_ENTIDAD') {
+        if (req.body.rol === 'ROL_SOCIO_COMUNITARIO') {
             let existeEmail = await dao_usuario.obtenerUsuarioSinRolPorEmail(email)
             if (existeEmail !== 0) {
                 return res.status(400).json({
@@ -122,9 +122,9 @@ const crearUsuario = async (req, res = response) => {
                     msg: 'Operación no autorizada, solo gestores.',
                 });
             }
-            let entidad = new TEntidad(null, email, req.body.nombre, req.body.apellidos, passwordNew, "Portal ApS", "imagen", "fechaAt", "updatedAt", req.body.terminos_aceptados, req.body.sector, req.body.nombreEntidad)
+            let socio = new TSocioComunitario(null, email, req.body.nombre, req.body.apellidos, passwordNew, "Portal ApS", "imagen", "fechaAt", "updatedAt", req.body.terminos_aceptados, req.body.sector, req.body.nombreSocioComunitario, req.body.telefono, req.body.url, req.body.mision)
 
-            let id = await dao_usuario.insertarEntidad(entidad);
+            let id = await dao_usuario.insertarSocioComunitario(socio);
             if (id === -1) {
                 return res.status(400).json({
                     ok: false,
@@ -140,8 +140,11 @@ const crearUsuario = async (req, res = response) => {
                 nombre: req.body.nombre,
                 apellidos: req.body.apellidos,
                 sector: req.body.sector,
-                nombreEntidad: req.body.nombreEntidad,
-                terminos_aceptados: req.body.terminos_aceptados
+                nombreSocioComunitario: req.body.nombreSocioComunitario,
+                terminos_aceptados: req.body.terminos_aceptados,
+                telefono: req.body.telefono,
+                url: req.body.url,
+                mision: req.body.mision
             }
             const token = await generarJWT(entid);
 
@@ -173,7 +176,8 @@ const crearUsuario = async (req, res = response) => {
 
             let estudiante = new TEstudianteExterno(null, email, req.body.nombre, req.body.apellidos, passwordNew, "Portal ApS", "imagen", "fechaAt", "updatedAt", req.body.terminos_aceptados,
                 req.body.titulacion,
-                req.body.universidad)
+                req.body.universidad,
+                req.body.telefono)
             let id = await dao_usuario.insertarEstudianteExterno(estudiante);
             if (id === -1) {
                 return res.status(400).json({
@@ -191,7 +195,8 @@ const crearUsuario = async (req, res = response) => {
                 apellidos: req.body.apellidos,
                 universidad: req.body.universidad,
                 titulacion: req.body.titulacion,
-                terminos_aceptados: req.body.terminos_aceptados
+                terminos_aceptados: req.body.terminos_aceptados,
+                telefono: req.body.telefono
             }
             const token = await generarJWT(estu);
 
@@ -220,7 +225,7 @@ const crearUsuario = async (req, res = response) => {
                     msg: 'Operación no autorizada, solo gestores.',
                 });
             }
-            let profesor = new TProfesorExterno(null, email, req.body.nombre, req.body.apellidos, passwordNew,  "Portal ApS", "imagen", "fechaAt", "updatedAt", req.body.terminos_aceptados, req.body.universidad,req.body.facultad,req.body.areaConocimiento)
+            let profesor = new TProfesorExterno(null, email, req.body.nombre, req.body.apellidos, passwordNew,  "Portal ApS", "imagen", "fechaAt", "updatedAt", req.body.terminos_aceptados, req.body.universidad,req.body.facultad,req.body.areaConocimiento, req.body.telefono)
 
 
             let id = await dao_usuario.insertarProfesorExterno(profesor);
@@ -241,7 +246,8 @@ const crearUsuario = async (req, res = response) => {
                 universidad: req.body.universidad,
                 facultad: req.body.facultad,
                 areaConocimiento: req.body.areaConocimiento,
-                terminos_aceptados: req.body.terminos_aceptados
+                terminos_aceptados: req.body.terminos_aceptados,
+                telefono: req.body.telefono
             }
             const token = await generarJWT(prof);
 
@@ -328,9 +334,11 @@ const actualizarUsuario = async (req, res = response) => {
             delete campos.rol;
         }
         else {
-            // si era una entidad, borrale el sector
-            if (usuario.rol == 'ROL_ENTIDAD') {
+            // si era un socio comunitario, borrale el sector
+            if (usuario.rol == 'ROL_SOCIO_COMUNITARIO') {
                 campos.sector = '';
+                campos.url= '';
+                campos.mision= '';
             }
 
             // si deja de ser estudiante o profesor, borra universidad y titulacion

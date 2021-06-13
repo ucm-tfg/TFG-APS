@@ -1,7 +1,7 @@
 const knex = require("../../config");
 const mysql = require("mysql");
 var TAdmin = require("../transfers/TAdmin");
-var TEntidad = require("../transfers/TEntidad");
+var TSocioComunitario = require("../transfers/TSocioComunitario");
 var TUsuario = require("../transfers/TUsuario");
 var TProfesor = require("../transfers/TProfesor");
 var TOficinaAps = require("../transfers/TOficinaAps");
@@ -43,6 +43,7 @@ function insertarAdmin(usuario) {
         password: usuario.getPassword(),
         apellidos: usuario.getApellidos(),
         nombre: usuario.getNombre(),
+        telefono: usuario.getTelefono()
       })
       .select("id")
       .then(function (result) {
@@ -78,6 +79,7 @@ function insertarOficinaAps(usuario) {
         password: usuario.getPassword(),
         apellidos: usuario.getApellidos(),
         nombre: usuario.getNombre(),
+        telefono: usuario.getTelefono()
       })
       .select("id")
       .then(function (result) {
@@ -127,6 +129,7 @@ function insertarEstudianteInterno(usuario) {
         password: usuario.getPassword(),
         apellidos: usuario.getApellidos(),
         nombre: usuario.getNombre(),
+        telefono: usuario.getTelefono()
       })
       .select("id")
       .then(function (result) {
@@ -172,7 +175,7 @@ function insertarProfesor(usuario) {
   });
 }
 
-function insertarEntidad(usuario) {
+function insertarSocioComunitario(usuario) {
   return insertarUsuario(usuario).then(function (idF) {
     return knex("datos_personales_externo")
       .insert({
@@ -180,14 +183,17 @@ function insertarEntidad(usuario) {
         password: usuario.getPassword(),
         apellidos: usuario.getApellidos(),
         nombre: usuario.getNombre(),
+        telefono: usuario.getTelefono()
       })
       .select("id")
       .then(function (result) {
-        return knex("entidad")
+        return knex("socio_comunitario")
           .insert({
             id: idF[0],
             sector: usuario.getSector(),
-            nombre_entidad: usuario.getNombreEntidad(),
+            nombre_socioComunitario: usuario.getNombreSocioComunitario(),
+            url: usuario.getUrl(),
+            mision: usuario.getMision(),
             datos_personales_Id: result[0],
           })
           .then(function () {
@@ -218,6 +224,7 @@ function insertarProfesorInterno(usuario) {
         password: usuario.getPassword(),
         apellidos: usuario.getApellidos(),
         nombre: usuario.getNombre(),
+        telefono: usuario.getTelefono()
       })
       .select("id")
       .then(function (result) {
@@ -279,6 +286,7 @@ function insertarEstudianteExterno(usuario) {
         password: usuario.getPassword(),
         apellidos: usuario.getApellidos(),
         nombre: usuario.getNombre(),
+        telefono: usuario.getTelefono()
       })
       .select("id")
       .then(function (result) {
@@ -323,6 +331,7 @@ function insertarProfesorExterno(usuario) {
         password: usuario.getPassword(),
         apellidos: usuario.getApellidos(),
         nombre: usuario.getNombre(),
+        telefono: usuario.getTelefono()
       })
       .select("id")
       .then(function (result) {
@@ -578,8 +587,8 @@ function borrarOficinaAPS(id) {
     });
 }
 
-function borrarEntidad(id) {
-  return obtenerEntidad(id)
+function borrarSocioComunitario(id) {
+  return obtenerSocioComunitario(id)
     .then(function (res) {
       const correoU = res["correo"];
       return borrarUsuario(id)
@@ -624,7 +633,7 @@ function obtenerUsuarioSinRolPorEmail(email) {
               return 0;
             }
             id_externo = id_externo[0]["id"];
-            return obtenerEntidadPorDatosPersonales(id_externo).then(
+            return obtenerSocioComunitarioPorDatosPersonales(id_externo).then(
               (result) => {
                 if (result == 0) {
                   return obtenerProfesorExternoPorDatosPersonales(
@@ -721,7 +730,7 @@ function obtenerUsuarioSinRolPorId(id) {
             if (result == 0) {
               return obtenerOficinaAps(id).then((result) => {
                 if (result == 0) {
-                  return obtenerEntidad(id).then((result) => {
+                  return obtenerSocioComunitario(id).then((result) => {
                     if (result == 0) {
                       return obtenerProfesorExterno(id).then((result) => {
                         if (result == 0) {
@@ -841,7 +850,8 @@ function obtenerAdmin(id) {
               usuario["origin_img"],
               usuario["createdAt"],
               usuario["updatedAt"],
-              usuario["terminos_aceptados"]
+              usuario["terminos_aceptados"],
+              datos["telefono"]
             );
           });
         })
@@ -876,7 +886,8 @@ function obtenerAdminPorDatosPersonales(id) {
               usuario["origin_img"],
               usuario["createdAt"],
               usuario["updatedAt"],
-              usuario["terminos_aceptados"]
+              usuario["terminos_aceptados"],
+              datos["telefono"]
             );
           });
         })
@@ -909,7 +920,8 @@ function obtenerOficinaAps(id) {
             usuario["origin_img"],
             usuario["createdAt"],
             usuario["updatedAt"],
-            usuario["terminos_aceptados"]
+            usuario["terminos_aceptados"],
+            datos["telefono"]
           );
         });
       });
@@ -943,7 +955,8 @@ function obtenerOficinaApsPorDatosPersonales(id) {
             usuario["origin_img"],
             usuario["createdAt"],
             usuario["updatedAt"],
-            usuario["terminos_aceptados"]
+            usuario["terminos_aceptados"],
+            datos["telefono"]
           );
         });
       });
@@ -954,20 +967,20 @@ function obtenerOficinaApsPorDatosPersonales(id) {
     });
 }
 
-function obtenerEntidadPorDatosPersonales(id) {
-  return knex("entidad")
+function obtenerSocioComunitarioPorDatosPersonales(id) {
+  return knex("socio_comunitario")
     .where({ datos_personales_Id: id })
     .select("*")
-    .then(function (entidad) {
-      if (entidad.length == 0) {
+    .then(function (socio) {
+      if (socio.length == 0) {
         return 0;
       }
-      id = entidad[0]["id"];
+      id = socio[0]["id"];
       return obtenerUsuario(id).then(function (usuario) {
         return obtenerDatosPersonalesExterno(
-          entidad[0]["datos_personales_Id"]
+          socio[0]["datos_personales_Id"]
         ).then(function (datos) {
-          return new TEntidad(
+          return new TSocioComunitario(
             usuario["id"],
             datos["correo"],
             datos["nombre"],
@@ -978,8 +991,11 @@ function obtenerEntidadPorDatosPersonales(id) {
             usuario["createdAt"],
             usuario["updatedAt"],
             usuario["terminos_aceptados"],
-            entidad[0]["sector"],
-            entidad[0]["nombre_entidad"]
+            socio[0]["sector"],
+            socio[0]["nombre_socioComunitario"],
+            datos["telefono"],
+            socio[0]["url"],
+            socio[0]["mision"],
           );
         });
       });
@@ -990,19 +1006,19 @@ function obtenerEntidadPorDatosPersonales(id) {
     });
 }
 
-function obtenerEntidad(id) {
-  return knex("entidad")
+function obtenerSocioComunitario(id) {
+  return knex("socio_comunitario")
     .where({ id: id })
     .select("*")
-    .then(function (entidad) {
-      if (entidad.length == 0) {
+    .then(function (socio) {
+      if (socio.length == 0) {
         return 0;
       }
       return obtenerUsuario(id).then(function (usuario) {
         return obtenerDatosPersonalesExterno(
-          entidad[0]["datos_personales_Id"]
+          socio[0]["datos_personales_Id"]
         ).then(function (datos) {
-          return new TEntidad(
+          return new TSocioComunitario(
             usuario["id"],
             datos["correo"],
             datos["nombre"],
@@ -1013,8 +1029,11 @@ function obtenerEntidad(id) {
             usuario["createdAt"],
             usuario["updatedAt"],
             usuario["terminos_aceptados"],
-            entidad[0]["sector"],
-            entidad[0]["nombre_entidad"]
+            socio[0]["sector"],
+            socio[0]["nombre_socioComunitario"],
+            datos["telefono"],
+            socio[0]["url"],
+            socio[0]["mision"],
           );
         });
       });
@@ -1114,7 +1133,8 @@ function obtenerProfesorInterno(id) {
                               usuario["updatedAt"],
                               usuario["terminos_aceptados"],
                               areas,
-                              titulac
+                              titulac,
+                              datos["telefono"]
                             );
                           });
                       });
@@ -1190,7 +1210,8 @@ function obtenerProfesorInternoPorDatosPersonales(id) {
                               usuario["updatedAt"],
                               usuario["terminos_aceptados"],
                               areas,
-                              titulac
+                              titulac,
+                              datos["telefono"]
                             );
                           });
                       });
@@ -1235,7 +1256,9 @@ function obtenerProfesorExterno(id) {
                   usuario["updatedAt"],
                   usuario["terminos_aceptados"],
                   uni[0]["nombre"],
-                  profesorExterno[0]["facultad"]
+                  profesorExterno[0]["facultad"],
+                  null,
+                  datos["telefono"]
                 );
               });
           });
@@ -1278,7 +1301,8 @@ function obtenerProfesorExternoPorDatosPersonales(id) {
                   usuario["updatedAt"],
                   usuario["terminos_aceptados"],
                   uni[0]["nombre"],
-                  profesorExterno[0]["facultad"] 
+                  profesorExterno[0]["facultad"],
+                  datos["telefono"]
                 
                 );
               });
@@ -1333,7 +1357,8 @@ function obtenerEstudianteInterno(id) {
                   usuario["createdAt"],
                   usuario["updatedAt"],
                   usuario["terminos_aceptados"],
-                  tit[0]["id"]
+                  tit[0]["id"],
+                  datos["telefono"]
                 );
               });
           });
@@ -1375,7 +1400,8 @@ function obtenerEstudianteInternoPorDatosPersonales(id) {
                   usuario["createdAt"],
                   usuario["updatedAt"],
                   usuario["terminos_aceptados"],
-                  tit[0]["id"]
+                  tit[0]["id"],
+                  datos["telefono"]
                 );
               });
           });
@@ -1417,7 +1443,8 @@ function obtenerEstudianteExterno(id) {
                   usuario["updatedAt"],
                   usuario["terminos_aceptados"],
                   estudianteExterno[0]["titulacion"],
-                  uni[0]["nombre"]
+                  uni[0]["nombre"],
+                  datos["telefono"]
                 );
               });
           });
@@ -1460,7 +1487,8 @@ function obtenerEstudianteExternoPorDatosPersonales(id) {
                   usuario["updatedAt"],
                   usuario["terminos_aceptados"],
                   estudianteExterno[0]["titulacion"],
-                  uni[0]["nombre"]
+                  uni[0]["nombre"],
+                  datos["telefono"]
                 );
               });
           });
@@ -1506,6 +1534,7 @@ function actualizarAdmin(usuario) {
                 nombre: usuario.getNombre(),
                 apellidos: usuario.getApellidos(),
                 password: usuario.getPassword(),
+                telefono: usuario.getTelefono()
               })
               .then((rel) => {
                 if (rel > 0) {
@@ -1546,6 +1575,7 @@ function actualizarOficinaAPS(usuario) {
                 nombre: usuario.getNombre(),
                 apellidos: usuario.getApellidos(),
                 password: usuario.getPassword(),
+                telefono: usuario.getTelefono()
               })
               .then((rel) => {
                 if (rel > 0) {
@@ -1574,8 +1604,8 @@ function actualizarOficinaAPS(usuario) {
     });
 }
 
-function actualizarEntidad(usuario) {
-  return obtenerEntidad(usuario.getId())
+function actualizarSocioComunitario(usuario) {
+  return obtenerSocioComunitario(usuario.getId())
     .then(function (ruser) {
       if (ruser["correo"] === usuario.getCorreo()) {
         return actualizarUsuario(usuario).then(function (res) {
@@ -1586,14 +1616,17 @@ function actualizarEntidad(usuario) {
                 nombre: usuario.getNombre(),
                 apellidos: usuario.getApellidos(),
                 password: usuario.getPassword(),
+                telefono: usuario.getTelefono()
               })
               .then((rel) => {
                 if (rel > 0) {
-                  return knex("entidad")
+                  return knex("socio_comunitario")
                     .where("id", usuario.getId())
                     .update({
                       sector: usuario.getSector(),
-                      nombre_entidad: usuario.getNombreEntidad(),
+                      nombre_socioComunitario: usuario.getNombreSocioComunitario(),
+                      url: usuario.getUrl(),
+                      mision: usuario.getMision()
                     })
                     .then((rel2) => {
                       if (rel2 > 0) {
@@ -1606,6 +1639,7 @@ function actualizarEntidad(usuario) {
                             nombre: usuario.getNombre(),
                             apellidos: usuario.getApellidos(),
                             password: usuario.getPassword(),
+                            telefono: usuario.getTelefono()
                           });
                       }
                     })
@@ -1685,6 +1719,7 @@ function actualizarEstudianteExterno(usuario) {
                 nombre: usuario.getNombre(),
                 apellidos: usuario.getApellidos(),
                 password: usuario.getPassword(),
+                telefono: usuario.getTelefono()
               })
               .then((rel) => {
                 if (rel > 0) {
@@ -1705,6 +1740,7 @@ function actualizarEstudianteExterno(usuario) {
                             nombre: usuario.getNombre(),
                             apellidos: usuario.getApellidos(),
                             password: usuario.getPassword(),
+                            telefono: usuario.getTelefono()
                           });
                       }
                     })
@@ -1750,6 +1786,7 @@ function actualizarProfesorExterno(usuario) {
                 nombre: usuario.getNombre(),
                 apellidos: usuario.getApellidos(),
                 password: usuario.getPassword(),
+                telefono: usuario.getTelefono()
               })
               .then((rel) => {
                 if (rel > 0) {
@@ -1769,6 +1806,7 @@ function actualizarProfesorExterno(usuario) {
                             nombre: usuario.getNombre(),
                             apellidos: usuario.getApellidos(),
                             password: usuario.getPassword(),
+                            telefono: usuario.getTelefono()
                           });
                       }
                     })
@@ -1810,20 +1848,18 @@ function actualizarProfesorInterno(usuario, areas, titulaciones) {
         nombre: usuario.getNombre(),
         apellidos: usuario.getApellidos(),
         password: usuario.getPassword(),
+        telefono: usuario.getTelefono()
       })
       .then(() => {
-        console.log("entra1");
         return knex("areaconocimiento_profesor")
           .where("id_profesor", usuario.getId())
           .del()
           .then(() => {
-            console.log("entra2");
             let areasconocimiento = areas;
             const fieldsToInsert = areasconocimiento.map((area) => ({
               id_area: area,
               id_profesor: usuario.getId(),
             }));
-            console.log(fieldsToInsert);
             return knex("areaconocimiento_profesor")
               .insert(fieldsToInsert)
               .then(() => {
@@ -1866,6 +1902,7 @@ function actualizarEstudianteInterno(usuario) {
                 nombre: usuario.getNombre(),
                 apellidos: usuario.getApellidos(),
                 password: usuario.getPassword(),
+                telefono: usuario.getTelefono()
               })
               .then((rel) => {
                 if (rel > 0) {
@@ -1885,6 +1922,7 @@ function actualizarEstudianteInterno(usuario) {
                             nombre: usuario.getNombre(),
                             apellidos: usuario.getApellidos(),
                             password: usuario.getPassword(),
+                            telefono: usuario.getTelefono()
                           });
                       }
                     })
@@ -1923,7 +1961,7 @@ function actualizarEstudianteInterno(usuario) {
 function obtenerProfesoresInternos(arrayProfesores) {
   return knex
     .raw(
-      "select usuario.id,datos_personales_interno.correo,datos_personales_interno.apellidos,datos_personales_interno.nombre, datos_personales_interno.password, usuario.origin_login,usuario.origin_img,usuario.createdAt,usuario.updatedAt,usuario.terminos_aceptados,area_conocimiento.nombre as area,titulacion_local.nombre as titulacion from usuario,profesor,profesor_interno,datos_personales_interno,area_conocimiento,areaconocimiento_profesor,titulacion_local,titulacionlocal_profesor where usuario.id = profesor.id AND usuario.id=profesor_interno.id AND profesor_interno.datos_personales_Id=datos_personales_interno.id AND usuario.id =areaconocimiento_profesor.id_profesor AND titulacionlocal_profesor.id_profesor=usuario.id AND titulacionlocal_profesor.id_titulacion=titulacion_local.id AND area_conocimiento.id = areaconocimiento_profesor.id_area AND usuario.id in (" +
+      "select usuario.id,datos_personales_interno.correo,datos_personales_interno.apellidos,datos_personales_interno.nombre, datos_personales_interno.telefono,datos_personales_interno.password, usuario.origin_login,usuario.origin_img,usuario.createdAt,usuario.updatedAt,usuario.terminos_aceptados,area_conocimiento.nombre as area,titulacion_local.nombre as titulacion from usuario,profesor,profesor_interno,datos_personales_interno,area_conocimiento,areaconocimiento_profesor,titulacion_local,titulacionlocal_profesor where usuario.id = profesor.id AND usuario.id=profesor_interno.id AND profesor_interno.datos_personales_Id=datos_personales_interno.id AND usuario.id =areaconocimiento_profesor.id_profesor AND titulacionlocal_profesor.id_profesor=usuario.id AND titulacionlocal_profesor.id_titulacion=titulacion_local.id AND area_conocimiento.id = areaconocimiento_profesor.id_area AND usuario.id in (" +
       arrayProfesores.map((_) => "?").join(",") +
       ")",
       [...arrayProfesores]
@@ -1956,6 +1994,7 @@ function obtenerProfesoresInternos(arrayProfesores) {
             terminos_aceptados: element["terminos_aceptados"],
             area_conocimiento: conocimientos,
             titulacion_local: titulaciones,
+            telefono: element["telefono"],
           };
           resultadoF.push(aux);
         }
@@ -2000,7 +2039,7 @@ module.exports = {
   insertarProfesorExterno,
   insertarEstudianteExterno,
   insertarProfesorInterno,
-  insertarEntidad,
+  insertarSocioComunitario,
   insertarProfesor,
   insertarEstudiante,
   insertarEstudianteInterno,
@@ -2013,10 +2052,10 @@ module.exports = {
   obtenerOficinaAps,
   obtenerProfesor,
   obtenerProfesores,
-  obtenerEntidad,
+  obtenerSocioComunitario,
   obtenerAdmin,
   actualizarAdmin,
-  actualizarEntidad,
+  actualizarSocioComunitario,
   actualizarEstudiante,
   actualizarEstudianteExterno,
   actualizarEstudianteInterno,
@@ -2029,7 +2068,7 @@ module.exports = {
   borrarEstudianteInterno,
   borrarProfesorInterno,
   borrarAdmin,
-  borrarEntidad,
+  borrarSocioComunitario,
   borrarOficinaAPS,
   borrarProfesorExterno,
   borrarEstudianteExterno,

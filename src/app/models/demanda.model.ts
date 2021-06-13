@@ -56,6 +56,8 @@ export class Demanda {
         let info = [];
         if(this.creador.nombre) { info.push(this.creador.nombre); }
         if(this.creador.sector) { info.push(this.creador.sector); }
+        if(this.creador.url) { info.push(this.creador.url); }
+        if(this.creador.mision) { info.push(this.creador.mision); }
 
         return info.join(' ');
     }
@@ -74,8 +76,8 @@ export class Demanda {
                 return 'Profesor';
                 break;
 
-            case 'ROL_ENTIDAD':
-                return 'Entidad';
+            case 'ROL_SOCIO_COMUNITARIO':
+                return 'Socio comunitario';
                 break;
 
             case 'ROL_GESTOR':

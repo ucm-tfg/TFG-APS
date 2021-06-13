@@ -20,7 +20,7 @@ export class Partenariado {
         
         public createdAt: string,
         public profesores: Usuario[],
-        public entidades: Usuario[],
+        public sociosComunitarios: Usuario[],
         public mensajes: Object,
         public archivos: Upload[],
         public proponedor: Usuario,
@@ -102,8 +102,8 @@ export class Partenariado {
                 return 'Profesor';
                 break;
 
-            case 'ROL_ENTIDAD':
-                return 'Entidad';
+            case 'ROL_SOCIO_COMUNITARIO':
+                return 'Socio comunitario';
                 break;
 
             case 'ROL_GESTOR':

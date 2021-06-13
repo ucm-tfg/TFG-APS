@@ -1,10 +1,10 @@
 const dao_tentativa = require("./../database/services/daos/daoTentativa");
 const TDemanda = require("./../database/services/transfers/TDemandaServicio");
 
-const getAreasservicio = async(req, res) => {
+const getAreasservicio = async (req, res) => {
     try {
         areasServicio = await dao_tentativa.obtenerListaAreasServicio();
-        
+
         return res.status(200).json({
             ok: true,
             areasServicio,
@@ -21,10 +21,10 @@ const getAreasservicio = async(req, res) => {
 }
 
 
-const getTitulaciones = async(req, res) => {
+const getTitulaciones = async (req, res) => {
     try {
         titulacionLocal = await dao_tentativa.obtenerListaTitulacionLocal();
-        
+
         return res.status(200).json({
             ok: true,
             titulacionLocal,
@@ -40,10 +40,10 @@ const getTitulaciones = async(req, res) => {
     }
 }
 
-const getNecesidades = async(req, res) => {
+const getNecesidades = async (req, res) => {
     try {
         necesidadSocial = await dao_tentativa.obtenerListaNecesidadSocial();
-        
+
         return res.status(200).json({
             ok: true,
             necesidadSocial,
@@ -59,11 +59,10 @@ const getNecesidades = async(req, res) => {
     }
 }
 
-const crearDemanda = async(req, res = response) => {//continuar 
+const crearDemanda = async (req, res = response) => {//continuar 
 
 
     try {
-        console.log("El body es ", req.body);
         let areas = [];
         req.body.area_servicio.forEach(data => {
             areas.push(data.id);
@@ -93,14 +92,9 @@ const crearDemanda = async(req, res = response) => {//continuar
             areas,
             req.body.comunidadBeneficiaria,
             0,
-            );
-            // constructor( id_oferta, titulo, descripcion, imagen, created_at, updated_at,
-            //     creador, ciudad, finalidad, periodo_definicion_ini, periodo_definicion_fin, periodo_ejecucion_ini,
-            //     periodo_ejecucion_fin, fecha_fin, observaciones_temporales, necesidad_social, titulacionlocal,
-            //     area_servicio, comunidad_beneficiaria, dummy) 
-        console.log("La demanda es ", demanda);
+        );
+      
         await dao_tentativa.crearDemanda(demanda);
-
 
         return res.status(200).json({
             ok: true,
@@ -117,7 +111,7 @@ const crearDemanda = async(req, res = response) => {//continuar
     }
 }
 
-const obtenerDemanda = async(req, res) => {
+const obtenerDemanda = async (req, res) => {
     try {
 
         const id = req.params.id;
@@ -146,4 +140,3 @@ module.exports = {
     obtenerDemanda
 }
 
-    

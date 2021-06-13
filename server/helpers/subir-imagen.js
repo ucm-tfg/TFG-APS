@@ -54,7 +54,7 @@ const crearUpload = async (campo, tipo, tipo_id, path, nombre, client_name, crea
 
     await limpiarFicherosAntiguos(campo, tipo, tipo_id);
 
-    // guardar entidad upload
+    // guardar socio upload
     const upload = new Upload({almacenamiento: process.env.FILE_STORAGE, campo, tipo, tipo_id, path, nombre, client_name, creador });
 
     if(tipo === 'usuarios' && campo === 'avatar') {

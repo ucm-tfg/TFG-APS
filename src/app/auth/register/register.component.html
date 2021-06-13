@@ -31,7 +31,7 @@
                                     <legend class="mb-0 px-2"><strong>Informacion de usuario</strong></legend>
 
                                     <div class="form-group">
-                                        <label>Perfil de Usuario (<a href="javascript:void(0)" target="_blank" [routerLink]="['/como-participar/estudiantes']">Estudiantes</a>, <a href="javascript:void(0)" target="_blank" [routerLink]="['/como-participar/profesores']">Profesores</a>, <a href="javascript:void(0)" target="_blank" [routerLink]="['/como-participar/entidades']">Entidades</a>)</label>
+                                        <label>Perfil de Usuario (<a href="javascript:void(0)" target="_blank" [routerLink]="['/como-participar/estudiantes']">Estudiantes</a>, <a href="javascript:void(0)" target="_blank" [routerLink]="['/como-participar/profesores']">Profesores</a>, <a href="javascript:void(0)" target="_blank" [routerLink]="['/como-participar/socioscomunitarios']">Socios comunitarios</a>)</label>
                                         <select class="form-control" formControlName="rol">
                                             <option value="">Elegir un tipo de perfil</option>
                                             <option *ngFor="let role of roles; let i = index" [value]="roles[i].id">{{roles[i].name}}</option>
@@ -94,6 +94,14 @@
                                             <input name="apellidos" type="text" id="apellidos" class="form-control" autocorrect="off" autocapitalize="none" spellcheck="false" placeholder="Introduzca su(s) Apellido(s)" [class.is-invalid] = "registerForm.get('apellidos').invalid && registerForm.get('apellidos').touched" formControlName="apellidos">
                                             <div *ngIf="(getApellidos.invalid && getApellidos.touched)">
                                                 <small *ngIf="getApellidos.errors?.required" class="text-danger">El apellido es un campo requerido</small>
+                                              </div>
+                                        </div>
+
+                                        <div class="form-group flex-fill ml-2">
+                                            <label for="telefono">Teléfono *</label>
+                                            <input name="telefono" type="text" id="telefono" class="form-control" autocorrect="off" autocapitalize="none" spellcheck="false" placeholder="Introduzca su teléfono" [class.is-invalid] = "registerForm.get('telefono').invalid && registerForm.get('telefono').touched" formControlName="telefono">
+                                            <div *ngIf="(getTelefono.invalid && getTelefono.touched)">
+                                                <small *ngIf="getTelefono.errors?.required" class="text-danger">El apellido es un campo requerido</small>
                                               </div>
                                         </div>
                                     </div>
@@ -173,15 +181,27 @@
                         
                                     </div>
 
-                                    <div class="form-group" *ngIf="['ROL_ENTIDAD'].includes(this.registerForm.get('rol').value)">
+                                    <div class="form-group" *ngIf="['ROL_SOCIO_COMUNITARIO'].includes(this.registerForm.get('rol').value)">
                                         <label for="sector">Sector</label>
                                         <input name="sector" type="text" id="sector" class="form-control" autocorrect="off" autocapitalize="none" spellcheck="false" placeholder="Introduzca su sector" [class.is-invalid] = "registerForm.get('sector').invalid && registerForm.get('sector').touched"  formControlName="sector">
                                        
                                     </div>
 
-                                    <div class="form-group" *ngIf="['ROL_ENTIDAD'].includes(this.registerForm.get('rol').value)">
-                                        <label for="nombreEntidad">Nombre entidad</label>
-                                        <input name="nombreEntidad" type="text" id="nombreEntidad" class="form-control" autocorrect="off" autocapitalize="none" spellcheck="false" placeholder="Introduzca el nombre de la entidad" [class.is-invalid] = "registerForm.get('nombreEntidad').invalid && registerForm.get('nombreEntidad').touched"  formControlName="nombreEntidad">
+                                    <div class="form-group" *ngIf="['ROL_SOCIO_COMUNITARIO'].includes(this.registerForm.get('rol').value)">
+                                        <label for="url">URL</label>
+                                        <input name="url" type="text" id="url" class="form-control" autocorrect="off" autocapitalize="none" spellcheck="false" placeholder="Introduzca su URL" [class.is-invalid] = "registerForm.get('url').invalid && registerForm.get('url').touched"  formControlName="url">
+                                       
+                                    </div>
+
+                                    <div class="form-group" *ngIf="['ROL_SOCIO_COMUNITARIO'].includes(this.registerForm.get('rol').value)">
+                                        <label for="mision">Misión</label>
+                                        <input name="mision" type="text" id="mision" class="form-control" autocorrect="off" autocapitalize="none" spellcheck="false" placeholder="Introduzca su misión" [class.is-invalid] = "registerForm.get('mision').invalid && registerForm.get('mision').touched"  formControlName="mision">
+                                       
+                                    </div>
+
+                                    <div class="form-group" *ngIf="['ROL_SOCIO_COMUNITARIO'].includes(this.registerForm.get('rol').value)">
+                                        <label for="nombreSocioComunitario">Nombre socio comunitario</label>
+                                        <input name="nombreSocioComunitario" type="text" id="nombreSocioComunitario" class="form-control" autocorrect="off" autocapitalize="none" spellcheck="false" placeholder="Introduzca el nombre del socio comunitario" [class.is-invalid] = "registerForm.get('nombreSocioComunitario').invalid && registerForm.get('nombreSocioComunitario').touched"  formControlName="nombreSocioComunitario">
                                        
                                     </div>
                                 </fieldset>

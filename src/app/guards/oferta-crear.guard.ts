@@ -20,7 +20,7 @@ export class OfertaCrearGuard implements CanActivate {
 
       return  this.usuarioService.usuario.esGestor
               || this.usuarioService.usuario.esProfesor
-              || this.usuarioService.usuario.esEntidad;
+              || this.usuarioService.usuario.esSocioComunitario;
   }
 
 }

@@ -6,8 +6,8 @@
         <a class="btn btn-primary border-white btn-sm" [routerLink]="['/mis-partenariados']" role="button">Volver a Mis Partenariados</a>
     </h5>
 
-    <div class="alert alert-warning" role="alert" *ngIf="partenariado?.proponedor.rol === 'ROL_ENTIDAD' && this.usuarioService.usuario && this.usuarioService.usuario.esEntidad">
-        <b>Atención: </b> Estás en la aplicación como <b>ENTIDAD</b>. Sólo un Profesor puede convertir este partenariado en PROYECTO.
+    <div class="alert alert-warning" role="alert" *ngIf="partenariado?.proponedor.rol === 'ROL_SOCIO_COMUNITARIO' && this.usuarioService.usuario && this.usuarioService.usuario.esSocioComunitario">
+        <b>Atención: </b> Estás en la aplicación como <b>Socio comunitario</b>. Sólo un Profesor puede convertir este partenariado en PROYECTO.
     </div>
 
     <div class="alert alert-warning" role="alert" *ngIf="partenariado?.estado !== 'En negociación' ">

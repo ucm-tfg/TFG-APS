@@ -29,7 +29,7 @@ export class PartenariadoService {
           //meter atributos
           partenariado.proyecto,
           this.usuarioService.mapearUsuarios(partenariado.profesores),
-          this.usuarioService.mapearUsuarios(partenariado.entidades),
+          this.usuarioService.mapearUsuarios(partenariado.sociosComunitarios),
           partenariado.mensajes || {},
           this.fileUploadService.mapearUploads(partenariado.archivos || []),
           this.usuarioService.mapearUsuarios([partenariado.proponedor])[0],

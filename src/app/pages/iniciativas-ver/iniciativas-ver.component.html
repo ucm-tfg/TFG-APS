@@ -19,7 +19,7 @@
         <b>Atención: </b> Estás en la aplicación como <b>PROFESOR</b>, pero esta iniciativa ha sido presentada por otro profesor. Sólo una Entidad puede respaldar o sumarse a esta INICIATIVA.
     </div>
 
-    <div class="alert alert-warning" role="alert" *ngIf="iniciativa?.proponedor.rol === 'ROL_ENTIDAD' && this.usuarioService.usuario && this.usuarioService.usuario.esEntidad">
+    <div class="alert alert-warning" role="alert" *ngIf="iniciativa?.proponedor.rol === 'ROL_ENTIDAD' && this.usuarioService.usuario && this.usuarioService.usuario.esSocioComunitario">
         <b>Atención: </b> Estás en la aplicación como <b>ENTIDAD</b>, pero esta iniciativa ha sido presentada por otra entidad. Sólo un Profesor puede respaldar o sumarse a esta INICIATIVA.
     </div>
 

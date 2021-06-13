@@ -114,7 +114,6 @@ function crearOferta(oferta) {
 function crearDemanda(demanda) {
   return crearAnuncio(demanda)
     .then(function (id_anuncio) {
-      console.log("Hemos creado el anuncio correctamnete")
       return knex("demanda_servicio")
         .insert({
           id: id_anuncio[0],
@@ -261,8 +260,8 @@ function obtenerDemandaServicio(id_demanda) {
             .select("nombre")
             .then(function (necesidad_social) {
               return daoUsuario
-                .obtenerEntidad(demanda[0]["creador"])
-                .then((entidad) => {
+                .obtenerSocioComunitario(demanda[0]["creador"])
+                .then((socio) => {
                   return obtenerTitulacionLocal(id_demanda).then(function (
                     titulaciones
                   ) {
@@ -278,7 +277,7 @@ function obtenerDemandaServicio(id_demanda) {
                       anuncio.getImagen(),
                       anuncio.getCreated_at(),
                       anuncio.getUpdated_at(),
-                      entidad.getNombreEntidad(),
+                      socio.getNombreSocioComunitario(),
                       demanda[0]["ciudad"],
                       demanda[0]["finalidad"],
                       demanda[0]["periodo_definicion_ini"],
@@ -520,10 +519,10 @@ function obtenerTodasDemandasServicio() {
       "=",
       "necesidad_social.id"
     )
-    .join("entidad", "demanda_servicio.creador", "=", "entidad.id")
+    .join("socio_comunitario", "demanda_servicio.creador", "=", "socio_comunitario.id")
     .join(
       "datos_personales_externo",
-      "entidad.datos_personales_Id",
+      "socio_comunitario.datos_personales_Id",
       "=",
       "datos_personales_externo.id"
     )

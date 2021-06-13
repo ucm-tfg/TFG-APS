@@ -6,7 +6,7 @@ const TDemandaServicio = require("./../database/services/transfers/TDemandaServi
 
 const crearPartenariadoProfesor = async (req, res = response) => {
   try {
-    console.log("Req.body:\n", req.body);
+    
     let data = req.body;
     let id_oferta = data.id_oferta;
 
@@ -69,9 +69,8 @@ const crearPartenariadoProfesor = async (req, res = response) => {
   }
 };
 
-const crearPartenariadoEntidad = async (req, res = response) => {
+const crearPartenariadoSocioComunitario = async (req, res = response) => {
   try {
-    console.log("Req.body:\n", req.body);
     let data = req.body;
     let id_demanda = data.id_demanda;
     let estado = "EN_NEGOCIACION";
@@ -203,12 +202,12 @@ const getPartenariados = async (req, res) => {
       conditions.push({ estado: filtros.estado });
     }
 
-    // filtro por usuario creador, profesores o entidades
+    // filtro por usuario creador, profesores o socios
     if (filtros.creador !== "") {
       conditions.push({
         $or: [
           { profesores: { $in: filtros.creador } },
-          { entidades: { $in: new ObjectId(filtros.creador) } },
+          { sociosComunitarios: { $in: new ObjectId(filtros.creador) } },
           { creador: { $in: filtros.creador } },
         ],
       });
@@ -340,7 +339,7 @@ const cambiarEstadoPartenariado = async (req, res) => {
       proyecto.ciudad = partenariado.ciudad;
       proyecto.partenariado = partenariado._id;
       proyecto.profesores = partenariado.profesores;
-      proyecto.entidades = partenariado.entidades;
+      proyecto.sociosComunitarios = partenariado.sociosComunitarios;
       proyecto.mensajes = [];
       proyecto.archivos = [];
       proyecto.proponedor = partenariado.proponedor;
@@ -427,5 +426,5 @@ module.exports = {
   cambiarEstadoPartenariado,
   enviarMensajePartenariado,
   crearPartenariadoProfesor,
-  crearPartenariadoEntidad,
+  crearPartenariadoSocioComunitario,
 };

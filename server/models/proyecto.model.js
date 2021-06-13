@@ -39,7 +39,7 @@ const ProyectoSchema = new Schema({
   }],
 
 
-  entidades: [{
+  sociosComunitarios: [{
       type: Schema.Types.ObjectId,
       ref: 'Usuario',
   }],

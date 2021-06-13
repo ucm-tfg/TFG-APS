@@ -22,7 +22,6 @@ const getAreasservicio = async(req, res) => {
 
 const crearOferta = async(req, res = response) => {
     try {
-        console.log("Req.body:\n", req.body);
         let areas = [];
         req.body.area_servicio.forEach(data => {
             areas.push(data.id);
@@ -43,7 +42,6 @@ const crearOferta = async(req, res = response) => {
             areas,
             req.current_user.uid);
         
-        console.log("Oferta:\n", oferta);
         await dao_tentativa.crearOferta(oferta);
 
         return res.status(200).json({

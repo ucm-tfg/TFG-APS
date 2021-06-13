@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, FormControl, AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
-import { ROL_ENTIDAD, ROL_PROFESOR, ROL_ESTUDIANTE } from './../../../../server/models/rol.model';
+import { ROL_SOCIO_COMUNITARIO, ROL_PROFESOR, ROL_ESTUDIANTE } from './../../../../server/models/rol.model';
 import { UsuarioService } from '../../services/usuario.service';
 import { FileUploadService } from 'src/app/services/file-upload.service';
 import { DemandaService } from 'src/app/services/demanda.service';
@@ -33,7 +33,7 @@ export class crearDemandaComponent implements OnInit {
 //   constructor(public fb: FormBuilder, public usuarioService: UsuarioService, public fileUploadService: FileUploadService, public router: Router, private DemandaService: DemandaService, public Demanda: Demanda, public activatedRoute: ActivatedRoute) { 
 //     if(this.usuarioService.usuario.esGestor) {
 //       this.usuarioService.cargarUsuarios(0, 99999999, {terminoBusqueda: ''}).subscribe( ({total, filtradas, usuarios}) => {
-//         this.USUARIOS = usuarios.filter( usuario => ['ROL_ENTIDAD', 'ROL_PROFESOR', 'ROL_GESTOR'].includes(usuario.rol));
+//         this.USUARIOS = usuarios.filter( usuario => ['ROL_SOCIO_COMUNITARIO', 'ROL_PROFESOR', 'ROL_GESTOR'].includes(usuario.rol));
 //       });
 //     }
 //   }
@@ -41,7 +41,7 @@ export class crearDemandaComponent implements OnInit {
 constructor( public fb: FormBuilder, public usuarioService: UsuarioService, public fileUploadService: FileUploadService, public router: Router, public DemandaService: DemandaService, public activatedRoute: ActivatedRoute) {
   if(this.usuarioService.usuario.esGestor) {
     this.usuarioService.cargarUsuarios(0, 99999999, {terminoBusqueda: ''}).subscribe( ({total, filtradas, usuarios}) => {
-      this.USUARIOS = usuarios.filter( usuario => ['ROL_ENTIDAD', 'ROL_PROFESOR', 'ROL_GESTOR'].includes(usuario.rol));
+      this.USUARIOS = usuarios.filter( usuario => ['ROL_SOCIO_COMUNITARIO', 'ROL_PROFESOR', 'ROL_GESTOR'].includes(usuario.rol));
     });
   }
 }
@@ -112,9 +112,7 @@ constructor( public fb: FormBuilder, public usuarioService: UsuarioService, publ
   async  obtenerAreasServicio() {
      return this.DemandaService.obtenerAreasServicio()
         .subscribe( (resp: any) => {
-          console.log(resp)
-          this.areaServicio =resp.areasServicio
-          console.log("Las areas de servicio son ", this.areaServicio);
+          this.areaServicio =resp.areasServicio;
           return this.areaServicio;
         });
   }
@@ -123,9 +121,7 @@ constructor( public fb: FormBuilder, public usuarioService: UsuarioService, publ
   async  obtenerNecesidades() {
     return this.DemandaService.obtenerNecesidades()
        .subscribe( (resp: any) => {
-         console.log(resp)
          this.necesidadSocial =resp.necesidadSocial
-         console.log("las necesidades sociales son ", this.necesidadSocial);
          return this.necesidadSocial;
        });
  }
@@ -133,9 +129,7 @@ constructor( public fb: FormBuilder, public usuarioService: UsuarioService, publ
  async  obtenerTitulaciones() {
   return this.DemandaService.obtenerTitulaciones()
      .subscribe( (resp: any) => {
-       console.log(resp)
        this.titulacionLocal =resp.titulacionLocal
-       console.log("Las titulaciones locales son ", this.titulacionLocal);
        return this.titulacionLocal;
      });
 }

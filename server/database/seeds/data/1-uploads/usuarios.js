@@ -27,10 +27,10 @@ function generateAvatars(files) {
 
 module.exports = generateAvatars({
     'gestor@uned.es': 'logo-uned.jpg',
-    'entidad@uned.es': 'entidad-uned.png',
+    'socio@uned.es': 'socio-uned.png',
     'profesor@uned.es': 'profesor-uned.png',
     'alumno@uned.es': 'alumno-uned.png',
-    'entidad@externo.es': 'entidad-externo.png',
+    'socio@externo.es': 'socio-externo.png',
     'profesor@externo.es': 'profesor-externo.png',
     'alumno@externo.es': 'alumno-externo.png',
 });

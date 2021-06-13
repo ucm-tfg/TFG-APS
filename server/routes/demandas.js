@@ -4,7 +4,7 @@ const { Router } = require('express');
 const { check } = require('express-validator');
 const { validarCampos } = require('./../middlewares/validar-campos');
 const { getAreasservicio, crearDemanda, getTitulaciones, getNecesidades, obtenerDemanda} = require('../controllers/demandas');
-const { opcionalJWT, validarJWT, validarEsEntidadOrEsGestor } = require('../middlewares/validar-jwt');
+const { opcionalJWT, validarJWT, validarEsSocioComunitarioOrEsGestor } = require('../middlewares/validar-jwt');
 
 const router = Router();
 
@@ -31,12 +31,12 @@ router.get(
     getTitulaciones
 );
 
-// crear iniciativa, profesor, entidad o gestor
+// crear iniciativa, profesor, socio o gestor
 router.post(
     '/',
     [
         validarJWT,
-        validarEsEntidadOrEsGestor,
+        validarEsSocioComunitarioOrEsGestor,
         check('titulo', 'El título es un campo obligatorio').not().isEmpty(),
         check('descripcion', 'La descripción es un campo obligatorio').not().isEmpty(),
         check('area_servicio', 'El area_servicio es un campo obligatorio').not().isEmpty(),

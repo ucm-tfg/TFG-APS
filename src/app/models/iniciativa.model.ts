@@ -87,8 +87,8 @@ export class Iniciativa {
                 return 'Profesor';
                 break;
 
-            case 'ROL_ENTIDAD':
-                return 'Entidad';
+            case 'ROL_SOCIO_COMUNITARIO':
+                return 'Socio comunitario';
                 break;
 
             case 'ROL_GESTOR':

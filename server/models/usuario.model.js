@@ -46,13 +46,23 @@ const UsuarioSchema = new Schema({
     required: false
   },
 
-  // para entidades
+  // para socios comunitarios
   sector: {
     type: String,
     required: false
   },
 
-  nombreEntidad: {
+  url: {
+    type: String,
+    required: false
+  },
+
+  mision: {
+    type: String,
+    required: false
+  },
+
+  nombreSocioComunitario: {
     type: String,
     required: false
   },
@@ -61,7 +71,10 @@ const UsuarioSchema = new Schema({
     type: Boolean,
     required: false
   },
-
+  telefono: {
+    type: Number,
+    required: true
+  },
   origin_login: {
     type: String,
     default: "Portal ApS"
@@ -77,14 +90,14 @@ const UsuarioSchema = new Schema({
     required: true,
     default: ROL_ESTUDIANTE,
     enum: {
-        values: ROLES,
-        message: 'El rol {VALUE} no es un valor válido'
+      values: ROLES,
+      message: 'El rol {VALUE} no es un valor válido'
     }
   }
 
 }, { timestamps: true });
 
-UsuarioSchema.method('toJSON', function() {
+UsuarioSchema.method('toJSON', function () {
   const { __v, _id, password, ...object } = this.toObject();
   object.uid = _id;
   return object;

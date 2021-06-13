@@ -16,7 +16,7 @@ export class Proyecto {
         public ciudad: string,
         public partenariado: string,
         public profesores: Usuario[],
-        public entidades: Usuario[],
+        public sociosComunitarios: Usuario[],
         public estudiantes: Usuario[],
         public mensajes: Object,
         public archivos: Upload[],
@@ -77,8 +77,8 @@ export class Proyecto {
                 return 'Profesor';
                 break;
 
-            case 'ROL_ENTIDAD':
-                return 'Entidad';
+            case 'ROL_SOCIO_COMUNITARIO':
+                return 'Socio comunitario';
                 break;
 
             case 'ROL_GESTOR':

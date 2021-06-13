@@ -19,7 +19,7 @@ export class DemandaCrearGuard implements CanActivate {
       }
       console.log("Hemos pasado por el guard")
       return  this.usuarioService.usuario.esGestor
-              || this.usuarioService.usuario.esEntidad;
+              || this.usuarioService.usuario.esSocioComunitario;
   }
 
 }

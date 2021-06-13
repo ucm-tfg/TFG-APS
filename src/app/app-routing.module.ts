@@ -30,7 +30,7 @@ import { QueEsApsComponent } from './pages/que-es-aps/que-es-aps.component';
 
 import { ComoParticiparEstudiantesComponent } from './pages/como-participar-estudiantes/como-participar-estudiantes.component';
 import { ComoParticiparProfesoresComponent } from './pages/como-participar-profesores/como-participar-profesores.component';
-import { ComoParticiparEntidadesComponent } from './pages/como-participar-entidades/como-participar-entidades.component';
+import { ComoParticiparSociosComunitariosComponent } from './pages/como-participar-socioscomunitarios/como-participar-socioscomunitarios.component';
 
 import { SobreApsUnedQuienesSomosComponent } from './pages/sobre-aps-uned-quienes-somos/sobre-aps-uned-quienes-somos.component';
 import { SobreApsUnedHistoriaComponent } from './pages/sobre-aps-uned-historia/sobre-aps-uned-historia.component';
@@ -92,7 +92,7 @@ const routes: Routes = [
 
     { path: 'como-participar/estudiantes', component: ComoParticiparEstudiantesComponent, data: { titulo: 'Cómo participar - Estudiantes' } },
     { path: 'como-participar/profesores', component: ComoParticiparProfesoresComponent, data: { titulo: 'Cómo participar - Profesores' } },
-    { path: 'como-participar/entidades', component: ComoParticiparEntidadesComponent, data: { titulo: 'Cómo participar - Entidades' } },
+    { path: 'como-participar/socioscomunitarios', component: ComoParticiparSociosComunitariosComponent, data: { titulo: 'Cómo participar - Socios comunitarios' } },
 
     { path: 'sobre-ApS-UNED/quienes-somos', component: SobreApsUnedQuienesSomosComponent, data: { titulo: 'Sobre ApS UNED - Quiénes Somos' } },
     { path: 'sobre-ApS-UNED/historia', component: SobreApsUnedHistoriaComponent, data: { titulo: 'Sobre ApS UNED - Historia' } },

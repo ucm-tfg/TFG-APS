@@ -3,8 +3,8 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
 const { validarCampos } = require('./../middlewares/validar-campos');
-const { crearPartenariadoProfesor, crearPartenariadoEntidad} = require('../controllers/partenariados');
-const { validarJWT, validarEsProfesor, validarEsEntidad } = require('../middlewares/validar-jwt');
+const { crearPartenariadoProfesor, crearPartenariadoSocioComunitario} = require('../controllers/partenariados');
+const { validarJWT, validarEsProfesor, validarEsSocioComunitario } = require('../middlewares/validar-jwt');
 
 const router = Router();
 
@@ -25,10 +25,10 @@ router.post(
 );
 
 router.post(
-    '/crearEntidad',
+    '/crearSocioComunitario',
     [
         validarJWT,
-        validarEsEntidad,
+        validarEsSocioComunitario,
         check('id_oferta', 'El id_demanda es un campo obligatorio').not().isEmpty(),
         check('titulo', 'El titulo es un campo obligatorio').not().isEmpty(),
         check('descripcion', 'La descripcion es un campo obligatorio').not().isEmpty(),
@@ -38,7 +38,7 @@ router.post(
         // check('profesores', 'Los profesores es un campo obligatorio').not().isEmpty(),
         validarCampos,
     ],
-    crearPartenariadoEntidad
+    crearPartenariadoSocioComunitario
 );
 // listar partenariados
 // router.get('/', [], getPartenariados);
@@ -47,7 +47,7 @@ router.post(
 // router.get(
 //     '/:id', [
 //         validarJWT,
-//         validarEsProfesorOrEntidadOrEsGestor,
+//         validarEsProfesorOrSocioComunitarioOrEsGestor,
 //         check('id', 'El id del partenariado debe ser válido').isMongoId(),
 //         validarCampos
 //     ],
@@ -58,7 +58,7 @@ router.post(
 // router.put(
 //     '/modificar-estado/:id', [
 //         validarJWT,
-//         validarEsProfesorOrEntidadOrEsGestor,
+//         validarEsProfesorOrSocioComunitarioOrEsGestor,
 //         check('id', 'El id del partenariado debe ser válido').isMongoId(),
 //         validarCampos
 //     ],
@@ -70,7 +70,7 @@ router.post(
 // router.post(
 //     '/enviar-mensaje/:id', [
 //         validarJWT,
-//         validarEsProfesorOrEntidadOrEsGestor,
+//         validarEsProfesorOrSocioComunitarioOrEsGestor,
 //         check('id', 'El id del partenariado debe ser válido').isMongoId(),
 //         validarCampos
 //     ],

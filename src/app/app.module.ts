@@ -52,7 +52,7 @@ import { QueEsApsComponent } from './pages/que-es-aps/que-es-aps.component';
 
 import { ComoParticiparEstudiantesComponent } from './pages/como-participar-estudiantes/como-participar-estudiantes.component';
 import { ComoParticiparProfesoresComponent } from './pages/como-participar-profesores/como-participar-profesores.component';
-import { ComoParticiparEntidadesComponent } from './pages/como-participar-entidades/como-participar-entidades.component';
+import { ComoParticiparSociosComunitariosComponent } from './pages/como-participar-socioscomunitarios/como-participar-socioscomunitarios.component';
 
 import { SobreApsUnedQuienesSomosComponent } from './pages/sobre-aps-uned-quienes-somos/sobre-aps-uned-quienes-somos.component';
 import { SobreApsUnedHistoriaComponent } from './pages/sobre-aps-uned-historia/sobre-aps-uned-historia.component';
@@ -128,7 +128,7 @@ import { Code404Component } from './errors/code404/code404.component';
 
     ComoParticiparEstudiantesComponent,
     ComoParticiparProfesoresComponent,
-    ComoParticiparEntidadesComponent,
+    ComoParticiparSociosComunitariosComponent,
 
     SobreApsUnedQuienesSomosComponent,
     SobreApsUnedHistoriaComponent,
