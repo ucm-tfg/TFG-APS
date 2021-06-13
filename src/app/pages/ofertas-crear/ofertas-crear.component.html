@@ -112,7 +112,7 @@
                         <div class="row">
                             <div class="col">
                                 <div class="form-group">
-                                    <label>Año académico</label>
+                                    <label>Año académico objetivo</label>
                                     <input name="anio_academico" type="number" id="anio_academico" class="form-control" autocorrect="off" autocapitalize="none" spellcheck="false" placeholder="Año académico"  formControlName="anio_academico" min="2021" value="2021" value="2022">
                                 </div>
                             </div>
@@ -217,7 +217,7 @@
                             </div> -->
                         </div>
 
-
+                        <label style="color:green; margin-top:0.5cm;">Los campos obligatorios tienen asterisco.</label>
 
                         <div class="d-flex">
                             <div class="flex-fill alert alert-danger mr-3" role="alert" *ngIf="this.crearOfertaForm.invalid && this.formSubmitted">

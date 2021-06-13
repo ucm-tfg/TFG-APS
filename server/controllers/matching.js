@@ -299,10 +299,11 @@ function hacerMatch(fichero,oferta, demanda){
         return matchDefinitivo(oferta, demanda, valores[0], valores[1], valores[2], valores[3], valores[4]).then(function(res){
     
             if(res >= 0.5){
-                return dao_tentativa.crearMatch(oferta.getId(), demanda.getId(), res)//hacer funcion en DAO para insertar en tabla matching
+                return dao_tentativa.crearMatch(oferta.getId(), demanda.getId(), res); //hacer funcion en DAO para insertar en tabla matching
             }
             else {
                 console.log("No es match");
+                return dao_tentativa.crearMatch(oferta.getId(), demanda.getId(), res);
             }
         }); 
       })

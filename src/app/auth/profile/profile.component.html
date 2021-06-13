@@ -102,7 +102,7 @@
                                         </div>
 
                                         <div class="form-group flex-fill ml-2">
-                                            <label for="telefono">Teléfono</label>
+                                            <label for="telefono">Número de teléfono</label>
                                             <input name="telefono" type="text" id="telefono" class="form-control" autocorrect="off" autocapitalize="none" spellcheck="false" placeholder="Introduzca su telefono" formControlName="telefono">
                                         </div>
                                     </div>
@@ -205,6 +205,8 @@
                                         <input name="nombreSocioComunitario" type="text" id="nombreSocioComunitario" class="form-control" autocorrect="off" autocapitalize="none" spellcheck="false" placeholder="Introduzca el nombre del socio comunitario" formControlName="nombreSocioComunitario">
                                     </div>
                                 </fieldset>
+
+                                <label style="color:green; margin-top:0.5cm;">Los campos obligatorios tienen asterisco.</label>
 
                                 <div class="d-flex">
                                      <div class="flex-fill alert alert-danger mr-3" role="alert" *ngIf="this.profileForm.invalid">
