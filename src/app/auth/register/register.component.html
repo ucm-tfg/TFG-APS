@@ -206,11 +206,12 @@
                                     </div>
                                 </fieldset>
 
+
                                 <div id="spaceRegister" class="form-check text-left ml-1 mb-2">
                                     <input type="checkbox" class="form-check-input" id="terminos_aceptados" formControlName="terminos_aceptados">
                                     <label class="form-check-label">Acepto las <a href="javascript:void(0)" target="_blank" [routerLink]="['/registro/condiciones-de-uso']">Condiciones de Uso</a></label>
                                 </div>
-
+                                <label style="color:green; margin-top:0.5cm;">Los campos obligatorios tienen asterisco.</label>
                                 <div class="d-flex">
                                     <div class="flex-fill alert alert-danger mr-3" role="alert" *ngIf="this.registerForm.invalid && this.formSubmitted">
                                         <div class="col">Debes completar/seleccionar correctamente todos los campos</div>
