@@ -50,7 +50,6 @@ const getUniversidades = async(req, res) => {
 
 const getAreasConocimientoUsuario = async(req, res) => {
     try {
-        console.log(req)
         areasUsuario = await dao_usuario.obtenerAreasConocimientoUsuario(req.params.id);
         
         return res.status(200).json({
