@@ -21,9 +21,16 @@ export class HomeService {
                       map( (resp) => resp )
                     );
   }
-  
+
   obtenerUniversidades(){
     return this.http.get<{ ok: boolean, universidades: any}>(`${ base_url }/home/universidades`,this.usuarioService.headers)
+                    .pipe(
+                     map( (resp) => resp)
+                    );
+  }
+
+  obtenerAreasConocimientoUsuario(id: String){
+    return this.http.get<{ ok: boolean, areasUsuario: any}>(`${ base_url }/home/areasConocimientoUsuario/${ id }`,this.usuarioService.headers)
                     .pipe(
                      map( (resp) => resp)
                     );

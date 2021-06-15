@@ -1,7 +1,7 @@
 // ruta: /api/home
 
 const { Router } = require('express');
-const { getDatosHome ,getUniversidades, getAreasConocimiento} = require('./../controllers/home');
+const { getDatosHome ,getUniversidades, getAreasConocimiento, getAreasConocimientoUsuario} = require('./../controllers/home');
 
 const router = Router();
 
@@ -19,4 +19,9 @@ router.get(
     getAreasConocimiento
 );
 
+
+router.get(
+    '/areasConocimientoUsuario/:id',[],
+    getAreasConocimientoUsuario
+);
 module.exports = router;

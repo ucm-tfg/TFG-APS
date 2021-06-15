@@ -343,37 +343,37 @@ function insertarProfesorExterno(usuario) {
         return knex("areaconocimiento_profesor")
           .insert(fieldsToInsert)
           .then(() => {
-        return knex("universidad")
-          .select("id")
-          .where("nombre", "like", `%${usuario.getnombreUniversidad()}%`)
-          .then(function (values) {
-            return knex("profesor_externo")
-              .insert({
-                id: idF[0],
-                universidad: values[0]["id"],
-                datos_personales_Id: result[0],
-                facultad :usuario.getFacultad()
-              })
-              .then(function () {
-                return idF[0];
+            return knex("universidad")
+              .select("id")
+              .where("nombre", "like", `%${usuario.getnombreUniversidad()}%`)
+              .then(function (values) {
+                return knex("profesor_externo")
+                  .insert({
+                    id: idF[0],
+                    universidad: values[0]["id"],
+                    datos_personales_Id: result[0],
+                    facultad: usuario.getFacultad()
+                  })
+                  .then(function () {
+                    return idF[0];
+                  })
+                  .catch((err) => {
+                    console.log(err);
+                    console.log("Se ha producido un error");
+                    borrarUsuario(idF[0]);
+                    borrarDatosPersonalesExternos(result[0]);
+                    return -1;
+                  });
               })
               .catch((err) => {
+                borrarUsuario(idF[0]);
+                borrarDatosPersonalesInternos(result[0]);
                 console.log(err);
                 console.log("Se ha producido un error");
                 borrarUsuario(idF[0]);
-                borrarDatosPersonalesExternos(result[0]);
                 return -1;
               });
           })
-          .catch((err) => {
-            borrarUsuario(idF[0]);
-            borrarDatosPersonalesInternos(result[0]);
-            console.log(err);
-            console.log("Se ha producido un error");
-            borrarUsuario(idF[0]);
-            return -1;
-          });
-        })
       });
   });
 }
@@ -789,6 +789,30 @@ function obtenerUniversidades() {
     });
 }
 
+function obtenerAreasConocimientoUsuario(id) {
+  return knex("areaconocimiento_profesor")
+    .where({ id_profesor: id })
+    .select("id_area")
+    .then((id_areas) => {
+      id_areas_array = [];
+      for (id_area of id_areas) {
+        id_areas_array.push(id_area["id_area"]);
+      }
+      return knex
+        .select("nombre")
+        .select("id")
+        .from("area_conocimiento")
+        .whereIn("id", id_areas_array)
+        .then((areas_conocim) => {
+          areas = [];
+          for (area of areas_conocim) {
+            areas.push({id: area["id"],nombre: area["nombre"]});
+          }
+          return areas;
+        });
+    });
+}
+
 function obtenerAreasConocimiento() {
   return knex("area_conocimiento")
     .select("id")
@@ -1059,12 +1083,12 @@ function obtenerProfesor(id) {
 
 function obtenerProfesores() {
   return knex("profesor_interno")
-      .join(
-        "datos_personales_interno",
-        "profesor_interno.datos_personales_Id",
-        "=",
-        "datos_personales_interno.id"
-      )
+    .join(
+      "datos_personales_interno",
+      "profesor_interno.datos_personales_Id",
+      "=",
+      "datos_personales_interno.id"
+    )
     .select("profesor_interno.id")
     .select("datos_personales_interno.nombre")
     .select("datos_personales_interno.apellidos")
@@ -1303,7 +1327,7 @@ function obtenerProfesorExternoPorDatosPersonales(id) {
                   uni[0]["nombre"],
                   profesorExterno[0]["facultad"],
                   datos["telefono"]
-                
+
                 );
               });
           });
@@ -2054,6 +2078,7 @@ module.exports = {
   obtenerProfesores,
   obtenerSocioComunitario,
   obtenerAdmin,
+  obtenerAreasConocimientoUsuario,
   actualizarAdmin,
   actualizarSocioComunitario,
   actualizarEstudiante,

@@ -22,6 +22,7 @@ export class ProfileComponent {
   public successMessage: string = 'El perfil ha sido actualizado correctamente';
   public usuario: Usuario;
   public codeList: any;
+  public areasUsuario: any;
 
   public profileForm: FormGroup;
   public imagenSubir: File;
@@ -32,19 +33,10 @@ export class ProfileComponent {
 
   constructor(public fb: FormBuilder, public authService: AuthService, public usuarioService: UsuarioService, public registerService: HomeService, public fileUploadService: FileUploadService, public router: Router, public activatedRoute: ActivatedRoute) {
   }
-  selCountries = [
-    {
-      id: 1000,
-      nombre: "India",
-    },
-    {
-      id:10099,
-      nombre:"España"
-    }
-  ];
   async ngOnInit() {
     this.obtenerUniversidades();
     this.obtenerAreasConocimiento();
+    this.obtenerAreasConocimientoUsuario();
     await this.actualizarInformacionOrigenDeUsuario();
     
 
@@ -91,6 +83,15 @@ export class ProfileComponent {
       .subscribe((resp: any) => {
         this.codeList = resp.codeList
         return this.codeList;
+      });
+  }
+
+  async obtenerAreasConocimientoUsuario() {
+    return this.registerService.obtenerAreasConocimientoUsuario(this.usuarioService.usuario.uid)
+      .subscribe((resp: any) => {
+        this.areasUsuario = resp.areasUsuario;
+        console.log(this.areasUsuario)
+        return this.areasUsuario;
       });
   }
 
