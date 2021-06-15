@@ -101,7 +101,7 @@
                                             <label for="telefono">Número de teléfono *</label>
                                             <input name="telefono" type="text" id="telefono" class="form-control" autocorrect="off" autocapitalize="none" spellcheck="false" placeholder="Introduzca su teléfono" [class.is-invalid] = "registerForm.get('telefono').invalid && registerForm.get('telefono').touched" formControlName="telefono">
                                             <div *ngIf="(getTelefono.invalid && getTelefono.touched)">
-                                                <small *ngIf="getTelefono.errors?.required" class="text-danger">El apellido es un campo requerido</small>
+                                                <small *ngIf="getTelefono.errors?.required" class="text-danger">El teléfono es un campo requerido</small>
                                               </div>
                                         </div>
                                     </div>
