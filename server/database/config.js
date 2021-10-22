@@ -1,6 +1,11 @@
-const mysql = require ('mysql');
 const knex = require("knex")({
-    client: "mysql",
-    connection: "postgres://root:@localhost:3306/aps"
-    });
+  client: "mysql",
+  connection: {
+    host: '192.168.1.190',
+    port: 3306,
+    user: 'root',
+    password: 'test',
+    database: 'aps'
+  }
+});
 module.exports = knex;
