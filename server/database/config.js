@@ -1,11 +1,10 @@
 const knex = require("knex")({
   client: "mysql",
   connection: {
-    host: '192.168.1.190',
-    port: 3306,
-    user: 'root',
-    password: 'test',
-    database: 'aps'
+    host: 'remotemysql.com',
+    user: 'lrXKmZQ8mG',
+    password: 'DLtsUeePmE',
+    database: 'lrXKmZQ8mG'
   }
 });
 module.exports = knex;

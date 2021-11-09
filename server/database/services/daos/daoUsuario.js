@@ -623,6 +623,7 @@ function obtenerUsuarioSinRolPorEmail(email) {
     .then((id_interno) => {
       if (id_interno.length == 0) {
         // externos
+        console.log('email: '+ email);
         return knex("datos_personales_externo")
           .where({ correo: email })
           .select("id")

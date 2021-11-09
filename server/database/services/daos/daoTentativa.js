@@ -55,7 +55,7 @@ function crearOferta(oferta) {
           anio_academico: oferta.getAnio_academico(),
           fecha_limite: oferta.getFecha_limite(),
           observaciones_temporales: oferta.getObservaciones_temporales(),
-          creador: oferta.getCreador(),
+          creador: 120//oferta.getCreador(),
         })
         .then(function (result) {
           id = id_anuncio[0];
@@ -80,18 +80,19 @@ function crearOferta(oferta) {
               };
               if (Array.isArray(profesores)) {
                 fieldsToInsert2 = profesores.map((profesor) => ({
-                  id_profesor: profesor,
+                  id_profesor: 120,//profesor,
                   id_oferta: id_anuncio[0],
                 }));
               }
-              return knex("profesorinterno_oferta")
+              return true
+              /*return knex("profesorinterno_oferta")
                 .insert(fieldsToInsert2)
                 .then(() => {
                   console.log(
                     "Se ha introducido la oferta con id ",
                     id_anuncio[0]
                   );
-                });
+                });*/
             });
         })
         .catch((err) => {
@@ -345,8 +346,8 @@ function obtenerOfertaServicio(id_oferta) {
                             oferta[0]["anio_academico"],
                             oferta[0]["fecha_limite"],
                             oferta[0]["observaciones_temporales"],
-                            { id: responsable.getId(), 
-                              nombre: responsable.getNombre(), 
+                            { id: responsable.getId(),
+                              nombre: responsable.getNombre(),
                               apellidos: responsable.getApellidos()
                             },
                             anuncio.getArea_servicio(),
