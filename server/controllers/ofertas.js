@@ -1,9 +1,9 @@
-const dao_tentativa = require("./../database/services/daos/daoTentativa");
+const daoOferta = require("./../database/services/daos/daoOferta");
 const TOferta = require("./../database/services/transfers/TOfertaServicio");
 
 const getAreasservicio = async(req, res) => {
     try {
-        areasServicio = await dao_tentativa.obtenerListaAreasServicio();
+        areasServicio = await daoOferta.obtenerListaAreasServicio();
         
         return res.status(200).json({
             ok: true,
@@ -42,7 +42,7 @@ const crearOferta = async(req, res = response) => {
             areas,
             req.current_user.uid);
         
-        await dao_tentativa.crearOferta(oferta);
+        await daoOferta.crearOferta(oferta);
 
         return res.status(200).json({
             ok: true,
@@ -63,7 +63,7 @@ const obtenerOferta = async(req, res) => {
     try {
 
         const id = req.params.id;
-        const oferta = await dao_tentativa.obtenerOfertaServicio(id);
+        const oferta = await daoOferta.obtenerOfertaServicio(id);
 
         return res.status(200).json({
             ok: true,
@@ -75,13 +75,31 @@ const obtenerOferta = async(req, res) => {
 
         return res.status(500).json({
             ok: false,
-            msg: 'Error inesperado',
+            msg: 'Error inesperado.',
         });
+    }
+}
+
+const obtenerOfertas = async(req, res = response) =>{
+    try{
+        let ofertas = [];
+        ofertas = daoOferta.obtenerTodasOfertasServicio(); // Como recoger el resultado???
+        return res.status(200).json({
+            ok: true,
+            ofertas
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            ok: false,
+            msg: 'Error inesperado',
+        })
     }
 }
 
 module.exports = {
     getAreasservicio,
     crearOferta,
-    obtenerOferta
+    obtenerOferta,
+    obtenerOfertas
 }

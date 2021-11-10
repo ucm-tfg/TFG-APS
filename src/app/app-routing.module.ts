@@ -19,6 +19,9 @@ import { RegisterComponent } from './auth/register/register.component';
 import { ProfileComponent } from './auth/profile/profile.component';
 
 // gestor routes
+
+import { OfertasComponent } from './pages/ofertas/ofertas.component';
+import { DemandasComponent } from './pages/demandas/demandas.component';
 import { GestionUsuariosComponent } from './pages/gestor/gestion-usuarios/gestion-usuarios.component';
 import { GestionUsuariosEditarComponent } from './pages/gestor/gestion-usuarios-editar/gestion-usuarios-editar.component';
 import { GestorEmailsComponent } from './pages/gestor/gestor-emails/gestor-emails.component';
@@ -43,13 +46,14 @@ import { IniciativasCrearComponent } from './pages/iniciativas-crear/iniciativas
 import { IniciativasEditarComponent } from './pages/iniciativas-editar/iniciativas-editar.component';
 
 // ofertas
+
 // import { OfertasComponent } from './pages/ofertas/ofertas.component';
 // import { OfertasVerComponent } from './pages/ofertas-ver/ofertas-ver.component';
 import { OfertasCrearComponent } from './pages/ofertas-crear/ofertas-crear.component';
 // import { OfertasEditarComponent } from './pages/ofertas-editar/ofertas-editar.component';
 
 //demanda
-//import {DemandaComponent} from './pages/demanda/demanda.component'
+
 import {crearDemandaComponent} from './pages/crear-demanda/crear-demanda.component'
 //import {verDemandaComponent} from './pages/ver-demanda/ver-demanda.component'
 //import {editarDemandaComponent} from './pages/editar-demanda/editar-demanda.component'
@@ -66,6 +70,7 @@ import { ProyectosVerComponent } from './pages/proyectos-ver/proyectos-ver.compo
 // varios y error pages routes
 import { CondicionesComponent } from './pages/condiciones/condiciones.component';
 import { Code404Component } from './errors/code404/code404.component';
+
 
 
 const routes: Routes = [
@@ -106,14 +111,15 @@ const routes: Routes = [
     { path: 'iniciativas/crear', canActivate:[IniciativaCrearGuard], component: IniciativasCrearComponent, data: { titulo: 'Crear Iniciativa' } },
 
     // Ofertas
-    // { path: 'ofertas', component: OfertasComponent, data: { titulo: 'Ofertas' } },
     // { path: 'mis-ofertas', component: OfertasComponent, data: { titulo: 'Mis Ofertas' } },
     // { path: 'ofertas/ver/:id', component: OfertasVerComponent, data: { titulo: 'Ver Oferta' } },
     // { path: 'ofertas/editar/:id', canActivate:[OfertaEditarGuard], component: OfertasEditarComponent, data: { titulo: 'Editar Oferta' } },
     { path: 'ofertas/crear', canActivate:[OfertaCrearGuard], component: OfertasCrearComponent, data: { titulo: 'Crear Oferta' } },
+    { path: 'ofertas', component: OfertasComponent, data: { titulo: 'Ofertas' } },
 
     //demandas
-    // { path: 'demandas', component: demandasComponent, data: { titulo: 'Demandas' } },
+    { path: 'demandas', component: DemandasComponent, data: { titulo: 'Demandas' } },
+    { path: 'testdem', component: DemandasComponent, data: { titulo: 'Demandas' } },
     // { path: 'mis-demandas', component: demandasComponent, data: { titulo: 'Mis Demandas' } },
     // { path: 'demandas/ver/:id', component: DemandasVerComponent, data: { titulo: 'Ver Demandas' } },
     // { path: 'demandas/editar/:id', canActivate:[DemandaEditarGuard], component: DemandaEditarComponent, data: { titulo: 'Editar Demanda' } },
