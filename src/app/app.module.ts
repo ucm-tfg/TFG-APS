@@ -66,13 +66,14 @@ import { IniciativasCrearComponent } from './pages/iniciativas-crear/iniciativas
 import { IniciativasEditarComponent } from './pages/iniciativas-editar/iniciativas-editar.component';
 
 // ofertas
-// import { OfertasComponent } from './pages/ofertas/ofertas.component';
-// import { OfertasVerComponent } from './pages/ofertas-ver/ofertas-ver.component';
+import { OfertasComponent } from './pages/ofertas/ofertas.component';
+//import { OfertasVerComponent } from './pages/ofertas-ver/ofertas-ver.component';
 import { OfertasCrearComponent } from './pages/ofertas-crear/ofertas-crear.component';
-// import { OfertasEditarComponent } from './pages/ofertas-editar/ofertas-editar.component';
+//import { OfertasEditarComponent } from './pages/ofertas-editar/ofertas-editar.component';
 
 //demandas
 import { crearDemandaComponent } from './pages/crear-demanda/crear-demanda.component';
+import { DemandasComponent } from './pages/demandas/demandas.component';
 
 // partenariados
 import { PartenariadosComponent } from './pages/partenariados/partenariados.component';
@@ -91,6 +92,7 @@ import { GestorNewsletterComponent } from './pages/gestor/gestor-newsletter/gest
 // varios y error pages
 import { CondicionesComponent } from './pages/condiciones/condiciones.component';
 import { Code404Component } from './errors/code404/code404.component';
+
 
 
 
@@ -140,8 +142,10 @@ import { Code404Component } from './errors/code404/code404.component';
     IniciativasCrearComponent,
     IniciativasEditarComponent,
 
+    
     // ofertas
     OfertasCrearComponent,
+    OfertasComponent,
     
     // partenariados
     PartenariadosComponent,
@@ -153,6 +157,7 @@ import { Code404Component } from './errors/code404/code404.component';
 
     //demandas
     crearDemandaComponent,
+    DemandasComponent,
 
     // gestor
     GestionUsuariosEditarComponent,

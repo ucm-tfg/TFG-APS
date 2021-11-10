@@ -1,0 +1,156 @@
+<app-navbar></app-navbar>
+<div class="container mt-4 animate__animated animate__fadeIn animate__faster">
+    <h5 class="px-4 py-2 mb-4 text-white display-block bg-secondary d-flex justify-content-between">
+        <b>Demandas</b>
+        <a *ngIf="demandaCrearGuard.canActivate(null,null)" class="btn btn-primary border-light btn-sm" [routerLink]="['/demandas/crear']" role="button">Crear Demanda</a>
+    </h5>
+
+    <div class="alert alert-warning" role="alert" *ngIf="!this.usuarioService.usuario">
+        <b>Atención: </b> Estás en la aplicación como <b>INVITADO</b>. Sólo Profesores pueden presentar OFERTAS.
+    </div>
+
+    <div class="alert alert-warning" role="alert" *ngIf="this.usuarioService.usuario && this.usuarioService.usuario.esEstudiante">
+        <b>Atención: </b> Estás en la aplicación como <b>ESTUDIANTE</b>. Sólo Profesores pueden presentar OFERTAS.
+    </div>
+
+    <div class="row">
+        <div class="col-3">
+
+            <header class="card-header mb-2 rounded border"><h6 class="title mb-0">Filtros</h6></header>
+
+            <div class="card">
+
+                <div class="filtro">
+                    <header class="card-header">
+                        <h6 class="title mb-0">Búsqueda </h6>
+                    </header>
+
+                    <div class="card-body">
+                        <input [(ngModel)]="terminoBusqueda" (keyup)="cargarDemandas()" (search)="cargarDemandas()" type="search" class="form-control float-right mb-4" placeholder="Buscar por título...">
+                    </div>
+                </div>
+
+
+                <div class="filtro">
+                    <header class="card-header border-top rounded-0">
+                        <h6 class="title mb-0">Necesidad social </h6>
+                    </header>
+
+                    <div class="card-body">
+                        <!-- <label *ngFor="let area of AREAS_SERVICIOS" class="form-check">
+                            <input class="form-check-input" type="checkbox" [value]="true" (change)="cargarDemandas()" [(ngModel)]="filterProfesores[prof]">
+                            <span class="form-check-label">{{ prof }}</span>
+                        </label> -->
+                    </div>
+                </div>
+
+
+                <div class="filtro">
+                    <header class="card-header border-top rounded-0">
+                        <h6 class="title mb-0">Area de servicio </h6>
+                    </header>
+
+                    <div class="card-body">
+                        <!-- <label *ngFor="let area of AREAS_SERVICIOS" class="form-check">
+                            <input class="form-check-input" type="checkbox" [value]="true" (change)="cargarDemandas()" [(ngModel)]="filterAreaServicio[area]">
+                            <span class="form-check-label">{{ area }}</span>
+                        </label> -->
+                    </div>
+                </div>
+
+
+                <div class="filtro">
+                    <header class="card-header border-top rounded-0">
+                        <h6 class="title mb-0">Entidad demandante </h6>
+                    </header>
+
+                    <div class="card-body">
+                        <!--
+                        <label *ngFor="let ESTADO_INICIATIVA of ESTADOS_INICIATIVAS" class="form-check">
+                            <input class="form-check-input" type="radio" name="ESTADO_INICIATIVA" value="{{ ESTADO_INICIATIVA }}" (change)="cargarIniciativas()" [(ngModel)]="filterEstado">
+                            <span class="form-check-label">Iniciativas {{ ESTADO_INICIATIVA }}s</span>
+                        </label>
+                        -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-9">
+
+            <header class="card-header mb-2 rounded border d-flex justify-content-between">
+                <h6 class="title mb-0">Listado de Demandas <span class="leading-none" *ngIf="totalDemandasBuscadas != totalDemandas"><small class="font-weight-bold">(total: {{ totalDemandas }})</small></span></h6>
+
+                <!-- <span class="leading-none" *ngIf="totalDemandasBuscadas == totalOfertas">Total de demandas: {{ totalDemandas }} (mostrando del {{ firstPageRecord }} al {{ lastPageRecord }})</span>
+                <span class="leading-none" *ngIf="totalDemandasBuscadas != totalOfertas">Demandas que coinciden con el filtro: {{ totalDemandasBuscadas }} (mostrando del {{ firstPageRecord }} al {{ lastPageRecord }})</span> -->
+            </header>
+
+
+            <div class="card my-2">
+
+                <!-- Info de cargando -->
+                <div *ngIf="cargando" class="mb-0 alert alert-info text-center animate__animated animate__fadeIn animate__fast" role="alert">
+                    <h4>Cargando demandas</h4>
+                    <fa-icon [icon]="['fas', 'sync']" [spin]="true"></fa-icon>
+                    <p class="mb-">Por favor, espere</p>
+                </div>
+
+                <!-- Tabla cargada -->
+                <div class="card-body" *ngIf="!cargando">
+
+                    <div class="text-right mb-3">
+                        <button (click)="cambiarPagina(prevLimit)" class="btn btn-outline-secondary">Anteriores</button>
+                        &nbsp;
+                        <button (click)="cambiarPagina(nextLimit)" class="btn btn-outline-secondary">Siguientes</button>
+                    </div>
+
+                    <table class="table table-sm table-bordered">
+
+                        <thead>
+                            <tr class="">
+                                <th scope="col" class="w-100px">Oferta</th>
+                                <th scope="col">Año academico</th>
+                                <th scope="col">Cuatrimestre</th>
+                                <th scope="col">Fecha limite</th>
+                                <th scope="col" class="w-140px">Observaciones generales</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let oferta of ofertas" class="">
+                                <td>{{ demanda.displayProponedorRol }}</td>
+                                <td>
+                                    {{ demanda.displayProponedorTableInfo }}
+                                    <!--<div *ngIf="demanda.creador && demanda.proponedor.rol === 'ROL_ENTIDAD' && iniciativa.proponedor.sector"><br />{{ iniciativa.proponedor.sector }}</div>
+                                    <div *ngIf="demanda.proponedor && iniciativa.proponedor.rol === 'ROL_PROFESOR' && iniciativa.proponedor.universidad"><br />{{ iniciativa.proponedor.universidad }}</div>
+                                    <div *ngIf="demanda.proponedor && iniciativa.proponedor.rol === 'ROL_PROFESOR' && iniciativa.proponedor.titulacion"><br />{{ iniciativa.proponedor.titulacion }}</div>-->
+                                <td>
+                                    <b>Creador: </b>{{ demanda.creador }}<br />
+                                    <b>Ciudad: </b>{{ demanda.ciudad }}<br />
+                                    <b>Finalidad: </b>{{ demanda.finalidad }} <br />
+                                    <b>Inicio periodo definicion: </b>{{ demanda.periodoDefinicionIni }} <br />
+                                    <b>Fin periodo definicion: </b>{{ demanda.periodoDeficionFin }} <br />
+                                    <b>Inicio periodo ejecucion: </b>{{ demanda.periodoEjecucionIni }} <br />
+                                    <b>Fin periodo ejecucion: </b>{{ demanda.periodoEjecucionFin }} <br />
+                                    <b>Observaciones temporales: </b>{{ demanda.fechaFin }} <br />
+                                    <b>Necesidad local: </b>{{ demanda.necesidadLocal }} <br />
+                                    <b>Sociedad beneficiaria: </b>{{ demanda.sociedadBeneficiaria }} <br />
+                                </td>
+
+                                <td class="h-100 p-0">
+                                    <div class="border-bottom p-2 text-center">{{ demanda.parsedCreatedAt }}</div>
+                                    <div class="d-flex justify-content-around p-2">
+                                        <fa-icon [icon]="['fas', 'eye']" class="text-primary cursor-pointer" [routerLink]="['/demandas/ver', demanda._id]" title="Ver demanda"></fa-icon>
+                                        <fa-icon *ngIf="(usuarioService.usuario?.esGestor || demanda.creador.uid === usuarioService.usuario?.uid)" [icon]="['fas', 'edit']" class="text-primary cursor-pointer" [routerLink]="['/demanda/editar', demanda._id]" title="Editar demanda"></fa-icon>
+                                    </div>
+
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<app-footer></app-footer>
