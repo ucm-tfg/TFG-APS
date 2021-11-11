@@ -7,13 +7,14 @@ import { OfertaService } from 'src/app/services/oferta.service';
 import Swal from 'sweetalert2';
 import { Router, ActivatedRoute } from '@angular/router';
 
+
 @Component({
   selector: 'app-ofertas-crear',
   templateUrl: './ofertas-crear.component.html',
-  styleUrls: ['./ofertas-crear.component.scss']
+  styleUrls: ['./ofertas-crear.component.scss'],
 })
-export class OfertasCrearComponent implements OnInit {
 
+export class OfertasCrearComponent implements OnInit {
   public formSubmitted = false;
   public formSending = false;
 
@@ -21,18 +22,31 @@ export class OfertasCrearComponent implements OnInit {
   public oferta: Oferta;
   public imagenSubir: File;
   public imagenPreview: any = null;
-  public areasServicio: any ;
+  public areasServicio: any;
   public crearOfertaForm: FormGroup;
   public htmlStr: string;
   public aux_cuatrimestre: string;
   public dropdownSettings: any = {};
   public USUARIOS;
 
-  constructor( public fb: FormBuilder, public ofertaService: OfertaService, public usuarioService: UsuarioService, public fileUploadService: FileUploadService, public router: Router, public activatedRoute: ActivatedRoute) {
-    if(this.usuarioService.usuario.esGestor) {
-      this.usuarioService.cargarUsuarios(0, 99999999, {terminoBusqueda: ''}).subscribe( ({total, filtradas, usuarios}) => {
-        this.USUARIOS = usuarios.filter( usuario => ['ROL_SOCIO_COMUNITARIO', 'ROL_PROFESOR', 'ROL_GESTOR'].includes(usuario.rol));
-      });
+  constructor(
+    public fb: FormBuilder,
+    public ofertaService: OfertaService,
+    public usuarioService: UsuarioService,
+    public fileUploadService: FileUploadService,
+    public router: Router,
+    public activatedRoute: ActivatedRoute
+  ) {
+    if (this.usuarioService.usuario.esGestor) {
+      this.usuarioService
+        .cargarUsuarios(0, 99999999, { terminoBusqueda: '' })
+        .subscribe(({ total, filtradas, usuarios }) => {
+          this.USUARIOS = usuarios.filter((usuario) =>
+            ['ROL_SOCIO_COMUNITARIO', 'ROL_PROFESOR', 'ROL_GESTOR'].includes(
+              usuario.rol
+            )
+          );
+        });
     }
   }
 
@@ -41,42 +55,55 @@ export class OfertasCrearComponent implements OnInit {
     await this.cargarOferta();
     this.dropdownSettings = {
       singleSelection: false,
-      idField: "id",
-      textField: "nombre",
-      selectAllText: "Select All",
-      unSelectAllText: "UnSelect All",
+      idField: 'id',
+      textField: 'nombre',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
       itemsShowLimit: 10,
-      allowSearchFilter: true
+      allowSearchFilter: true,
     };
     this.crearOfertaForm = this.fb.group({
       titulo: [this.oferta.titulo || '', Validators.required],
       descripcion: [this.oferta.descripcion || '', Validators.required],
-      creador: [this.oferta.creador?.uid || this.usuarioService.usuario.uid, Validators.required],
+      creador: [
+        this.oferta.creador?.uid || this.usuarioService.usuario.uid,
+        Validators.required,
+      ],
       area_servicio: [this.oferta.area_servicio || '', Validators.required],
       asignatura: [this.oferta.asignatura_objetivo || '', Validators.required],
       fecha_limite: [this.oferta.fecha_limite || '', Validators.required],
       cuatrimestre: [this.oferta.cuatrimestre || '', Validators.required],
       anio_academico: [this.oferta.anio_academico || '', Validators.required],
-      observaciones: this.oferta.observaciones ,
-
+      observaciones: this.oferta.observaciones,
     });
-    
   }
 
   async cargarOferta() {
-    this.oferta = new Oferta('', '', '', '', '', '', '',  '',  '', null, null,[], [], []);
+    this.oferta = new Oferta(
+      '',
+      '',
+      '',
+      '',
+      '',
+      '',
+      '',
+      '',
+      '',
+      null,
+      null,
+      [],
+      [],
+      []
+    );
   }
 
-  async  obtenerAreasServicio() {
-    return this.ofertaService.obtenerAreasServicio()
-       .subscribe( (resp: any) => {
-         this.areasServicio =resp.areasServicio
-         return this.areasServicio;
-       });
- }
- nuevaAsign(){
-   
- }
+  async obtenerAreasServicio() {
+    return this.ofertaService.obtenerAreasServicio().subscribe((resp: any) => {
+      this.areasServicio = resp.areasServicio;
+      return this.areasServicio;
+    });
+  }
+  nuevaAsign() {}
   observableEnviarOferta() {
     return this.ofertaService.crearOferta(this.crearOfertaForm.value);
   }
@@ -84,51 +111,53 @@ export class OfertasCrearComponent implements OnInit {
   enviarOferta() {
     this.formSubmitted = true;
 
-    if(this.crearOfertaForm.invalid) {
+    if (this.crearOfertaForm.invalid) {
       return;
     }
 
     this.formSending = true;
-  
+
     let cuatrimestre = this.crearOfertaForm.get('cuatrimestre').value;
-    if(cuatrimestre == 'Primer cuatrimestre'){
+    if (cuatrimestre == 'Primer cuatrimestre') {
       this.crearOfertaForm.get('cuatrimestre').setValue(1);
-      this.aux_cuatrimestre='Primer cuatrimestre';
-    }else if(cuatrimestre == 'segundo'){
+      this.aux_cuatrimestre = 'Primer cuatrimestre';
+    } else if (cuatrimestre == 'segundo') {
       this.crearOfertaForm.get('Segundo cuatrimestre').setValue(2);
-      this.aux_cuatrimestre='Segundo cuatrimestre';
-    }else {
+      this.aux_cuatrimestre = 'Segundo cuatrimestre';
+    } else {
       this.crearOfertaForm.get('cuatrimestre').setValue(3);
-      this.aux_cuatrimestre='Anual';
+      this.aux_cuatrimestre = 'Anual';
     }
-    this.observableEnviarOferta()
-          .subscribe( resp => {
-            this. oferta_id
-              ? Swal.fire('Ok', 'Oferta actualizada correctamente', 'success')
-              : Swal.fire('Ok', 'Oferta creada correctamente', 'success');
+    this.observableEnviarOferta().subscribe(
+      (resp) => {
+        this.oferta_id
+          ? Swal.fire('Ok', 'Oferta actualizada correctamente', 'success')
+          : Swal.fire('Ok', 'Oferta creada correctamente', 'success');
 
-            this.router.routeReuseStrategy.shouldReuseRoute = () => false;
-            this.router.onSameUrlNavigation = 'reload';
-            this.router.navigate(['/ofertas/crear']);
-            this.formSubmitted = false;
-            this.formSending = false;
-          }, err => {
-            console.log(err);
-            let msg = [];
-            if(err.error.errors) {
-              Object.values(err.error.errors).forEach(error_entry => {
-                msg.push(error_entry['msg']);
-              });
-            } else {
-              msg.push(err.error.msg);
-            }
-            this.crearOfertaForm.get('cuatrimestre').setValue(this.aux_cuatrimestre);
-            Swal.fire('Error', msg.join('<br>'), 'error');
-            this.formSubmitted = false;
-            this.formSending = false;
+        this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+        this.router.onSameUrlNavigation = 'reload';
+        this.router.navigate(['/ofertas/crear']);
+        this.formSubmitted = false;
+        this.formSending = false;
+      },
+      (err) => {
+        console.log(err);
+        let msg = [];
+        if (err.error.errors) {
+          Object.values(err.error.errors).forEach((error_entry) => {
+            msg.push(error_entry['msg']);
           });
-
-
+        } else {
+          msg.push(err.error.msg);
+        }
+        this.crearOfertaForm
+          .get('cuatrimestre')
+          .setValue(this.aux_cuatrimestre);
+        Swal.fire('Error', msg.join('<br>'), 'error');
+        this.formSubmitted = false;
+        this.formSending = false;
+      }
+    );
   }
 
   get getItems() {
@@ -139,28 +168,27 @@ export class OfertasCrearComponent implements OnInit {
   }
 
   campoNoValido(campo): String {
+    let invalido =
+      this.crearOfertaForm.get(campo) &&
+      this.crearOfertaForm.get(campo).invalid;
 
-    let invalido = this.crearOfertaForm.get(campo) && this.crearOfertaForm.get(campo).invalid;
-
-    if(invalido) {
+    if (invalido) {
       // switch (campo) {
       //   case 'terminos_aceptados':
       //     return 'Es obligatorio aceptar las condiciones de uso';
       //     break;
 
       //   default:
-          return `El campo ${ campo } es obligatorio`;
+      return `El campo ${campo} es obligatorio`;
       //     break;
       // }
     }
-    
+
     return '';
   }
 
-  subirFichero( file: File ) {
+  subirFichero(file: File) {
     // if( !file ) { return; }
-
-
     // this.fileUploadService
     //     .subirFichero(file, 'archivos', 'iniciativas', this.iniciativa._id)
     //     .then( resp => {
@@ -174,13 +202,11 @@ export class OfertasCrearComponent implements OnInit {
     //     });
   }
 
-  borrarFichero( id: string ) {
-
+  borrarFichero(id: string) {
     // if(id == '') {
     //     Swal.fire('Error', 'No hay ninguna imagen definida para la iniciativa.', 'error');
     //     return;
     // }
-
     // this.fileUploadService
     //     .borrarFichero(id)
     //     .then( resp => {
@@ -195,15 +221,11 @@ export class OfertasCrearComponent implements OnInit {
     //     (<HTMLInputElement>document.getElementById("file-upload-2")).value="";
   }
 
-  cambiarImagen( file: File ) {
-
+  cambiarImagen(file: File) {
     // if( !file ) { return; }
-
     // this.imagenSubir = file;
-
     // const reader = new FileReader();
     // reader.readAsDataURL(file);
-
     // reader.onloadend = () => {
     //   this.imagenPreview = reader.result;
     // }
@@ -220,32 +242,30 @@ export class OfertasCrearComponent implements OnInit {
     //       } else {
     //         Swal.fire('Error', msg, 'error');
     //       }
-
     //       this.imagenSubir = null;
     //       this.imagenPreview = null;
     //     });
   }
 
   borrarImagen() {
-
-  //   if(this.iniciativa.imagen == '') {
-  //       Swal.fire('Error', 'No hay ninguna imagen definida para la iniciativa.', 'error');
-  //       return;
-  //   }
-
-  //   this.fileUploadService
-  //       .borrarFichero(this.iniciativa.imagen)
-  //       .then( resp => {
-  //         const {ok, msg } = resp;
-  //         if(ok) {
-  //           this.cargarIniciativa();
-  //           Swal.fire('Ok', 'Imagen de iniciativa borrada correctamente', 'success');
-  //         } else {
-  //           Swal.fire('Error', msg, 'error');
-  //         }
-  //       });
-  //       (<HTMLInputElement>document.getElementById("file-upload")).value="";
+    //   if(this.iniciativa.imagen == '') {
+    //       Swal.fire('Error', 'No hay ninguna imagen definida para la iniciativa.', 'error');
+    //       return;
+    //   }
+    //   this.fileUploadService
+    //       .borrarFichero(this.iniciativa.imagen)
+    //       .then( resp => {
+    //         const {ok, msg } = resp;
+    //         if(ok) {
+    //           this.cargarIniciativa();
+    //           Swal.fire('Ok', 'Imagen de iniciativa borrada correctamente', 'success');
+    //         } else {
+    //           Swal.fire('Error', msg, 'error');
+    //         }
+    //       });
+    //       (<HTMLInputElement>document.getElementById("file-upload")).value="";
   }
-
-
+  public displayTags(event) {
+    console.log(event);
+  }
 }

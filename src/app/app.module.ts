@@ -92,8 +92,8 @@ import { GestorNewsletterComponent } from './pages/gestor/gestor-newsletter/gest
 import { CondicionesComponent } from './pages/condiciones/condiciones.component';
 import { Code404Component } from './errors/code404/code404.component';
 
-
-
+//Utils
+import { NgxTagsModule} from "ngx-tags-input-box";
 
 // Go!
 @NgModule({
@@ -142,7 +142,7 @@ import { Code404Component } from './errors/code404/code404.component';
 
     // ofertas
     OfertasCrearComponent,
-    
+
     // partenariados
     PartenariadosComponent,
     PartenariadosVerComponent,
@@ -163,6 +163,9 @@ import { Code404Component } from './errors/code404/code404.component';
     CondicionesComponent,
     Code404Component,
     ProyectosVerComponent,
+
+    //utils
+
   ],
   imports: [
     BrowserModule,
@@ -176,7 +179,7 @@ import { Code404Component } from './errors/code404/code404.component';
     MatSelectModule,
     BrowserAnimationsModule,
     NgxMatSelectSearchModule,
-  
+
 
     FormsModule,
     ReactiveFormsModule,
@@ -187,8 +190,11 @@ import { Code404Component } from './errors/code404/code404.component';
 
     // app routing
     AppRoutingModule,
-    
+
     ValidateEqualModule,
+
+    //Utils
+    NgxTagsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
