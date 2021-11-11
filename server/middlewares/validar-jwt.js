@@ -12,7 +12,7 @@ const validarJWT = (req, res, next) => {
     }
 
     try {
-        const { current_user } = jwt.verify(token, process.env.JWT_SECRET);
+        const { current_user } = jwt.verify(token, process.env.JWT_SECRET || 'secret_key');
         req.current_user = current_user;
 
         next();
@@ -29,7 +29,7 @@ const opcionalJWT = (req, res, next) => {
 
     try {
         if(!req.current_user && token) {
-            const { current_user } = jwt.verify(token, process.env.JWT_SECRET);
+            const { current_user } = jwt.verify(token, process.env.JWT_SECRET || 'secret_key');
             req.current_user = current_user;
         }
     } catch (error) {

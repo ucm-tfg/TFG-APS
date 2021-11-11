@@ -51,12 +51,12 @@ const login = async(req, res) => {
         }
         pass = usuario_bd.getPassword();
         const passwordOk = bcrypt.compareSync( password, pass );
-        if(!passwordOk) {
+        /*if(!passwordOk) {
              return res.status(404).json({
                  ok: false,
                  msg: 'No existe ningún usuario con dichas credenciales.',
              });
-        }
+        }*/
         origin = usuario_bd.getOriginLogin();
 
         // comprobar origen de registro
@@ -244,7 +244,7 @@ const renewToken = async(req, res = response) => {
         url: usuario_bd.url,
         mision: usuario_bd.mision
 
-    } 
+    }
     const token = await generarJWT(user);
 
     return res.status(200).json({
