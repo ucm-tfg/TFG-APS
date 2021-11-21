@@ -1,10 +1,10 @@
 const daoOferta = require("./../database/services/daos/daoOferta");
 const TOferta = require("./../database/services/transfers/TOfertaServicio");
 
-const getAreasservicio = async(req, res) => {
+const getAreasServicio = async (req, res) => {
     try {
         areasServicio = await daoOferta.obtenerListaAreasServicio();
-        
+
         return res.status(200).json({
             ok: true,
             areasServicio,
@@ -20,7 +20,7 @@ const getAreasservicio = async(req, res) => {
     }
 }
 
-const crearOferta = async(req, res = response) => {
+const crearOferta = async (req, res = response) => {
     try {
         let areas = [];
         req.body.area_servicio.forEach(data => {
@@ -41,7 +41,7 @@ const crearOferta = async(req, res = response) => {
             req.current_user.uid,
             areas,
             req.current_user.uid);
-        
+
         await daoOferta.crearOferta(oferta);
 
         return res.status(200).json({
@@ -59,7 +59,7 @@ const crearOferta = async(req, res = response) => {
     }
 }
 
-const obtenerOferta = async(req, res) => {
+const obtenerOferta = async (req, res) => {
     try {
 
         const id = req.params.id;
@@ -80,8 +80,8 @@ const obtenerOferta = async(req, res) => {
     }
 }
 
-const obtenerOfertas = async(req, res = response) =>{
-    try{
+const obtenerOfertas = async (req, res = response) => {
+    try {
         let ofertas = [];
         ofertas = daoOferta.obtenerTodasOfertasServicio(); // Como recoger el resultado???
         return res.status(200).json({
@@ -98,7 +98,7 @@ const obtenerOfertas = async(req, res = response) =>{
 }
 
 module.exports = {
-    getAreasservicio,
+    getAreasServicio,
     crearOferta,
     obtenerOferta,
     obtenerOfertas
