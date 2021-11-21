@@ -8,7 +8,7 @@ COPY . /app
 
 RUN npm install
 
-RUN npm run build --prod
+RUN npm run build:prod
 
 EXPOSE 8080
 
