@@ -6,7 +6,7 @@ import {UsuarioService} from '../services/usuario.service';
 @Injectable({
     providedIn: 'root'
 })
-export class GestorGuard implements CanActivate {
+export class ProfesorGuard implements CanActivate {
 
     constructor(private authService: AuthService, private usuarioService: UsuarioService, private router: Router) {
     }
@@ -14,6 +14,6 @@ export class GestorGuard implements CanActivate {
     canActivate(
         next: ActivatedRouteSnapshot,
         state: RouterStateSnapshot): boolean {
-        return this.usuarioService.usuario && this.usuarioService.usuario.esGestor;
+        return this.usuarioService.usuario && this.usuarioService.usuario.esProfesor;
     }
 }
