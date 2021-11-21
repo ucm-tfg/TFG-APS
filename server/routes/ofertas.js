@@ -9,7 +9,7 @@ const {opcionalJWT, validarJWT, validarEsProfesorOrEsGestor} = require('../middl
 const router = Router();
 
 
-router.get('/ofertas', [], obtenerOfertas);
+router.get('/', [], obtenerOfertas);
 
 //Obtener universidades
 router.get(

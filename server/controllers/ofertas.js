@@ -83,7 +83,7 @@ const obtenerOferta = async (req, res) => {
 const obtenerOfertas = async (req, res = response) => {
     try {
         let ofertas = [];
-        ofertas = daoOferta.obtenerTodasOfertasServicio(); // Como recoger el resultado???
+        ofertas = await daoOferta.obtenerTodasOfertasServicio(); // Como recoger el resultado???
         return res.status(200).json({
             ok: true,
             ofertas

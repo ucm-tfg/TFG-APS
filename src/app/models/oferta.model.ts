@@ -1,6 +1,7 @@
-import { environment } from '../../environments/environment';
-import { Usuario } from './usuario.model';
-import { Upload } from './upload.model';
+import {environment} from '../../environments/environment';
+import {Usuario} from './usuario.model';
+import {CUATRIMESTRE} from './cuatrimestre.model';
+
 import * as moment from 'moment';
 
 const base_url = environment.base_url;
@@ -22,42 +23,51 @@ export class Oferta {
         public area_servicio: string[],
         public asignatura_objetivo: string[],
         public profesores: string[],
-    ) {}
+    ) {
+    }
 
     get parsedCreatedAt() {
         return moment(this.created_at).format('DD-MM-YYYY');
     }
 
+    get parsedDateLimit() {
+        return moment(this.fecha_limite).format('DD-MM-YYYY');
+    }
+
 
     get imagenUrl() {
 
-        if(!this.imagen) {
-            return `${ base_url }/upload/default/oferta`;
+        if (!this.imagen) {
+            return `${base_url}/upload/default/oferta`;
         }
 
-        if(this.imagen.includes('https')) {
+        if (this.imagen.includes('https')) {
             return this.imagen;
         }
 
-        return `${ base_url }/upload/${ this.imagen }/oferta`;
+        return `${base_url}/upload/${this.imagen}/oferta`;
     }
 
     get displayProponedorTableInfo() {
 
-        if(!this.creador) {
+        if (!this.creador) {
             return '';
         }
 
         let info = [];
-        if(this.creador.nombre) { info.push(this.creador.nombre); }
-        if(this.creador.apellidos) { info.push(this.creador.apellidos); }
+        if (this.creador.nombre) {
+            info.push(this.creador.nombre);
+        }
+        if (this.creador.apellidos) {
+            info.push(this.creador.apellidos);
+        }
 
         return info.join(' ');
     }
 
     get displayCreadorRol() {
 
-        if(!this.creador) {
+        if (!this.creador) {
             return '';
         }
 
@@ -65,10 +75,9 @@ export class Oferta {
     }
 
 
-
     displayUsuarioRol(user: Usuario) {
 
-        if(!user) {
+        if (!user) {
             return '';
         }
         switch (user.rol) {
@@ -93,5 +102,9 @@ export class Oferta {
                 throw "Rol no definido";
                 break;
         }
+    }
+
+    get displayCuatrimestre(): string {
+        return this.cuatrimestre <= CUATRIMESTRE.length ? CUATRIMESTRE[Number.parseInt(this.cuatrimestre, 0) - 1] : "Anual";
     }
 }

@@ -1,13 +1,14 @@
 import {TestBed} from '@angular/core/testing';
 
-import {GestorGuard} from './gestor.guard';
+import {ProfesorGuard} from './profesor.guard';
 
-describe('GestorGuard', () => {
-    let guard: GestorGuard;
+describe('ProfesorGuard', () => {
+
+    let guard: ProfesorGuard;
 
     beforeEach(() => {
         TestBed.configureTestingModule({});
-        guard = TestBed.inject(GestorGuard);
+        guard = TestBed.inject(ProfesorGuard);
     });
 
     it('should be created', () => {

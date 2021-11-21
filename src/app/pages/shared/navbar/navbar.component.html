@@ -1,5 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+
     <div class="container">
+
         <a class="navbar-brand" [routerLink]="['/']">
             <img src="/assets/img/logo-uned.jpg" width="30" height="30" alt="">
         </a>
@@ -12,42 +14,30 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="mr-auto navbar-nav text-center text-lg-left">
                 <li class="nav-item" routerLinkActive="active">
-                    <a class="nav-link" [routerLink]="['/que-es-ApS']">Qué es ApS</a>
+                    <a class="nav-link" [routerLink]="['/que-es-ApS']">¿Qué es el ApS?</a>
                 </li>
 
-                <li class="dropdown nav-item">
+                <li class="dropdown nav-item" *ngIf=mostrarOfertasDeServicio()>
                     <a class="nav-link" [routerLink]="['/ofertas']">Ofertas de servicio</a>
                 </li>
 
-                <li class="dropdown nav-item" routerLinkActive="active">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown">Demandas de servicio<span
-                        class="caret"></span></a>
-                    <div class="dropdown-menu text-center text-lg-left">
-                    </div>
+                <li class="dropdown nav-item" *ngIf=mostrarDemandasDeServicio()>
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown">Demandas de servicio</a>
+                </li>
+
+                <li class="dropdown nav-item" *ngIf=mostrarPartenariados()>
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown">Paternariados</a>
+                </li>
+
+                <li class="dropdown nav-item">
+                    <a class="nav-link" [routerLink]="['/proyectos']">Proyectos</a>
                 </li>
 
                 <li class="dropdown nav-item" routerLinkActive="active">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown">Paternariados<span class="caret"></span></a>
-                    <div class="dropdown-menu text-center text-lg-left">
-                    </div>
-                </li>
-
-                <li class="dropdown nav-item" routerLinkActive="active">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown">Proyectos <span class="caret"></span></a>
-                    <div class="dropdown-menu text-center text-lg-left">
-                        <a class="dropdown-item" routerLinkActive="active"
-                           [routerLink]="['/iniciativas']">Iniciativas</a>
-                        <!--QUITAR-->
-                        <a class="dropdown-item" routerLinkActive="active" [routerLink]="['/ofertas']">Ofertas</a>
-                        <a class="dropdown-item" routerLinkActive="active" [routerLink]="['/demandas']">Demandas</a>
-                        <a class="dropdown-item" routerLinkActive="active" [routerLink]="['/partenariados']">Partenariados</a>
-                        <a class="dropdown-item" routerLinkActive="active" [routerLink]="['/proyectos']">Proyectos</a>
-                    </div>
-                </li>
-
-
-                <li class="dropdown nav-item" routerLinkActive="active">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown">ApS UNED/UCM <span class="caret"></span></a>
+                    <a class="nav-link dropdown-toggle"
+                       data-toggle="dropdown">ApS {{getUniversidad()}}
+                        <span class="caret"></span>
+                    </a>
                     <div class="dropdown-menu text-center text-lg-left">
                         <a class="dropdown-item" routerLinkActive="active"
                            [routerLink]="['/sobre-ApS-UNED/quienes-somos']">Quiénes
@@ -69,7 +59,6 @@
                     </div>
                 </li>
             </ul>
-
 
             <ul class="nav navbar-nav navbar-right" *ngIf="!isLoggedIn">
                 <li class="nav-item" routerLinkActive="active">
