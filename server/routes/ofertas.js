@@ -3,10 +3,13 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
 const { validarCampos } = require('./../middlewares/validar-campos');
-const { getAreasservicio, crearOferta, obtenerOferta} = require('../controllers/ofertas');
+const { getAreasservicio, crearOferta, obtenerOferta, obtenerOfertas} = require('../controllers/ofertas');
 const { opcionalJWT, validarJWT, validarEsProfesorOrEsGestor } = require('../middlewares/validar-jwt');
 
 const router = Router();
+
+
+router.get('/ofertas', [], obtenerOfertas);
 
 //Obtener universidades
 router.get(
@@ -33,7 +36,7 @@ router.post(
     crearOferta
 );
 
-// obtener una iniciativa
+// obtener una oferta
 router.get(
     '/:id', [],
     obtenerOferta

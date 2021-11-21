@@ -15,33 +15,34 @@ export class OfertaService {
 
   constructor( private http: HttpClient, private usuarioService: UsuarioService, private fileUploadService: FileUploadService) { }
 
-  obtenerOferta(){
-    return this.http.get<{ ok: boolean, oferta: any}>(`${ base_url }/ofertas/100`,this.usuarioService.headers)
+obtenerOferta(){
+  return this.http.get<{ ok: boolean, oferta: any}>(`${ base_url }/ofertas/100`,this.usuarioService.headers)
     .pipe(
       map( (resp) => resp)
     );
-  }
+}
 
-  // mapearIniciativas( iniciativas: any ): Iniciativa[] {
-  //   return iniciativas.map(
-  //     iniciativa => new Iniciativa(iniciativa._id, iniciativa.estado, iniciativa.titulo, iniciativa.descripcion, iniciativa.imagen || '', iniciativa.rama, iniciativa.ciudad, iniciativa.partenariados || [], this.fileUploadService.mapearUploads(iniciativa.archivos || []), this.usuarioService.mapearUsuarios([iniciativa.proponedor])[0], iniciativa.creador, iniciativa.createdAt)
-  //   );
-  // }
+mapearOfertas( ofertas: any ): Oferta[] {
+  return ofertas.map(
+        oferta => new Oferta(oferta._id, oferta.titulo, oferta.descripcion, oferta.imagen, oferta.created_at,
+              oferta.updated_at, oferta.cuatrimestre, oferta.anio_academico, oferta.fecha_limite, oferta.observaciones, oferta.creador, oferta.area_servicio, oferta.asignatura_objetivo, oferta.profesores || '')
+     );
+   }
 
-  // cargarIniciativa(id: string) {
-  //   return this.http.get<{ ok: boolean, iniciativa: Iniciativa}>(`${ base_url }/iniciativas/${ id }`, this.usuarioService.headers)
-  //                   .pipe(
-  //                     map( (resp: {ok: boolean, iniciativa: Iniciativa}) => resp.iniciativa )
-  //                   );
-  // }
 
-  // cargarIniciativas(skip: number, limit: number, filtros: Object) {
+cargarOferta(id: string) {
+  return this.http.get<{ ok: boolean, oferta: Oferta}>(`${ base_url }/ofertas/${ id }`, this.usuarioService.headers)
+                     .pipe(
+                       map( (resp: {ok: boolean, oferta: Oferta}) => resp.oferta )
+                     );
+   }
 
-  //   return this.http.get<{ total: Number, filtradas: Number, iniciativas: Iniciativa[]}>(`${ base_url }/iniciativas?skip=${ skip }&limit=${ limit }&filtros=${ encodeURIComponent( JSON.stringify(filtros)) }`, this.usuarioService.headers)
-  //                   .pipe(
-  //                     map( resp => { return { total: resp.total, filtradas: resp.filtradas, iniciativas: this.mapearIniciativas(resp.iniciativas) }; })
-  //                   );
-  // }
+cargarOfertas(skip: number, limit: number, filtros: Object) {
+    return this.http.get<{ total: Number, filtradas: Number, ofertas: Oferta[]}>(`${ base_url }/ofertas?skip=${ skip }&limit=${ limit }&filtros=${ encodeURIComponent( JSON.stringify(filtros)) }`, this.usuarioService.headers)
+                    .pipe(
+                    map( resp => { return { total: resp.total, filtradas: resp.filtradas, ofertas: this.mapearOfertas(resp.ofertas) }; })
+                  );
+   }
 
   // respaldarIniciativa(iniciativa: Iniciativa) {
   //   return this.http.put<{ ok: boolean, iniciativa: Iniciativa}>(`${ base_url }/iniciativas/respaldar/${ iniciativa._id }`, {}, this.usuarioService.headers)

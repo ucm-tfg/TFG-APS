@@ -1,9 +1,9 @@
-const dao_tentativa = require("./../database/services/daos/daoTentativa");
+const daoDemanda = require("./../database/services/daos/daoTentativa");
 const TDemanda = require("./../database/services/transfers/TDemandaServicio");
 
 const getAreasservicio = async (req, res) => {
     try {
-        areasServicio = await dao_tentativa.obtenerListaAreasServicio();
+        areasServicio = await daoDemanda.obtenerListaAreasServicio();
 
         return res.status(200).json({
             ok: true,
@@ -23,7 +23,7 @@ const getAreasservicio = async (req, res) => {
 
 const getTitulaciones = async (req, res) => {
     try {
-        titulacionLocal = await dao_tentativa.obtenerListaTitulacionLocal();
+        titulacionLocal = await daoDemanda.obtenerListaTitulacionLocal();
 
         return res.status(200).json({
             ok: true,
@@ -42,7 +42,7 @@ const getTitulaciones = async (req, res) => {
 
 const getNecesidades = async (req, res) => {
     try {
-        necesidadSocial = await dao_tentativa.obtenerListaNecesidadSocial();
+        necesidadSocial = await daoDemanda.obtenerListaNecesidadSocial();
 
         return res.status(200).json({
             ok: true,
@@ -60,8 +60,6 @@ const getNecesidades = async (req, res) => {
 }
 
 const crearDemanda = async (req, res = response) => {//continuar 
-
-
     try {
         let areas = [];
         req.body.area_servicio.forEach(data => {
@@ -94,7 +92,7 @@ const crearDemanda = async (req, res = response) => {//continuar
             0,
         );
       
-        await dao_tentativa.crearDemanda(demanda);
+        await daoDemanda.crearDemanda(demanda);
 
         return res.status(200).json({
             ok: true,
@@ -113,9 +111,8 @@ const crearDemanda = async (req, res = response) => {//continuar
 
 const obtenerDemanda = async (req, res) => {
     try {
-
         const id = req.params.id;
-        const demanda = await dao_tentativa.obtenerDemandaServicio(id);
+        const demanda = await daoDemanda.obtenerDemandaServicio(id);
 
         return res.status(200).json({
             ok: true,
@@ -139,4 +136,3 @@ module.exports = {
     crearDemanda,
     obtenerDemanda
 }
-
