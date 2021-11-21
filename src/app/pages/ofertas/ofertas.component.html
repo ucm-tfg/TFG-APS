@@ -2,14 +2,16 @@
 <div class="container mt-4 animate__animated animate__fadeIn animate__faster">
     <h5 class="px-4 py-2 mb-4 text-white display-block bg-secondary d-flex justify-content-between">
         <b>Ofertas</b>
-        <a *ngIf="ofertaCrearGuard.canActivate(null,null)" class="btn btn-primary border-light btn-sm" [routerLink]="['/ofertas/crear']" role="button">Crear Oferta</a>
+        <a *ngIf="ofertaCrearGuard.canActivate(null,null)" class="btn btn-primary border-light btn-sm"
+           [routerLink]="['/ofertas/crear']" role="button">Crear Oferta</a>
     </h5>
 
     <div class="alert alert-warning" role="alert" *ngIf="!this.usuarioService.usuario">
         <b>Atención: </b> Estás en la aplicación como <b>INVITADO</b>. Sólo Profesores pueden presentar OFERTAS.
     </div>
 
-    <div class="alert alert-warning" role="alert" *ngIf="this.usuarioService.usuario && this.usuarioService.usuario.esEstudiante">
+    <div class="alert alert-warning" role="alert"
+         *ngIf="this.usuarioService.usuario && this.usuarioService.usuario.esEstudiante">
         <b>Atención: </b> Estás en la aplicación como <b>ESTUDIANTE</b>. Sólo Profesores pueden presentar OFERTAS.
     </div>
 
@@ -26,7 +28,8 @@
                     </header>
 
                     <div class="card-body">
-                        <input [(ngModel)]="terminoBusqueda" (keyup)="cargarOfertas()" (search)="cargarOfertas()" type="search" class="form-control float-right mb-4" placeholder="Buscar por título...">
+                        <input [(ngModel)]="terminoBusqueda" (keyup)="cargarOfertas()" (search)="cargarOfertas()"
+                               type="search" class="form-control float-right mb-4" placeholder="Buscar por título...">
                     </div>
                 </div>
 
@@ -38,7 +41,8 @@
 
                     <div class="card-body">
                         <label *ngFor="let prof of PROFESORES" class="form-check">
-                            <input class="form-check-input" type="checkbox" [value]="true" (change)="cargarOfertas()" [(ngModel)]="filterProfesores[prof]">
+                            <input class="form-check-input" type="checkbox" [value]="true" (change)="cargarOfertas()"
+                                   [(ngModel)]="filterProfesores[prof]">
                             <span class="form-check-label">{{ prof }}</span>
                         </label>
                     </div>
@@ -66,18 +70,12 @@
 
                     <div class="card-body">
                         <label class="form-check">
-                            <input class="form-check-input" type="radio" name="CUATRIMESTRES" value="" (change)="cargarOfertas()" [(ngModel)]="filterCuatrimestre">
+                            <input class="form-check-input" type="radio" name="CUATRIMESTRES" value=""
+                                   (change)="cargarOfertas()" [(ngModel)]="filterCuatrimestre">
                             <span class="form-check-label">Primero</span>
                             <span class="form-check-label">Segundo</span>
                             <span class="form-check-label">Todos</span>
                         </label>
-                        
-                        <!--
-                        <label *ngFor="let ESTADO_INICIATIVA of ESTADOS_INICIATIVAS" class="form-check">
-                            <input class="form-check-input" type="radio" name="ESTADO_INICIATIVA" value="{{ ESTADO_INICIATIVA }}" (change)="cargarIniciativas()" [(ngModel)]="filterEstado">
-                            <span class="form-check-label">Iniciativas {{ ESTADO_INICIATIVA }}s</span>
-                        </label>
-                        -->
                     </div>
                 </div>
             </div>
@@ -87,17 +85,24 @@
         <div class="col-9">
 
             <header class="card-header mb-2 rounded border d-flex justify-content-between">
-                <h6 class="title mb-0">Listado de Ofertas <span class="leading-none" *ngIf="totalOfertasBuscadas != totalOfertas"><small class="font-weight-bold">(total: {{ totalOfertas }})</small></span></h6>
+                <h6 class="title mb-0">Listado de Ofertas <span class="leading-none"
+                                                                *ngIf="totalOfertasBuscadas != totalOfertas"><small
+                    class="font-weight-bold">(total: {{ totalOfertas }})</small></span></h6>
 
-                <span class="leading-none" *ngIf="totalOfertasBuscadas == totalOfertas">Total de ofertas: {{ totalOfertas }} (mostrando del {{ firstPageRecord }} al {{ lastPageRecord }})</span>
-                <span class="leading-none" *ngIf="totalOfertasBuscadas != totalOfertas">Ofertas que coinciden con el filtro: {{ totalOfertasBuscadas }} (mostrando del {{ firstPageRecord }} al {{ lastPageRecord }})</span>
+                <span class="leading-none"
+                      *ngIf="totalOfertasBuscadas == totalOfertas">Total de ofertas: {{ totalOfertas }}
+                    (mostrando del {{ firstPageRecord }} al {{ lastPageRecord }})</span>
+                <span class="leading-none" *ngIf="totalOfertasBuscadas != totalOfertas">Ofertas que coinciden con el filtro: {{ totalOfertasBuscadas }}
+                    (mostrando del {{ firstPageRecord }} al {{ lastPageRecord }})</span>
             </header>
 
 
             <div class="card my-2">
 
                 <!-- Info de cargando -->
-                <div *ngIf="cargando" class="mb-0 alert alert-info text-center animate__animated animate__fadeIn animate__fast" role="alert">
+                <div *ngIf="cargando"
+                     class="mb-0 alert alert-info text-center animate__animated animate__fadeIn animate__fast"
+                     role="alert">
                     <h4>Cargando ofertas</h4>
                     <fa-icon [icon]="['fas', 'sync']" [spin]="true"></fa-icon>
                     <p class="mb-">Por favor, espere</p>
@@ -115,37 +120,35 @@
                     <table class="table table-sm table-bordered">
 
                         <thead>
-                            <tr class="">
-                                <th scope="col" class="w-100px">Oferta</th>
-                                <th scope="col">Año academico</th>
-                                <th scope="col">Cuatrimestre</th>
-                                <th scope="col">Fecha limite</th>
-                                <th scope="col" class="w-140px">Observaciones generales</th>
-                            </tr>
+                        <tr class="">
+                            <th scope="col" class="w-100px">Oferta</th>
+                            <th scope="col">Año academico</th>
+                            <th scope="col">Cuatrimestre</th>
+                            <th scope="col">Fecha limite</th>
+                            <th scope="col" class="w-140px">Observaciones generales</th>
+                            <th scope="col" class="w-140px">IR</th>
+                        </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let oferta of ofertas" class="">
-                                <td>{{ oferta.displayProponedorRol }}</td>
-                                <td>
-                                    {{ oferta.displayProponedorTableInfo }}
-                                    <div *ngIf="oferta.creador && iniciativa.proponedor.rol === 'ROL_ENTIDAD' && iniciativa.proponedor.sector"><br />{{ iniciativa.proponedor.sector }}</div>
-                                    <div *ngIf="iniciativa.proponedor && iniciativa.proponedor.rol === 'ROL_PROFESOR' && iniciativa.proponedor.universidad"><br />{{ iniciativa.proponedor.universidad }}</div>
-                                    <div *ngIf="iniciativa.proponedor && iniciativa.proponedor.rol === 'ROL_PROFESOR' && iniciativa.proponedor.titulacion"><br />{{ iniciativa.proponedor.titulacion }}</div>
-                                <td>
-                                    <b>Rama: </b>{{ iniciativa.rama }}<br />
-                                    <b>Ciudad: </b>{{ iniciativa.ciudad }}<br />
-                                    <b>Título: </b>{{ iniciativa.titulo }}
-                                </td>
-
-                                <td class="h-100 p-0">
-                                    <div class="border-bottom p-2 text-center">{{ oferta.parsedCreatedAt }}</div>
-                                    <div class="d-flex justify-content-around p-2">
-                                        <fa-icon [icon]="['fas', 'eye']" class="text-primary cursor-pointer" [routerLink]="['/ofertas/ver', oferta._id]" title="Ver oferta"></fa-icon>
-                                        <fa-icon *ngIf="(usuarioService.usuario?.esGestor || oferta.proponedor.uid === usuarioService.usuario?.uid)" [icon]="['fas', 'edit']" class="text-primary cursor-pointer" [routerLink]="['/ofertas/editar', oferta._id]" title="Editar oferta"></fa-icon>
-                                    </div>
-
-                                </td>
-                            </tr>
+                        <tr *ngFor="let oferta of ofertas" class="">
+                            <td>{{ oferta.titulo }}</td>
+                            <td>{{ oferta.anio_academico }}</td>
+                            <td>{{ oferta.displayCuatrimestre }}</td>
+                            <td>{{ oferta.parsedDateLimit }}</td>
+                            <td>{{ oferta.observaciones }}</td>
+                            <td class="h-100 p-0">
+                                <div class="d-flex justify-content-around p-2">
+                                    <fa-icon [icon]="['fas', 'eye']" class="text-primary cursor-pointer"
+                                             [routerLink]="['/ofertas/ver/', oferta.id]" title="Ver oferta">
+                                    </fa-icon>
+                                    <fa-icon
+                                        *ngIf="(usuarioService.usuario?.esGestor)"
+                                        [icon]="['fas', 'edit']" class="text-primary cursor-pointer"
+                                        [routerLink]="['/ofertas/editar', oferta.id]" title="Editar oferta">
+                                    </fa-icon>
+                                </div>
+                            </td>
+                        </tr>
                         </tbody>
                     </table>
                 </div>
