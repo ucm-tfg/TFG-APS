@@ -1,4 +1,5 @@
 const daoOferta = require("./../database/services/daos/daoOferta");
+const daoUtils = require("./../database/services/daos/daoUtils");
 const TOferta = require("./../database/services/transfers/TOfertaServicio");
 
 const getAreasServicio = async (req, res) => {
@@ -42,7 +43,10 @@ const crearOferta = async (req, res = response) => {
             areas,
             req.current_user.uid);
 
-        await daoOferta.crearOferta(oferta);
+        let ofertaId = await daoOferta.crearOferta(oferta);
+        for(tagName of req.body.tags){
+            await daoUtils.createAndLinkedTags(tagName, ofertaId,'oferta');
+        }
 
         return res.status(200).json({
             ok: true,

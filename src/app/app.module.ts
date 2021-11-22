@@ -5,11 +5,11 @@ import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ValidateEqualModule } from 'ng-validate-equal';
-import { NgMultiSelectDropDownModule } from "ng-multiselect-dropdown";
-import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import {MatFormFieldModule} from '@angular/material/form-field';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
@@ -21,7 +21,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 // libraries
-import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
+import {
+    FontAwesomeModule,
+    FaIconLibrary,
+} from '@fortawesome/angular-fontawesome';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
 
@@ -58,7 +61,6 @@ import { SobreApsUnedQuienesSomosComponent } from './pages/sobre-aps-uned-quiene
 import { SobreApsUnedHistoriaComponent } from './pages/sobre-aps-uned-historia/sobre-aps-uned-historia.component';
 import { SobreApsUnedContactaComponent } from './pages/sobre-aps-uned-contacta/sobre-aps-uned-contacta.component';
 
-
 // iniciativas
 import { IniciativasComponent } from './pages/iniciativas/iniciativas.component';
 import { IniciativasVerComponent } from './pages/iniciativas-ver/iniciativas-ver.component';
@@ -92,116 +94,122 @@ import { GestorNewsletterComponent } from './pages/gestor/gestor-newsletter/gest
 // varios y error pages
 import { CondicionesComponent } from './pages/condiciones/condiciones.component';
 import { Code404Component } from './errors/code404/code404.component';
+import { TagInputModule } from 'ngx-chips';
 
-
-
-
+TagInputModule.withDefaults({
+    tagInput: {
+        placeholder: 'Add a new tag',
+        // add here other default values for tag-input
+    },
+    dropdown: {
+        displayBy: 'my-display-value',
+        // add here other default values for tag-input-dropdown
+    }
+});
 
 // Go!
 @NgModule({
-  declarations: [
+    declarations: [
+        // main root component
+        AppComponent,
 
-    // main root component
-    AppComponent,
+        // pipes
+        SafeHtmlPipe,
 
-    // pipes
-    SafeHtmlPipe,
+        // regular components
+        NewsletterSubscribeComponent,
 
-    // regular components
-    NewsletterSubscribeComponent,
+        // shared by all pages
+        NavbarComponent,
+        FooterComponent,
+        BreadcrumbsComponent,
 
-    // shared by all pages
-    NavbarComponent,
-    FooterComponent,
-    BreadcrumbsComponent,
+        // auth
+        LoginComponent,
+        RegisterComponent,
+        ProfileComponent,
 
-    // auth
-    LoginComponent,
-    RegisterComponent,
-    ProfileComponent,
+        // gestor
+        GestionUsuariosComponent,
 
-    // gestor
-    GestionUsuariosComponent,
+        // regular pages
+        HomeComponent,
+        CarouselComponent,
+        QueEsApsComponent,
 
-    // regular pages
-    HomeComponent,
-    CarouselComponent,
-    QueEsApsComponent,
+        ComoParticiparEstudiantesComponent,
+        ComoParticiparProfesoresComponent,
+        ComoParticiparSociosComunitariosComponent,
 
-    ComoParticiparEstudiantesComponent,
-    ComoParticiparProfesoresComponent,
-    ComoParticiparSociosComunitariosComponent,
+        SobreApsUnedQuienesSomosComponent,
+        SobreApsUnedHistoriaComponent,
+        SobreApsUnedContactaComponent,
 
-    SobreApsUnedQuienesSomosComponent,
-    SobreApsUnedHistoriaComponent,
-    SobreApsUnedContactaComponent,
+        // iniciativas
+        IniciativasComponent,
+        IniciativasVerComponent,
+        IniciativasCrearComponent,
+        IniciativasEditarComponent,
 
-    // iniciativas
-    IniciativasComponent,
-    IniciativasVerComponent,
-    IniciativasCrearComponent,
-    IniciativasEditarComponent,
+        // ofertas
+        OfertasCrearComponent,
+        OfertasComponent,
 
-    
-    // ofertas
-    OfertasCrearComponent,
-    OfertasComponent,
-    
-    // partenariados
-    PartenariadosComponent,
-    PartenariadosVerComponent,
-    PartenariadoCrearProfesorComponent,
+        // partenariados
+        PartenariadosComponent,
+        PartenariadosVerComponent,
+        PartenariadoCrearProfesorComponent,
 
-    // proyectos
-    ProyectosComponent,
+        // proyectos
+        ProyectosComponent,
 
-    //demandas
-    crearDemandaComponent,
-    DemandasComponent,
+        //demandas
+        crearDemandaComponent,
+        DemandasComponent,
 
-    // gestor
-    GestionUsuariosEditarComponent,
-    GestorEmailsComponent,
-    GestorNewsletterComponent,
+        // gestor
+        GestionUsuariosEditarComponent,
+        GestorEmailsComponent,
+        GestorNewsletterComponent,
 
-    // varios
-    CondicionesComponent,
-    Code404Component,
-    ProyectosVerComponent,
-  ],
-  imports: [
-    BrowserModule,
-    CommonModule,
-    RouterModule,
-    NgMultiSelectDropDownModule.forRoot(),
-    MatAutocompleteModule,
-    MatInputModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatSelectModule,
-    BrowserAnimationsModule,
-    NgxMatSelectSearchModule,
-  
+        // varios
+        CondicionesComponent,
+        Code404Component,
+        ProyectosVerComponent,
+    ],
+    imports: [
+        BrowserModule,
+        CommonModule,
+        RouterModule,
+        NgMultiSelectDropDownModule.forRoot(),
+        MatAutocompleteModule,
+        MatInputModule,
+        MatButtonModule,
+        MatFormFieldModule,
+        MatSelectModule,
+        BrowserAnimationsModule,
+        NgxMatSelectSearchModule,
 
-    FormsModule,
-    ReactiveFormsModule,
-    HttpClientModule,
+        FormsModule,
+        ReactiveFormsModule,
+        HttpClientModule,
 
-    // libraries
-    FontAwesomeModule,
+        // libraries
+        FontAwesomeModule,
 
-    // app routing
-    AppRoutingModule,
-    
-    ValidateEqualModule,
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
+        // app routing
+        AppRoutingModule,
+
+        ValidateEqualModule,
+
+        //utils modules
+        TagInputModule,
+    ],
+    providers: [],
+    bootstrap: [AppComponent],
 })
-
-
 export class AppModule {
-  constructor(library: FaIconLibrary) {
-    library.addIconPacks(fas, far);
-  }
+    constructor(library: FaIconLibrary) {
+        library.addIconPacks(fas, far);
+    }
 }
