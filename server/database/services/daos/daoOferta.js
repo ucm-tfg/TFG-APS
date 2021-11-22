@@ -56,7 +56,7 @@ function crearOferta(oferta) {
                     observaciones_temporales: oferta.getObservaciones_temporales(),
                     creador: oferta.getCreador(),
                 })
-                .then(function (result) {
+                .then(function (oferta_id) {
                     id = id_anuncio[0];
                     asignaturas = oferta.getAsignatura_objetivo();
                     let fieldsToInsert = {
@@ -90,6 +90,8 @@ function crearOferta(oferta) {
                                         "Se ha introducido la oferta con id ",
                                         id_anuncio[0]
                                     );
+                                    //regresa el id de la oferta
+                                    return id_anuncio;
                                 });
                         });
                 })

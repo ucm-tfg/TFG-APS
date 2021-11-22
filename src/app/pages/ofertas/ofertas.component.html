@@ -1,57 +1,97 @@
 <app-navbar></app-navbar>
 <div class="container mt-4 animate__animated animate__fadeIn animate__faster">
-    <h5 class="px-4 py-2 mb-4 text-white display-block bg-secondary d-flex justify-content-between">
+    <h5
+        class="
+            px-4
+            py-2
+            mb-4
+            text-white
+            display-block
+            bg-secondary
+            d-flex
+            justify-content-between
+        "
+    >
         <b>Ofertas</b>
-        <a *ngIf="ofertaCrearGuard.canActivate(null,null)" class="btn btn-primary border-light btn-sm"
-           [routerLink]="['/ofertas/crear']" role="button">Crear Oferta</a>
+        <a
+            *ngIf="ofertaCrearGuard.canActivate(null, null)"
+            class="btn btn-primary border-light btn-sm"
+            [routerLink]="['/ofertas/crear']"
+            role="button"
+            >Crear Oferta</a
+        >
     </h5>
 
-    <div class="alert alert-warning" role="alert" *ngIf="!this.usuarioService.usuario">
-        <b>Atención: </b> Estás en la aplicación como <b>INVITADO</b>. Sólo Profesores pueden presentar OFERTAS.
+    <div
+        class="alert alert-warning"
+        role="alert"
+        *ngIf="!this.usuarioService.usuario"
+    >
+        <b>Atención: </b> Estás en la aplicación como <b>INVITADO</b>. Sólo
+        Profesores pueden presentar OFERTAS.
     </div>
 
-    <div class="alert alert-warning" role="alert"
-         *ngIf="this.usuarioService.usuario && this.usuarioService.usuario.esEstudiante">
-        <b>Atención: </b> Estás en la aplicación como <b>ESTUDIANTE</b>. Sólo Profesores pueden presentar OFERTAS.
+    <div
+        class="alert alert-warning"
+        role="alert"
+        *ngIf="
+            this.usuarioService.usuario &&
+            this.usuarioService.usuario.esEstudiante
+        "
+    >
+        <b>Atención: </b> Estás en la aplicación como <b>ESTUDIANTE</b>. Sólo
+        Profesores pueden presentar OFERTAS.
     </div>
 
     <div class="row">
         <div class="col-3">
-
-            <header class="card-header mb-2 rounded border"><h6 class="title mb-0">Filtros</h6></header>
+            <header class="card-header mb-2 rounded border">
+                <h6 class="title mb-0">Filtros</h6>
+            </header>
 
             <div class="card">
-
                 <div class="filtro">
                     <header class="card-header">
-                        <h6 class="title mb-0">Búsqueda </h6>
+                        <h6 class="title mb-0">Búsqueda</h6>
                     </header>
 
                     <div class="card-body">
-                        <input [(ngModel)]="terminoBusqueda" (keyup)="cargarOfertas()" (search)="cargarOfertas()"
-                               type="search" class="form-control float-right mb-4" placeholder="Buscar por título...">
+                        <input
+                            [(ngModel)]="terminoBusqueda"
+                            (keyup)="cargarOfertas()"
+                            (search)="cargarOfertas()"
+                            type="search"
+                            class="form-control float-right mb-4"
+                            placeholder="Buscar por título..."
+                        />
                     </div>
                 </div>
 
-
                 <div class="filtro">
                     <header class="card-header border-top rounded-0">
-                        <h6 class="title mb-0">Profesor </h6>
+                        <h6 class="title mb-0">Profesor</h6>
                     </header>
 
                     <div class="card-body">
-                        <label *ngFor="let prof of PROFESORES" class="form-check">
-                            <input class="form-check-input" type="checkbox" [value]="true" (change)="cargarOfertas()"
-                                   [(ngModel)]="filterProfesores[prof]">
+                        <label
+                            *ngFor="let prof of PROFESORES"
+                            class="form-check"
+                        >
+                            <input
+                                class="form-check-input"
+                                type="checkbox"
+                                [value]="true"
+                                (change)="cargarOfertas()"
+                                [(ngModel)]="filterProfesores[prof]"
+                            />
                             <span class="form-check-label">{{ prof }}</span>
                         </label>
                     </div>
                 </div>
 
-
                 <div class="filtro">
                     <header class="card-header border-top rounded-0">
-                        <h6 class="title mb-0">Area de servicio </h6>
+                        <h6 class="title mb-0">Area de servicio</h6>
                     </header>
 
                     <div class="card-body">
@@ -62,16 +102,21 @@
                     </div>
                 </div>
 
-
                 <div class="filtro">
                     <header class="card-header border-top rounded-0">
-                        <h6 class="title mb-0">Cuatrimestre </h6>
+                        <h6 class="title mb-0">Cuatrimestre</h6>
                     </header>
 
                     <div class="card-body">
                         <label class="form-check">
-                            <input class="form-check-input" type="radio" name="CUATRIMESTRES" value=""
-                                   (change)="cargarOfertas()" [(ngModel)]="filterCuatrimestre">
+                            <input
+                                class="form-check-input"
+                                type="radio"
+                                name="CUATRIMESTRES"
+                                value=""
+                                (change)="cargarOfertas()"
+                                [(ngModel)]="filterCuatrimestre"
+                            />
                             <span class="form-check-label">Primero</span>
                             <span class="form-check-label">Segundo</span>
                             <span class="form-check-label">Todos</span>
@@ -81,28 +126,55 @@
             </div>
         </div>
 
-
         <div class="col-9">
+            <header
+                class="
+                    card-header
+                    mb-2
+                    rounded
+                    border
+                    d-flex
+                    justify-content-between
+                "
+            >
+                <h6 class="title mb-0">
+                    Listado de Ofertas
+                    <span
+                        class="leading-none"
+                        *ngIf="totalOfertasBuscadas != totalOfertas"
+                        ><small class="font-weight-bold"
+                            >(total: {{ totalOfertas }})</small
+                        ></span
+                    >
+                </h6>
 
-            <header class="card-header mb-2 rounded border d-flex justify-content-between">
-                <h6 class="title mb-0">Listado de Ofertas <span class="leading-none"
-                                                                *ngIf="totalOfertasBuscadas != totalOfertas"><small
-                    class="font-weight-bold">(total: {{ totalOfertas }})</small></span></h6>
-
-                <span class="leading-none"
-                      *ngIf="totalOfertasBuscadas == totalOfertas">Total de ofertas: {{ totalOfertas }}
-                    (mostrando del {{ firstPageRecord }} al {{ lastPageRecord }})</span>
-                <span class="leading-none" *ngIf="totalOfertasBuscadas != totalOfertas">Ofertas que coinciden con el filtro: {{ totalOfertasBuscadas }}
-                    (mostrando del {{ firstPageRecord }} al {{ lastPageRecord }})</span>
+                <span
+                    class="leading-none"
+                    *ngIf="totalOfertasBuscadas == totalOfertas"
+                    >Total de ofertas: {{ totalOfertas }} (mostrando del
+                    {{ firstPageRecord }} al {{ lastPageRecord }})</span
+                >
+                <span
+                    class="leading-none"
+                    *ngIf="totalOfertasBuscadas != totalOfertas"
+                    >Ofertas que coinciden con el filtro:
+                    {{ totalOfertasBuscadas }} (mostrando del
+                    {{ firstPageRecord }} al {{ lastPageRecord }})</span
+                >
             </header>
 
-
             <div class="card my-2">
-
                 <!-- Info de cargando -->
-                <div *ngIf="cargando"
-                     class="mb-0 alert alert-info text-center animate__animated animate__fadeIn animate__fast"
-                     role="alert">
+                <div
+                    *ngIf="cargando"
+                    class="
+                        mb-0
+                        alert alert-info
+                        text-center
+                        animate__animated animate__fadeIn animate__fast
+                    "
+                    role="alert"
+                >
                     <h4>Cargando ofertas</h4>
                     <fa-icon [icon]="['fas', 'sync']" [spin]="true"></fa-icon>
                     <p class="mb-">Por favor, espere</p>
@@ -110,45 +182,76 @@
 
                 <!-- Tabla cargada -->
                 <div class="card-body" *ngIf="!cargando">
-
                     <div class="text-right mb-3">
-                        <button (click)="cambiarPagina(prevLimit)" class="btn btn-outline-secondary">Anteriores</button>
+                        <button
+                            (click)="cambiarPagina(prevLimit)"
+                            class="btn btn-outline-secondary"
+                        >
+                            Anteriores
+                        </button>
                         &nbsp;
-                        <button (click)="cambiarPagina(nextLimit)" class="btn btn-outline-secondary">Siguientes</button>
+                        <button
+                            (click)="cambiarPagina(nextLimit)"
+                            class="btn btn-outline-secondary"
+                        >
+                            Siguientes
+                        </button>
                     </div>
 
                     <table class="table table-sm table-bordered">
-
                         <thead>
-                        <tr class="">
-                            <th scope="col" class="w-100px">Oferta</th>
-                            <th scope="col">Año academico</th>
-                            <th scope="col">Cuatrimestre</th>
-                            <th scope="col">Fecha limite</th>
-                            <th scope="col" class="w-140px">Observaciones generales</th>
-                            <th scope="col" class="w-140px">IR</th>
-                        </tr>
+                            <tr class="">
+                                <th scope="col" >Oferta</th>
+                                <th scope="col">Año academico</th>
+                                <th scope="col">Cuatrimestre</th>
+                                <th scope="col">Fecha limite</th>
+                                <th scope="col" >
+                                    Observaciones generales
+                                </th> 
+                                <th scope="col">IR</th>
+                            </tr>
                         </thead>
                         <tbody>
-                        <tr *ngFor="let oferta of ofertas" class="">
-                            <td>{{ oferta.titulo }}</td>
-                            <td>{{ oferta.anio_academico }}</td>
-                            <td>{{ oferta.displayCuatrimestre }}</td>
-                            <td>{{ oferta.parsedDateLimit }}</td>
-                            <td>{{ oferta.observaciones }}</td>
-                            <td class="h-100 p-0">
-                                <div class="d-flex justify-content-around p-2">
-                                    <fa-icon [icon]="['fas', 'eye']" class="text-primary cursor-pointer"
-                                             [routerLink]="['/ofertas/ver/', oferta.id]" title="Ver oferta">
-                                    </fa-icon>
-                                    <fa-icon
-                                        *ngIf="(usuarioService.usuario?.esGestor)"
-                                        [icon]="['fas', 'edit']" class="text-primary cursor-pointer"
-                                        [routerLink]="['/ofertas/editar', oferta.id]" title="Editar oferta">
-                                    </fa-icon>
-                                </div>
-                            </td>
-                        </tr>
+                            <tr *ngFor="let oferta of ofertas" class="">
+                                <td>{{ oferta.titulo }}</td>
+                                <td>{{ oferta.anio_academico }}</td>
+                                <td>{{ oferta.displayCuatrimestre }}</td>
+                                <td>{{ oferta.parsedDateLimit }}</td>
+                                <td>{{ oferta.observaciones }}</td>
+                                <td class="h-100 p-0">
+                                    <div
+                                        class="
+                                            d-flex
+                                            justify-content-around
+                                            p-2
+                                        "
+                                    >
+                                        <fa-icon
+                                            [icon]="['fas', 'eye']"
+                                            class="text-primary cursor-pointer"
+                                            [routerLink]="[
+                                                '/ofertas/ver/',
+                                                oferta.id
+                                            ]"
+                                            title="Ver oferta"
+                                        >
+                                        </fa-icon>
+                                        <fa-icon
+                                            *ngIf="
+                                                usuarioService.usuario?.esGestor
+                                            "
+                                            [icon]="['fas', 'edit']"
+                                            class="text-primary cursor-pointer"
+                                            [routerLink]="[
+                                                '/ofertas/editar',
+                                                oferta.id
+                                            ]"
+                                            title="Editar oferta"
+                                        >
+                                        </fa-icon>
+                                    </div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>

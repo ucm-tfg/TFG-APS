@@ -117,7 +117,7 @@
                                         class="form-control"
                                         placeholder="Escribe una descripción sobre la oferta"
                                         rows="8"
-                                        formControlName="descripcion"
+                                        formControlName="descripcion" 
                                     ></textarea>
                                 </div>
                             </div>
@@ -126,11 +126,18 @@
                         <div class="row">
                             <div class="col">
                                 <div class="form-group">
+                                    <label for="tags">Tags (Click para asignarlo automaticamente)</label>
                                     <tag-input
-                                        [(ngModel)]="items"
-                                        (onSelect)="onSelect($event)"
-                                        [modelAsStrings]="true"
-                                    >
+                                        formControlName="tags"
+                                        [ngModel]="tags"
+                                        (click)="computeTags()"
+                                    > 
+                                        <tag-input-dropdown
+                                            [autocompleteItems]="tags"
+                                            [showDropdownIfEmpty]="true"
+                                            [dynamicUpdate]="false"
+                                        >
+                                        </tag-input-dropdown>
                                     </tag-input>
                                 </div>
                             </div>
@@ -167,6 +174,7 @@
                                         definición del proyecto</label
                                     >
                                     <input
+                                        aria-label="Fecha limite"
                                         name="fecha_limite"
                                         type="date"
                                         id="fecha_limite"

@@ -96,6 +96,17 @@ import { CondicionesComponent } from './pages/condiciones/condiciones.component'
 import { Code404Component } from './errors/code404/code404.component';
 import { TagInputModule } from 'ngx-chips';
 
+TagInputModule.withDefaults({
+    tagInput: {
+        placeholder: 'Add a new tag',
+        // add here other default values for tag-input
+    },
+    dropdown: {
+        displayBy: 'my-display-value',
+        // add here other default values for tag-input-dropdown
+    }
+});
+
 // Go!
 @NgModule({
     declarations: [
