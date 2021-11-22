@@ -112,21 +112,19 @@
                 <div class="card-body" *ngIf="!cargando">
 
                     <div class="text-right mb-3">
-                        <button (click)="cambiarPagina(prevLimit)" class="btn btn-outline-secondary">Anteriores</button>
+                        <button (click)="cambiarPagina(prevPage())" class="btn btn-outline-secondary">Anteriores</button>
                         &nbsp;
-                        <button (click)="cambiarPagina(nextLimit)" class="btn btn-outline-secondary">Siguientes</button>
+                        <button (click)="cambiarPagina(nextPage())" class="btn btn-outline-secondary">Siguientes</button>
                     </div>
 
                     <table class="table table-sm table-bordered">
-
                         <thead>
                         <tr class="">
-                            <th scope="col" class="w-100px">Oferta</th>
+                            <th>Oferta</th>
                             <th scope="col">Año academico</th>
-                            <th scope="col">Cuatrimestre</th>
-                            <th scope="col">Fecha limite</th>
-                            <th scope="col" class="w-140px">Observaciones generales</th>
-                            <th scope="col" class="w-140px">IR</th>
+                            <th scope="col" class="w-100px">Cuatrimestre</th>
+                            <th scope="col" class="w-100px">Fecha limite</th>
+                            <th scope="col" class="w-140px">Detalle</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -135,7 +133,6 @@
                             <td>{{ oferta.anio_academico }}</td>
                             <td>{{ oferta.displayCuatrimestre }}</td>
                             <td>{{ oferta.parsedDateLimit }}</td>
-                            <td>{{ oferta.observaciones }}</td>
                             <td class="h-100 p-0">
                                 <div class="d-flex justify-content-around p-2">
                                     <fa-icon [icon]="['fas', 'eye']" class="text-primary cursor-pointer"
