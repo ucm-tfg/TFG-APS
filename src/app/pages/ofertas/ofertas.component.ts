@@ -17,7 +17,7 @@ export class OfertasComponent implements OnInit {
 
     public PROFESORES = Profesor;
 
-    public skip = 0;
+    public offset = 0;
     public limit = 5;
     public paginaActual = 1;
 
@@ -47,17 +47,19 @@ export class OfertasComponent implements OnInit {
         }
     }
 
-    get prevLimit(): number {
-        return -1 * this.limit;
+    prevPage(): void {
+        const newOffset = this.offset - this.limit;
+        this.offset = newOffset < 0 ? 0 : newOffset;
     }
 
-    get nextLimit(): number {
-        return this.limit;
+    nextPage(): void {
+        const newOffset = this.offset + this.limit;
+        this.offset = newOffset >= this.totalOfertas ? this.offset : newOffset;
     }
 
     get firstPageRecord(): number {
         const minResults = Math.min(this.totalOfertas, this.totalOfertasBuscadas);
-        return (minResults === 0) ? 0 : this.skip + 1;
+        return (minResults === 0) ? 0 : this.offset + 1;
     }
 
     get lastPageRecord(): number {
@@ -68,16 +70,7 @@ export class OfertasComponent implements OnInit {
         this.cargarOfertas();
     }
 
-    cambiarPagina(perPage: number): void {
-        this.skip += perPage;
-
-        if (this.skip < 0) {
-            this.skip = 0;
-        }
-        if (this.skip >= Math.min(this.totalOfertas, this.totalOfertasBuscadas)) {
-            this.skip -= perPage;
-        }
-
+    cambiarPagina(): void {
         this.cargarOfertas();
     }
 
@@ -92,7 +85,7 @@ export class OfertasComponent implements OnInit {
     }
 
     cargarOfertas(): void {
-        this.ofertaService.cargarOfertas(this.skip, this.limit, this.getFiltros())
+        this.ofertaService.cargarOfertas(this.offset, this.limit, this.getFiltros())
             .subscribe(({total, filtradas, ofertas}) => {
                 this.totalOfertas = total.valueOf();
                 this.totalOfertasBuscadas = filtradas.valueOf();

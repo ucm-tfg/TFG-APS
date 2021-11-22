@@ -175,22 +175,14 @@ function obtenerOfertaServicio(id_oferta) {
         });
 }
 
-/*
-function obtenerOfertas(){
-  return knex("oferta_servicio")
-            .from("oferta_servicio")
-            .select("*")
-            .then((rows) => {
-              let transfer_oferta = [];
-              rows.forEach()
-
-              }
-            })
+function contarTodasOfertasServicio() {
+    return knex("anuncio_servicio").count('id as COUNT')
+        .then(total => {
+            return total[0].COUNT;
+        })
 }
-*/
 
-//LEER TODOS LOS ELEMENTOS------------------------------------------------------------------------------------------------
-function obtenerTodasOfertasServicio() {
+function obtenerTodasOfertasServicio(limit, offset) {
     return knex("anuncio_servicio")
         .join("oferta_servicio", "anuncio_servicio.id", "=", "oferta_servicio.id")
         .join(
@@ -219,6 +211,8 @@ function obtenerTodasOfertasServicio() {
             "datos_personales_interno.nombre",
             "datos_personales_interno.apellidos"
         )
+        .limit(limit)
+        .offset(offset)
         .then((datos_ofertas) => {
             return knex("areaservicio_anuncioservicio")
                 .join(
@@ -627,4 +621,5 @@ module.exports = {
     eliminarOferta,
     actualizarAnuncio,
     eliminarAnuncio,
+    contarTodasOfertasServicio
 };
