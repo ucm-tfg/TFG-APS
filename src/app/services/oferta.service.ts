@@ -55,7 +55,7 @@ export class OfertaService {
         return this.http.get<{ total: Number, filtradas: Number, ofertas: Oferta[] }>(`${base_url}/ofertas?skip=${skip}&limit=${limit}&filtros=${encodeURIComponent(JSON.stringify(filtros))}`, this.usuarioService.headers)
             .pipe(
                 map(resp => {
-                    return {total: resp.ofertas.length, filtradas: limit, ofertas: this.mapearOfertas(resp.ofertas)};
+                    return {total: resp.total, filtradas: limit, ofertas: this.mapearOfertas(resp.ofertas)};
                 })
             );
     }
