@@ -6,6 +6,7 @@ import {Oferta} from '../../models/oferta.model';
 import {Profesor} from '../../models/profesor.model';
 import {OfertaCrearGuard} from 'src/app/guards/oferta-crear.guard';
 import {Router} from '@angular/router';
+import {CUATRIMESTRE} from '../../models/cuatrimestre.model';
 
 @Component({
     selector: 'app-ofertas',
@@ -16,9 +17,11 @@ import {Router} from '@angular/router';
 export class OfertasComponent implements OnInit {
 
     public PROFESORES = Profesor;
+    public CUATRIMESTRES = CUATRIMESTRE;
+    public cuatrimestres = ['a', 'b', 'c'];
 
     public offset = 0;
-    public limit = 5;
+    public limit = 3;
     public paginaActual = 1;
 
     public totalOfertas = 0;
@@ -34,7 +37,7 @@ export class OfertasComponent implements OnInit {
 
     public filterProfesores = {};
     public filterAreaServicio = {};
-    public filterCuatrimestre = {};
+    public filterCuatrimestre = [1, 2, 3];
     public filterCreador = '';
 
     constructor(
@@ -78,7 +81,7 @@ export class OfertasComponent implements OnInit {
         return {
             terminoBusqueda: this.terminoBusqueda,
             profesores: this.filterProfesores,
-            cuatrimestre: this.filterCuatrimestre,
+            cuatrimestre: this.filterCuatrimestre.map((v, index, array) => v ? index + 1 : 0),
             areaServicio: this.filterAreaServicio,
             creador: this.filterCreador,
         };
