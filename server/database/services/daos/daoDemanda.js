@@ -134,6 +134,12 @@ function obtenerDemandaServicio(id_demanda) {
   }
 
 
+function contarTodasDemandasServicio() {
+  return knex("demanda_servicio").count('id as COUNT')
+      .then(total => {
+          return total[0].COUNT;
+      })
+}
   function obtenerTodasDemandasServicio() {
     return knex("anuncio_servicio")
       .join("demanda_servicio", "anuncio_servicio.id", "=", "demanda_servicio.id")
@@ -380,6 +386,7 @@ module.exports = {
     crearDemanda,
     obtenerDemandaServicio,
     obtenerTodasDemandasServicio,
+    contarTodasDemandasServicio,
     actualizarDemanda,
     eliminarDemanda,
     obtenerTitulacionLocal,

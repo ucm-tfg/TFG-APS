@@ -37,10 +37,10 @@
                     </header>
 
                     <div class="card-body">
-                        <!-- <label *ngFor="let area of AREAS_SERVICIOS" class="form-check">
-                            <input class="form-check-input" type="checkbox" [value]="true" (change)="cargarDemandas()" [(ngModel)]="filterProfesores[prof]">
-                            <span class="form-check-label">{{ prof }}</span>
-                        </label> -->
+                        <label *ngFor="let necesidad of NECESIDAD_SOCIAL" class="form-check">
+                            <input class="form-check-input" type="checkbox" [value]="true" (change)="cargarDemandas()" [(ngModel)]="filterNecesidadSocial[necesidad]">
+                            <span class="form-check-label">{{ necesidad }}</span>
+                        </label>
                     </div>
                 </div>
 
@@ -51,10 +51,10 @@
                     </header>
 
                     <div class="card-body">
-                        <!-- <label *ngFor="let area of AREAS_SERVICIOS" class="form-check">
+                        <label *ngFor="let area of AREA_SERVICIO" class="form-check">
                             <input class="form-check-input" type="checkbox" [value]="true" (change)="cargarDemandas()" [(ngModel)]="filterAreaServicio[area]">
                             <span class="form-check-label">{{ area }}</span>
-                        </label> -->
+                        </label>
                     </div>
                 </div>
 
@@ -82,8 +82,24 @@
             <header class="card-header mb-2 rounded border d-flex justify-content-between">
                 <h6 class="title mb-0">Listado de Demandas <span class="leading-none" *ngIf="totalDemandasBuscadas != totalDemandas"><small class="font-weight-bold">(total: {{ totalDemandas }})</small></span></h6>
 
-                <!-- <span class="leading-none" *ngIf="totalDemandasBuscadas == totalOfertas">Total de demandas: {{ totalDemandas }} (mostrando del {{ firstPageRecord }} al {{ lastPageRecord }})</span>
-                <span class="leading-none" *ngIf="totalDemandasBuscadas != totalOfertas">Demandas que coinciden con el filtro: {{ totalDemandasBuscadas }} (mostrando del {{ firstPageRecord }} al {{ lastPageRecord }})</span> -->
+                <span 
+                    class="leading-none"
+                    *ngIf="totalDemandasBuscadas != totalDemandas">
+                    <small class="font-weight-bold">
+                        (total: {{totalDemandas}})
+                    </small>
+                </span>
+                <span 
+                    class="leading-none"
+                    *ngIf="totalDemandasBuscadas == totalDemandas">
+                    Total de demandas: {{ totalDemandas }} (mostrando del
+                    {{ firstPageRecord }} al {{ lastPageRecord }})</span>
+                <span
+                    class="leading-none"
+                    *ngIf="totalDemandasBuscadas != totalDemandas"
+                    > Demandas que coinciden con el filtro:
+                    {{ totalDemandasBuscadas }} (mostrando del 
+                    {{ firstPageRecord }} al {{lastPageRecord }}) </span>
             </header>
 
 
@@ -109,34 +125,31 @@
 
                         <thead>
                             <tr class="">
-                                <th scope="col" class="w-100px">Oferta</th>
-                                <th scope="col">Año academico</th>
-                                <th scope="col">Cuatrimestre</th>
-                                <th scope="col">Fecha limite</th>
-                                <th scope="col" class="w-140px">Observaciones generales</th>
+                                <th scope="col">Creador</th>
+                                <th scope="col">Ciudad</th>
+                                <th scope="col">Finalidad</th>
+                                <th scope="col">Inicio Periodo Definicion</th>
+                                <th scope="col">Fin Periodo Definicion</th>
+                                <th scope="col">Inicio Periodo Ejecucion</th>
+                                <th scope="col">Fin Periodo Ejecucion</th>
+                                <th scope="col">Observaciones temporales</th>
+                                <th scope="col">Necesidad local</th>
+                                <th scope="col">Sociedad beneficiaria</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let oferta of ofertas" class="">
-                                <td>{{ demanda.displayProponedorRol }}</td>
-                                <td>
-                                    {{ demanda.displayProponedorTableInfo }}
-                                    <!--<div *ngIf="demanda.creador && demanda.proponedor.rol === 'ROL_ENTIDAD' && iniciativa.proponedor.sector"><br />{{ iniciativa.proponedor.sector }}</div>
-                                    <div *ngIf="demanda.proponedor && iniciativa.proponedor.rol === 'ROL_PROFESOR' && iniciativa.proponedor.universidad"><br />{{ iniciativa.proponedor.universidad }}</div>
-                                    <div *ngIf="demanda.proponedor && iniciativa.proponedor.rol === 'ROL_PROFESOR' && iniciativa.proponedor.titulacion"><br />{{ iniciativa.proponedor.titulacion }}</div>-->
-                                <td>
-                                    <b>Creador: </b>{{ demanda.creador }}<br />
-                                    <b>Ciudad: </b>{{ demanda.ciudad }}<br />
-                                    <b>Finalidad: </b>{{ demanda.finalidad }} <br />
-                                    <b>Inicio periodo definicion: </b>{{ demanda.periodoDefinicionIni }} <br />
-                                    <b>Fin periodo definicion: </b>{{ demanda.periodoDeficionFin }} <br />
-                                    <b>Inicio periodo ejecucion: </b>{{ demanda.periodoEjecucionIni }} <br />
-                                    <b>Fin periodo ejecucion: </b>{{ demanda.periodoEjecucionFin }} <br />
-                                    <b>Observaciones temporales: </b>{{ demanda.fechaFin }} <br />
-                                    <b>Necesidad local: </b>{{ demanda.necesidadLocal }} <br />
-                                    <b>Sociedad beneficiaria: </b>{{ demanda.sociedadBeneficiaria }} <br />
-                                </td>
-
+                            <tr *ngFor="let demanda of demandas" class="">
+                                <td>{{ demanda.creador }}</td>
+                                <td>{{ demanda.ciudad }}</td>    
+                                <td>{{ demanda.finalidad }}</td>
+                                <td>{{ demanda.periodoDefinicionIni }}</td>
+                                <td>{{ demanda.periodoDeficionFin }}</td>
+                                <td>{{ demanda.periodoEjecucionIni }}</td>
+                                <td>{{ demanda.periodoEjecucionFin }}</td>
+                                <td>{{ demanda.fechaFin }}</td>
+                                <td>{{demanda.observaciones}}</td>
+                                <td>{{demanda.necesidadLocal}}</td>
+                                <td>{{demanda.sociedadBeneficiaria}}</td>
                                 <td class="h-100 p-0">
                                     <div class="border-bottom p-2 text-center">{{ demanda.parsedCreatedAt }}</div>
                                     <div class="d-flex justify-content-around p-2">

@@ -176,7 +176,6 @@ const routes: Routes = [
 
             //demandas
             {path: 'demandas', component: DemandasComponent, data: {titulo: 'Demandas'}},
-            {path: 'testdem', component: DemandasComponent, data: {titulo: 'Demandas'}},
             // { path: 'mis-demandas', component: demandasComponent, data: { titulo: 'Mis Demandas' } },
             // { path: 'demandas/ver/:id', component: DemandasVerComponent, data: { titulo: 'Ver Demandas' } },
             // { path: 'demandas/editar/:id', canActivate:[DemandaEditarGuard], component: DemandaEditarComponent, data: { titulo: 'Editar Demanda' } },
