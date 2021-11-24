@@ -184,7 +184,8 @@ function contarTodasOfertasServicio() {
         })
 }
 
-function obtenerTodasOfertasServicio(limit, offset) {
+function obtenerTodasOfertasServicio(limit, offset, filters) {
+    let fil = JSON.parse(filters);
     return knex("anuncio_servicio")
         .join("oferta_servicio", "anuncio_servicio.id", "=", "oferta_servicio.id")
         .join(
@@ -213,6 +214,8 @@ function obtenerTodasOfertasServicio(limit, offset) {
             "datos_personales_interno.nombre",
             "datos_personales_interno.apellidos"
         )
+        .whereIn("cuatrimestre", fil.cuatrimestre)
+        .where('titulo', 'like', '%' + fil.terminoBusqueda + '%')
         .limit(limit)
         .offset(offset)
         .then((datos_ofertas) => {
