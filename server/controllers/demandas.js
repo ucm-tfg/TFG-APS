@@ -109,6 +109,23 @@ const crearDemanda = async (req, res = response) => {//continuar
     }
 }
 
+const obtenerDemandas = async(req, res = response) =>{
+    try{
+        let demandas = await daoDemanda.obtenerTodasDemandasServicio();
+        let total = await daoDemanda.contarTodasDemandasServicio();
+        return res.status(200).json({
+            ok: true,
+            demandas,
+            total: total
+        });
+    } catch(error){
+        console.log(error);
+        return res.status(500).json({
+            ok: false,
+            msg: 'Error inesperado',
+        })
+    }
+}
 const obtenerDemanda = async (req, res) => {
     try {
         const id = req.params.id;
@@ -134,5 +151,6 @@ module.exports = {
     getNecesidades,
     getTitulaciones,
     crearDemanda,
-    obtenerDemanda
+    obtenerDemanda,
+    obtenerDemandas
 }

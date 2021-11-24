@@ -22,7 +22,7 @@
                 </li>
 
                 <li class="dropdown nav-item" *ngIf=mostrarDemandasDeServicio()>
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown">Demandas de servicio</a>
+                    <a class="nav-link" [routerLink]="['/demandas']">Demandas de servicio</a>
                 </li>
 
                 <li class="dropdown nav-item" *ngIf=mostrarPartenariados()>

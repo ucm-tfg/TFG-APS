@@ -21,18 +21,18 @@ export class DemandasComponent implements OnInit{
     public AREA_SERVICIO = AREA_SERVICIO;
     public NECESIDAD_SOCIAL = NECESIDAD_SOCIAL;
     public ENTIDAD_DEMANDANTE = ENTIDAD_DEMANDANTE;
-    public skip: number = 0;
-    public limit: number = 5;
-    public pagina_actual: number = 1;
-
-    public totalDemandas: number = 0;
+    
+    public limit = 5;
+    public paginaActual = 1;
+    public offset = 0;
+    
+    public totalDemandas = 0;
     public demandas: Demanda[];
 
-    public terminoBusqueda: string = '';
-    public totalDemandasBuscadas: number = 0;
-    public testString: string ='hola';
+    public terminoBusqueda = '';
+    public totalDemandasBuscadas = 0;
 
-    public cargando: boolean = false;
+    public cargando = false;
     public cargandoTimeOut;
 
 
@@ -41,45 +41,44 @@ export class DemandasComponent implements OnInit{
     public filterEntidadDemandante = {};
     public filterCreador = '';
 
-    constructor( public demandaCrearGuard: DemandaCrearGuard, public demandaService: DemandaService, public usuarioService: UsuarioService, private router: Router ){
-        
-        //this.profesores.forEach(profesor => {this.filterProfesores[profesor] = false;})
-        // NECESIDAD_SOCIAL.forEach(necesidadSocial => {this.filterNecesidadSocial[necesidadSocial] = false;});
-        // ENTIDAD_DEMANDANTE.forEach(entidadDemandante => {this.filterEntidadDemandante[entidadDemandante] = false;});
-        // AREA_SERVICIO.forEach(areaServicio => {this.filterAreaServicio[areaServicio] = false;});
-        // if(this.router.url === '/mis-demandas'){
-        //     this.filterCreador = this.usuarioService.usuario.uid;
-        // }
-        this.testString = 'hola';
+    constructor( 
+        public demandaCrearGuard: DemandaCrearGuard,
+        public demandaService: DemandaService,
+        public usuarioService: UsuarioService,
+        private router: Router ){
+            //this.profesores.forEach(profesor => {this.filterProfesores[profesor] = false;})
+            NECESIDAD_SOCIAL.forEach(necesidadSocial => {this.filterNecesidadSocial[necesidadSocial] = false;});
+            //ENTIDAD_DEMANDANTE.forEach(entidadDemandante => {this.filterEntidadDemandante[entidadDemandante] = false;});
+            AREA_SERVICIO.forEach(areaServicio => {this.filterAreaServicio[areaServicio] = false;});
+        if(this.router.url === '/mis-demandas'){
+             this.filterCreador = this.usuarioService.usuario.uid;
+        }
     }
     
-    get prevLimit() {
-        return -1 * this.limit;
-    }
-    
-    get nextLimit() {
-        return this.limit;
+    prevPage():void{
+        const newOffset = this.offset - this.limit;
+        this.offset = newOffset < 0 ? 0 : newOffset;
     }
 
-    get firstPageRecord() {
-        const minResultados = Math.min(this.totalDemandas, this.totalDemandasBuscadas);
-        
-        if(minResultados === 0) {
-            return 0;
-        }
-        return this.skip + 1;
+    nextPage(): void {
+        const newOffset = this.offset + this.limit;
+        this.offset = newOffset >= this.totalDemandas ? this.offset : newOffset;
+    }
+
+    get firstPageRecord(): number {
+        const minResults = Math.min(this.totalDemandas, this.totalDemandasBuscadas);
+        return (minResults === 0) ? 0: this.offset + 1;
+    }
+
+    get lastPageRecord(): number {
+        return this.totalDemandas;
     }
 
     ngOnInit(): void {
         this.cargarDemandas();
     }
-    
-    cambiarPagina( per_page: number ) {
-        this.skip += per_page;
-        
-        if(this.skip < 0) { this.skip = 0; }
-        if(this.skip >= Math.min(this.totalDemandas, this.totalDemandasBuscadas)) { this.skip -= per_page; }
-    
+
+    cambiarPagina(): void {
         this.cargarDemandas();
     }
 
@@ -94,7 +93,7 @@ export class DemandasComponent implements OnInit{
     }
 
     cargarDemandas() {
-        this.demandaService.cargarDemandas(this.skip, this.limit, this.getFiltros())
+        this.demandaService.cargarDemandas(this.offset, this.limit, this.getFiltros())
             .subscribe( ({total, filtradas, demandas}) => {
               this.totalDemandas = total.valueOf();
               this.totalDemandasBuscadas = filtradas.valueOf();
