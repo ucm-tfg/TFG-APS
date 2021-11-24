@@ -44,8 +44,8 @@ const crearOferta = async (req, res = response) => {
             req.current_user.uid);
 
         let ofertaId = await daoOferta.crearOferta(oferta);
-        for(tagName of req.body.tags){
-            await daoUtils.createAndLinkedTags(tagName, ofertaId,'oferta');
+        for (tagName of req.body.tags) {
+            await daoUtils.createAndLinkedTags(tagName, ofertaId, 'oferta');
         }
 
         return res.status(200).json({
@@ -86,7 +86,7 @@ const obtenerOferta = async (req, res) => {
 
 const obtenerOfertas = async (req, res = response) => {
     try {
-        let ofertas = await daoOferta.obtenerTodasOfertasServicio(req.query.limit, req.query.skip); // Como recoger el resultado???
+        let ofertas = await daoOferta.obtenerTodasOfertasServicio(req.query.limit, req.query.skip, req.query.filtros);
         let total = await daoOferta.contarTodasOfertasServicio();
         return res.status(200).json({
             ok: true,
