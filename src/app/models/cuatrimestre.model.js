@@ -1,4 +1,5 @@
 module.exports.CUATRIMESTRE = [
     'Primero',
-    'Segundo'
+    'Segundo',
+    'Anual'
 ];

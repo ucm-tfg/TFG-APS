@@ -4,7 +4,7 @@ module.exports.AREA_SERVICIO = [
     'Climate action',
     'Cultural',
     'Cultural Diversity',
-    'Decent work andeconomic growth',
+    'Decent work and economic growth',
     'Diversity',
     'Gender equality',
     'Good health and well-being',

@@ -22,13 +22,6 @@ export class DemandaService {
       );
   }
 
-  crearDemanda(body: Object) {
-    return this.http.post<{ ok: boolean, Demanda: Demanda }>(`${base_url}/demandas`, body, this.usuarioService.headers)
-      .pipe(
-        map((resp) => { return resp; })
-      );
-  }
-
   mapearDemandas(demandas: any): Demanda[] {
     return demandas.map(
 
@@ -54,17 +47,25 @@ export class DemandaService {
         demanda.updatedAt || '')
     );
   }
+
   cargarDemanda(id: string) {
     return this.http.get<{ ok: boolean, demanda: Demanda }>(`${base_url}/demandas/${id}`, this.usuarioService.headers)
       .pipe(
         map((resp: { ok: boolean, demanda: Demanda }) => resp.demanda)
       );
-  }ññ
+  }
 
   cargarDemandas(skip: number, limit: number, filtros: Object) {
     return this.http.get<{ total: Number, filtradas: Number, demandas: Demanda[] }>(`${base_url}/demandas?skip=${skip}&limit=${limit}&filtros=${encodeURIComponent(JSON.stringify(filtros))}`, this.usuarioService.headers)
       .pipe(
         map(resp => { return { total: resp.total, filtradas: resp.filtradas, demandas: this.mapearDemandas(resp.demandas) }; })
+      );
+  }
+
+  crearDemanda(body: Object) {
+    return this.http.post<{ ok: boolean, Demanda: Demanda }>(`${base_url}/demandas`, body, this.usuarioService.headers)
+      .pipe(
+        map((resp) => { return resp; })
       );
   }
 
@@ -74,6 +75,7 @@ export class DemandaService {
         map((resp) => resp)
       );
   }
+  
   obtenerNecesidades() {
     return this.http.get<{ ok: boolean, necesidadSocial: any }>(`${base_url}/demandas/necesidadsocial`, this.usuarioService.headers)
       .pipe(
