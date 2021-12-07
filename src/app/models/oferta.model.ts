@@ -23,6 +23,7 @@ export class Oferta {
         public area_servicio: string[],
         public asignatura_objetivo: string[],
         public profesores: string[],
+        public tags: string[],
     ) {
     }
 

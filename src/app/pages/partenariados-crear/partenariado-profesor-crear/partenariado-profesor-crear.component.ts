@@ -114,7 +114,7 @@ export class PartenariadoCrearProfesorComponent implements OnInit {
     
       let fecha_fin = moment(value.fecha_limite).format('YYYY-MM-DD');
       this.oferta = new Oferta(value.id, value.titulo, value.descripcion, value.imagen, value.created_at, value.upload_at, value.cuatrimestre,
-        value.anio_academico, fecha_fin, value.observaciones_temporales, value.creador, value.area_servicio, value.asignatura_objetivo, value.profesores)
+        value.anio_academico, fecha_fin, value.observaciones_temporales, value.creador, value.area_servicio, value.asignatura_objetivo, value.profesores, value.tags)
         ;
     });
   }

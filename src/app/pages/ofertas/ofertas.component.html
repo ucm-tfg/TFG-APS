@@ -1,257 +1,313 @@
 <app-navbar></app-navbar>
 <div class="container mt-4 animate__animated animate__fadeIn animate__faster">
-  <h5
-    class="px-4 py-2 mb-4 text-white display-block bg-secondary d-flex justify-content-between"
-  >
-    <b>Ofertas</b>
-    <a
-      *ngIf="ofertaCrearGuard.canActivate(null, null)"
-      [routerLink]="['/ofertas/crear']"
-      class="btn btn-primary border-light btn-sm"
-      role="button"
+    <h5
+        class="
+            px-4
+            py-2
+            mb-4
+            text-white
+            display-block
+            bg-secondary
+            d-flex
+            justify-content-between
+        "
     >
-      Crear Oferta
-    </a>
-  </h5>
-
-  <div
-    *ngIf="
-      this.usuarioService.usuario && this.usuarioService.usuario.esEstudiante
-    "
-    class="alert alert-warning"
-    role="alert"
-  >
-    <b>Atención:</b>
-    Estás en la aplicación como
-    <b>ESTUDIANTE</b>
-    . Sólo Profesores pueden presentar OFERTAS.
-  </div>
-
-  <div
-    *ngIf="!this.usuarioService.usuario"
-    class="alert alert-warning"
-    role="alert"
-  >
-    <b>Atención:</b>
-    Estás en la aplicación como
-    <b>INVITADO</b>
-    . Sólo Profesores pueden presentar OFERTAS.
-  </div>
-
-  <div
-    *ngIf="
-      this.usuarioService.usuario && this.usuarioService.usuario.esEstudiante
-    "
-  >
-    <b>Atención:</b>
-    Estás en la aplicación como
-    <b>ESTUDIANTE</b>
-    . Sólo Profesores pueden presentar OFERTAS.
-  </div>
-
-  <div class="row">
-    <div class="col-3">
-      <header class="card-header mb-2 rounded border">
-        <h6 class="title mb-0">Filtros</h6>
-      </header>
-
-      <div class="card">
-        <div class="filtro">
-          <header class="card-header">
-            <h6 class="title mb-0">Búsqueda</h6>
-          </header>
-
-          <div class="card-body">
-            <input
-              (keyup)="cargarOfertas()"
-              (search)="cargarOfertas()"
-              [(ngModel)]="terminoBusqueda"
-              class="form-control float-right mb-4"
-              placeholder="Buscar por título..."
-              type="search"
-            />
-          </div>
-        </div>
-
-        <div class="filtro">
-          <header class="card-header border-top rounded-0">
-            <h6 class="title mb-0">Profesor</h6>
-          </header>
-          <div class="card-body">
-            <label *ngFor="let prof of PROFESORES" class="form-check">
-              <input
-                (change)="cargarOfertas()"
-                [(ngModel)]="filterProfesores[prof]"
-                [value]="true"
-                class="form-check-input"
-                type="checkbox"
-              />
-              <span class="form-check-label">{{ prof }}</span>
-            </label>
-          </div>
-        </div>
-
-        <div class="filtro">
-          <header class="card-header border-top rounded-0">
-            <h6 class="title mb-0">Tags</h6>
-          </header>
-          <div class="card-body">
-            <tag-input 
-              [ngModel]="tagInput"
-              (keypress)="getPossibleTags($event)"
-            >
-              <tag-input-dropdown
-                [autocompleteItems]="tags"
-                [showDropdownIfEmpty]="true"
-                [dynamicUpdate]="false"
-              ></tag-input-dropdown>
-            </tag-input>
-          </div>
-        </div>
-
-        <div class="filtro">
-          <header class="card-header border-top rounded-0">
-            <h6 class="title mb-0">Area de implementación</h6>
-          </header>
-
-          <div class="card-body"></div>
-        </div>
-
-        <div class="filtro">
-          <header class="card-header border-top rounded-0">
-            <h6 class="title mb-0">Año Académico</h6>
-          </header>
-          <div class="card-body">
-            <input
-              aria-label="FEcha"
-              class="form-control"
-              id="fecha"
-              name="fecha"
-              type="year"
-              value="2021"
-            />
-          </div>
-        </div>
-
-        <div class="filtro">
-          <header class="card-header border-top rounded-0">
-            <h6 class="title mb-0">Cuatrimestre</h6>
-          </header>
-
-          <div class="card-body">
-            <label
-              *ngFor="let c of CUATRIMESTRES; index as i"
-              class="form-check"
-            >
-              <input
-                (change)="cargarOfertas()"
-                [(ngModel)]="filterCuatrimestre[i]"
-                class="form-check-input"
-                name="c"
-                type="checkbox"
-                value=""
-              />
-              <span class="form-check-label">{{ c }}</span>
-            </label>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-9">
-      <header
-        class="card-header mb-2 rounded border d-flex justify-content-between"
-      >
-        <h6 class="title mb-0">
-          Listado de Ofertas
-          <span
-            *ngIf="totalOfertasBuscadas != totalOfertas"
-            class="leading-none"
-          >
-            <small class="font-weight-bold">(total: {{ totalOfertas }})</small>
-          </span>
-        </h6>
-
-        <span *ngIf="totalOfertasBuscadas == totalOfertas" class="leading-none">
-          Total de ofertas: {{ totalOfertas }} (mostrando del
-          {{ firstPageRecord }} al {{ lastPageRecord }})
-        </span>
-        <span *ngIf="totalOfertasBuscadas != totalOfertas" class="leading-none">
-          Ofertas que coinciden con el filtro:
-          {{ totalOfertasBuscadas }} (mostrando del {{ firstPageRecord }} al
-          {{ lastPageRecord }})
-        </span>
-      </header>
-
-      <div class="card my-2">
-        <!-- Info de cargando -->
-        <div
-          *ngIf="cargando"
-          class="mb-0 alert alert-info text-center animate__animated animate__fadeIn animate__fast"
-          role="alert"
+        <b>Ofertas</b>
+        <a
+            *ngIf="ofertaCrearGuard.canActivate(null, null)"
+            [routerLink]="['/ofertas/crear']"
+            class="btn btn-primary border-light btn-sm"
+            role="button"
         >
-          <h4>Cargando ofertas</h4>
-          <fa-icon [icon]="['fas', 'sync']" [spin]="true"></fa-icon>
-          <p class="mb-">Por favor, espere</p>
-        </div>
+            Crear Oferta
+        </a>
+    </h5>
 
-        <!-- Tabla cargada -->
-        <div *ngIf="!cargando" class="card-body">
-          <div class="text-right mb-3">
-            <button
-              (click)="cambiarPagina(prevPage())"
-              class="btn btn-outline-secondary"
-            >
-              Anteriores
-            </button>
-            &nbsp;
-            <button
-              (click)="cambiarPagina(nextPage())"
-              class="btn btn-outline-secondary"
-            >
-              Siguientes
-            </button>
-          </div>
-
-          <table class="table table-sm table-bordered">
-            <thead>
-              <tr class="">
-                <th>Oferta</th>
-                <th scope="col">Año academico</th>
-                <th class="w-100px" scope="col">Cuatrimestre</th>
-                <th class="w-100px" scope="col">Fecha limite</th>
-                <th class="w-140px" scope="col">Detalle</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let oferta of ofertas" class="">
-                <td>{{ oferta.titulo }}</td>
-                <td>{{ oferta.anio_academico }}</td>
-                <td>{{ oferta.displayCuatrimestre }}</td>
-                <td>{{ oferta.parsedDateLimit }}</td>
-                <td class="h-100 p-0">
-                  <div class="d-flex justify-content-around p-2">
-                    <fa-icon
-                      [icon]="['fas', 'eye']"
-                      [routerLink]="['/ofertas/ver/', oferta.id]"
-                      class="text-primary cursor-pointer"
-                      title="Ver oferta"
-                    ></fa-icon>
-                    <fa-icon
-                      *ngIf="usuarioService.usuario?.esGestor"
-                      [icon]="['fas', 'edit']"
-                      [routerLink]="['/ofertas/editar', oferta.id]"
-                      class="text-primary cursor-pointer"
-                      title="Editar oferta"
-                    ></fa-icon>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
+    <div
+        *ngIf="
+            this.usuarioService.usuario &&
+            this.usuarioService.usuario.esEstudiante
+        "
+        class="alert alert-warning"
+        role="alert"
+    >
+        <b>Atención:</b>
+        Estás en la aplicación como
+        <b>ESTUDIANTE</b>
+        . Sólo Profesores pueden presentar OFERTAS.
     </div>
-  </div>
+
+    <div
+        *ngIf="!this.usuarioService.usuario"
+        class="alert alert-warning"
+        role="alert"
+    >
+        <b>Atención:</b>
+        Estás en la aplicación como
+        <b>INVITADO</b>
+        . Sólo Profesores pueden presentar OFERTAS.
+    </div>
+
+    <div
+        *ngIf="
+            this.usuarioService.usuario &&
+            this.usuarioService.usuario.esEstudiante
+        "
+    >
+        <b>Atención:</b>
+        Estás en la aplicación como
+        <b>ESTUDIANTE</b>
+        . Sólo Profesores pueden presentar OFERTAS.
+    </div>
+
+    <div class="row">
+        <div class="col-3">
+            <header class="card-header mb-2 rounded border">
+                <h6 class="title mb-0">Filtros</h6>
+            </header>
+
+            <div class="card">
+                <div class="filtro">
+                    <header class="card-header">
+                        <h6 class="title mb-0">Búsqueda</h6>
+                    </header>
+
+                    <div class="card-body">
+                        <input
+                            (keyup)="cargarOfertas()"
+                            (search)="cargarOfertas()"
+                            [(ngModel)]="terminoBusqueda"
+                            class="form-control float-right mb-4"
+                            placeholder="Buscar por título..."
+                            type="search"
+                        />
+                    </div>
+                </div>
+
+                <div class="filtro">
+                    <header class="card-header border-top rounded-0">
+                        <h6 class="title mb-0">Profesor</h6>
+                    </header>
+                    <div class="card-body">
+                        <label
+                            *ngFor="let prof of PROFESORES"
+                            class="form-check"
+                        >
+                            <input
+                                (change)="cargarOfertas()"
+                                [(ngModel)]="filterProfesores[prof]"
+                                [value]="true"
+                                class="form-check-input"
+                                type="checkbox"
+                            />
+                            <span class="form-check-label">{{ prof }}</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="filtro">
+                    <header class="card-header border-top rounded-0">
+                        <h6 class="title mb-0">Tags</h6>
+                    </header>
+                    <div class="card-body">
+                        <tag-input
+                            [(ngModel)]='tagInput'
+                            (keypress)="computePossibleTags($event)"
+                            (onAdd)= "cargarOfertas()"
+                            (onRemove)="cargarOfertas()"
+                        >
+                            <tag-input-dropdown
+                                [autocompleteItems]="tags"
+                                [showDropdownIfEmpty]="true"
+                                [dynamicUpdate]="false"
+                            ></tag-input-dropdown>
+                        </tag-input>
+                    </div>
+                </div>
+
+                <div class="filtro">
+                    <header class="card-header border-top rounded-0">
+                        <h6 class="title mb-0">Area de implementación</h6>
+                    </header>
+
+                    <div class="card-body"></div>
+                </div>
+
+                <div class="filtro">
+                    <header class="card-header border-top rounded-0">
+                        <h6 class="title mb-0">Año Académico</h6>
+                    </header>
+                    <div class="card-body">
+                        <input
+                            aria-label="FEcha"
+                            class="form-control"
+                            id="fecha"
+                            name="fecha"
+                            type="year"
+                            value="2021"
+                        />
+                    </div>
+                </div>
+
+                <div class="filtro">
+                    <header class="card-header border-top rounded-0">
+                        <h6 class="title mb-0">Cuatrimestre</h6>
+                    </header>
+
+                    <div class="card-body">
+                        <label
+                            *ngFor="let c of CUATRIMESTRES; index as i"
+                            class="form-check"
+                        >
+                            <input
+                                (change)="cargarOfertas()"
+                                [(ngModel)]="filterCuatrimestre[i]"
+                                class="form-check-input"
+                                name="c"
+                                type="checkbox"
+                                value=""
+                            />
+                            <span class="form-check-label">{{ c }}</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-9">
+            <header
+                class="
+                    card-header
+                    mb-2
+                    rounded
+                    border
+                    d-flex
+                    justify-content-between
+                "
+            >
+                <h6 class="title mb-0">
+                    Listado de Ofertas
+                    <span
+                        *ngIf="totalOfertasBuscadas != totalOfertas"
+                        class="leading-none"
+                    >
+                        <small class="font-weight-bold"
+                            >(total: {{ totalOfertas }})</small
+                        >
+                    </span>
+                </h6>
+
+                <span
+                    *ngIf="totalOfertasBuscadas == totalOfertas"
+                    class="leading-none"
+                >
+                    Total de ofertas: {{ totalOfertas }} (mostrando del
+                    {{ firstPageRecord }} al {{ lastPageRecord }})
+                </span>
+                <span
+                    *ngIf="totalOfertasBuscadas != totalOfertas"
+                    class="leading-none"
+                >
+                    Ofertas que coinciden con el filtro:
+                    {{ totalOfertasBuscadas }} (mostrando del
+                    {{ firstPageRecord }} al {{ lastPageRecord }})
+                </span>
+            </header>
+
+            <div class="card my-2">
+                <!-- Info de cargando -->
+                <div
+                    *ngIf="cargando"
+                    class="
+                        mb-0
+                        alert alert-info
+                        text-center
+                        animate__animated animate__fadeIn animate__fast
+                    "
+                    role="alert"
+                >
+                    <h4>Cargando ofertas</h4>
+                    <fa-icon [icon]="['fas', 'sync']" [spin]="true"></fa-icon>
+                    <p class="mb-">Por favor, espere</p>
+                </div>
+
+                <!-- Tabla cargada -->
+                <div *ngIf="!cargando" class="card-body">
+                    <div class="text-right mb-3">
+                        <button
+                            (click)="cambiarPagina(prevPage())"
+                            class="btn btn-outline-secondary"
+                        >
+                            Anteriores
+                        </button>
+                        &nbsp;
+                        <button
+                            (click)="cambiarPagina(nextPage())"
+                            class="btn btn-outline-secondary"
+                        >
+                            Siguientes
+                        </button>
+                    </div>
+
+                    <table class="table table-sm table-bordered">
+                        <thead>
+                            <tr class="">
+                                <th>Oferta</th>
+                                <th scope="col">Año academico</th>
+                                <th class="w-100px" scope="col">
+                                    Cuatrimestre
+                                </th>
+                                <th class="w-100px" scope="col">Tags</th>
+                                <th class="w-100px" scope="col">
+                                    Fecha limite
+                                </th>
+                                <th class="w-140px" scope="col">Detalle</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let oferta of ofertas" class="">
+                                <td>{{ oferta.titulo }}</td>
+                                <td>{{ oferta.anio_academico }}</td>
+                                <td>{{ oferta.displayCuatrimestre }}</td>
+                                <td>{{ oferta.tags }}</td>
+                                <td>{{ oferta.parsedDateLimit }}</td>
+                                <td class="h-100 p-0">
+                                    <div
+                                        class="
+                                            d-flex
+                                            justify-content-around
+                                            p-2
+                                        "
+                                    >
+                                        <fa-icon
+                                            [icon]="['fas', 'eye']"
+                                            [routerLink]="[
+                                                '/ofertas/ver/',
+                                                oferta.id
+                                            ]"
+                                            class="text-primary cursor-pointer"
+                                            title="Ver oferta"
+                                        ></fa-icon>
+                                        <fa-icon
+                                            *ngIf="
+                                                usuarioService.usuario?.esGestor
+                                            "
+                                            [icon]="['fas', 'edit']"
+                                            [routerLink]="[
+                                                '/ofertas/editar',
+                                                oferta.id
+                                            ]"
+                                            class="text-primary cursor-pointer"
+                                            title="Editar oferta"
+                                        ></fa-icon>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <app-footer></app-footer>

@@ -71,7 +71,7 @@ const getAreasConocimiento = async(req, res) => {
     
     try {
         areas = await dao_usuario.obtenerAreasConocimiento();
-     
+        console.log(areas);
         
         return res.status(200).json({
             ok: true,

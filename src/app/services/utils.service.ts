@@ -17,13 +17,13 @@ export class UtilsService {
 
     computeTags(descrip: string) {
         return this.http
-            .get<{ ok: boolean, tags: any }>(`${base_url}/tags/getTags?descrip=${descrip}`, this.usuarioService.headers)
+            .get<{ ok: boolean, tags: any }>(`${base_url}/tags/computeTags?descrip=${descrip}`, this.usuarioService.headers)
             .pipe(map((resp) => resp));
     } 
 
-    getPossibleTags(text: string) {
+    computePossibleTags(text: string) {
         return this.http
-            .get<{ ok: boolean, tags: any }>(`${base_url}/tags/getPossibleTags?text=${text}`, this.usuarioService.headers)
+            .get<{ ok: boolean, tags: any }>(`${base_url}/tags/computePossibleTags?text=${text}`, this.usuarioService.headers)
             .pipe(map((resp) => resp));
     }
 }

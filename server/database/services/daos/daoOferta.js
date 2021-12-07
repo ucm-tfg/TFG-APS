@@ -1,5 +1,6 @@
 const knex = require("../../config");
 const daoUsuario = require("./daoUsuario");
+const daoTags = require("./daoTags");
 const transferOfertaServicio = require("../transfers/TOfertaServicio");
 const transferAnuncioServicio = require("../transfers/TAnuncioServicio");
 
@@ -14,9 +15,14 @@ function crearAnuncio(anuncio) {
         })
         .then((id_anuncio) => {
             let areasServicio = anuncio.getArea_servicio();
-            let fieldsToInsert = {id_area: areasServicio, id_anuncio: id_anuncio};
+            let fieldsToInsert = {
+                id_area: areasServicio,
+                id_anuncio: id_anuncio,
+            };
             if (Array.isArray(areasServicio)) {
-                console.log("Se va a proceder a insertar las areas de servicio");
+                console.log(
+                    "Se va a proceder a insertar las areas de servicio"
+                );
                 fieldsToInsert = areasServicio.map((area) => ({
                     id_area: area,
                     id_anuncio: id_anuncio,
@@ -24,12 +30,12 @@ function crearAnuncio(anuncio) {
                 return knex("areaservicio_anuncioservicio")
                     .insert(fieldsToInsert)
                     .then(() => {
-                        console.log("Se han insertado las areas de servicio")
+                        console.log("Se han insertado las areas de servicio");
                         return id_anuncio;
                     });
             } else {
                 return knex("areaservicio_anuncioservicio")
-                    .insert({id_area: areasServicio, id_anuncio: id_anuncio})
+                    .insert({ id_area: areasServicio, id_anuncio: id_anuncio })
                     .then(() => {
                         return id_anuncio;
                     });
@@ -53,7 +59,8 @@ function crearOferta(oferta) {
                     cuatrimestre: oferta.getCuatrimestre(),
                     anio_academico: oferta.getAnio_academico(),
                     fecha_limite: oferta.getFecha_limite(),
-                    observaciones_temporales: oferta.getObservaciones_temporales(),
+                    observaciones_temporales:
+                        oferta.getObservaciones_temporales(),
                     creador: oferta.getCreador(),
                 })
                 .then(function (oferta_id) {
@@ -78,10 +85,12 @@ function crearOferta(oferta) {
                                 id_oferta: id_anuncio[0],
                             };
                             if (Array.isArray(profesores)) {
-                                fieldsToInsert2 = profesores.map((profesor) => ({
-                                    id_profesor: profesor,
-                                    id_oferta: id_anuncio[0],
-                                }));
+                                fieldsToInsert2 = profesores.map(
+                                    (profesor) => ({
+                                        id_profesor: profesor,
+                                        id_oferta: id_anuncio[0],
+                                    })
+                                );
                             }
                             return knex("profesorinterno_oferta")
                                 .insert(fieldsToInsert2)
@@ -101,7 +110,9 @@ function crearOferta(oferta) {
                         "Se ha producido un error al crear en la base de datos la oferta de servicio ",
                         id_anuncio[0]
                     );
-                    return knex("anuncio_servicio").where("id", id_anuncio[0]).del();
+                    return knex("anuncio_servicio")
+                        .where("id", id_anuncio[0])
+                        .del();
                 });
         })
         .catch((err) => {
@@ -117,11 +128,11 @@ function obtenerOfertaServicio(id_oferta) {
     return obtenerAnuncioServicio(id_oferta)
         .then(function (anuncio) {
             return knex("oferta_servicio")
-                .where({id: id_oferta})
+                .where({ id: id_oferta })
                 .select("*")
                 .then(function (oferta) {
                     return knex("profesorinterno_oferta")
-                        .where({id_oferta: id_oferta})
+                        .where({ id_oferta: id_oferta })
                         .select("id_profesor")
                         .then((datos_profesores) => {
                             let arrayProfesores = [];
@@ -132,37 +143,65 @@ function obtenerOfertaServicio(id_oferta) {
                                 .obtenerProfesorInterno(oferta[0]["creador"])
                                 .then((responsable) => {
                                     return daoUsuario
-                                        .obtenerProfesoresInternos(arrayProfesores)
+                                        .obtenerProfesoresInternos(
+                                            arrayProfesores
+                                        )
                                         .then(function (profesores) {
-                                            return obtenerAsignaturaObjetivo(id_oferta).then(
-                                                (asignaturas) => {
-                                                    asignaturas_ref = [];
-                                                    for (asignatura of asignaturas) {
-                                                        asignaturas_ref.push(asignatura["nombre"]);
-                                                    }
-                                                    return new transferOfertaServicio(
-                                                        oferta[0]["id"],
-                                                        anuncio.getTitulo(),
-                                                        anuncio.getDescripcion(),
-                                                        anuncio.getImagen(),
-                                                        anuncio.getCreated_at(),
-                                                        anuncio.getUpdated_at(),
-                                                        asignaturas_ref,
-                                                        oferta[0]["cuatrimestre"],
-                                                        oferta[0]["anio_academico"],
-                                                        oferta[0]["fecha_limite"],
-                                                        oferta[0]["observaciones_temporales"],
-                                                        {
-                                                            id: responsable.getId(),
-                                                            nombre: responsable.getNombre(),
-                                                            apellidos: responsable.getApellidos()
-                                                        },
-                                                        anuncio.getArea_servicio(),
-                                                        profesores,
-                                                        oferta[0]["dummy"]
-                                                    );
-                                                }
-                                            );
+                                            return obtenerAsignaturaObjetivo(
+                                                id_oferta
+                                            ).then((asignaturas) => {
+                                                return daoTags
+                                                    .readByOferta(id_oferta)
+                                                    .then((tags) => {
+                                                        //SELECT * FROM `oferta_demanda_tags` WHERE object_id=126
+                                                        asignaturas_ref = [];
+                                                        for (asignatura of asignaturas) {
+                                                            asignaturas_ref.push(
+                                                                asignatura[
+                                                                    "nombre"
+                                                                ]
+                                                            );
+                                                        }
+                                                        //tomo los tags asociados y los paso
+                                                        tags_ref = [];
+                                                        for (tag of tags) {
+                                                            tags_ref.push(
+                                                                tag["nombre"]
+                                                            );
+                                                        }
+                                                        return new transferOfertaServicio(
+                                                            oferta[0]["id"],
+                                                            anuncio.getTitulo(),
+                                                            anuncio.getDescripcion(),
+                                                            anuncio.getImagen(),
+                                                            anuncio.getCreated_at(),
+                                                            anuncio.getUpdated_at(),
+                                                            asignaturas_ref,
+                                                            oferta[0][
+                                                                "cuatrimestre"
+                                                            ],
+                                                            oferta[0][
+                                                                "anio_academico"
+                                                            ],
+                                                            oferta[0][
+                                                                "fecha_limite"
+                                                            ],
+                                                            oferta[0][
+                                                                "observaciones_temporales"
+                                                            ],
+                                                            {
+                                                                id: responsable.getId(),
+                                                                nombre: responsable.getNombre(),
+                                                                apellidos:
+                                                                    responsable.getApellidos(),
+                                                            },
+                                                            anuncio.getArea_servicio(),
+                                                            profesores,
+                                                            oferta[0]["dummy"],
+                                                            tags_ref
+                                                        );
+                                                    });
+                                            });
                                         });
                                 });
                         });
@@ -178,16 +217,23 @@ function obtenerOfertaServicio(id_oferta) {
 }
 
 function contarTodasOfertasServicio() {
-    return knex("anuncio_servicio").count('id as COUNT')
-        .then(total => {
+    return knex("anuncio_servicio")
+        .count("id as COUNT")
+        .then((total) => {
             return total[0].COUNT;
-        })
+        });
 }
 
 function obtenerTodasOfertasServicio(limit, offset, filters) {
     let fil = JSON.parse(filters);
+    let tag_filter = fil.tags.length ? fil.tags.join(",") : [-1]; // tomamos los tags name para buscarlo en la tabla de relaciones si esta vacio este array entonces lo que vot hacer es usar un pivote de -1 para conseguir un true en la parte dekl condcional
     return knex("anuncio_servicio")
-        .join("oferta_servicio", "anuncio_servicio.id", "=", "oferta_servicio.id")
+        .join(
+            "oferta_servicio",
+            "anuncio_servicio.id",
+            "=",
+            "oferta_servicio.id"
+        )
         .join(
             "profesor_interno",
             "oferta_servicio.creador",
@@ -215,7 +261,7 @@ function obtenerTodasOfertasServicio(limit, offset, filters) {
             "datos_personales_interno.apellidos"
         )
         .whereIn("cuatrimestre", fil.cuatrimestre)
-        .where('titulo', 'like', '%' + fil.terminoBusqueda + '%')
+        .where("titulo", "like", "%" + fil.terminoBusqueda + "%")
         .limit(limit)
         .offset(offset)
         .then((datos_ofertas) => {
@@ -235,41 +281,95 @@ function obtenerTodasOfertasServicio(limit, offset, filters) {
                         .select("*")
                         .from("asignatura")
                         .then((asignaturas) => {
-                            let transfer_ofertas = [];
-                            datos_ofertas.forEach((datos) => {
-                                let nombre = datos["nombre"];
-                                let apellidos = datos["apellidos"];
-                                let creador = {nombre, apellidos};
-                                let areas_servicio = [];
-                                areas.forEach((area) => {
-                                    if (area["id_anuncio"] === datos["id"]) {
-                                        areas_servicio.push(area["area"]);
-                                    }
+                            // esto es para tomar las ofertas que cumplan el filtro por tag
+                            return daoTags
+                                .getOfertasByTags(tag_filter) // tomamos solo los tags que nos interesa dependiendo de las ofetas
+                                .then((ofertas_allowed) => {
+                                    return daoTags
+                                        .readByOfertaIDs(
+                                            datos_ofertas.map((x) => x.id)
+                                        ) // tomamos solo los tags que nos interesa dependiendo de las ofetas
+                                        .then((tags) => {
+                                            let transfer_ofertas = [];
+                                            //creamos un mapa con los tags para que el coste sea constante de los elementos <oferta_id, [tag_id1, tag_id2, ...]
+                                            let map_tags = {};
+                                            for (tag of tags) {
+                                                if (map_tags[tag.object_id])
+                                                    map_tags[
+                                                        tag.object_id
+                                                    ].push(tag.nombre);
+                                                else {
+                                                    map_tags[tag.object_id] = [
+                                                        tag.nombre,
+                                                    ];
+                                                }
+                                            }
+
+                                            datos_ofertas.forEach((datos) => {
+                                                let nombre = datos["nombre"];
+                                                let apellidos =
+                                                    datos["apellidos"];
+                                                let creador = {
+                                                    nombre,
+                                                    apellidos,
+                                                };
+                                                let areas_servicio = [];
+                                                areas.forEach((area) => {
+                                                    if (
+                                                        area["id_anuncio"] ===
+                                                        datos["id"]
+                                                    ) {
+                                                        areas_servicio.push(
+                                                            area["area"]
+                                                        );
+                                                    }
+                                                });
+                                                let asignaturas_objetivo = [];
+                                                asignaturas.forEach(
+                                                    (asignatura) => {
+                                                        if (
+                                                            datos["id"] ===
+                                                            asignatura[
+                                                                "id_oferta"
+                                                            ]
+                                                        ) {
+                                                            asignaturas_objetivo.push(
+                                                                asignatura[
+                                                                    "nombre"
+                                                                ]
+                                                            );
+                                                        }
+                                                    }
+                                                );
+                                                //tomo lo
+                                                let transfer_oferta =
+                                                    new transferOfertaServicio(
+                                                        datos["id"],
+                                                        datos["titulo"],
+                                                        datos["descripcion"],
+                                                        datos["imagen"],
+                                                        datos["created_at"],
+                                                        datos["updated_at"],
+                                                        asignaturas_objetivo,
+                                                        datos["cuatrimestre"],
+                                                        datos["anio_academico"],
+                                                        datos["fecha_limite"],
+                                                        datos[
+                                                            "observaciones_temporales"
+                                                        ],
+                                                        creador,
+                                                        areas_servicio,
+                                                        undefined,
+                                                        undefined,
+                                                        map_tags[datos["id"]]
+                                                    );
+                                                transfer_ofertas.push(
+                                                    transfer_oferta
+                                                );
+                                            });
+                                            return transfer_ofertas;
+                                        });
                                 });
-                                let asignaturas_objetivo = [];
-                                asignaturas.forEach((asignatura) => {
-                                    if (datos["id"] === asignatura["id_oferta"]) {
-                                        asignaturas_objetivo.push(asignatura["nombre"]);
-                                    }
-                                });
-                                let transfer_oferta = new transferOfertaServicio(
-                                    datos["id"],
-                                    datos["titulo"],
-                                    datos["descripcion"],
-                                    datos["imagen"],
-                                    datos["created_at"],
-                                    datos["updated_at"],
-                                    asignaturas_objetivo,
-                                    datos["cuatrimestre"],
-                                    datos["anio_academico"],
-                                    datos["fecha_limite"],
-                                    datos["observaciones_temporales"],
-                                    creador,
-                                    areas_servicio
-                                );
-                                transfer_ofertas.push(transfer_oferta);
-                            });
-                            return transfer_ofertas;
                         });
                 });
         })
@@ -291,7 +391,8 @@ function actualizarOfertaServicio(oferta) {
                         cuatrimestre: oferta.getCuatrimestre(),
                         anio_academico: oferta.getAnio_academico(),
                         fecha_limite: oferta.getFecha_limite(),
-                        observaciones_temporales: oferta.getObservaciones_temporales(),
+                        observaciones_temporales:
+                            oferta.getObservaciones_temporales(),
                         creador: oferta.getCreador(),
                     })
                     .then(function (result) {
@@ -305,10 +406,12 @@ function actualizarOfertaServicio(oferta) {
                                     nombre: asignaturas,
                                 };
                                 if (Array.isArray(asignaturas)) {
-                                    fieldsToInsert = asignaturas.map((asignatura) => ({
-                                        id_oferta: oferta.getId(),
-                                        nombre: asignatura,
-                                    }));
+                                    fieldsToInsert = asignaturas.map(
+                                        (asignatura) => ({
+                                            id_oferta: oferta.getId(),
+                                            nombre: asignatura,
+                                        })
+                                    );
                                 }
                                 return knex("asignatura")
                                     .insert(fieldsToInsert)
@@ -317,18 +420,26 @@ function actualizarOfertaServicio(oferta) {
                                             .where("id_oferta", oferta.getId())
                                             .del()
                                             .then(() => {
-                                                profesores = oferta.getProfesores();
+                                                profesores =
+                                                    oferta.getProfesores();
                                                 let fieldsToInsert2 = {
                                                     id_profesor: profesores,
                                                     id_oferta: oferta.getId(),
                                                 };
                                                 if (Array.isArray(profesores)) {
-                                                    fieldsToInsert2 = profesores.map((profesor) => ({
-                                                        id_profesor: profesor,
-                                                        id_oferta: oferta.getId(),
-                                                    }));
+                                                    fieldsToInsert2 =
+                                                        profesores.map(
+                                                            (profesor) => ({
+                                                                id_profesor:
+                                                                    profesor,
+                                                                id_oferta:
+                                                                    oferta.getId(),
+                                                            })
+                                                        );
                                                 }
-                                                return knex("profesorinterno_oferta")
+                                                return knex(
+                                                    "profesorinterno_oferta"
+                                                )
                                                     .insert(fieldsToInsert2)
                                                     .then(() => {
                                                         console.log(
@@ -343,15 +454,19 @@ function actualizarOfertaServicio(oferta) {
                     .catch((err) => {
                         console.log(err);
                         let nombre_areas = copia_anuncio.getArea_servicio();
-                        return obtenerIdsAreas(nombre_areas).then((ids_areas) => {
-                            copia_anuncio.setArea_servicio(ids_areas);
-                            return actualizarAnuncio(copia_anuncio).then(() => {
-                                console.log(
-                                    "Se ha producido un error al intentar actualizar en la base de datos la oferta de servicio con id ",
-                                    oferta.getId()
+                        return obtenerIdsAreas(nombre_areas).then(
+                            (ids_areas) => {
+                                copia_anuncio.setArea_servicio(ids_areas);
+                                return actualizarAnuncio(copia_anuncio).then(
+                                    () => {
+                                        console.log(
+                                            "Se ha producido un error al intentar actualizar en la base de datos la oferta de servicio con id ",
+                                            oferta.getId()
+                                        );
+                                    }
                                 );
-                            });
-                        });
+                            }
+                        );
                     });
             })
             .catch((err) => {
@@ -376,7 +491,10 @@ function eliminarOferta(id_oferta) {
                         id_oferta
                     );
                 } else {
-                    console.log("No existe la oferta de servicio con id ", id_oferta);
+                    console.log(
+                        "No existe la oferta de servicio con id ",
+                        id_oferta
+                    );
                 }
             });
         })
@@ -414,7 +532,9 @@ function actualizarAnuncio(anuncio) {
                             id_anuncio: anuncio.getId(),
                         }));
                     }
-                    return knex("areaservicio_anuncioservicio").insert(fieldsToInsert);
+                    return knex("areaservicio_anuncioservicio").insert(
+                        fieldsToInsert
+                    );
                 });
         })
         .catch((err) => {
@@ -450,11 +570,10 @@ function eliminarAnuncio(id) {
         });
 }
 
-
 //LEER UN ELEMENTO----------------------------------------------------------------------------------------------------
 function obtenerAnuncioServicio(id_anuncio) {
     return knex("anuncio_servicio")
-        .where({id: id_anuncio})
+        .where({ id: id_anuncio })
         .select("*")
         .then((anuncio) => {
             return obtenerAreaServicio(id_anuncio).then((areas_servicio) => {
@@ -479,7 +598,7 @@ function obtenerAnuncioServicio(id_anuncio) {
 // MÉTODOS AUXILIARES----------------------------------------------------------------------------------------------------
 function obtenerAsignaturaObjetivo(id_oferta) {
     return knex("asignatura")
-        .where({id_oferta: id_oferta})
+        .where({ id_oferta: id_oferta })
         .select("nombre")
         .catch((err) => {
             console.log(
@@ -490,11 +609,10 @@ function obtenerAsignaturaObjetivo(id_oferta) {
         });
 }
 
-
 // Obtiene el area de servicio correspondiente al id de un anuncio de servicio
 function obtenerAreaServicio(id_anuncio) {
     return knex("areaservicio_anuncioservicio")
-        .where({id_anuncio: id_anuncio})
+        .where({ id_anuncio: id_anuncio })
         .select("id_area")
         .then(function (id_areas) {
             areas = [];
@@ -511,7 +629,6 @@ function obtenerAreaServicio(id_anuncio) {
             throw err;
         });
 }
-
 
 function obtenerIdsAreas(nombre_areas) {
     return knex("area_servicio")
@@ -540,7 +657,7 @@ function obtenerAreasServicio(id_anuncio) {
             "=",
             "area_servicio.id"
         )
-        .where({id_anuncio: id_anuncio})
+        .where({ id_anuncio: id_anuncio })
         .select("area_servicio.nombre")
         .then((areas) => {
             var nombres_areas = [];
@@ -575,7 +692,7 @@ function obtenerListaAreasServicio() {
 
 function obtenerCreadorOferta(id) {
     return knex("oferta_servicio")
-        .where({id: id})
+        .where({ id: id })
         .select("creador")
         .then((creador) => {
             return creador[0]["creador"];
@@ -626,5 +743,5 @@ module.exports = {
     eliminarOferta,
     actualizarAnuncio,
     eliminarAnuncio,
-    contarTodasOfertasServicio
+    contarTodasOfertasServicio,
 };

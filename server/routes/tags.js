@@ -1,13 +1,14 @@
 // ruta: /api/utils
 const { Router } = require('express')
-const { getTags, getPossibleTags } = require('../controllers/tags')
+const { computeTags, computePossibleTags } = require('../controllers/tags')
 
 const router = Router()
 
 //Obtener tags from a text
-router.get('/getTags', [], getTags)
+router.get('/computeTags', [], computeTags)
+
 
 //Obtener alternatives tags from a text
-router.get('/getPossibleTags', [], getPossibleTags)
+router.get('/computePossibleTags', [], computePossibleTags)
 
 module.exports = router

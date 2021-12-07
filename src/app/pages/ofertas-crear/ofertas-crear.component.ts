@@ -109,6 +109,7 @@ export class OfertasCrearComponent implements OnInit {
             null,
             [],
             [],
+            [],
             []
         );
     }

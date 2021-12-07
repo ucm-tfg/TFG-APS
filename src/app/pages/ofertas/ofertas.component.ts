@@ -19,7 +19,7 @@ export class OfertasComponent implements OnInit {
   public cuatrimestres = ['a', 'b', 'c']
 
   public offset = 0
-  public limit = 3
+  public limit = 50
   public paginaActual = 1
 
   public totalOfertas = 0
@@ -36,7 +36,7 @@ export class OfertasComponent implements OnInit {
   public filterCuatrimestre = [1, 2, 3]
   public filterCreador = ''
   public tags = []
-  public tagInput: any = null
+  public tagInput = []; 
 
   constructor(
     public ofertaCrearGuard: OfertaCrearGuard,
@@ -86,6 +86,7 @@ export class OfertasComponent implements OnInit {
       ),
       areaServicio: this.filterAreaServicio,
       creador: this.filterCreador,
+      tags: this.tagInput.map(x => x.value),
     }
   }
 
@@ -99,14 +100,15 @@ export class OfertasComponent implements OnInit {
         this.cargando = false
       })
   }
-
-  async getPossibleTags($event) {
+ 
+  async computePossibleTags($event) {
     this.utilsService
-      .getPossibleTags($event.target.value)
+      .computePossibleTags($event.target.value)
       .subscribe((resp: any) => {
         this.tags = resp.tags.map(function (x) {
           return x['nombre']
         })
       })
   }
+ 
 }
