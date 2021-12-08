@@ -226,7 +226,7 @@ function contarTodasOfertasServicio() {
 
 function obtenerTodasOfertasServicio(limit, offset, filters) {
     let fil = JSON.parse(filters);
-    let tag_filter = fil.tags.length ? fil.tags.join(",") : [-1]; // tomamos los tags name para buscarlo en la tabla de relaciones si esta vacio este array entonces lo que vot hacer es usar un pivote de -1 para conseguir un true en la parte dekl condcional
+    let tag_filter = fil.tags.length ? fil.tags : []; // tomamos los tags name para buscarlo en la tabla de relaciones si esta vacio este array entonces lo que vot hacer es usar un pivote de -1 para conseguir un true en la parte dekl condcional
     return knex("anuncio_servicio")
         .join(
             "oferta_servicio",
@@ -290,6 +290,9 @@ function obtenerTodasOfertasServicio(limit, offset, filters) {
                                             datos_ofertas.map((x) => x.id)
                                         ) // tomamos solo los tags que nos interesa dependiendo de las ofetas
                                         .then((tags) => {
+                                            console.log('ofertas_allowed');
+                                            console.log(ofertas_allowed.map(x => x.object_id));
+                                            console.log('ofertas_allowed');
                                             let transfer_ofertas = [];
                                             //creamos un mapa con los tags para que el coste sea constante de los elementos <oferta_id, [tag_id1, tag_id2, ...]
                                             let map_tags = {};
@@ -304,7 +307,8 @@ function obtenerTodasOfertasServicio(limit, offset, filters) {
                                                     ];
                                                 }
                                             }
-
+                                            ofertas_allowed = ofertas_allowed.map(x => x.object_id);
+                                            datos_ofertas = ofertas_allowed.length ? datos_ofertas.filter(y => ofertas_allowed.includes(y.id)) : datos_ofertas
                                             datos_ofertas.forEach((datos) => {
                                                 let nombre = datos["nombre"];
                                                 let apellidos =

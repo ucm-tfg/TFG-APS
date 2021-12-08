@@ -36,11 +36,10 @@ function readByOfertaIDs(ofertas_ids) {
 //funcion recibe los nombres de los tags los cuales se van a encargar de filtrar a las ofertas posibles
 function getOfertasByTags(tags_names) {
     return knex("oferta_demanda_tags")
-        .select('oferta_demanda_tags.object_id')
+        .distinct('oferta_demanda_tags.object_id')
         .from("oferta_demanda_tags")
         .innerJoin("tags", "oferta_demanda_tags.tag_id", "tags.id")
         .whereIn('tags.nombre', tags_names)
-        .orWhere(tags_names, "=", '(-1)')
         .then((ofertas) => {
             return ofertas;
         });
