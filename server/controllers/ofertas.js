@@ -84,10 +84,13 @@ const obtenerOferta = async (req, res) => {
     }
 }
 
+
 const obtenerOfertas = async (req, res = response) => {
     try {
         let ofertas = await daoOferta.obtenerTodasOfertasServicio(req.query.limit, req.query.skip, req.query.filtros);
         let total = await daoOferta.contarTodasOfertasServicio();
+        console.log("total de ogertas generadas en la fata desde el controlador");
+        console.log(total);
         return res.status(200).json({
             ok: true,
             ofertas,

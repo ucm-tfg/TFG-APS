@@ -1,7 +1,7 @@
 const keyword_extractor = require("keyword-extractor");
 const daoTags = require("./../database/services/daos/daoTags");
 
-const getTags = async (req, res = response) => {
+const computeTags = async (req, res = response) => {
     try {  
         // ? Extract the keywords
         let extraction_result = keyword_extractor.extract(req.query.descrip, {
@@ -25,7 +25,7 @@ const getTags = async (req, res = response) => {
     }
 };
 
-const getPossibleTags = async (req, res = response) => {
+const computePossibleTags = async (req, res = response) => {
     try {
         tags = await daoTags.readByStartWithWord(req.query.text);
 
@@ -45,6 +45,6 @@ const getPossibleTags = async (req, res = response) => {
 };
 
 module.exports = {
-    getTags,
-    getPossibleTags
+    computeTags,
+    computePossibleTags
 };

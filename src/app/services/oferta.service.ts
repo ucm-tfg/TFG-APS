@@ -39,7 +39,8 @@ export class OfertaService {
                 oferta.creador,
                 oferta.area_servicio,
                 oferta.asignatura_objetivo,
-                oferta.profesores || '')
+                oferta.profesores || '',
+                oferta.tags)
         );
     }
 
@@ -73,6 +74,13 @@ export class OfertaService {
         return this.http.get<{ ok: boolean, areasServicio: any }>(`${base_url}/ofertas/areasservicio`, this.usuarioService.headers)
             .pipe(
                 map((resp) => resp)
+            );
+    }
+
+    computeTags(id: string) {
+        return this.http.get<{ ok: boolean, oferta: Oferta }>(`${base_url}/ofertas/${id}`, this.usuarioService.headers)
+            .pipe(
+                map((resp: { ok: boolean, oferta: Oferta }) => resp.oferta)
             );
     }
 }
