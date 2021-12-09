@@ -246,6 +246,8 @@ function obtenerTodasOfertasServicio(limit, offset, filters) {
             "=",
             "datos_personales_interno.id"
         )
+        // .join('oferta_demanda_tags','oferta_demanda_tags.object_id','=','oferta_servicio.id')
+        // .join('tags','tags.id','=','oferta_demanda_tags.tag_id')
         .select(
             "anuncio_servicio.id",
             "anuncio_servicio.titulo",
@@ -262,6 +264,15 @@ function obtenerTodasOfertasServicio(limit, offset, filters) {
         )
         .whereIn("cuatrimestre", fil.cuatrimestre)
         .where("titulo", "like", "%" + fil.terminoBusqueda + "%")
+        .where(tag_filter.length, "=", 0)
+        .orWhere(0,'<', function() {
+            this.count('*')
+            .from('oferta_demanda_tags')
+            .join('tags','tags.id','=','oferta_demanda_tags.tag_id')
+            .whereRaw(`oferta_demanda_tags.object_id = oferta_servicio.id`)
+            .whereIn('tags.nombre', tag_filter)
+        })
+
         .limit(limit)
         .offset(offset)
         .then((datos_ofertas) => {
@@ -281,98 +292,65 @@ function obtenerTodasOfertasServicio(limit, offset, filters) {
                         .select("*")
                         .from("asignatura")
                         .then((asignaturas) => {
-                            // esto es para tomar las ofertas que cumplan el filtro por tag
                             return daoTags
-                                .getOfertasByTags(tag_filter) // tomamos solo los tags que nos interesa dependiendo de las ofetas
-                                .then((ofertas_allowed) => {
-                                    return daoTags
-                                        .readByOfertaIDs(
-                                            datos_ofertas.map((x) => x.id)
-                                        ) // tomamos solo los tags que nos interesa dependiendo de las ofetas
-                                        .then((tags) => {
-                                            console.log('ofertas_allowed');
-                                            console.log(ofertas_allowed.map(x => x.object_id));
-                                            console.log('ofertas_allowed');
-                                            let transfer_ofertas = [];
-                                            //creamos un mapa con los tags para que el coste sea constante de los elementos <oferta_id, [tag_id1, tag_id2, ...]
-                                            let map_tags = {};
-                                            for (tag of tags) {
-                                                if (map_tags[tag.object_id])
-                                                    map_tags[
-                                                        tag.object_id
-                                                    ].push(tag.nombre);
-                                                else {
-                                                    map_tags[tag.object_id] = [
-                                                        tag.nombre,
-                                                    ];
-                                                }
+                                .readByOfertaIDs(datos_ofertas.map((x) => x.id)) // tomamos solo los tags que nos interesa dependiendo de las ofetas
+                                .then((tags) => {
+                                    let transfer_ofertas = [];
+
+                                    datos_ofertas.forEach((datos) => {
+                                        let nombre = datos["nombre"];
+                                        let apellidos = datos["apellidos"];
+                                        let creador = {
+                                            nombre,
+                                            apellidos,
+                                        };
+                                        let areas_servicio = [];
+                                        areas.forEach((area) => {
+                                            if (
+                                                area["id_anuncio"] ===
+                                                datos["id"]
+                                            ) {
+                                                areas_servicio.push(
+                                                    area["area"]
+                                                );
                                             }
-                                            ofertas_allowed = ofertas_allowed.map(x => x.object_id);
-                                            datos_ofertas = ofertas_allowed.length ? datos_ofertas.filter(y => ofertas_allowed.includes(y.id)) : datos_ofertas
-                                            datos_ofertas.forEach((datos) => {
-                                                let nombre = datos["nombre"];
-                                                let apellidos =
-                                                    datos["apellidos"];
-                                                let creador = {
-                                                    nombre,
-                                                    apellidos,
-                                                };
-                                                let areas_servicio = [];
-                                                areas.forEach((area) => {
-                                                    if (
-                                                        area["id_anuncio"] ===
-                                                        datos["id"]
-                                                    ) {
-                                                        areas_servicio.push(
-                                                            area["area"]
-                                                        );
-                                                    }
-                                                });
-                                                let asignaturas_objetivo = [];
-                                                asignaturas.forEach(
-                                                    (asignatura) => {
-                                                        if (
-                                                            datos["id"] ===
-                                                            asignatura[
-                                                                "id_oferta"
-                                                            ]
-                                                        ) {
-                                                            asignaturas_objetivo.push(
-                                                                asignatura[
-                                                                    "nombre"
-                                                                ]
-                                                            );
-                                                        }
-                                                    }
-                                                );
-                                                //tomo lo
-                                                let transfer_oferta =
-                                                    new transferOfertaServicio(
-                                                        datos["id"],
-                                                        datos["titulo"],
-                                                        datos["descripcion"],
-                                                        datos["imagen"],
-                                                        datos["created_at"],
-                                                        datos["updated_at"],
-                                                        asignaturas_objetivo,
-                                                        datos["cuatrimestre"],
-                                                        datos["anio_academico"],
-                                                        datos["fecha_limite"],
-                                                        datos[
-                                                            "observaciones_temporales"
-                                                        ],
-                                                        creador,
-                                                        areas_servicio,
-                                                        undefined,
-                                                        undefined,
-                                                        map_tags[datos["id"]]
-                                                    );
-                                                transfer_ofertas.push(
-                                                    transfer_oferta
-                                                );
-                                            });
-                                            return transfer_ofertas;
                                         });
+                                        let asignaturas_objetivo = [];
+                                        asignaturas.forEach((asignatura) => {
+                                            if (
+                                                datos["id"] ===
+                                                asignatura["id_oferta"]
+                                            ) {
+                                                asignaturas_objetivo.push(
+                                                    asignatura["nombre"]
+                                                );
+                                            }
+                                        });
+                                        //tomo lo
+                                        let transfer_oferta =
+                                            new transferOfertaServicio(
+                                                datos["id"],
+                                                datos["titulo"],
+                                                datos["descripcion"],
+                                                datos["imagen"],
+                                                datos["created_at"],
+                                                datos["updated_at"],
+                                                asignaturas_objetivo,
+                                                datos["cuatrimestre"],
+                                                datos["anio_academico"],
+                                                datos["fecha_limite"],
+                                                datos[
+                                                    "observaciones_temporales"
+                                                ],
+                                                creador,
+                                                areas_servicio,
+                                                undefined,
+                                                undefined,
+                                                undefined//map_tags[datos["id"]]
+                                            );
+                                        transfer_ofertas.push(transfer_oferta);
+                                    });
+                                    return transfer_ofertas;
                                 });
                         });
                 });
