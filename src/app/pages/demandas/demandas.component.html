@@ -22,7 +22,7 @@
 
                 <div class="filtro">
                     <header class="card-header">
-                        <h6 class="title mb-0">Búsqueda </h6>
+                        <h6 class="title mb-0">Búsqueda</h6>
                     </header>
 
                     <div class="card-body">
@@ -121,6 +121,32 @@
                         <button (click)="cambiarPagina(nextLimit)" class="btn btn-outline-secondary">Siguientes</button>
                     </div>
 
+                    <div class="card-deck" *ngFor="let demanda of demandas">
+                        <div class="card">
+                            <!--<img class="card-img-top" src="..." alt="Imagen de la oferta">-->
+                            <div class="card-body">
+                                <h5 class="card-title">{{ demanda.titulo }}</h5>
+                                <p class="card-text">{{ demanda.descripcion }}</p>
+                                <!--<p class="card-text" *ngFor="let areas of demanda.area_servicio">{{ areas }}</p>-->
+                            </div>
+                            <div class="card-footer">
+                                <fa-icon
+                                    [icon]="['fas', 'eye']"
+                                    [routerLink]="['/demandas/ver/', demanda.id]"
+                                    class="text-primary cursor-pointer"
+                                    title="Ver demanda"
+                                ></fa-icon>
+                                <fa-icon
+                                    *ngIf="usuarioService.usuario?.esGestor"
+                                    [icon]="['fas', 'edit']"
+                                    [routerLink]="['/demandas/editar', demanda.id]"
+                                    class="text-primary cursor-pointer"
+                                    title="Editar demanda"
+                                ></fa-icon>
+                            </div>
+                        </div>
+                    </div>
+                    <!--
                     <table class="table table-sm table-bordered">
 
                         <thead>
@@ -161,6 +187,7 @@
                             </tr>
                         </tbody>
                     </table>
+                -->
                 </div>
             </div>
         </div>

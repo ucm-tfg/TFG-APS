@@ -248,7 +248,36 @@
                             Siguientes
                         </button>
                     </div>
-
+                    <div class="card-deck">
+                        <div class="row">
+                            <div class="col-md-4" *ngFor="let oferta of ofertas">
+                                <div class="card" style="margin-bottom: 2%;">
+                                    <!--<img class="card-img-top" src="/assets/img/..." alt="Imagen de la oferta">-->
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ oferta.titulo }} </h5>
+                                        <p class="card-text">{{ oferta.descripcion | slice: 0: 100 }}... </p>
+                                    </div>
+                                    <div class="card-footer">
+                                        <fa-icon
+                                            [icon]="['fas', 'eye']"
+                                            [routerLink]="['/ofertas/ver/',oferta.id]"
+                                            class="text-primary cursor-pointer"
+                                            title="Ver oferta"
+                                        ></fa-icon>
+                                        <fa-icon
+                                            *ngIf="usuarioService.usuario?.esGestor"
+                                            [icon]="['fas', 'edit']"
+                                            [routerLink]="['/ofertas/editar',oferta.id]"
+                                            class="text-primary cursor-pointer"
+                                            title="Editar oferta"
+                                        ></fa-icon>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <!--
                     <table class="table table-sm table-bordered">
                         <thead>
                             <tr class="">
@@ -305,6 +334,7 @@
                             </tr>
                         </tbody>
                     </table>
+                    -->
                 </div>
             </div>
         </div>
