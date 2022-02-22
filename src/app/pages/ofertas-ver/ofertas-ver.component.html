@@ -3,35 +3,44 @@
 
     <h5 class="px-4 py-2 mb-4 text-white display-block bg-secondary d-flex justify-content-between align-items-center">
         <b>Ver Oferta</b>
-        <a class="btn btn-primary border-white btn-sm" [routerLink]="['/ofertas']" role="button">Volver</a>
+        <a [routerLink]="['/ofertas']" class="btn btn-primary border-white btn-sm" role="button">Volver</a>
     </h5>
 
 
-    <div class="alert alert-warning" role="alert" *ngIf="!this.usuarioService.usuario">
+    <div *ngIf="!this.usuarioService.usuario" class="alert alert-warning" role="alert">
         <b>Atención: </b> Estás en la aplicación como <b>INVITADO</b>. Sólo Profesores pueden presentar OFERTAS.
     </div>
 
-    <div class="alert alert-warning" role="alert" *ngIf="this.usuarioService.usuario && this.usuarioService.usuario.esEstudiante">
+    <div *ngIf="this.usuarioService.usuario && this.usuarioService.usuario.esEstudiante" class="alert alert-warning"
+         role="alert">
         <b>Atención: </b> Estás en la aplicación como <b>ESTUDIANTE</b>. Sólo Profesores pueden presentar OFERTAS.
     </div>
 
-    <div class="alert alert-warning" role="alert" *ngIf="oferta?.creador.rol === 'ROL_PROFESOR' && this.usuarioService.usuario && this.usuarioService.usuario.esProfesor">
-        <b>Atención: </b> Estás en la aplicación como <b>PROFESOR</b>, pero esta oferta ha sido presentada por otro profesor.
+    <div
+        *ngIf="oferta?.creador.rol === 'ROL_PROFESOR' && this.usuarioService.usuario && this.usuarioService.usuario.esProfesor"
+        class="alert alert-warning"
+        role="alert">
+        <b>Atención: </b> Estás en la aplicación como <b>PROFESOR</b>, pero esta oferta ha sido presentada por otro
+        profesor.
     </div>
 
-    <div class="alert alert-warning" role="alert" *ngIf="oferta?.creador.rol === 'ROL_ENTIDAD' && this.usuarioService.usuario && this.usuarioService.usuario.esSocioComunitario">
+    <div
+        *ngIf="oferta?.creador.rol === 'ROL_ENTIDAD' && this.usuarioService.usuario && this.usuarioService.usuario.esSocioComunitario"
+        class="alert alert-warning"
+        role="alert">
         <b>Atención: </b> Estás en la aplicación como <b>ENTIDAD</b>. Sólo Profesores pueden presentar OFERTAS.
     </div>
 
     <!-- Info de cargando -->
-    <div *ngIf="!oferta" class="mb-0 alert alert-info text-center animate__animated animate__fadeIn animate__fast" role="alert">
+    <div *ngIf="!oferta" class="mb-0 alert alert-info text-center animate__animated animate__fadeIn animate__fast"
+         role="alert">
         <h4>Cargando oferta...</h4>
         <fa-icon [icon]="['fas', 'sync']" [spin]="true"></fa-icon>
         <p class="mb-">Por favor, espere</p>
     </div>
 
 
-    <div class="row" *ngIf="oferta">
+    <div *ngIf="oferta" class="row">
 
         <div class="col-9">
 
@@ -42,10 +51,10 @@
             <div class="card my-2 p-3">
                 <div class="d-flex justify-content-between">
                     <div><b>Descripción:</b> {{ oferta.descripcion }}</div>
-                    <div><b>Cuatrimestre:</b> {{ oferta.cuatrimestre }}</div>
+                    <div><b>Cuatrimestre:</b> {{ oferta.displayCuatrimestre }}</div>
                     <div><b>Año académico:</b> {{ oferta.anio_academico }}</div>
                 </div>
-                <hr />
+                <hr/>
 
                 <p><b>Fecha de creación de la oferta:</b> {{ oferta.created_at | date:"dd-MM-yyyy" }}</p>
                 <p><b>Fecha límite:</b> {{ oferta.fecha_limite | date:"dd-MM-yyyy" }} </p>
@@ -57,6 +66,12 @@
                 <p><b>Observaciones: </b>{{ oferta.observaciones || 'Sin observaciones'}}</p>
                 <p class="mt-3"><b>Imagen de la oferta:</b></p>
                 <img [src]="oferta.imagen" class="img-fluid">
+            </div>
+            <div style="display: flex; justify-content: space-evenly">
+                <button class="btn btn-info" [routerLink]="['/ofertas']" style="width: 200px" type="button">Volver
+                    al listado
+                </button>
+                <button class="btn btn-info" style="width: 200px" type="button">Ir a gestión de la oferta</button>
             </div>
         </div>
     </div>
