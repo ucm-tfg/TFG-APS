@@ -1,6 +1,97 @@
 const knex = require("../../config");
 const daoUsuario = require("./daoUsuario");
 const transferDemandaServicio = require("../transfers/TDemandaServicio");
+const transferAnuncioServicio = require("../transfers/TAnuncioServicio");
+
+// Obtiene el area de servicio correspondiente al id de un anuncio de servicio
+function obtenerAreaServicio(id_anuncio) {
+  return knex("areaservicio_anuncioservicio")
+      .where({ id_anuncio: id_anuncio })
+      .select("id_area")
+      .then(function (id_areas) {
+          areas = [];
+          for (id_area of id_areas) {
+              areas.push(id_area["id_area"]);
+          }
+          return knex.select("*").from("area_servicio").whereIn("id", areas);
+      })
+      .catch((err) => {
+          console.log(
+              "No se ha encontrado el area de servicio perteneciente al anuncio de servicio con id ",
+              id_anuncio
+          );
+          throw err;
+      });
+}
+
+function obtenerAnuncioServicio(id_anuncio) {
+  return knex("anuncio_servicio")
+      .where({ id: id_anuncio })
+      .select("*")
+      .then((anuncio) => {
+          return obtenerAreaServicio(id_anuncio).then((areas_servicio) => {
+              areas = [];
+              for (area of areas_servicio) {
+                  areas.push(area["nombre"]);
+              }
+              return new transferAnuncioServicio(
+                  id_anuncio,
+                  anuncio[0]["titulo"],
+                  anuncio[0]["descripcion"],
+                  anuncio[0]["imagen"],
+                  anuncio[0]["created_at"],
+                  anuncio[0]["updated_at"],
+                  areas,
+                  anuncio[0]["dummy"]
+              );
+          });
+      });
+}
+
+function crearAnuncio(anuncio) {
+  return knex("anuncio_servicio")
+      .insert({
+          titulo: anuncio.getTitulo(),
+          descripcion: anuncio.getDescripcion(),
+          imagen: anuncio.getImagen(),
+          dummy: anuncio.dummy,
+      })
+      .then((id_anuncio) => {
+          let areasServicio = anuncio.getArea_servicio();
+          let fieldsToInsert = {
+              id_area: areasServicio,
+              id_anuncio: id_anuncio,
+          };
+          if (Array.isArray(areasServicio)) {
+              console.log(
+                  "Se va a proceder a insertar las areas de servicio"
+              );
+              fieldsToInsert = areasServicio.map((area) => ({
+                  id_area: area,
+                  id_anuncio: id_anuncio,
+              }));
+              return knex("areaservicio_anuncioservicio")
+                  .insert(fieldsToInsert)
+                  .then(() => {
+                      console.log("Se han insertado las areas de servicio");
+                      return id_anuncio;
+                  });
+          } else {
+              return knex("areaservicio_anuncioservicio")
+                  .insert({ id_area: areasServicio, id_anuncio: id_anuncio })
+                  .then(() => {
+                      return id_anuncio;
+                  });
+          }
+      })
+      .catch((err) => {
+          console.log(err);
+          console.log(
+              "Se ha producido un error al intentar crear el anuncio con titulo ",
+              titulo
+          );
+      });
+}
 
 function crearDemanda(demanda) {
     return crearAnuncio(demanda)
@@ -382,6 +473,21 @@ function obtenerListaTitulacionLocal() {
       });
 }
 
+
+function obtenerListaNecesidadSocial() {
+  return knex("necesidad_social")
+    .select("*")
+    .then((areas) => {
+      return areas;
+    })
+    .catch((err) => {
+      console.log(err);
+      console.log(
+        "Se ha producido un error al intentar obtener todas las necesidades sociales"
+      );
+    });
+}
+
 module.exports = {
     crearDemanda,
     obtenerDemandaServicio,
@@ -391,5 +497,6 @@ module.exports = {
     eliminarDemanda,
     obtenerTitulacionLocal,
     obtenerListaTitulacionLocal,
-    obtenerListaAreasServicio
+    obtenerListaAreasServicio,
+    obtenerListaNecesidadSocial
 }
