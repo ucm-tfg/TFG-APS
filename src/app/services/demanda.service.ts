@@ -26,7 +26,7 @@ export class DemandaService {
     return demandas.map(
 
       demanda => new Demanda(
-        demanda._id, 
+        demanda.id, 
         demanda.titulo, 
         demanda.descripcion, 
         demanda.imagen, 
@@ -58,7 +58,7 @@ export class DemandaService {
   cargarDemandas(skip: number, limit: number, filtros: Object) {
     return this.http.get<{ total: Number, filtradas: Number, demandas: Demanda[] }>(`${base_url}/demandas?skip=${skip}&limit=${limit}&filtros=${encodeURIComponent(JSON.stringify(filtros))}`, this.usuarioService.headers)
       .pipe(
-        map(resp => { return { total: resp.total, filtradas: resp.filtradas, demandas: this.mapearDemandas(resp.demandas) }; })
+        map(resp => { return { total: resp.total, filtradas: limit, demandas: this.mapearDemandas(resp.demandas) }; })
       );
   }
 

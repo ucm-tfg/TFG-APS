@@ -69,7 +69,7 @@ import { IniciativasEditarComponent } from './pages/iniciativas-editar/iniciativ
 
 // ofertas
 import { OfertasComponent } from './pages/ofertas/ofertas.component';
-//import { OfertasVerComponent } from './pages/ofertas-ver/ofertas-ver.component';
+import { OfertasVerComponent } from './pages/ofertas-ver/ofertas-ver.component';
 import { OfertasCrearComponent } from './pages/ofertas-crear/ofertas-crear.component';
 //import { OfertasEditarComponent } from './pages/ofertas-editar/ofertas-editar.component';
 
@@ -95,6 +95,7 @@ import { GestorNewsletterComponent } from './pages/gestor/gestor-newsletter/gest
 import { CondicionesComponent } from './pages/condiciones/condiciones.component';
 import { Code404Component } from './errors/code404/code404.component';
 import { TagInputModule } from 'ngx-chips';
+import { DemandasVerComponent } from './pages/demandas-ver/demandas-ver.component';
 
 TagInputModule.withDefaults({
     tagInput: {
@@ -154,7 +155,7 @@ TagInputModule.withDefaults({
         // ofertas
         OfertasCrearComponent,
         OfertasComponent,
-
+        OfertasVerComponent,
         // partenariados
         PartenariadosComponent,
         PartenariadosVerComponent,
@@ -176,6 +177,8 @@ TagInputModule.withDefaults({
         CondicionesComponent,
         Code404Component,
         ProyectosVerComponent,
+        DemandasVerComponent
+        
     ],
     imports: [
         BrowserModule,

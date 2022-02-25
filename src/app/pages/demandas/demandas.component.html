@@ -22,7 +22,7 @@
 
                 <div class="filtro">
                     <header class="card-header">
-                        <h6 class="title mb-0">Búsqueda </h6>
+                        <h6 class="title mb-0">Búsqueda</h6>
                     </header>
 
                     <div class="card-body">
@@ -121,47 +121,31 @@
                         <button (click)="cambiarPagina(nextLimit)" class="btn btn-outline-secondary">Siguientes</button>
                     </div>
 
-                    <table class="table table-sm table-bordered">
-
-                        <thead>
-                            <tr class="">
-                                <th scope="col">Creador</th>
-                                <th scope="col">Ciudad</th>
-                                <th scope="col">Finalidad</th>
-                                <th scope="col">Inicio Periodo Definicion</th>
-                                <th scope="col">Fin Periodo Definicion</th>
-                                <th scope="col">Inicio Periodo Ejecucion</th>
-                                <th scope="col">Fin Periodo Ejecucion</th>
-                                <th scope="col">Observaciones temporales</th>
-                                <th scope="col">Necesidad local</th>
-                                <th scope="col">Sociedad beneficiaria</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let demanda of demandas" class="">
-                                <td>{{ demanda.creador }}</td>
-                                <td>{{ demanda.ciudad }}</td>    
-                                <td>{{ demanda.finalidad }}</td>
-                                <td>{{ demanda.periodoDefinicionIni }}</td>
-                                <td>{{ demanda.periodoDeficionFin }}</td>
-                                <td>{{ demanda.periodoEjecucionIni }}</td>
-                                <td>{{ demanda.periodoEjecucionFin }}</td>
-                                <td>{{ demanda.fechaFin }}</td>
-                                <td>{{demanda.observaciones}}</td>
-                                <td>{{demanda.necesidadLocal}}</td>
-                                <td>{{demanda.sociedadBeneficiaria}}</td>
-                                <td class="h-100 p-0">
-                                    <div class="border-bottom p-2 text-center">{{ demanda.parsedCreatedAt }}</div>
-                                    <div class="d-flex justify-content-around p-2">
-                                        <fa-icon [icon]="['fas', 'eye']" class="text-primary cursor-pointer" [routerLink]="['/demandas/ver', demanda._id]" title="Ver demanda"></fa-icon>
-                                        <fa-icon *ngIf="(usuarioService.usuario?.esGestor || demanda.creador.uid === usuarioService.usuario?.uid)" [icon]="['fas', 'edit']" class="text-primary cursor-pointer" [routerLink]="['/demanda/editar', demanda._id]" title="Editar demanda"></fa-icon>
-                                    </div>
-
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                    <div class="card-columns">
+                        <div class="card" *ngFor="let demanda of demandas">
+                            <!--<img class="card-img-top" src="..." alt="Imagen de la oferta">-->
+                            <div class="card-body">
+                                <h5 class="card-title">{{ demanda.titulo }}</h5>
+                                <p class="card-text">{{ demanda.descripcion }}</p>
+                                <!--<p class="card-text" *ngFor="let areas of demanda.area_servicio">{{ areas }}</p>-->
+                            </div>
+                            <div class="card-footer">
+                                <fa-icon
+                                    [icon]="['fas', 'eye']"
+                                    [routerLink]="['/demandas/ver/', demanda.id]"
+                                    class="text-primary cursor-pointer"
+                                    title="Ver demanda"
+                                ></fa-icon>
+                                <fa-icon
+                                    *ngIf="usuarioService.usuario?.esGestor"
+                                    [icon]="['fas', 'edit']"
+                                    [routerLink]="['/demandas/editar', demanda.id]"
+                                    class="text-primary cursor-pointer"
+                                    title="Editar demanda"
+                                ></fa-icon>
+                            </div>
+                        </div>
+                    </div>
             </div>
         </div>
     </div>

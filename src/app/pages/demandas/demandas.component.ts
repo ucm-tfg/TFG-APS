@@ -47,11 +47,11 @@ export class DemandasComponent implements OnInit{
         public usuarioService: UsuarioService,
         private router: Router ){
             //this.profesores.forEach(profesor => {this.filterProfesores[profesor] = false;})
-            NECESIDAD_SOCIAL.forEach(necesidadSocial => {this.filterNecesidadSocial[necesidadSocial] = false;});
+            //NECESIDAD_SOCIAL.forEach(necesidadSocial => {this.filterNecesidadSocial[necesidadSocial] = false;});
             //ENTIDAD_DEMANDANTE.forEach(entidadDemandante => {this.filterEntidadDemandante[entidadDemandante] = false;});
             AREA_SERVICIO.forEach(areaServicio => {this.filterAreaServicio[areaServicio] = false;});
         if(this.router.url === '/mis-demandas'){
-             this.filterCreador = this.usuarioService.usuario.uid;
+            this.filterCreador = this.usuarioService.usuario.uid;
         }
     }
     
@@ -93,12 +93,13 @@ export class DemandasComponent implements OnInit{
     }
 
     cargarDemandas() {
-        this.demandaService.cargarDemandas(this.offset, this.limit, this.getFiltros())
-            .subscribe( ({total, filtradas, demandas}) => {
-              this.totalDemandas = total.valueOf();
-              this.totalDemandasBuscadas = filtradas.valueOf();
-              this.demandas = demandas;
-              this.cargando = false;
-            });
-      }
+        this.demandaService
+        .cargarDemandas(this.offset, this.limit, this.getFiltros())
+        .subscribe( ({total, filtradas, demandas}) => {
+            this.totalDemandas = total.valueOf();
+            this.totalDemandasBuscadas = filtradas.valueOf();
+            this.demandas = demandas;
+            this.cargando = false;
+        });
+    }
 }

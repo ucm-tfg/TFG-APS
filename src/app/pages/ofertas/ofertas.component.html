@@ -111,15 +111,15 @@
                     </header>
                     <div class="card-body">
                         <tag-input
-                            [(ngModel)]='tagInput'
                             (keypress)="computePossibleTags($event)"
-                            (onAdd)= "cargarOfertas()"
+                            (onAdd)="cargarOfertas()"
                             (onRemove)="cargarOfertas()"
+                            [(ngModel)]='tagInput'
                         >
                             <tag-input-dropdown
                                 [autocompleteItems]="tags"
-                                [showDropdownIfEmpty]="true"
                                 [dynamicUpdate]="false"
+                                [showDropdownIfEmpty]="true"
                             ></tag-input-dropdown>
                         </tag-input>
                     </div>
@@ -192,7 +192,7 @@
                         class="leading-none"
                     >
                         <small class="font-weight-bold"
-                            >(total: {{ totalOfertas }})</small
+                        >(total: {{ totalOfertas }})</small
                         >
                     </span>
                 </h6>
@@ -248,7 +248,36 @@
                             Siguientes
                         </button>
                     </div>
+                    <div class="card-deck">
+                        <div class="row">
+                            <div *ngFor="let oferta of ofertas" class="col-md-4">
+                                <div class="card" style="margin-bottom: 20px; width: 200px; height: 200px">
+                                    <!--<img class="card-img-top" src="/assets/img/..." alt="Imagen de la oferta">-->
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ oferta.titulo | slice: 0: 100}} </h5>
+                                        <p class="card-text">{{ oferta.descripcion | slice: 0: 100 }}... </p>
+                                    </div>
+                                    <div class="card-footer" style="display: flex;justify-content: center">
+                                        <fa-icon
+                                            [icon]="['fas', 'eye']"
+                                            [routerLink]="['/ofertas/ver/',oferta.id]"
+                                            class="text-primary cursor-pointer"
+                                            title="Ver oferta"
+                                        ></fa-icon>
+                                        <fa-icon
+                                            *ngIf="usuarioService.usuario?.esGestor"
+                                            [icon]="['fas', 'edit']"
+                                            [routerLink]="['/ofertas/editar',oferta.id]"
+                                            class="text-primary cursor-pointer"
+                                            title="Editar oferta"
+                                        ></fa-icon>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
+                    </div>
+                    <!--
                     <table class="table table-sm table-bordered">
                         <thead>
                             <tr class="">
@@ -305,6 +334,7 @@
                             </tr>
                         </tbody>
                     </table>
+                    -->
                 </div>
             </div>
         </div>

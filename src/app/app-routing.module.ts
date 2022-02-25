@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
 
-// guards
+// guarda
 import {GuestGuard} from './guards/guest.guard';
 import {AuthGuard} from './guards/auth.guard';
 import {ProtectedGuard} from './guards/protected.guard';
@@ -48,14 +48,14 @@ import {IniciativasEditarComponent} from './pages/iniciativas-editar/iniciativas
 // ofertas
 
 // import { OfertasComponent } from './pages/ofertas/ofertas.component';
-// import { OfertasVerComponent } from './pages/ofertas-ver/ofertas-ver.component';
+import { OfertasVerComponent } from './pages/ofertas-ver/ofertas-ver.component';
 import {OfertasCrearComponent} from './pages/ofertas-crear/ofertas-crear.component';
 // import { OfertasEditarComponent } from './pages/ofertas-editar/ofertas-editar.component';
 
 //demanda
+import {DemandasVerComponent} from './pages/demandas-ver/demandas-ver.component';
 import {crearDemandaComponent} from './pages/crear-demanda/crear-demanda.component'
 
-//import {verDemandaComponent} from './pages/ver-demanda/ver-demanda.component'
 //import {editarDemandaComponent} from './pages/editar-demanda/editar-demanda.component'
 
 // partenariados
@@ -164,7 +164,7 @@ const routes: Routes = [
 
             // Ofertas
             // { path: 'mis-ofertas', component: OfertasComponent, data: { titulo: 'Mis Ofertas' } },
-            // { path: 'ofertas/ver/:id', component: OfertasVerComponent, data: { titulo: 'Ver Oferta' } },
+             { path: 'ofertas/ver/:id', component: OfertasVerComponent, data: { titulo: 'Ver Oferta' } },
             // { path: 'ofertas/editar/:id', canActivate:[OfertaEditarGuard], component: OfertasEditarComponent, data: { titulo: 'Editar Oferta' } },
             {
                 path: 'ofertas/crear',
@@ -177,7 +177,7 @@ const routes: Routes = [
             //demandas
             {path: 'demandas', component: DemandasComponent, data: {titulo: 'Demandas'}},
             // { path: 'mis-demandas', component: demandasComponent, data: { titulo: 'Mis Demandas' } },
-            // { path: 'demandas/ver/:id', component: DemandasVerComponent, data: { titulo: 'Ver Demandas' } },
+            { path: 'demandas/ver/:id', component: DemandasVerComponent, data: { titulo: 'Ver Demanda' } },
             // { path: 'demandas/editar/:id', canActivate:[DemandaEditarGuard], component: DemandaEditarComponent, data: { titulo: 'Editar Demanda' } },
             {
                 path: 'demandas/crear',

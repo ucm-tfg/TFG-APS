@@ -1,4 +1,4 @@
-const daoDemanda = require("./../database/services/daos/daoTentativa");
+const daoDemanda = require("./../database/services/daos/daoDemanda");
 const TDemanda = require("./../database/services/transfers/TDemandaServicio");
 
 const getAreasservicio = async (req, res) => {

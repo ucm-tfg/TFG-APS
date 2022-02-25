@@ -23,7 +23,7 @@ router.get(
 );
 
 router.get(
-    '/demanda/:id', [],
+    '/:id', [],
     obtenerDemanda
 );
 
