@@ -1,54 +1,23 @@
 <app-navbar></app-navbar>
 <div class="container mt-4 animate__animated animate__fadeIn animate__faster">
-    <h5
-        class="px-4 py-2 mb-4 text-white display-block bg-secondary d-flex justify-content-between align-items-center"
-    >
+    <h5 class="px-4 py-2 mb-4 text-white display-block bg-secondary d-flex justify-content-between align-items-center">
         <strong>Ver Demanda</strong>
-        <a
-            [routerLink]="['/demandas']"
-            class="btn btn-primary border-white btn-sm"
-            role="button"
-        >Volver</a
-        >
     </h5>
 
-    <div
-        *ngIf="!this.usuarioService.usuario"
-        class="alert alert-warning"
-        role="alert"
-    >
-        <strong>Atención: </strong> Estás en la aplicación como <strong>INVITADO</strong>. Sólo
-        Profesores pueden presentar OFERTAS.
+    <div *ngIf="!this.usuarioService.usuario" class="alert alert-warning" role="alert">
+        <strong>Atención: </strong> Estás en la aplicación como <strong>INVITADO</strong>. Sólo Profesores pueden presentar OFERTAS.
     </div>
 
-    <div
-        *ngIf="
-            this.usuarioService.usuario &&
-            this.usuarioService.usuario.esEstudiante
-        "
-        class="alert alert-warning"
-        role="alert"
-    >
-        <strong>Atención: </strong> Estás en la aplicación como <strong>ESTUDIANTE</strong>. Sólo
-        Profesores pueden presentar OFERTAS.
+    <div *ngIf="this.usuarioService.usuario && this.usuarioService.usuario.esEstudiante " class="alert alert-warning" role="alert">
+        <strong>Atención: </strong> Estás en la aplicación como <strong>ESTUDIANTE</strong>. Sólo Profesores pueden presentar OFERTAS.
     </div>
 
-    <div
-        class="alert alert-warning"
-        role="alert"
-
-    >
-        <strong>Atención: </strong> Estás en la aplicación como <strong>PROFESOR</strong>, pero esta
-        oferta ha sido presentada por otro profesor.
+    <div class="alert alert-warning" role="alert">
+        <strong>Atención: </strong> Estás en la aplicación como <strong>PROFESOR</strong>, pero esta oferta ha sido presentada por otro profesor.
     </div>
 
-    <div
-        class="alert alert-warning"
-        role="alert"
-
-    >
-        <strong>Atención: </strong> Estás en la aplicación como <strong>ENTIDAD</strong>. Sólo
-        Profesores pueden presentar OFERTAS.
+    <div class="alert alert-warning" role="alert">
+        <strong>Atención: </strong> Estás en la aplicación como <strong>ENTIDAD</strong>. Sólo Profesores pueden presentar OFERTAS.
     </div>
 
     <div
@@ -62,10 +31,8 @@
     </div>
 
     <div *ngIf="demanda" class="row">
-        <div class="col-9">
-            <header
-                class="card-header mb-2 border d-flex justify-content-between align-items-center"
-            >
+        <div class="col-12">
+            <header class="card-header mb-2 border d-flex justify-content-between align-items-center">
                 <h6 class="title mb-0">
                     <strong>Demanda: {{ demanda.titulo }}</strong>
                 </h6>
@@ -73,8 +40,9 @@
 
             <div class="card my-2 p-3">
                 <div class="d-flex justify-content-between">
-                    <div><strong>Descripción:</strong> {{ demanda.descripcion }}</div>
-                    <div><strong>Cuatrimestre:</strong> {{ demanda.cuatrimestre }}</div>
+                    <div>
+                        <strong>Cuatrimestre:</strong> {{ demanda.cuatrimestre }}
+                    </div>
                     <div>
                         <strong>Año académico:</strong> {{ demanda.anio_academico }}
                     </div>
@@ -85,6 +53,8 @@
                     </div>
                 </div>
                 <hr/>
+
+                <p><strong>Descripción:</strong> {{ demanda.descripcion }}</p>
 
                 <p>
                     <strong>Fecha inicio demanda (definición):</strong>
