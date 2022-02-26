@@ -1,16 +1,16 @@
 <app-navbar></app-navbar>
 <div class="container mt-4 animate__animated animate__fadeIn animate__faster">
     <h5 class="px-4 py-2 mb-4 text-white display-block bg-secondary d-flex justify-content-between">
-        <b>Demandas</b>
-        <a *ngIf="demandaCrearGuard.canActivate(null,null)" class="btn btn-primary border-light btn-sm" [routerLink]="['/demandas/crear']" role="button">Crear Demanda</a>
+        <strong>Demandas</strong>
+        <a *ngIf="demandaCrearGuard.canActivate(null,null)" [routerLink]="['/demandas/crear']" class="btn btn-primary border-light btn-sm" role="button">Crear Demanda</a>
     </h5>
 
-    <div class="alert alert-warning" role="alert" *ngIf="!this.usuarioService.usuario">
-        <b>Atención: </b> Estás en la aplicación como <b>INVITADO</b>. Sólo Profesores pueden presentar OFERTAS.
+    <div *ngIf="!this.usuarioService.usuario" class="alert alert-warning" role="alert">
+        <strong>Atención: </strong> Estás en la aplicación como <strong>INVITADO</strong>. Sólo Profesores pueden presentar OFERTAS.
     </div>
 
-    <div class="alert alert-warning" role="alert" *ngIf="this.usuarioService.usuario && this.usuarioService.usuario.esEstudiante">
-        <b>Atención: </b> Estás en la aplicación como <b>ESTUDIANTE</b>. Sólo Profesores pueden presentar OFERTAS.
+    <div *ngIf="this.usuarioService.usuario && this.usuarioService.usuario.esEstudiante" class="alert alert-warning" role="alert">
+        <strong>Atención: </strong> Estás en la aplicación como <strong>ESTUDIANTE</strong>. Sólo Profesores pueden presentar OFERTAS.
     </div>
 
     <div class="row">
@@ -26,7 +26,7 @@
                     </header>
 
                     <div class="card-body">
-                        <input [(ngModel)]="terminoBusqueda" (keyup)="cargarDemandas()" (search)="cargarDemandas()" type="search" class="form-control float-right mb-4" placeholder="Buscar por título...">
+                        <input (keyup)="cargarDemandas()" (search)="cargarDemandas()" [(ngModel)]="terminoBusqueda" class="form-control float-right mb-4" placeholder="Buscar por título..." type="search">
                     </div>
                 </div>
 
@@ -38,7 +38,7 @@
 
                     <div class="card-body">
                         <label *ngFor="let necesidad of NECESIDAD_SOCIAL" class="form-check">
-                            <input class="form-check-input" type="checkbox" [value]="true" (change)="cargarDemandas()" [(ngModel)]="filterNecesidadSocial[necesidad]">
+                            <input (change)="cargarDemandas()" [(ngModel)]="filterNecesidadSocial[necesidad]" [value]="true" class="form-check-input" type="checkbox">
                             <span class="form-check-label">{{ necesidad }}</span>
                         </label>
                     </div>
@@ -52,7 +52,7 @@
 
                     <div class="card-body">
                         <label *ngFor="let area of AREA_SERVICIO" class="form-check">
-                            <input class="form-check-input" type="checkbox" [value]="true" (change)="cargarDemandas()" [(ngModel)]="filterAreaServicio[area]">
+                            <input (change)="cargarDemandas()" [(ngModel)]="filterAreaServicio[area]" [value]="true" class="form-check-input" type="checkbox">
                             <span class="form-check-label">{{ area }}</span>
                         </label>
                     </div>
@@ -80,25 +80,25 @@
         <div class="col-9">
 
             <header class="card-header mb-2 rounded border d-flex justify-content-between">
-                <h6 class="title mb-0">Listado de Demandas <span class="leading-none" *ngIf="totalDemandasBuscadas != totalDemandas"><small class="font-weight-bold">(total: {{ totalDemandas }})</small></span></h6>
+                <h6 class="title mb-0">Listado de Demandas <span *ngIf="totalDemandasBuscadas != totalDemandas" class="leading-none"><small class="font-weight-bold">(total: {{ totalDemandas }})</small></span></h6>
 
-                <span 
-                    class="leading-none"
-                    *ngIf="totalDemandasBuscadas != totalDemandas">
+                <span
+                    *ngIf="totalDemandasBuscadas != totalDemandas"
+                    class="leading-none">
                     <small class="font-weight-bold">
                         (total: {{totalDemandas}})
                     </small>
                 </span>
-                <span 
-                    class="leading-none"
-                    *ngIf="totalDemandasBuscadas == totalDemandas">
+                <span
+                    *ngIf="totalDemandasBuscadas == totalDemandas"
+                    class="leading-none">
                     Total de demandas: {{ totalDemandas }} (mostrando del
                     {{ firstPageRecord }} al {{ lastPageRecord }})</span>
                 <span
-                    class="leading-none"
                     *ngIf="totalDemandasBuscadas != totalDemandas"
-                    > Demandas que coinciden con el filtro:
-                    {{ totalDemandasBuscadas }} (mostrando del 
+                    class="leading-none"
+                > Demandas que coinciden con el filtro:
+                    {{ totalDemandasBuscadas }} (mostrando del
                     {{ firstPageRecord }} al {{lastPageRecord }}) </span>
             </header>
 
@@ -113,7 +113,7 @@
                 </div>
 
                 <!-- Tabla cargada -->
-                <div class="card-body" *ngIf="!cargando">
+                <div *ngIf="!cargando" class="card-body">
 
                     <div class="text-right mb-3">
                         <button (click)="cambiarPagina(prevLimit)" class="btn btn-outline-secondary">Anteriores</button>
@@ -122,7 +122,7 @@
                     </div>
 
                     <div class="card-columns">
-                        <div class="card" *ngFor="let demanda of demandas">
+                        <div *ngFor="let demanda of demandas" class="card">
                             <!--<img class="card-img-top" src="..." alt="Imagen de la oferta">-->
                             <div class="card-body">
                                 <h5 class="card-title">{{ demanda.titulo }}</h5>
@@ -146,8 +146,10 @@
                             </div>
                         </div>
                     </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
 <app-footer></app-footer>
+

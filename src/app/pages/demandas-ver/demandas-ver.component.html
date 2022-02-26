@@ -1,54 +1,23 @@
 <app-navbar></app-navbar>
 <div class="container mt-4 animate__animated animate__fadeIn animate__faster">
-    <h5
-        class="px-4 py-2 mb-4 text-white display-block bg-secondary d-flex justify-content-between align-items-center"
-    >
-        <b>Ver Demanda</b>
-        <a
-            class="btn btn-primary border-white btn-sm"
-            [routerLink]="['/demandas']"
-            role="button"
-            >Volver</a
-        >
+    <h5 class="px-4 py-2 mb-4 text-white display-block bg-secondary d-flex justify-content-between align-items-center">
+        <strong>Ver Demanda</strong>
     </h5>
 
-    <div
-        class="alert alert-warning"
-        role="alert"
-        *ngIf="!this.usuarioService.usuario"
-    >
-        <b>Atención: </b> Estás en la aplicación como <b>INVITADO</b>. Sólo
-        Profesores pueden presentar OFERTAS.
+    <div *ngIf="!this.usuarioService.usuario" class="alert alert-warning" role="alert">
+        <strong>Atención: </strong> Estás en la aplicación como <strong>INVITADO</strong>. Sólo Profesores pueden presentar OFERTAS.
     </div>
 
-    <div
-        class="alert alert-warning"
-        role="alert"
-        *ngIf="
-            this.usuarioService.usuario &&
-            this.usuarioService.usuario.esEstudiante
-        "
-    >
-        <b>Atención: </b> Estás en la aplicación como <b>ESTUDIANTE</b>. Sólo
-        Profesores pueden presentar OFERTAS.
+    <div *ngIf="this.usuarioService.usuario && this.usuarioService.usuario.esEstudiante " class="alert alert-warning" role="alert">
+        <strong>Atención: </strong> Estás en la aplicación como <strong>ESTUDIANTE</strong>. Sólo Profesores pueden presentar OFERTAS.
     </div>
 
-    <div
-        class="alert alert-warning"
-        role="alert"
-         
-    >
-        <b>Atención: </b> Estás en la aplicación como <b>PROFESOR</b>, pero esta
-        oferta ha sido presentada por otro profesor.
+    <div class="alert alert-warning" role="alert">
+        <strong>Atención: </strong> Estás en la aplicación como <strong>PROFESOR</strong>, pero esta oferta ha sido presentada por otro profesor.
     </div>
 
-    <div
-        class="alert alert-warning"
-        role="alert"
-        
-    >
-        <b>Atención: </b> Estás en la aplicación como <b>ENTIDAD</b>. Sólo
-        Profesores pueden presentar OFERTAS.
+    <div class="alert alert-warning" role="alert">
+        <strong>Atención: </strong> Estás en la aplicación como <strong>ENTIDAD</strong>. Sólo Profesores pueden presentar OFERTAS.
     </div>
 
     <div
@@ -61,61 +30,62 @@
         <p class="mb-">Por favor, espere</p>
     </div>
 
-    <div class="row" *ngIf="demanda">
-        <div class="col-9">
-            <header
-                class="card-header mb-2 border d-flex justify-content-between align-items-center"
-            >
+    <div *ngIf="demanda" class="row">
+        <div class="col-12">
+            <header class="card-header mb-2 border d-flex justify-content-between align-items-center">
                 <h6 class="title mb-0">
-                    <b>Demanda: {{ demanda.titulo }}</b>
+                    <strong>Demanda: {{ demanda.titulo }}</strong>
                 </h6>
             </header>
 
             <div class="card my-2 p-3">
                 <div class="d-flex justify-content-between">
-                    <div><b>Descripción:</b> {{ demanda.descripcion }}</div>
-                    <div><b>Cuatrimestre:</b> {{ demanda.cuatrimestre }}</div>
                     <div>
-                        <b>Año académico:</b> {{ demanda.anio_academico }}
+                        <strong>Cuatrimestre:</strong> {{ demanda.cuatrimestre }}
                     </div>
-                    <div><b>Objetivo:</b> {{ demanda.objetivo }}</div>
                     <div>
-                        <b>Comunidad beneficiaria:</b>
+                        <strong>Año académico:</strong> {{ demanda.anio_academico }}
+                    </div>
+                    <div><strong>Objetivo:</strong> {{ demanda.objetivo }}</div>
+                    <div>
+                        <strong>Comunidad beneficiaria:</strong>
                         {{ demanda.comunidadBeneficiaria }}
                     </div>
                 </div>
-                <hr />
+                <hr/>
+
+                <p><strong>Descripción:</strong> {{ demanda.descripcion }}</p>
 
                 <p>
-                    <b>Fecha inicio demanda (definición):</b>
+                    <strong>Fecha inicio demanda (definición):</strong>
                     {{ demanda.periodoDefinicionIni | date: "dd-MM-yyyy" }}
                 </p>
                 <p>
-                    <b>Fecha fin demanda (definición):</b>
+                    <strong>Fecha fin demanda (definición):</strong>
                     {{ demanda.periodoDefinicionFin | date: "dd-MM-yyyy" }}
                 </p>
                 <p>
-                    <b>Fecha inicio demanda (ejecución):</b>
+                    <strong>Fecha inicio demanda (ejecución):</strong>
                     {{ demanda.periodoEjecucionIni | date: "dd-MM-yyyy" }}
                 </p>
                 <p>
-                    <b>Fecha límite (ejecución):</b>
+                    <strong>Fecha límite (ejecución):</strong>
                     {{ demanda.fecha_limite | date: "dd-MM-yyyy" }}
                 </p>
-                <p><b>¿Quién es el responsable de la demanda?:</b></p>
+                <p><strong>¿Quién es el responsable de la demanda?:</strong></p>
                 <ul>
                     <li>
-                        <b><i>Nombre y Apellidos: </i></b
+                        <strong><em>Nombre y Apellidos: </em></strong
                         >{{ demanda.creador.nombre }}
                         {{ oferta.creador.apellidos }}
                     </li>
                 </ul>
                 <p>
-                    <b>Observaciones: </b
+                    <strong>Observaciones: </strong
                     >{{ oferta.observaciones || "Sin observaciones" }}
                 </p>
-                <p class="mt-3"><b>Imagen de la oferta:</b></p>
-                <img [src]="oferta.imagen" class="img-fluid" />
+                <p class="mt-3"><strong>Imagen de la oferta:</strong></p>
+                <img [src]="oferta.imagen" alt="oferta-imagen" class="img-fluid"/>
             </div>
         </div>
     </div>

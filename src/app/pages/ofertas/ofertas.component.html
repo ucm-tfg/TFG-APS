@@ -12,7 +12,7 @@
             justify-content-between
         "
     >
-        <b>Ofertas</b>
+        <strong>Ofertas</strong>
         <a
             *ngIf="ofertaCrearGuard.canActivate(null, null)"
             [routerLink]="['/ofertas/crear']"
@@ -31,9 +31,9 @@
         class="alert alert-warning"
         role="alert"
     >
-        <b>Atención:</b>
+        <strong>Atención:</strong>
         Estás en la aplicación como
-        <b>ESTUDIANTE</b>
+        <strong>ESTUDIANTE</strong>
         . Sólo Profesores pueden presentar OFERTAS.
     </div>
 
@@ -42,9 +42,9 @@
         class="alert alert-warning"
         role="alert"
     >
-        <b>Atención:</b>
+        <strong>Atención:</strong>
         Estás en la aplicación como
-        <b>INVITADO</b>
+        <strong>INVITADO</strong>
         . Sólo Profesores pueden presentar OFERTAS.
     </div>
 
@@ -54,9 +54,9 @@
             this.usuarioService.usuario.esEstudiante
         "
     >
-        <b>Atención:</b>
+        <strong>Atención:</strong>
         Estás en la aplicación como
-        <b>ESTUDIANTE</b>
+        <strong>ESTUDIANTE</strong>
         . Sólo Profesores pueden presentar OFERTAS.
     </div>
 
