@@ -70,7 +70,7 @@ export class IniciativasCrearComponent implements OnInit {
     }
 
 
-    
+
 
     this.formSending = true;
     this.observableEnviarIniciativa()
@@ -114,11 +114,8 @@ export class IniciativasCrearComponent implements OnInit {
       switch (campo) {
         case 'terminos_aceptados':
           return 'Es obligatorio aceptar las condiciones de uso';
-          break;
-
         default:
           return `El campo ${ campo } es obligatorio`;
-          break;
       }
     }
 

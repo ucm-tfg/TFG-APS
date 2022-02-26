@@ -17,7 +17,7 @@ export class Partenariado {
         public descripcion: string,
         public rama: string,
         public ciudad: string,
-        
+
         public createdAt: string,
         public profesores: Usuario[],
         public sociosComunitarios: Usuario[],
@@ -37,8 +37,8 @@ export class Partenariado {
         public entidad: Usuario,
         public asignaturaObjetivo: String,
         public titulacionesLocales: Array<Object>,
-       
-       
+
+
         public iniciativa: string,
         public proyecto: Proyecto,
         public profesores: Usuario[],
@@ -46,7 +46,7 @@ export class Partenariado {
         public mensajes: Object,
         public archivos: Upload[],
         public proponedor: Usuario,
-        
+
         public createdAt: string, */
     ) {}
 
@@ -96,24 +96,15 @@ export class Partenariado {
         switch (user.rol) {
             case 'ROL_ESTUDIANTE':
                 return 'Estudiante';
-                break;
-
             case 'ROL_PROFESOR':
                 return 'Profesor';
-                break;
-
             case 'ROL_SOCIO_COMUNITARIO':
                 return 'Socio comunitario';
-                break;
-
             case 'ROL_GESTOR':
                 return 'Gestor';
-                break;
-
             default:
                 console.log('Patenariado - Rol no definido', user);
                 throw "Rol no definido";
-                break;
         }
     }
 }

@@ -2,35 +2,35 @@
 
     <div class="container">
 
-        <a class="navbar-brand" [routerLink]="['/']">
-            <img src="/assets/img/logo-uned.jpg" width="30" height="30" alt="">
+        <a [routerLink]="['/']" class="navbar-brand">
+            <img alt="" height="30" src="/assets/img/logo-uned.jpg" width="30">
         </a>
 
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"
+                data-target="#navbarSupportedContent" data-toggle="collapse" type="button">
             <span class="navbar-toggler-icon"></span>
         </button>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="mr-auto navbar-nav text-center text-lg-left">
                 <li class="nav-item" routerLinkActive="active">
-                    <a class="nav-link" [routerLink]="['/que-es-ApS']">¿Qué es el ApS?</a>
+                    <a [routerLink]="['/que-es-ApS']" class="nav-link">¿Qué es el ApS?</a>
                 </li>
 
-                <li class="dropdown nav-item" *ngIf=mostrarOfertasDeServicio()>
-                    <a class="nav-link" [routerLink]="['/ofertas']">Ofertas de servicio</a>
+                <li *ngIf=mostrarOfertasDeServicio() class="dropdown nav-item">
+                    <a [routerLink]="['/ofertas']" class="nav-link">Ofertas de servicio</a>
                 </li>
 
-                <li class="dropdown nav-item" *ngIf=mostrarDemandasDeServicio()>
-                    <a class="nav-link" [routerLink]="['/demandas']">Demandas de servicio</a>
+                <li *ngIf=mostrarDemandasDeServicio() class="dropdown nav-item">
+                    <a [routerLink]="['/demandas']" class="nav-link">Demandas de servicio</a>
                 </li>
 
-                <li class="dropdown nav-item" *ngIf=mostrarPartenariados()>
+                <li *ngIf=mostrarPartenariados() class="dropdown nav-item">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown">Paternariados</a>
                 </li>
 
                 <li class="dropdown nav-item">
-                    <a class="nav-link" [routerLink]="['/proyectos']">Proyectos</a>
+                    <a [routerLink]="['/proyectos']" class="nav-link">Proyectos</a>
                 </li>
 
                 <li class="dropdown nav-item" routerLinkActive="active">
@@ -39,67 +39,67 @@
                         <span class="caret"></span>
                     </a>
                     <div class="dropdown-menu text-center text-lg-left">
-                        <a class="dropdown-item" routerLinkActive="active"
-                           [routerLink]="['/sobre-ApS-UNED/quienes-somos']">Quiénes
+                        <a [routerLink]="['/sobre-ApS-UNED/quienes-somos']" class="dropdown-item"
+                           routerLinkActive="active">Quiénes
                             somos</a>
-                        <a class="dropdown-item" routerLinkActive="active" [routerLink]="['/sobre-ApS-UNED/historia']">Historia</a>
-                        <a class="dropdown-item" routerLinkActive="active" [routerLink]="['/sobre-ApS-UNED/contacta']">Contacta</a>
+                        <a [routerLink]="['/sobre-ApS-UNED/historia']" class="dropdown-item" routerLinkActive="active">Historia</a>
+                        <a [routerLink]="['/sobre-ApS-UNED/contacta']" class="dropdown-item" routerLinkActive="active">Contacta</a>
                     </div>
                 </li>
 
-                <li class="dropdown nav-item" routerLinkActive="active"
-                    *ngIf="this.usuarioService.usuario && this.usuarioService.usuario.esGestor">
+                <li *ngIf="this.usuarioService.usuario && this.usuarioService.usuario.esGestor" class="dropdown nav-item"
+                    routerLinkActive="active">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown">Zona Admin <span
                         class="caret"></span></a>
                     <div class="dropdown-menu text-center text-lg-left">
-                        <a class="dropdown-item" routerLinkActive="active" [routerLink]="['/gestor/gestion-usuarios']">Usuarios</a>
-                        <a class="dropdown-item" routerLinkActive="active" [routerLink]="['/gestor/gestion-emails']">Emails</a>
-                        <a class="dropdown-item" routerLinkActive="active"
-                           [routerLink]="['/gestor/gestion-suscripciones']">Suscripciones newsletter</a>
+                        <a [routerLink]="['/gestor/gestion-usuarios']" class="dropdown-item" routerLinkActive="active">Usuarios</a>
+                        <a [routerLink]="['/gestor/gestion-emails']" class="dropdown-item" routerLinkActive="active">Emails</a>
+                        <a [routerLink]="['/gestor/gestion-suscripciones']" class="dropdown-item"
+                           routerLinkActive="active">Suscripciones newsletter</a>
                     </div>
                 </li>
             </ul>
 
-            <ul class="nav navbar-nav navbar-right" *ngIf="!isLoggedIn">
+            <ul *ngIf="!isLoggedIn" class="nav navbar-nav navbar-right">
                 <li class="nav-item" routerLinkActive="active">
-                    <a class="nav-link" [routerLink]="['/registro']"><span class="glyphicon glyphicon-user"></span>
+                    <a [routerLink]="['/registro']" class="nav-link"><span class="glyphicon glyphicon-user"></span>
                         Registro</a>
                 </li>
 
                 <li class="nav-item" routerLinkActive="active">
-                    <a class="nav-link" [routerLink]="['/login']"><span class="glyphicon glyphicon-log-in"></span> Login</a>
+                    <a [routerLink]="['/login']" class="nav-link"><span class="glyphicon glyphicon-log-in"></span> Login</a>
                 </li>
             </ul>
 
-            <ul class="navbar-nav navbar-right" *ngIf="isLoggedIn">
+            <ul *ngIf="isLoggedIn" class="navbar-nav navbar-right">
                 <li class="nav-item dropdown">
 
-                    <a class="nav-link dropdown-toggle d-flex justify-content-end pr-3" href="#"
-                       id="navbarDropdownMenuLink"
-                       role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a aria-expanded="false" aria-haspopup="true"
+                       class="nav-link dropdown-toggle d-flex justify-content-end pr-3"
+                       data-toggle="dropdown" href="#" id="navbarDropdownMenuLink" role="button">
                         <div class="d-flex flex-column align-items-end justify-content-center mr-2">
               <span title="{{ usuarioService.usuario.additionalInfoPlain }}">{{ usuarioService.usuario.nombre }} {{
                   usuarioService.usuario.apellidos }}</span>
-                            <span><b>{{ usuarioService.usuario.displayRol }}</b></span>
+                            <span><strong>{{ usuarioService.usuario.displayRol }}</strong></span>
                         </div>
 
-                        <img aria-label="Image URL" src="usuarioService.usuario.imagenUrl" width="40" height="40" class="rounded-circle">
+                        <img alt="user-image" aria-label="Image URL" class="rounded-circle" height="40" src="usuarioService.usuario.imagenUrl" width="40">
                     </a>
 
-                    <div class="dropdown-menu text-center text-lg-left profile-dropdown"
-                         aria-labelledby="navbarDropdownMenuLink">
-                        <a class="dropdown-item" routerLinkActive="font-weight-bold" [routerLink]="['/mis-iniciativas']"
-                           *ngIf="this.usuarioService.usuario && (this.usuarioService.usuario.esGestor || this.usuarioService.usuario.esSocioComunitario || this.usuarioService.usuario.esProfesor)">Mis
+                    <div aria-labelledby="navbarDropdownMenuLink"
+                         class="dropdown-menu text-center text-lg-left profile-dropdown">
+                        <a *ngIf="this.usuarioService.usuario && (this.usuarioService.usuario.esGestor || this.usuarioService.usuario.esSocioComunitario || this.usuarioService.usuario.esProfesor)" [routerLink]="['/mis-iniciativas']" class="dropdown-item"
+                           routerLinkActive="font-weight-bold">Mis
                             Iniciativas</a>
-                        <a class="dropdown-item" routerLinkActive="font-weight-bold"
-                           [routerLink]="['/mis-partenariados']"
-                           *ngIf="this.usuarioService.usuario && (this.usuarioService.usuario.esGestor || this.usuarioService.usuario.esSocioComunitario || this.usuarioService.usuario.esProfesor)">Mis
+                        <a *ngIf="this.usuarioService.usuario && (this.usuarioService.usuario.esGestor || this.usuarioService.usuario.esSocioComunitario || this.usuarioService.usuario.esProfesor)" [routerLink]="['/mis-partenariados']"
+                           class="dropdown-item"
+                           routerLinkActive="font-weight-bold">Mis
                             Partenariados</a>
-                        <a class="dropdown-item" routerLinkActive="font-weight-bold" [routerLink]="['/mis-proyectos']"
-                           *ngIf="this.usuarioService.usuario">Mis Proyectos</a>
-                        <a class="dropdown-item" routerLinkActive="font-weight-bold" [routerLink]="['/perfil']">Editar
+                        <a *ngIf="this.usuarioService.usuario" [routerLink]="['/mis-proyectos']" class="dropdown-item"
+                           routerLinkActive="font-weight-bold">Mis Proyectos</a>
+                        <a [routerLink]="['/perfil']" class="dropdown-item" routerLinkActive="font-weight-bold">Editar
                             Perfil</a>
-                        <a class="dropdown-item" href="javascript:void(0)" (click)="logout()">Salir</a>
+                        <a (click)="logout()" class="dropdown-item" href="javascript:void(0)">Salir</a>
                     </div>
                 </li>
             </ul>

@@ -13,8 +13,8 @@
             align-items-center
         "
     >
-        <b *ngIf="this.oferta_id">Actualizar Oferta</b>
-        <b *ngIf="!this.oferta_id">Crear Oferta</b>
+        <strong *ngIf="this.oferta_id">Actualizar Oferta</strong>
+        <strong *ngIf="!this.oferta_id">Crear Oferta</strong>
         <!-- <a class="btn btn-light border-white btn-sm" [routerLink]="['/ofertas']" role="button">Volver</a> -->
     </h5>
 
@@ -22,12 +22,12 @@
         <div class="col-12">
             <div class="card">
                 <form
-                    id="form-oferta"
-                    role="form"
-                    autocomplete="off"
+                    (ngSubmit)="enviarOferta()"
                     *ngIf="crearOfertaForm"
                     [formGroup]="crearOfertaForm"
-                    (ngSubmit)="enviarOferta()"
+                    autocomplete="off"
+                    id="form-oferta"
+                    role="form"
                 >
                     <div class="card-body">
                         <div class="row">
@@ -35,15 +35,15 @@
                                 <div class="form-group">
                                     <label>Título *</label>
                                     <input
-                                        name="titulo"
-                                        type="text"
-                                        id="titulo"
-                                        class="form-control"
-                                        autocorrect="off"
                                         autocapitalize="none"
-                                        spellcheck="false"
-                                        placeholder="Título corto y descriptivo"
+                                        autocorrect="off"
+                                        class="form-control"
                                         formControlName="titulo"
+                                        id="titulo"
+                                        name="titulo"
+                                        placeholder="Título corto y descriptivo"
+                                        spellcheck="false"
+                                        type="text"
                                     />
                                 </div>
                             </div>
@@ -51,21 +51,21 @@
 
                         <div class="form-group">
                             <label for="area_servicio"
-                                >Area de implementación *</label
+                            >Area de implementación *</label
                             >
                             <ng-multiselect-dropdown
-                                name="area_servicio"
-                                [settings]="dropdownSettings"
-                                [placeholder]="'Selecciona el area de servicio'"
                                 [data]="areasServicio"
+                                [placeholder]="'Selecciona el area de servicio'"
+                                [settings]="dropdownSettings"
                                 formControlName="area_servicio"
+                                name="area_servicio"
                             >
                                 <ng-template
                                     #optionsTemplate
-                                    let-item
-                                    let-option="option"
                                     let-id="id"
                                     let-isSelected="isSelected"
+                                    let-item
+                                    let-option="option"
                                 >
                                     <div
                                         style="
@@ -76,11 +76,6 @@
                                         "
                                     >
                                         <label
-                                            style="
-                                                color: #333;
-                                                min-width: 130px;
-                                                font-weight: normal;
-                                            "
                                             [ngStyle]="{
                                                 'font-weight': isSelected
                                                     ? 'bold'
@@ -89,14 +84,19 @@
                                                     ? 'lightgrey'
                                                     : ''
                                             }"
-                                            >{{ getItems[id].nombre }}</label
+                                            style="
+                                                color: #333;
+                                                min-width: 130px;
+                                                font-weight: normal;
+                                            "
+                                        >{{ getItems[id].nombre }}</label
                                         >
                                     </div>
                                 </ng-template>
                                 <ng-template
                                     #optionSelectedTemplate
-                                    let-option="option"
                                     let-id="id"
+                                    let-option="option"
                                 >
                                     <div>
                                         {{ option }}
@@ -109,15 +109,15 @@
                             <div class="col">
                                 <div class="form-group">
                                     <label for="descripcion"
-                                        >Descripción *</label
+                                    >Descripción *</label
                                     >
                                     <textarea
+                                        class="form-control"
+                                        formControlName="descripcion"
                                         id="descripcion"
                                         name="descripcion"
-                                        class="form-control"
                                         placeholder="Escribe una descripción sobre la oferta"
                                         rows="8"
-                                        formControlName="descripcion" 
                                     ></textarea>
                                 </div>
                             </div>
@@ -128,14 +128,14 @@
                                 <div class="form-group">
                                     <label for="tags">Tags (Click para asignarlo automaticamente)</label>
                                     <tag-input
-                                        formControlName="tags"
-                                        [ngModel]="tags"
                                         (click)="computeTags()"
-                                    > 
+                                        [ngModel]="tags"
+                                        formControlName="tags"
+                                    >
                                         <tag-input-dropdown
                                             [autocompleteItems]="tags"
-                                            [showDropdownIfEmpty]="true"
                                             [dynamicUpdate]="false"
+                                            [showDropdownIfEmpty]="true"
                                         >
                                         </tag-input-dropdown>
                                     </tag-input>
@@ -147,20 +147,20 @@
                             <div class="col">
                                 <div class="form-group">
                                     <label
-                                        >Asignatura objetivo (Tenga en cuenta
+                                    >Asignatura objetivo (Tenga en cuenta
                                         que también se consideran asignaturas un
                                         TFG o un TFM) *</label
                                     >
                                     <input
-                                        name="asignatura"
-                                        type="text"
-                                        id="asignatura"
-                                        class="form-control"
-                                        autocorrect="off"
                                         autocapitalize="none"
-                                        spellcheck="false"
-                                        placeholder="Asignatura objetivo"
+                                        autocorrect="off"
+                                        class="form-control"
                                         formControlName="asignatura"
+                                        id="asignatura"
+                                        name="asignatura"
+                                        placeholder="Asignatura objetivo"
+                                        spellcheck="false"
+                                        type="text"
                                     />
                                 </div>
                             </div>
@@ -170,19 +170,19 @@
                             <div class="col">
                                 <div class="form-group">
                                     <label
-                                        >Fecha límite para terminar la
+                                    >Fecha límite para terminar la
                                         definición del proyecto</label
                                     >
                                     <input
                                         aria-label="Fecha limite"
-                                        name="fecha_limite"
-                                        type="date"
-                                        id="fecha_limite"
-                                        class="form-control"
-                                        autocorrect="off"
                                         autocapitalize="none"
-                                        spellcheck="false"
+                                        autocorrect="off"
+                                        class="form-control"
                                         formControlName="fecha_limite"
+                                        id="fecha_limite"
+                                        name="fecha_limite"
+                                        spellcheck="false"
+                                        type="date"
                                         value="2021-07-01"
                                     />
                                 </div>
@@ -193,13 +193,13 @@
                             <div class="col">
                                 <div class="form-group">
                                     <label for="cuatrimestre"
-                                        >Cuatrimestre Objetivo</label
+                                    >Cuatrimestre Objetivo</label
                                     >
                                     <select
-                                        name="cuatrimestre"
-                                        id="cuatrimestre"
-                                        formControlName="cuatrimestre"
                                         class="form-control"
+                                        formControlName="cuatrimestre"
+                                        id="cuatrimestre"
+                                        name="cuatrimestre"
                                         placeholder="Elige un cuatrimestre"
                                     >
                                         <option value="Primer cuatrimestre">
@@ -219,16 +219,16 @@
                                 <div class="form-group">
                                     <label>Año académico objetivo</label>
                                     <input
-                                        name="anio_academico"
-                                        type="number"
-                                        id="anio_academico"
-                                        class="form-control"
-                                        autocorrect="off"
                                         autocapitalize="none"
-                                        spellcheck="false"
-                                        placeholder="Año académico"
+                                        autocorrect="off"
+                                        class="form-control"
                                         formControlName="anio_academico"
+                                        id="anio_academico"
                                         min="2021"
+                                        name="anio_academico"
+                                        placeholder="Año académico"
+                                        spellcheck="false"
+                                        type="number"
                                         value="2021"
                                         value="2022"
                                     />
@@ -240,17 +240,17 @@
                             <div class="col">
                                 <div class="form-group">
                                     <label for="observaciones"
-                                        >Si tiene alguna peticion especial en
+                                    >Si tiene alguna peticion especial en
                                         cuanto a las fechas, escribala
                                         aqui</label
                                     >
                                     <textarea
+                                        class="form-control"
+                                        formControlName="observaciones"
                                         id="observaciones"
                                         name="observaciones"
-                                        class="form-control"
                                         placeholder="Escribe cualquier observación temporal que consideres adecuada"
                                         rows="8"
-                                        formControlName="observaciones"
                                     ></textarea>
                                 </div>
                             </div>
@@ -316,22 +316,22 @@
                         <!-- </div> -->
 
                         <div
-                            class="row"
                             *ngIf="
                                 this.usuarioService.usuario.esGestor && USUARIOS
                             "
+                            class="row"
                         >
                             <div class="col">
                                 <div class="form-group">
                                     <label for="creador"
-                                        >creador (solo modificable por el gestor
+                                    >creador (solo modificable por el gestor
                                         del portal)</label
                                     >
                                     <select
-                                        id="creador"
-                                        name="area"
                                         class="form-control"
                                         formControlName="creador"
+                                        id="creador"
+                                        name="area"
                                     >
                                         <option value="">
                                             Elije un usuario que se haga cargo
@@ -356,8 +356,8 @@
                         <div class="row">
                             <div class="col">
                                 <div
-                                    class="card text-white bg-info mb-3"
                                     *ngIf="!this.oferta_id"
+                                    class="card text-white bg-info mb-3"
                                 >
                                     <div class="card-body">
                                         <h5 class="card-title text-center">
@@ -386,17 +386,17 @@
                         </div>
 
                         <label style="color: green; margin-top: 0.5cm"
-                            >Los campos obligatorios tienen asterisco.</label
+                        >Los campos obligatorios tienen asterisco.</label
                         >
 
                         <div class="d-flex">
                             <div
-                                class="flex-fill alert alert-danger mr-3"
-                                role="alert"
                                 *ngIf="
                                     this.crearOfertaForm.invalid &&
                                     this.formSubmitted
                                 "
+                                class="flex-fill alert alert-danger mr-3"
+                                role="alert"
                             >
                                 <div
                                     *ngIf="campoNoValido('titulo')"
@@ -447,33 +447,33 @@
                             <div class="ml-auto mb-2">
                                 <input
                                     *ngIf="!this.oferta_id"
-                                    type="submit"
+                                    [disabled]="
+                                        this.formSending ||
+                                        (this.formSubmitted &&
+                                            this.crearOfertaForm.invalid)
+                                    "
                                     [value]="
                                         this.formSending
                                             ? 'Creando...'
                                             : 'Crear oferta'
                                     "
                                     class="btn btn-default btn-secondary m-4"
+                                    type="submit"
+                                />
+                                <input
+                                    *ngIf="this.oferta_id"
                                     [disabled]="
                                         this.formSending ||
                                         (this.formSubmitted &&
                                             this.crearOfertaForm.invalid)
                                     "
-                                />
-                                <input
-                                    *ngIf="this.oferta_id"
-                                    type="submit"
                                     [value]="
                                         this.formSending
                                             ? 'Actualizando...'
                                             : 'Actualizar oferta'
                                     "
                                     class="btn btn-default btn-secondary m-4"
-                                    [disabled]="
-                                        this.formSending ||
-                                        (this.formSubmitted &&
-                                            this.crearOfertaForm.invalid)
-                                    "
+                                    type="submit"
                                 />
                             </div>
                         </div>
