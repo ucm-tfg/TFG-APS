@@ -9,7 +9,7 @@
         "build:prod": "ng build --configuration production --stats-json --source-map=false",
         "heroku-postbuild": "ng build --prod",
         "db": "mysql -u root -p",
-        "test": "ng test --code-coverage",
+        "test": "ng test",
         "lint": "ng lint",
         "e2e": "ng e2e",
         "seed": "node ./server/database/seeds/seed.js",
