@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PartenariadosVerComponent } from './partenariados-ver.component';
 
-describe('PartenariadosVerComponent', () => {
+xdescribe('PartenariadosVerComponent', () => {
   let component: PartenariadosVerComponent;
   let fixture: ComponentFixture<PartenariadosVerComponent>;
 
