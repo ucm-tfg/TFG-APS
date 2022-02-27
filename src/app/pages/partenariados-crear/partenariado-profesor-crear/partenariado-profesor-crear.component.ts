@@ -9,11 +9,11 @@ import {CIUDADES} from '../../../models/ciudad.model';
 import {PartenariadoService} from '../../../services/partenariado.service';
 import Swal from 'sweetalert2';
 import {Router, ActivatedRoute} from '@angular/router';
-import {Oferta} from 'src/app/models/oferta.model';
-import {OfertaService} from 'src/app/services/oferta.service';
-import {DemandaService} from 'src/app/services/demanda.service';
+import {Oferta} from '../../../../app/models/oferta.model';
+import {OfertaService} from '../../../../app/services/oferta.service';
+import {DemandaService} from '../../../../app/services/demanda.service';
 import {first} from 'rxjs/operators';
-import {Demanda} from 'src/app/models/demanda.model';
+import {Demanda} from '../../../../app/models/demanda.model';
 
 @Component({
     selector: 'app-partenariado-crear-profesor',

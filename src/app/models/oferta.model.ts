@@ -3,6 +3,7 @@ import {Usuario} from './usuario.model';
 import {CUATRIMESTRE} from './cuatrimestre.model';
 
 import * as moment from 'moment';
+import { int } from 'aws-sdk/clients/datapipeline';
 
 const base_url = environment.base_url;
 
@@ -97,6 +98,6 @@ export class Oferta {
     }
 
     get displayCuatrimestre(): string {
-        return this.cuatrimestre <= CUATRIMESTRE.length ? CUATRIMESTRE[Number.parseInt(this.cuatrimestre, 0) - 1] : "Anual";
+        return Number.parseInt(this.cuatrimestre, 0) <= CUATRIMESTRE.length ? CUATRIMESTRE[Number.parseInt(this.cuatrimestre, 0) - 1] : "Anual";
     }
 }
