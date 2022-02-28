@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { IniciativasEditarComponent } from './iniciativas-editar.component';
 
-describe('IniciativasEditarComponent', () => {
+xdescribe('IniciativasEditarComponent', () => {
   let component: IniciativasEditarComponent;
   let fixture: ComponentFixture<IniciativasEditarComponent>;
 

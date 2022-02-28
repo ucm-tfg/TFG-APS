@@ -1,6 +1,6 @@
-import {environment} from '../../environments/environment';
-import {Usuario} from './usuario.model';
-import {CUATRIMESTRE} from './cuatrimestre.model';
+import { environment } from '../../environments/environment';
+import { Usuario } from './usuario.model';
+import { CUATRIMESTRE } from './cuatrimestre.model';
 
 import * as moment from 'moment';
 
@@ -23,7 +23,7 @@ export class Oferta {
         public area_servicio: string[],
         public asignatura_objetivo: string[],
         public profesores: string[],
-        public tags: string[],
+        public tags: string[]
     ) {
     }
 
@@ -92,11 +92,11 @@ export class Oferta {
                 return 'Gestor';
             default:
                 console.log('oferta - Rol no definido', user);
-                throw "Rol no definido";
+                throw 'Rol no definido';
         }
     }
 
     get displayCuatrimestre(): string {
-        return this.cuatrimestre <= CUATRIMESTRE.length ? CUATRIMESTRE[Number.parseInt(this.cuatrimestre, 0) - 1] : "Anual";
+        return Number.parseInt(this.cuatrimestre, 0) <= CUATRIMESTRE.length ? CUATRIMESTRE[Number.parseInt(this.cuatrimestre, 0) - 1] : 'Anual';
     }
 }
