@@ -7,6 +7,7 @@ import { Profesor } from '../../models/profesor.model'
 import { OfertaCrearGuard } from 'src/app/guards/oferta-crear.guard'
 import { Router } from '@angular/router'
 import { CUATRIMESTRE } from '../../models/cuatrimestre.model'
+import { IDropdownSettings } from 'ng-multiselect-dropdown';
 
 @Component({
   selector: 'app-ofertas',
@@ -14,9 +15,12 @@ import { CUATRIMESTRE } from '../../models/cuatrimestre.model'
   styleUrls: ['./ofertas.component.scss'],
 })
 export class OfertasComponent implements OnInit {
+
   public PROFESORES = Profesor
   public CUATRIMESTRES = CUATRIMESTRE
   public cuatrimestres = ['a', 'b', 'c']
+
+  public dropdownSettings: IDropdownSettings = {};
 
   public offset = 0
   public limit = 50
@@ -37,6 +41,9 @@ export class OfertasComponent implements OnInit {
   public filterCreador = ''
   public tags = []
   public tagInput = []; 
+
+
+  public areasServicio: any;
 
   constructor(
     public ofertaCrearGuard: OfertaCrearGuard,
@@ -71,6 +78,20 @@ export class OfertasComponent implements OnInit {
 
   ngOnInit(): void {
     this.cargarOfertas()
+    this.obtenerAreasServicio();
+    this.dropdownSettings = {
+      singleSelection: true,
+      idField: 'id',
+      textField: 'nombre',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      itemsShowLimit: 10,
+      allowSearchFilter: true,
+    };
+  }
+
+  onItemSelectedArea(item: any){
+    console.log("Item: " + item.nombre);
   }
 
   cambiarPagina(): void {
@@ -110,5 +131,11 @@ export class OfertasComponent implements OnInit {
         })
       })
   }
- 
+
+  async obtenerAreasServicio(){
+    return this.ofertaService.obtenerAreasServicio().subscribe((resp: any)=>{
+      this.areasServicio = resp.areasServicio;
+      return this.areasServicio;
+    });
+  }
 }
