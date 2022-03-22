@@ -7,6 +7,7 @@ import { Profesor } from '../../models/profesor.model'
 import { OfertaCrearGuard } from 'src/app/guards/oferta-crear.guard'
 import { Router } from '@angular/router'
 import { CUATRIMESTRE } from '../../models/cuatrimestre.model'
+import { PartenariadoService } from 'src/app/services/partenariado.service'
 
 @Component({
   selector: 'app-ofertas',
@@ -14,7 +15,7 @@ import { CUATRIMESTRE } from '../../models/cuatrimestre.model'
   styleUrls: ['./ofertas.component.scss'],
 })
 export class OfertasComponent implements OnInit {
-  public PROFESORES = Profesor
+
   public CUATRIMESTRES = CUATRIMESTRE
   public cuatrimestres = ['a', 'b', 'c']
 
@@ -24,6 +25,7 @@ export class OfertasComponent implements OnInit {
 
   public totalOfertas = 0
   public ofertas: Oferta[]
+  public profesores: Profesor[]
 
   public terminoBusqueda = ''
   public totalOfertasBuscadas = 0
@@ -43,6 +45,7 @@ export class OfertasComponent implements OnInit {
     public ofertaService: OfertaService,
     public usuarioService: UsuarioService,
     public utilsService: UtilsService,
+    public partenarioService: PartenariadoService,
     private router: Router,
   ) {
     if (this.router.url === '/mis-ofertas') {
@@ -66,11 +69,12 @@ export class OfertasComponent implements OnInit {
   }
 
   get lastPageRecord(): number {
-    return this.totalOfertas
+    return this.ofertas.length ?  this.ofertas.length  : 0
   }
 
   ngOnInit(): void {
-    this.cargarOfertas()
+    this.cargarOfertas();
+    this.cargarProfesores()
   }
 
   cambiarPagina(): void {
@@ -98,6 +102,14 @@ export class OfertasComponent implements OnInit {
         this.totalOfertasBuscadas = filtradas.valueOf()
         this.ofertas = ofertas
         this.cargando = false
+      })
+  }
+
+  cargarProfesores(): void {
+    this.partenarioService
+      .obtenerProfesores()
+      .subscribe(({ok, profesores}) => {
+        this.profesores = profesores 
       })
   }
  

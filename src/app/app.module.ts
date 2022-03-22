@@ -96,6 +96,8 @@ import { CondicionesComponent } from './pages/condiciones/condiciones.component'
 import { Code404Component } from './errors/code404/code404.component';
 import { TagInputModule } from 'ngx-chips';
 import { DemandasVerComponent } from './pages/demandas-ver/demandas-ver.component';
+import { ResumenComponent } from './pages/resumen/resumen.component';
+import { OfertaCardComponent } from './pages/oferta-card/oferta-card.component'; 
 
 TagInputModule.withDefaults({
     tagInput: {
@@ -177,7 +179,9 @@ TagInputModule.withDefaults({
         CondicionesComponent,
         Code404Component,
         ProyectosVerComponent,
-        DemandasVerComponent
+        DemandasVerComponent,
+        ResumenComponent,
+        OfertaCardComponent
         
     ],
     imports: [

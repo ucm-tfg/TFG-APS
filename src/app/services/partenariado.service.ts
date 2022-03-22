@@ -5,6 +5,7 @@ import { Partenariado } from '../models/partenariado.model';
 import { map } from 'rxjs/operators';
 import { UsuarioService } from './usuario.service';
 import { FileUploadService } from './file-upload.service';
+import { Profesor } from '../models/profesor.model';
 
 const base_url = environment.base_url;
 
@@ -74,12 +75,13 @@ export class PartenariadoService {
                     );
   }
 
+
   obtenerProfesores() {
-    return this.http.get<{ ok: boolean, datos: Object}>(`${ base_url }/usuarios/profesores`, this.usuarioService.headers)
+    return this.http.get<{ ok: boolean, profesores: Profesor[]}>(`${ base_url }/usuarios/profesores`, this.usuarioService.headers)
                     .pipe(
-                      map( (resp) => resp )
+                      map( 
+                        resp => {return {ok: resp.ok, profesores: resp.profesores}} )
                     );
   }
 
- 
 }
