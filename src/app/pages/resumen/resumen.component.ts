@@ -10,7 +10,7 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 })
 export class ResumenComponent implements OnInit {
     public ofertas: Oferta[];
-    public filterCreador = '';
+    public filterCreador = ''; 
     public limit = 100
 
     public terminoBusqueda = ''
@@ -30,6 +30,7 @@ export class ResumenComponent implements OnInit {
         public ofertaService: OfertaService,
         public usuarioService: UsuarioService
     ) {
+        this.filterCreador = this.usuarioService.usuario.uid;
         this.filterCreador = this.usuarioService.usuario.uid;
     }
 

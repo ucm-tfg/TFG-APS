@@ -3,7 +3,7 @@
     <h5
         class="px-4 py-2 mb-4 text-white display-block bg-secondary d-flex justify-content-between"
     >
-        <strong>Ofertas</strong>
+        <strong>{{ pageTitle }}</strong>
         <a
             *ngIf="ofertaCrearGuard.canActivate(null, null)"
             [routerLink]="['/ofertas/crear']"

@@ -89,11 +89,11 @@
 
                     <div aria-labelledby="navbarDropdownMenuLink"
                          class="dropdown-menu text-center text-lg-left profile-dropdown">
-                        <a *ngIf="this.usuarioService.usuario && (this.usuarioService.usuario.esGestor || this.usuarioService.usuario.esSocioComunitario || this.usuarioService.usuario.esProfesor)" [routerLink]="['/mi-resumen']" class="dropdown-item"
+                        <a [routerLink]="['/mi-resumen']" class="dropdown-item"
                            routerLinkActive="font-weight-bold">Resumen</a>
-                        <a *ngIf="this.usuarioService.usuario && (this.usuarioService.usuario.esGestor || this.usuarioService.usuario.esSocioComunitario || this.usuarioService.usuario.esProfesor)" [routerLink]="['/mis-iniciativas']" class="dropdown-item"
+                        <a *ngIf="this.usuarioService.usuario && (this.usuarioService.usuario.esGestor || this.usuarioService.usuario.esSocioComunitario || this.usuarioService.usuario.esProfesor)" [routerLink]="['/mis-ofertas']" class="dropdown-item"
                            routerLinkActive="font-weight-bold">Mis
-                            Iniciativas</a>
+                            Ofertas</a>
                         <a *ngIf="this.usuarioService.usuario && (this.usuarioService.usuario.esGestor || this.usuarioService.usuario.esSocioComunitario || this.usuarioService.usuario.esProfesor)" [routerLink]="['/mis-partenariados']"
                            class="dropdown-item"
                            routerLinkActive="font-weight-bold">Mis

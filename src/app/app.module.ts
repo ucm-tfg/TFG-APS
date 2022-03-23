@@ -97,7 +97,20 @@ import { Code404Component } from './errors/code404/code404.component';
 import { TagInputModule } from 'ngx-chips';
 import { DemandasVerComponent } from './pages/demandas-ver/demandas-ver.component';
 import { ResumenComponent } from './pages/resumen/resumen.component';
-import { OfertaCardComponent } from './pages/oferta-card/oferta-card.component'; 
+import { OfertaCardComponent } from './pages/oferta-card/oferta-card.component';
+import { PartenariadosCardComponent } from './pages/partenariados-card/partenariados-card.component';
+import { ResumenEstudianteExternoComponent } from './pages/resumen-estudiante-externo/resumen-estudiante-externo.component';
+import { ResumenEstudianteInternoComponent } from './pages/resumen-estudiante-interno/resumen-estudiante-interno.component';
+import { ResumenProfesorExternoComponent } from './pages/resumen-profesor-externo/resumen-profesor-externo.component';
+import { ResumenProfesorInternoComponent } from './pages/resumen-profesor-interno/resumen-profesor-interno.component';
+import { ResumenSocioComunitarioComponent } from './pages/resumen-socio-comunitario/resumen-socio-comunitario.component';
+import { ResumenOficinaApsComponent } from './pages/resumen-oficina-aps/resumen-oficina-aps.component';
+import { SugerirOfertaComponent } from './pages/sugerir-oferta/sugerir-oferta.component';
+import { FaqComponent } from './pages/faq/faq.component';
+import { CheckboxNotificacionesComponent } from './pages/checkbox-notificaciones/checkbox-notificaciones.component';
+import { ProyectosCardComponent } from './pages/proyectos-card/proyectos-card.component';
+import { ServicioOfertadoComponent } from './pages/servicio-ofertado/servicio-ofertado.component';
+import { IniciativaRespaldadaComponent } from './pages/iniciativa-respaldada/iniciativa-respaldada.component'; 
 
 TagInputModule.withDefaults({
     tagInput: {
@@ -181,7 +194,20 @@ TagInputModule.withDefaults({
         ProyectosVerComponent,
         DemandasVerComponent,
         ResumenComponent,
-        OfertaCardComponent
+        OfertaCardComponent,
+        PartenariadosCardComponent,
+        ResumenEstudianteExternoComponent,
+        ResumenEstudianteInternoComponent,
+        ResumenProfesorExternoComponent,
+        ResumenProfesorInternoComponent,
+        ResumenSocioComunitarioComponent,
+        ResumenOficinaApsComponent,
+        SugerirOfertaComponent,
+        FaqComponent,
+        CheckboxNotificacionesComponent,
+        ProyectosCardComponent,
+        ServicioOfertadoComponent,
+        IniciativaRespaldadaComponent
         
     ],
     imports: [

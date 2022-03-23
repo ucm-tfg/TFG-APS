@@ -164,7 +164,7 @@ const routes: Routes = [
             },
 
             // Ofertas
-            // { path: 'mis-ofertas', component: OfertasComponent, data: { titulo: 'Mis Ofertas' } },
+             { path: 'mis-ofertas', component: OfertasComponent, data: { titulo: 'Mis Ofertas' } },
              { path: 'ofertas/ver/:id', component: OfertasVerComponent, data: { titulo: 'Ver Oferta' } },
             // { path: 'ofertas/editar/:id', canActivate:[OfertaEditarGuard], component: OfertasEditarComponent, data: { titulo: 'Editar Oferta' } },
             {

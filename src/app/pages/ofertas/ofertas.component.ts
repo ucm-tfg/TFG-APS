@@ -19,6 +19,8 @@ export class OfertasComponent implements OnInit {
   public CUATRIMESTRES = CUATRIMESTRE
   public cuatrimestres = ['a', 'b', 'c']
 
+  public pageTitle = 'Ofertas'
+
   public offset = 0
   public limit = 50
   public paginaActual = 1
@@ -50,6 +52,7 @@ export class OfertasComponent implements OnInit {
   ) {
     if (this.router.url === '/mis-ofertas') {
       this.filterCreador = this.usuarioService.usuario.uid
+      this.pageTitle = 'Mis Ofertas'
     }
   }
 
