@@ -93,9 +93,12 @@ export class DemandasComponent implements OnInit{
         };
     }
 
-    onItemSelect(item: any){
-        //this.demandaService.obtenerDemandasPorAreaServicio()
-        console.log("Item: " + item.nombre);
+    onItemSelected(item: any){
+        console.log("ID item: " + item.id);
+        console.log("Item: " + item.nombre );
+        this.demandaService.cargarDemandasPorNecesidadSocial(item.id).subscribe(({ok, demandas}) =>{
+            this.demandas = demandas;
+        });
     }
 
     cambiarPagina(): void {
@@ -103,7 +106,10 @@ export class DemandasComponent implements OnInit{
     }
 
     onItemSelectedArea(item: any){
-        console.log("Item: " + item.nombre);
+        console.log("ID: " + item.id + "Item: " + item.nombre);
+        this.demandaService.cargarDemandasPorAreaServicio(item.id).subscribe(({ok, demandas}) =>{
+            this.demandas = demandas;
+        });
     }
 
     getFiltros() {
@@ -136,7 +142,7 @@ export class DemandasComponent implements OnInit{
     
     async obtenerNecesidadesSociales(){
         return this.demandaService.obtenerNecesidades().subscribe((resp: any)=>{
-            this.necesidades = resp.necesidades;
+            this.necesidades = resp.necesidadSocial;
             return this.necesidades;
         })
     }

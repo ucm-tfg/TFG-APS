@@ -75,7 +75,26 @@ export class DemandaService {
         map((resp) => resp)
       );
   }
-  
+  /**/
+  cargarDemandasPorAreaServicio(id){
+    console.log("Dentro de demanda.service");
+        return this.http.get<{ok: Boolean, demandas: Demanda[] }>(`${base_url}/demandas/demandasAreaServicio/${id}`, this.usuarioService.headers)
+        .pipe(
+          map(resp => {
+              return {ok: resp.ok, demandas: this.mapearDemandas(resp.demandas)};
+          })
+        );
+  }
+  /**/
+  cargarDemandasPorNecesidadSocial(id){
+    return this.http.get<{ok: Boolean, demandas: Demanda[] }>(`${base_url}/demandas/demandasNecesidadSocial/${id}`, this.usuarioService.headers)
+    .pipe(
+      map(resp => {
+        return {ok: resp.ok, demandas: this.mapearDemandas(resp.demandas)};
+      })
+    );
+  }
+
   obtenerNecesidades() {
     return this.http.get<{ ok: boolean, necesidadSocial: any }>(`${base_url}/demandas/necesidadsocial`, this.usuarioService.headers)
       .pipe(

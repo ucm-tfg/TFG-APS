@@ -2,6 +2,7 @@ const knex = require("../../config");
 const daoUsuario = require("./daoUsuario");
 const transferDemandaServicio = require("../transfers/TDemandaServicio");
 const transferAnuncioServicio = require("../transfers/TAnuncioServicio");
+const { KnexTimeoutError } = require("knex");
 
 // Obtiene el area de servicio correspondiente al id de un anuncio de servicio
 function obtenerAreaServicio(id_anuncio) {
@@ -23,6 +24,45 @@ function obtenerAreaServicio(id_anuncio) {
           throw err;
       });
 }
+
+/*****/
+function obtenerDemandaPorAreaServicio(id_areaServicio){
+  return knex("areaservicio_iniciativa")
+      .where({id_area: id_areaServicio})
+      .select("id_iniciativa")
+      .then(function(id_demandas){
+        demandas = [];
+        for(id_demanda of id_demandas){
+          anuncios.push(id_demanda["id_iniciativa"]);
+        }
+        return knex.select("*").from("demanda_servicio").whereIn("id", demandas);
+      })
+      .catch((err) =>{
+        console.log("No se han encontrado las demandas con el area de servicio con id ", id_areaServicio);
+        throw err;
+      })
+}
+
+function obtenerDemandaPorNecesidadSocial(id_necesidadSocial){
+  return knex.select("*")
+            .from("demanda_servicio")
+            .where({necesidad_social: id_necesidadSocial})
+            .innerJoin("anuncio_servicio", "demanda_servicio.id", "anuncio_servicio.id");
+  /*
+  return knex("demanda_servicio")
+      .where({necesidad_social: id_necesidadSocial})
+      .select("*")
+      .then(function(){
+        return knex.select("*").from("demanda_servicio");
+      })
+      .catch((err) => {
+        console.log("No se han encontrado las demandas con la necesidad social con id: ", id_necesidadSocial);
+        throw err;
+      })
+    */
+}
+
+/*********/
 
 function obtenerAnuncioServicio(id_anuncio) {
   return knex("anuncio_servicio")
@@ -498,5 +538,7 @@ module.exports = {
     obtenerTitulacionLocal,
     obtenerListaTitulacionLocal,
     obtenerListaAreasServicio,
-    obtenerListaNecesidadSocial
+    obtenerListaNecesidadSocial,
+    obtenerDemandaPorAreaServicio,
+    obtenerDemandaPorNecesidadSocial
 }

@@ -83,15 +83,17 @@ export class OfertasComponent implements OnInit {
       singleSelection: true,
       idField: 'id',
       textField: 'nombre',
-      selectAllText: 'Select All',
-      unSelectAllText: 'UnSelect All',
       itemsShowLimit: 10,
       allowSearchFilter: true,
     };
   }
 
   onItemSelectedArea(item: any){
-    console.log("Item: " + item.nombre);
+    console.log("ID item: " + item.id);
+    console.log("Item: " + item.nombre );
+    this.ofertaService.cargarOfertasPorAreaServicio(item.id).subscribe(({ ok, ofertas }) => {
+      this.ofertas = ofertas
+    });
   }
 
   cambiarPagina(): void {
@@ -121,7 +123,7 @@ export class OfertasComponent implements OnInit {
         this.cargando = false
       })
   }
- 
+
   async computePossibleTags($event) {
     this.utilsService
       .computePossibleTags($event.target.value)

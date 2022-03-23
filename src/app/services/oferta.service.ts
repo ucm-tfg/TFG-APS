@@ -77,6 +77,17 @@ export class OfertaService {
             );
     }
 
+    /****/
+    cargarOfertasPorAreaServicio(id: string){
+        console.log("Dentro de oferta.service");
+        return this.http.get<{ok: Boolean, ofertas: Oferta[] }>(`${base_url}/ofertas/ofertasAreaServicio/${id}`, this.usuarioService.headers)
+        .pipe(
+            map(resp => {
+                return {ok: resp.ok, ofertas: this.mapearOfertas(resp.ofertas)};
+            })
+        );
+    }
+    
     computeTags(id: string) {
         return this.http.get<{ ok: boolean, oferta: Oferta }>(`${base_url}/ofertas/${id}`, this.usuarioService.headers)
             .pipe(

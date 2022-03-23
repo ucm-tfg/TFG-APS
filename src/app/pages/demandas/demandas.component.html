@@ -41,6 +41,7 @@
                                 [data]="necesidades"
                                 [placeholder]="'Seleccione la necesidad social'"
                                 [settings]="dropdownSettings"
+                                (onSelect)="onItemSelected($event)"
                                 name="necesidad"
                             >
                                 <ng-template
