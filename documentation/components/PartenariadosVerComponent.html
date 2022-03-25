@@ -1,0 +1,1029 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>portal-aps documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">portal-aps documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li>Components</li>
+  <li
+  >
+  PartenariadosVerComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li >
+            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li >
+            <a href="#styleData" role="tab" id="styleData-tab" data-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li >
+            <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/pages/partenariados-ver/partenariados-ver.component.ts</code>
+</p>
+
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+    </p>
+
+
+<section>
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-partenariados-ver</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./partenariados-ver.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./partenariados-ver.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#activatedRoute" >activatedRoute</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#fileUploadService" >fileUploadService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#mensaje" >mensaje</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#partenariado" >partenariado</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#partenariados" >partenariados</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#partenariadoService" >partenariadoService</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#router" >router</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#usuarioService" >usuarioService</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#ngOnInit" >ngOnInit</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(partenariadoService: <a href="../injectables/PartenariadoService.html" target="_self">PartenariadoService</a>, fileUploadService: <a href="../injectables/FileUploadService.html" target="_self">FileUploadService</a>, usuarioService: <a href="../injectables/UsuarioService.html" target="_self">UsuarioService</a>, router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>, activatedRoute: <a href="https://angular.io/api/router/ActivatedRoute" target="_blank">ActivatedRoute</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">src/app/pages/partenariados-ver/partenariados-ver.component.ts:20</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>partenariadoService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/PartenariadoService.html" target="_self" >PartenariadoService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>fileUploadService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/FileUploadService.html" target="_self" >FileUploadService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>usuarioService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/UsuarioService.html" target="_self" >UsuarioService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>router</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/router/Router" target="_blank" >Router</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>activatedRoute</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/router/ActivatedRoute" target="_blank" >ActivatedRoute</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+
+
+    <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <span ><b>ngOnInit</b></span>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="26"
+                            class="link-to-prism">src/app/pages/partenariados-ver/partenariados-ver.component.ts:26</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section>
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="activatedRoute"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>activatedRoute</b></span>
+                        <a href="#activatedRoute"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://angular.io/api/router/ActivatedRoute" target="_blank" >ActivatedRoute</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/app/pages/partenariados-ver/partenariados-ver.component.ts:22</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="fileUploadService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>fileUploadService</b></span>
+                        <a href="#fileUploadService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/FileUploadService.html" target="_self" >FileUploadService</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/app/pages/partenariados-ver/partenariados-ver.component.ts:22</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="mensaje"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>mensaje</b></span>
+                        <a href="#mensaje"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">src/app/pages/partenariados-ver/partenariados-ver.component.ts:20</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="partenariado"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>partenariado</b></span>
+                        <a href="#partenariado"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../classes/Partenariado.html" target="_self" >Partenariado</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">src/app/pages/partenariados-ver/partenariados-ver.component.ts:17</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="partenariados"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>partenariados</b></span>
+                        <a href="#partenariados"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../classes/Partenariado.html" target="_self" >Partenariado[]</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">src/app/pages/partenariados-ver/partenariados-ver.component.ts:18</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="partenariadoService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>partenariadoService</b></span>
+                        <a href="#partenariadoService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/PartenariadoService.html" target="_self" >PartenariadoService</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/app/pages/partenariados-ver/partenariados-ver.component.ts:22</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="router"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>router</b></span>
+                        <a href="#router"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://angular.io/api/router/Router" target="_blank" >Router</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/app/pages/partenariados-ver/partenariados-ver.component.ts:22</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="usuarioService"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>usuarioService</b></span>
+                        <a href="#usuarioService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/UsuarioService.html" target="_self" >UsuarioService</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/app/pages/partenariados-ver/partenariados-ver.component.ts:22</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, OnInit } from &#x27;@angular/core&#x27;;
+import { PartenariadoService } from &#x27;src/app/services/partenariado.service&#x27;;
+import { Partenariado } from &#x27;src/app/models/partenariado.model&#x27;;
+import { UsuarioService } from &#x27;src/app/services/usuario.service&#x27;;
+import { Router, ActivatedRoute } from &#x27;@angular/router&#x27;;
+import Swal from &#x27;sweetalert2&#x27;;
+import * as moment from &#x27;moment&#x27;;
+import { FileUploadService } from &#x27;src/app/services/file-upload.service&#x27;;
+
+@Component({
+  selector: &#x27;app-partenariados-ver&#x27;,
+  templateUrl: &#x27;./partenariados-ver.component.html&#x27;,
+  styleUrls: [&#x27;./partenariados-ver.component.scss&#x27;]
+})
+export class PartenariadosVerComponent implements OnInit {
+
+  public partenariado: Partenariado;
+  public partenariados: Partenariado[];
+
+  public mensaje: string;
+
+  constructor(public partenariadoService: PartenariadoService, public fileUploadService: FileUploadService, public usuarioService: UsuarioService, public router: Router, public activatedRoute: ActivatedRoute) {
+    this.mensaje &#x3D; &#x27;&#x27;;
+  }
+
+  ngOnInit(): void {
+    /* this.activatedRoute.params.subscribe( ({ id }) &#x3D;&gt; {
+      this.cargarPartenariado(id);
+    }); */
+  }
+
+  /*  cargarPartenariado(id: string) {
+
+    // ver o editar la partenariado
+    this.partenariadoService.cargarPartenariado(id).subscribe( (partenariado: Partenariado) &#x3D;&gt; {
+
+      // si no hay partenariado, le devuelvo al listado de partenariados
+      if (!partenariado) {
+        return this.router.navigateByUrl(&#x60;/mis-partenariados&#x60;);
+      }
+
+      this.partenariado &#x3D; this.partenariadoService.mapearPartenariados([partenariado])[0];
+    });
+  }  */
+/* 
+  cambiarEstado(estado: string) {
+    this.partenariadoService.cambiarEstado(this.partenariado, estado)
+        .subscribe( (resp: any) &#x3D;&gt; {
+          if(resp.ok) {
+            if(estado &#x3D;&#x3D;&#x3D; &#x27;Acordado&#x27;) {
+              Swal.fire( &#x27;Proyecto creado&#x27;, &#x27;El partenariado ha cambiado su estado a Acordado y se ha creado el proyecto correspondiente.&#x27;, &#x27;success&#x27; );
+            } else {
+              Swal.fire( &#x27;Estado modificado&#x27;, &#x27;El partenariado ha cambiado su estado a &#x27; + estado + &#x27; correctamente.&#x27;, &#x27;success&#x27; );
+            }
+            this.cargarPartenariado(this.partenariado._id);
+          } else {
+            Swal.fire(&#x27;Error&#x27;, resp?.msg || &#x27;No se ha podido cambiar el estado del partenariado&#x27;, &#x27;error&#x27;);
+          }
+        } );
+  }
+
+  enviarMensaje() {
+    this.partenariadoService.enviarMensaje(this.partenariado, this.mensaje)
+        .subscribe( (resp: any) &#x3D;&gt; {
+          if(resp.ok) {
+            this.mensaje &#x3D; &#x27;&#x27;;
+            this.cargarPartenariado(this.partenariado._id);
+          } else {
+            Swal.fire(&#x27;Error&#x27;, resp?.msg || &#x27;No se ha podido enviar el mensaje&#x27;, &#x27;error&#x27;);
+          }
+        } );
+  }
+
+  numeroMensajes() {
+    return Object.keys(this.partenariado?.mensajes || {}).length;
+  }
+
+  parseFecha(fecha:string) {
+    return moment(fecha).format(&#x27;DD/MM/YYYY HH:mm:ss&#x27;)
+  }
+
+
+  subirFichero( file: File ) {
+    if( !file ) { return; }
+
+    this.fileUploadService
+        .subirFichero(file, &#x27;archivos&#x27;, &#x27;partenariados&#x27;, this.partenariado._id)
+        .then( resp &#x3D;&gt; {
+          const {ok, msg, upload_id} &#x3D; resp;
+          if(ok) {
+            this.cargarPartenariado(this.partenariado._id);
+            Swal.fire(&#x27;Ok&#x27;, &#x27;Fichero subido correctamente&#x27;, &#x27;success&#x27;);
+          } else {
+            Swal.fire(&#x27;Error&#x27;, msg, &#x27;error&#x27;);
+          }
+        });
+  } */
+
+/*   borrarFichero( id: string ) {
+    this.fileUploadService
+        .borrarFichero(id)
+        .then( resp &#x3D;&gt; {
+          const {ok, msg } &#x3D; resp;
+          if(ok) {
+            this.cargarPartenariado(this.partenariado._id);
+            Swal.fire(&#x27;Ok&#x27;, &#x27;Fichero borrado correctamente&#x27;, &#x27;success&#x27;);
+          } else {
+            Swal.fire(&#x27;Error&#x27;, msg, &#x27;error&#x27;);
+          }
+        });
+        (&lt;HTMLInputElement&gt;document.getElementById(&quot;file-upload-2&quot;)).value&#x3D;&quot;&quot;;
+  } */
+
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;app-navbar&gt;&lt;/app-navbar&gt;
+&lt;div class&#x3D;&quot;container mt-4 animate__animated animate__fadeIn animate__faster&quot;&gt;
+
+    &lt;h5 class&#x3D;&quot;px-4 py-2 mb-4 text-white display-block bg-secondary d-flex justify-content-between align-items-center&quot;&gt;
+        &lt;strong&gt;Ver Partenariado&lt;/strong&gt;
+        &lt;a [routerLink]&#x3D;&quot;[&#x27;/mis-partenariados&#x27;]&quot; class&#x3D;&quot;btn btn-primary border-white btn-sm&quot; role&#x3D;&quot;button&quot;&gt;Volver a Mis Partenariados&lt;/a&gt;
+    &lt;/h5&gt;
+
+    &lt;div *ngIf&#x3D;&quot;partenariado?.proponedor.rol &#x3D;&#x3D;&#x3D; &#x27;ROL_SOCIO_COMUNITARIO&#x27; &amp;&amp; this.usuarioService.usuario &amp;&amp; this.usuarioService.usuario.esSocioComunitario&quot; class&#x3D;&quot;alert alert-warning&quot; role&#x3D;&quot;alert&quot;&gt;
+        &lt;strong&gt;Atención: &lt;/strong&gt; Estás en la aplicación como &lt;strong&gt;Socio comunitario&lt;/strong&gt;. Sólo un Profesor puede convertir este partenariado en PROYECTO.
+    &lt;/div&gt;
+
+    &lt;div *ngIf&#x3D;&quot;partenariado?.estado !&#x3D;&#x3D; &#x27;En negociación&#x27; &quot; class&#x3D;&quot;alert alert-warning&quot; role&#x3D;&quot;alert&quot;&gt;
+        &lt;strong&gt;Atención: &lt;/strong&gt; Esta PARTENARIADO ya no está en negociación. Se puede seguir viendo a modo de consulta. Si crees que este partenariado se ha cerrado por error, por favor, &lt;a [routerLink]&#x3D;&quot;[&#x27;/sobre-ApS-UNED/contacta&#x27;]&quot; class&#x3D;&quot;font-weight-bold&quot;&gt;contacta con el Gestor&lt;/a&gt; para que evalúe si puede proceder a abrirlo de nuevo.
+    &lt;/div&gt;
+
+
+    &lt;!-- Info de cargando --&gt;
+    &lt;div *ngIf&#x3D;&quot;!partenariado&quot; class&#x3D;&quot;mb-0 alert alert-info text-center animate__animated animate__fadeIn animate__fast&quot; role&#x3D;&quot;alert&quot;&gt;
+        &lt;h4&gt;Cargando partenariado...&lt;/h4&gt;
+        &lt;fa-icon [icon]&#x3D;&quot;[&#x27;fas&#x27;, &#x27;sync&#x27;]&quot; [spin]&#x3D;&quot;true&quot;&gt;&lt;/fa-icon&gt;
+        &lt;p class&#x3D;&quot;mb-&quot;&gt;Por favor, espere&lt;/p&gt;
+    &lt;/div&gt;
+
+
+    &lt;div *ngIf&#x3D;&quot;partenariado&quot; class&#x3D;&quot;row&quot;&gt;
+
+        &lt;div class&#x3D;&quot;col-9&quot;&gt;
+
+            &lt;header class&#x3D;&quot;card-header mb-2 border d-flex justify-content-between align-items-center&quot;&gt;
+                &lt;h6 class&#x3D;&quot;title mb-0&quot;&gt;&lt;strong&gt;Partenariado: {{ partenariado.titulo }}&lt;/strong&gt;&lt;/h6&gt;
+                &lt;span&gt;&lt;strong&gt;Estado: {{ partenariado.estado }}&lt;/strong&gt;&lt;/span&gt;
+            &lt;/header&gt;
+
+            &lt;div class&#x3D;&quot;card my-2 p-3&quot;&gt;
+                &lt;div class&#x3D;&quot;d-flex justify-content-between&quot;&gt;
+                    &lt;div&gt;&lt;strong&gt;Rama de conocimiento:&lt;/strong&gt; {{ partenariado.rama }}&lt;/div&gt;
+                    &lt;div&gt;&lt;strong&gt;Ciudad:&lt;/strong&gt; {{ partenariado.ciudad }}&lt;/div&gt;
+                &lt;/div&gt;
+                &lt;hr/&gt;
+
+                &lt;p&gt;&lt;strong&gt;Fecha de registro de la partenariado:&lt;/strong&gt; {{ partenariado.parsedCreatedAt }}&lt;/p&gt;
+                &lt;p&gt;&lt;strong&gt;Descripción:&lt;/strong&gt; {{ partenariado.descripcion }}&lt;/p&gt;
+                &lt;p&gt;&lt;strong&gt;¿Quién es el responsable de la partenariado?:&lt;/strong&gt;&lt;/p&gt;
+                &lt;ul&gt;
+                    &lt;li&gt;&lt;strong&gt;&lt;em&gt;Nombre y Apellidos: &lt;/em&gt;&lt;/strong&gt;{{ partenariado.proponedor.nombre}} {{ partenariado.proponedor.apellidos}}&lt;/li&gt;
+                    &lt;li&gt;
+                        &lt;strong&gt;&lt;em&gt;
+                            &lt;span *ngIf&#x3D;&quot;[&#x27;ROL_ESTUDIANTE&#x27;, &#x27;ROL_PROFESOR&#x27;, &#x27;ROL_GESTOR&#x27;].includes(partenariado.proponedor.rol)&quot;&gt;Universidad / Titulación: &lt;/span&gt;
+                            &lt;span *ngIf&#x3D;&quot;[&#x27;ROL_ESTUDIANTE&#x27;].includes(partenariado.proponedor.rol)&quot;&gt;Sector: &lt;/span&gt;
+                        &lt;/em&gt;&lt;/strong&gt;
+                        {{ partenariado.proponedor.additionalInfoPlain || &#x27;Sin información&#x27;}}
+                    &lt;/li&gt;
+                    &lt;li&gt;&lt;strong&gt;&lt;em&gt;Rol en la aplicación: &lt;/em&gt;&lt;/strong&gt;{{ partenariado.proponedor.displayRol}}&lt;/li&gt;
+                &lt;/ul&gt;
+
+
+            &lt;/div&gt;
+
+
+            &lt;header *ngIf&#x3D;&quot;partenariado.estado &#x3D;&#x3D; &#x27;En negociación&#x27;&quot; class&#x3D;&quot;card-header mb-2 border d-flex justify-content-between&quot;&gt;
+                &lt;h6 class&#x3D;&quot;title mb-0&quot;&gt;&lt;strong&gt;Escribir Mensaje&lt;/strong&gt;&lt;/h6&gt;
+            &lt;/header&gt;
+
+            &lt;header *ngIf&#x3D;&quot;partenariado.estado !&#x3D; &#x27;En negociación&#x27;&quot; class&#x3D;&quot;card-header mb-2 border d-flex justify-content-between&quot;&gt;
+                &lt;h6 class&#x3D;&quot;title mb-0&quot;&gt;&lt;strong&gt;El partenariado ya no está en negociación y no se pueden escribir mensajes &lt;/strong&gt;&lt;/h6&gt;
+            &lt;/header&gt;
+
+            &lt;div *ngIf&#x3D;&quot;partenariado.estado &#x3D;&#x3D; &#x27;En negociación&#x27;&quot; class&#x3D;&quot;card my-2 p-3&quot;&gt;
+                &lt;div class&#x3D;&quot;col-md-12&quot;&gt;
+                    &lt;div class&#x3D;&quot;form-group&quot;&gt;
+                        &lt;label for&#x3D;&quot;mensaje&quot;&gt;Mensaje&lt;/label&gt;
+                        &lt;textarea [(ngModel)]&#x3D;&quot;mensaje&quot; class&#x3D;&quot;form-control&quot; id&#x3D;&quot;mensaje&quot; name&#x3D;&quot;mensaje&quot; placeholder&#x3D;&quot;Escribe un mensaje&quot; rows&#x3D;&quot;3&quot;&gt;&lt;/textarea&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div class&#x3D;&quot;col-md-12&quot;&gt;
+                    &lt;input (click)&#x3D;&quot;enviarMensaje()&quot; [disabled]&#x3D;&quot;this.mensaje &#x3D;&#x3D; &#x27;&#x27;&quot; [value]&#x3D;&quot;&#x27;Enviar mensaje&#x27;&quot; class&#x3D;&quot;btn btn-success float-right&quot; type&#x3D;&quot;submit&quot;&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+
+            &lt;header class&#x3D;&quot;card-header mb-2 border d-flex justify-content-between&quot;&gt;
+                &lt;h6 class&#x3D;&quot;title mb-0&quot;&gt;&lt;strong&gt;Histórico de mensajes del partenariado&lt;/strong&gt;&lt;/h6&gt;
+            &lt;/header&gt;
+
+
+            &lt;div *ngIf&#x3D;&quot;!numeroMensajes()&quot; class&#x3D;&quot;card my-2 p-3&quot;&gt;
+                Aún no hay ningún mensaje...
+            &lt;/div&gt;
+
+            &lt;div *ngFor&#x3D;&quot;let mensaje of partenariado.mensajes&quot; class&#x3D;&quot;card my-2 p-3&quot;&gt;
+                &lt;div class&#x3D;&quot;d-flex justify-content-between&quot;&gt;
+                    &lt;div&gt;&lt;strong&gt;Autor:&lt;/strong&gt; {{ mensaje.nombre }} {{ mensaje.apellidos }} &lt;{{ mensaje.email }}&gt; [{{ mensaje.rol}}]&lt;/div&gt;
+                    &lt;div&gt;&lt;strong&gt;Fecha:&lt;/strong&gt; {{ parseFecha(mensaje.fecha) }}&lt;/div&gt;
+                &lt;/div&gt;
+                &lt;hr/&gt;
+                &lt;p&gt;{{ mensaje.texto }}&lt;/p&gt;
+            &lt;/div&gt;
+
+        &lt;/div&gt;
+
+        &lt;div class&#x3D;&quot;col-3&quot;&gt;
+
+            &lt;div class&#x3D;&quot;card&quot;&gt;
+
+                &lt;div class&#x3D;&quot;filtro&quot;&gt;
+                    &lt;header class&#x3D;&quot;card-header border&quot;&gt;
+                        &lt;h6 class&#x3D;&quot;title mb-0&quot;&gt;Estado &lt;/h6&gt;
+                    &lt;/header&gt;
+
+                    &lt;div class&#x3D;&quot;card-body&quot;&gt;
+                        &lt;div&gt;
+                            &lt;div class&#x3D;&quot;text-center font-weight-bold mb-4&quot;&gt;{{partenariado.estado}}&lt;/div&gt;
+                            &lt;button (click)&#x3D;&quot;cambiarEstado(&#x27;Acordado&#x27;)&quot; *ngIf&#x3D;&quot;!partenariado.proyecto &amp;&amp; partenariado.estado &#x3D;&#x3D; &#x27;En negociación&#x27; &amp;&amp; this.usuarioService.usuario &amp;&amp; (this.usuarioService.usuario.esProfesor || this.usuarioService.usuario.esGestor)&quot; class&#x3D;&quot;btn btn-warning border-white btn-sm w-100 font-weight-bold mb-2&quot; role&#x3D;&quot;button&quot;&gt;CONVERTIR EN PROYECTO&lt;/button&gt;
+                            &lt;p *ngIf&#x3D;&quot;!partenariado.proyecto &amp;&amp; partenariado.estado &#x3D;&#x3D; &#x27;En negociación&#x27; &amp;&amp; this.usuarioService.usuario &amp;&amp; (this.usuarioService.usuario.esProfesor || this.usuarioService.usuario.esGestor)&quot;&gt;Si pulsas convertir en proyecto, se creará un proyecto y se dará este partenariado por Acordado.&lt;/p&gt;
+
+                        &lt;/div&gt;
+
+                    &lt;/div&gt;
+                &lt;/div&gt;
+
+                &lt;div *ngIf&#x3D;&quot;this.usuarioService.usuario &amp;&amp; (this.usuarioService.usuario.esProfesor || this.usuarioService.usuario.esGestor) &amp;&amp; partenariado.estado &#x3D;&#x3D; &#x27;En negociación&#x27;&quot; class&#x3D;&quot;filtro&quot;&gt;
+                    &lt;header class&#x3D;&quot;card-header border-top rounded-0&quot;&gt;
+                        &lt;h6 class&#x3D;&quot;title mb-0&quot;&gt;Cancelar Partenariado &lt;/h6&gt;
+                    &lt;/header&gt;
+
+                    &lt;div class&#x3D;&quot;card-body&quot;&gt;
+                        &lt;div&gt;
+                            &lt;button (click)&#x3D;&quot;cambiarEstado(&#x27;Sin respuesta&#x27;)&quot; *ngIf&#x3D;&quot;this.usuarioService.usuario &amp;&amp; (this.usuarioService.usuario.esProfesor || this.usuarioService.usuario.esGestor) &amp;&amp; partenariado.estado &#x3D;&#x3D; &#x27;En negociación&#x27;&quot; class&#x3D;&quot;btn btn-danger border-white btn-sm w-100 font-weight-bold mb-2&quot; role&#x3D;&quot;button&quot;&gt;Cerrar - Sin respuesta&lt;/button&gt;
+                            &lt;button (click)&#x3D;&quot;cambiarEstado(&#x27;Suspendido&#x27;)&quot; *ngIf&#x3D;&quot;this.usuarioService.usuario &amp;&amp; (this.usuarioService.usuario.esProfesor || this.usuarioService.usuario.esGestor) &amp;&amp; partenariado.estado &#x3D;&#x3D; &#x27;En negociación&#x27;&quot; class&#x3D;&quot;btn btn-danger border-white btn-sm w-100 font-weight-bold mb-2&quot; role&#x3D;&quot;button&quot;&gt;Cerrar - Suspendido&lt;/button&gt;
+
+                            &lt;button (click)&#x3D;&quot;cambiarEstado(&#x27;En negociación&#x27;)&quot; *ngIf&#x3D;&quot;this.usuarioService.usuario &amp;&amp; this.usuarioService.usuario.esGestor &amp;&amp; partenariado.estado !&#x3D; &#x27;En negociación&#x27;&quot; class&#x3D;&quot;btn btn-success border-white btn-sm w-100 font-weight-bold mb-2&quot; role&#x3D;&quot;button&quot;&gt;Reabrir Partenariado&lt;/button&gt;
+                        &lt;/div&gt;
+
+                    &lt;/div&gt;
+                &lt;/div&gt;
+
+                &lt;div *ngIf&#x3D;&quot;this.usuarioService.usuario &amp;&amp; this.usuarioService.usuario.esGestor &amp;&amp; partenariado.estado !&#x3D; &#x27;En negociación&#x27;&quot; class&#x3D;&quot;filtro&quot;&gt;
+                    &lt;header class&#x3D;&quot;card-header border-top rounded-0&quot;&gt;
+                        &lt;h6 class&#x3D;&quot;title mb-0&quot;&gt;Reabrir Partenariado &lt;/h6&gt;
+                    &lt;/header&gt;
+
+                    &lt;div class&#x3D;&quot;card-body&quot;&gt;
+                        &lt;div&gt;
+                            &lt;button (click)&#x3D;&quot;cambiarEstado(&#x27;En negociación&#x27;)&quot; class&#x3D;&quot;btn btn-success border-white btn-sm w-100 font-weight-bold mb-2&quot; role&#x3D;&quot;button&quot;&gt;Reabrir Partenariado&lt;/button&gt;
+                        &lt;/div&gt;
+
+                    &lt;/div&gt;
+                &lt;/div&gt;
+
+                &lt;div class&#x3D;&quot;filtro&quot;&gt;
+                    &lt;header class&#x3D;&quot;card-header border-top rounded-0&quot;&gt;
+                        &lt;h6 class&#x3D;&quot;title mb-0&quot;&gt;Archivos de interés &lt;/h6&gt;
+                    &lt;/header&gt;
+
+                    &lt;div class&#x3D;&quot;card-body&quot;&gt;
+                        &lt;p *ngIf&#x3D;&quot;partenariado.archivos.length &#x3D;&#x3D;&#x3D; 0&quot;&gt;No se ha subido ningún archivo para este partenariado&lt;/p&gt;
+                        &lt;ul *ngIf&#x3D;&quot;partenariado.archivos.length &gt; 0&quot; class&#x3D;&quot;list-group&quot;&gt;
+                            &lt;li *ngFor&#x3D;&quot;let archivo of partenariado.archivos&quot; class&#x3D;&quot;list-group-item&quot;&gt;
+                                &lt;a href&#x3D;&quot;{{ archivo.url }}&quot; target&#x3D;&quot;_blank&quot;&gt;{{ archivo.client_name }}&lt;/a&gt;
+                                &lt;span (click)&#x3D;&quot;borrarFichero(archivo._id)&quot; *ngIf&#x3D;&quot;this.usuarioService.usuario.esGestor&quot; aria-label&#x3D;&quot;Borrar Fichero&quot; class&#x3D;&quot;remove-image-btn float-right&quot;&gt;(x)&lt;/span&gt;
+                            &lt;/li&gt;
+                        &lt;/ul&gt;
+
+
+                        &lt;div class&#x3D;&quot;row&quot;&gt;
+                            &lt;div class&#x3D;&quot;col-12 justify-content-between&quot;&gt;
+                                &lt;div class&#x3D;&quot;form-group&quot;&gt;
+                                    &lt;label class&#x3D;&quot;custom-file-upload&quot; for&#x3D;&quot;file-upload-2&quot;&gt;
+                                        &lt;em class&#x3D;&quot;fa fa-cloud-upload&quot;&gt;&lt;/em&gt; Subir Fichero (solo pdf)
+                                    &lt;/label&gt;
+                                    &lt;input (change)&#x3D;&quot;subirFichero($event.target.files[0])&quot; id&#x3D;&quot;file-upload-2&quot; type&#x3D;&quot;file&quot;/&gt;
+                                &lt;/div&gt;
+                            &lt;/div&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+
+                &lt;div class&#x3D;&quot;filtro&quot;&gt;
+                    &lt;header class&#x3D;&quot;card-header border-top rounded-0&quot;&gt;
+                        &lt;h6 class&#x3D;&quot;title mb-0&quot;&gt;Partenariado y Proyecto &lt;/h6&gt;
+                    &lt;/header&gt;
+
+                    &lt;div class&#x3D;&quot;card-body&quot;&gt;
+                        &lt;ul class&#x3D;&quot;list-group&quot;&gt;
+                            &lt;li class&#x3D;&quot;list-group-item&quot;&gt;&lt;a [routerLink]&#x3D;&quot;[&#x27;/iniciativas/ver/&#x27;, partenariado.iniciativa]&quot;&gt;Ver Iniciativa Origen&lt;/a&gt;&lt;/li&gt;
+                        &lt;/ul&gt;
+                        &lt;ul class&#x3D;&quot;list-group&quot;&gt;
+                            &lt;li *ngIf&#x3D;&quot;partenariado.proyecto&quot; class&#x3D;&quot;list-group-item&quot;&gt;&lt;a [routerLink]&#x3D;&quot;[&#x27;/proyectos/ver/&#x27;, partenariado.proyecto]&quot;&gt;Ver Proyecto Destino&lt;/a&gt;&lt;/li&gt;
+                            &lt;li *ngIf&#x3D;&quot;!partenariado.proyecto&quot; class&#x3D;&quot;list-group-item&quot;&gt;El profesor aún no ha dado por acordado este partenariado y por lo tanto no se ha generado ningún proyecto.&lt;/li&gt;
+                        &lt;/ul&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;app-footer&gt;&lt;/app-footer&gt;
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-styleData">
+                <p class="comment">
+                    <code>./partenariados-ver.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">label {
+    font-weight: bold;
+}
+
+fieldset {
+    border: 1px solid gray;
+
+    legend {
+        width: auto;
+    }
+}
+
+input[type&#x3D;&quot;file&quot;] {
+    display: none;
+}
+.custom-file-upload {
+    text-align: center;
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    width: 100%;
+    cursor: pointer;
+}
+
+.remove-image-btn {
+    color: red;
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+    font-size: x-small;
+    text-decoration: underline;
+}</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><app-navbar></app-navbar><div class="container mt-4 animate__animated animate__fadeIn animate__faster">    <h5 class="px-4 py-2 mb-4 text-white display-block bg-secondary d-flex justify-content-between align-items-center">        <strong>Ver Partenariado</strong>        <a [routerLink]="[\'/mis-partenariados\']" class="btn btn-primary border-white btn-sm" role="button">Volver a Mis Partenariados</a>    </h5>    <div *ngIf="partenariado?.proponedor.rol === \'ROL_SOCIO_COMUNITARIO\' && this.usuarioService.usuario && this.usuarioService.usuario.esSocioComunitario" class="alert alert-warning" role="alert">        <strong>Atención: </strong> Estás en la aplicación como <strong>Socio comunitario</strong>. Sólo un Profesor puede convertir este partenariado en PROYECTO.    </div>    <div *ngIf="partenariado?.estado !== \'En negociación\' " class="alert alert-warning" role="alert">        <strong>Atención: </strong> Esta PARTENARIADO ya no está en negociación. Se puede seguir viendo a modo de consulta. Si crees que este partenariado se ha cerrado por error, por favor, <a [routerLink]="[\'/sobre-ApS-UNED/contacta\']" class="font-weight-bold">contacta con el Gestor</a> para que evalúe si puede proceder a abrirlo de nuevo.    </div>    <!-- Info de cargando -->    <div *ngIf="!partenariado" class="mb-0 alert alert-info text-center animate__animated animate__fadeIn animate__fast" role="alert">        <h4>Cargando partenariado...</h4>        <fa-icon [icon]="[\'fas\', \'sync\']" [spin]="true"></fa-icon>        <p class="mb-">Por favor, espere</p>    </div>    <div *ngIf="partenariado" class="row">        <div class="col-9">            <header class="card-header mb-2 border d-flex justify-content-between align-items-center">                <h6 class="title mb-0"><strong>Partenariado: {{ partenariado.titulo }}</strong></h6>                <span><strong>Estado: {{ partenariado.estado }}</strong></span>            </header>            <div class="card my-2 p-3">                <div class="d-flex justify-content-between">                    <div><strong>Rama de conocimiento:</strong> {{ partenariado.rama }}</div>                    <div><strong>Ciudad:</strong> {{ partenariado.ciudad }}</div>                </div>                <hr/>                <p><strong>Fecha de registro de la partenariado:</strong> {{ partenariado.parsedCreatedAt }}</p>                <p><strong>Descripción:</strong> {{ partenariado.descripcion }}</p>                <p><strong>¿Quién es el responsable de la partenariado?:</strong></p>                <ul>                    <li><strong><em>Nombre y Apellidos: </em></strong>{{ partenariado.proponedor.nombre}} {{ partenariado.proponedor.apellidos}}</li>                    <li>                        <strong><em>                            <span *ngIf="[\'ROL_ESTUDIANTE\', \'ROL_PROFESOR\', \'ROL_GESTOR\'].includes(partenariado.proponedor.rol)">Universidad / Titulación: </span>                            <span *ngIf="[\'ROL_ESTUDIANTE\'].includes(partenariado.proponedor.rol)">Sector: </span>                        </em></strong>                        {{ partenariado.proponedor.additionalInfoPlain || \'Sin información\'}}                    </li>                    <li><strong><em>Rol en la aplicación: </em></strong>{{ partenariado.proponedor.displayRol}}</li>                </ul>            </div>            <header *ngIf="partenariado.estado == \'En negociación\'" class="card-header mb-2 border d-flex justify-content-between">                <h6 class="title mb-0"><strong>Escribir Mensaje</strong></h6>            </header>            <header *ngIf="partenariado.estado != \'En negociación\'" class="card-header mb-2 border d-flex justify-content-between">                <h6 class="title mb-0"><strong>El partenariado ya no está en negociación y no se pueden escribir mensajes </strong></h6>            </header>            <div *ngIf="partenariado.estado == \'En negociación\'" class="card my-2 p-3">                <div class="col-md-12">                    <div class="form-group">                        <label for="mensaje">Mensaje</label>                        <textarea [(ngModel)]="mensaje" class="form-control" id="mensaje" name="mensaje" placeholder="Escribe un mensaje" rows="3"></textarea>                    </div>                </div>                <div class="col-md-12">                    <input (click)="enviarMensaje()" [disabled]="this.mensaje == \'\'" [value]="\'Enviar mensaje\'" class="btn btn-success float-right" type="submit">                </div>            </div>            <header class="card-header mb-2 border d-flex justify-content-between">                <h6 class="title mb-0"><strong>Histórico de mensajes del partenariado</strong></h6>            </header>            <div *ngIf="!numeroMensajes()" class="card my-2 p-3">                Aún no hay ningún mensaje...            </div>            <div *ngFor="let mensaje of partenariado.mensajes" class="card my-2 p-3">                <div class="d-flex justify-content-between">                    <div><strong>Autor:</strong> {{ mensaje.nombre }} {{ mensaje.apellidos }} <{{ mensaje.email }}> [{{ mensaje.rol}}]</div>                    <div><strong>Fecha:</strong> {{ parseFecha(mensaje.fecha) }}</div>                </div>                <hr/>                <p>{{ mensaje.texto }}</p>            </div>        </div>        <div class="col-3">            <div class="card">                <div class="filtro">                    <header class="card-header border">                        <h6 class="title mb-0">Estado </h6>                    </header>                    <div class="card-body">                        <div>                            <div class="text-center font-weight-bold mb-4">{{partenariado.estado}}</div>                            <button (click)="cambiarEstado(\'Acordado\')" *ngIf="!partenariado.proyecto && partenariado.estado == \'En negociación\' && this.usuarioService.usuario && (this.usuarioService.usuario.esProfesor || this.usuarioService.usuario.esGestor)" class="btn btn-warning border-white btn-sm w-100 font-weight-bold mb-2" role="button">CONVERTIR EN PROYECTO</button>                            <p *ngIf="!partenariado.proyecto && partenariado.estado == \'En negociación\' && this.usuarioService.usuario && (this.usuarioService.usuario.esProfesor || this.usuarioService.usuario.esGestor)">Si pulsas convertir en proyecto, se creará un proyecto y se dará este partenariado por Acordado.</p>                        </div>                    </div>                </div>                <div *ngIf="this.usuarioService.usuario && (this.usuarioService.usuario.esProfesor || this.usuarioService.usuario.esGestor) && partenariado.estado == \'En negociación\'" class="filtro">                    <header class="card-header border-top rounded-0">                        <h6 class="title mb-0">Cancelar Partenariado </h6>                    </header>                    <div class="card-body">                        <div>                            <button (click)="cambiarEstado(\'Sin respuesta\')" *ngIf="this.usuarioService.usuario && (this.usuarioService.usuario.esProfesor || this.usuarioService.usuario.esGestor) && partenariado.estado == \'En negociación\'" class="btn btn-danger border-white btn-sm w-100 font-weight-bold mb-2" role="button">Cerrar - Sin respuesta</button>                            <button (click)="cambiarEstado(\'Suspendido\')" *ngIf="this.usuarioService.usuario && (this.usuarioService.usuario.esProfesor || this.usuarioService.usuario.esGestor) && partenariado.estado == \'En negociación\'" class="btn btn-danger border-white btn-sm w-100 font-weight-bold mb-2" role="button">Cerrar - Suspendido</button>                            <button (click)="cambiarEstado(\'En negociación\')" *ngIf="this.usuarioService.usuario && this.usuarioService.usuario.esGestor && partenariado.estado != \'En negociación\'" class="btn btn-success border-white btn-sm w-100 font-weight-bold mb-2" role="button">Reabrir Partenariado</button>                        </div>                    </div>                </div>                <div *ngIf="this.usuarioService.usuario && this.usuarioService.usuario.esGestor && partenariado.estado != \'En negociación\'" class="filtro">                    <header class="card-header border-top rounded-0">                        <h6 class="title mb-0">Reabrir Partenariado </h6>                    </header>                    <div class="card-body">                        <div>                            <button (click)="cambiarEstado(\'En negociación\')" class="btn btn-success border-white btn-sm w-100 font-weight-bold mb-2" role="button">Reabrir Partenariado</button>                        </div>                    </div>                </div>                <div class="filtro">                    <header class="card-header border-top rounded-0">                        <h6 class="title mb-0">Archivos de interés </h6>                    </header>                    <div class="card-body">                        <p *ngIf="partenariado.archivos.length === 0">No se ha subido ningún archivo para este partenariado</p>                        <ul *ngIf="partenariado.archivos.length > 0" class="list-group">                            <li *ngFor="let archivo of partenariado.archivos" class="list-group-item">                                <a href="{{ archivo.url }}" target="_blank">{{ archivo.client_name }}</a>                                <span (click)="borrarFichero(archivo._id)" *ngIf="this.usuarioService.usuario.esGestor" aria-label="Borrar Fichero" class="remove-image-btn float-right">(x)</span>                            </li>                        </ul>                        <div class="row">                            <div class="col-12 justify-content-between">                                <div class="form-group">                                    <label class="custom-file-upload" for="file-upload-2">                                        <em class="fa fa-cloud-upload"></em> Subir Fichero (solo pdf)                                    </label>                                    <input (change)="subirFichero($event.target.files[0])" id="file-upload-2" type="file"/>                                </div>                            </div>                        </div>                    </div>                </div>                <div class="filtro">                    <header class="card-header border-top rounded-0">                        <h6 class="title mb-0">Partenariado y Proyecto </h6>                    </header>                    <div class="card-body">                        <ul class="list-group">                            <li class="list-group-item"><a [routerLink]="[\'/iniciativas/ver/\', partenariado.iniciativa]">Ver Iniciativa Origen</a></li>                        </ul>                        <ul class="list-group">                            <li *ngIf="partenariado.proyecto" class="list-group-item"><a [routerLink]="[\'/proyectos/ver/\', partenariado.proyecto]">Ver Proyecto Destino</a></li>                            <li *ngIf="!partenariado.proyecto" class="list-group-item">El profesor aún no ha dado por acordado este partenariado y por lo tanto no se ha generado ningún proyecto.</li>                        </ul>                    </div>                </div>            </div>        </div>    </div></div><app-footer></app-footer></div>'
+    var COMPONENTS = [{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'BreadcrumbsComponent', 'selector': 'app-breadcrumbs'},{'name': 'CarouselComponent', 'selector': 'app-carousel'},{'name': 'CheckboxNotificacionesComponent', 'selector': 'app-checkbox-notificaciones'},{'name': 'Code404Component', 'selector': 'app-code404'},{'name': 'ComoParticiparEstudiantesComponent', 'selector': 'app-como-participar-estudiantes'},{'name': 'ComoParticiparProfesoresComponent', 'selector': 'app-como-participar-profesores'},{'name': 'ComoParticiparSociosComunitariosComponent', 'selector': 'app-como-participar-socioscomunitarios'},{'name': 'CondicionesComponent', 'selector': 'app-condiciones'},{'name': 'crearDemandaComponent', 'selector': 'app-demanda-crear'},{'name': 'DemandasComponent', 'selector': 'app-demandas'},{'name': 'DemandasVerComponent', 'selector': 'app-demandas-ver'},{'name': 'FaqComponent', 'selector': 'app-faq'},{'name': 'FooterComponent', 'selector': 'app-footer'},{'name': 'GestionUsuariosComponent', 'selector': 'app-gestion-usuarios'},{'name': 'GestionUsuariosEditarComponent', 'selector': 'app-gestion-usuarios-editar'},{'name': 'GestorEmailsComponent', 'selector': 'app-gestor-emails'},{'name': 'GestorNewsletterComponent', 'selector': 'app-gestor-newsletter'},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'IniciativaRespaldadaComponent', 'selector': 'app-iniciativa-respaldada'},{'name': 'IniciativasComponent', 'selector': 'app-iniciativas'},{'name': 'IniciativasCrearComponent', 'selector': 'app-iniciativas-crear'},{'name': 'IniciativasEditarComponent', 'selector': 'app-iniciativas-editar'},{'name': 'IniciativasVerComponent', 'selector': 'app-iniciativas-ver'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'NavbarComponent', 'selector': 'app-navbar'},{'name': 'NewsletterSubscribeComponent', 'selector': 'app-newsletter-subscribe'},{'name': 'OfertaCardComponent', 'selector': 'app-oferta-card'},{'name': 'OfertasComponent', 'selector': 'app-ofertas'},{'name': 'OfertasCrearComponent', 'selector': 'app-ofertas-crear'},{'name': 'OfertasVerComponent', 'selector': 'app-ofertas-ver'},{'name': 'PartenariadoCrearProfesorComponent', 'selector': 'app-partenariado-crear-profesor'},{'name': 'PartenariadosCardComponent', 'selector': 'app-partenariados-card'},{'name': 'PartenariadosComponent', 'selector': 'app-partenariados'},{'name': 'PartenariadosVerComponent', 'selector': 'app-partenariados-ver'},{'name': 'ProfileComponent', 'selector': 'app-profile'},{'name': 'ProyectosCardComponent', 'selector': 'app-proyectos-card'},{'name': 'ProyectosComponent', 'selector': 'app-proyectos'},{'name': 'ProyectosVerComponent', 'selector': 'app-proyectos-ver'},{'name': 'QueEsApsComponent', 'selector': 'app-que-es-aps'},{'name': 'RegisterComponent', 'selector': 'app-register'},{'name': 'ResumenComponent', 'selector': 'app-resumen'},{'name': 'ResumenEstudianteExternoComponent', 'selector': 'app-resumen-estudiante-externo'},{'name': 'ResumenEstudianteInternoComponent', 'selector': 'app-resumen-estudiante-interno'},{'name': 'ResumenOficinaApsComponent', 'selector': 'app-resumen-oficina-aps'},{'name': 'ResumenProfesorExternoComponent', 'selector': 'app-resumen-profesor-externo'},{'name': 'ResumenProfesorInternoComponent', 'selector': 'app-resumen-profesor-interno'},{'name': 'ResumenSocioComunitarioComponent', 'selector': 'app-resumen-socio-comunitario'},{'name': 'ServicioOfertadoComponent', 'selector': 'app-servicio-ofertado'},{'name': 'SobreApsUnedContactaComponent', 'selector': 'app-sobre-aps-uned-contacta'},{'name': 'SobreApsUnedHistoriaComponent', 'selector': 'app-sobre-aps-uned-historia'},{'name': 'SobreApsUnedQuienesSomosComponent', 'selector': 'app-sobre-aps-uned-quienes-somos'},{'name': 'SugerirOfertaComponent', 'selector': 'app-sugerir-oferta'}];
+    var DIRECTIVES = [];
+    var ACTUAL_COMPONENT = {'name': 'PartenariadosVerComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'PartenariadosVerComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

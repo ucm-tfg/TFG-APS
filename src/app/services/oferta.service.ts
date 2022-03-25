@@ -79,7 +79,6 @@ export class OfertaService {
 
     /****/
     cargarOfertasPorAreaServicio(id: string){
-        console.log("Dentro de oferta.service");
         return this.http.get<{ok: Boolean, ofertas: Oferta[] }>(`${base_url}/ofertas/ofertasAreaServicio/${id}`, this.usuarioService.headers)
         .pipe(
             map(resp => {
