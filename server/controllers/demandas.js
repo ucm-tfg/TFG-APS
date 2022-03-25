@@ -40,6 +40,45 @@ const getTitulaciones = async (req, res) => {
     }
 }
 
+/****/
+const getDemandasAreaServicio = async(req, res = response) => {
+    try{
+        const id = req.params.id;
+        let demandas = [];
+        demandas = await daoDemanda.obtenerDemandaPorAreaServicio(id);
+        return res.status(200).json({
+            ok: true,
+            demandas
+        })
+    }
+    catch(error){
+        console.log(error);
+        return res.status(500).json({
+            ok: false,
+            msg: "Error inesperado",
+        })
+    }
+}
+
+const getDemandasNecesidadSocial = async(req, res = response) => {
+    try{
+        const id = req.params.id;
+        let demandas = [];
+        demandas = await daoDemanda.obtenerDemandaPorNecesidadSocial(id);
+        return res.status(200).json({
+            ok: true,
+            demandas
+        })
+    } catch(error){
+        console.log(error);
+        return res.status(500).json({
+            ok: false,
+            msg: "Error inesperado",
+        })
+    }
+}
+/****/
+
 const getNecesidades = async (req, res) => {
     try {
         necesidadSocial = await daoDemanda.obtenerListaNecesidadSocial();
@@ -91,7 +130,6 @@ const crearDemanda = async (req, res = response) => {//continuar
             req.body.comunidadBeneficiaria,
             0,
         );
-      
         await daoDemanda.crearDemanda(demanda);
 
         return res.status(200).json({
@@ -152,5 +190,7 @@ module.exports = {
     getTitulaciones,
     crearDemanda,
     obtenerDemanda,
-    obtenerDemandas
+    obtenerDemandas,
+    getDemandasNecesidadSocial,
+    getDemandasAreaServicio
 }

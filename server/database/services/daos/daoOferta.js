@@ -613,7 +613,7 @@ function obtenerAreaServicio(id_anuncio) {
             for (id_area of id_areas) {
                 areas.push(id_area["id_area"]);
             }
-            return knex.select("*").from("area_servicio").whereIn("id", areas);
+            return knex.select("*").from("anuncio_servicio").whereIn("id", areas);
         })
         .catch((err) => {
             console.log(
@@ -624,6 +624,24 @@ function obtenerAreaServicio(id_anuncio) {
         });
 }
 
+/*****/
+function obtenerAnuncioPorAreaServicio(id_areaServicio){
+    return knex("areaservicio_anuncioservicio")
+        .where({id_area: id_areaServicio})
+        .select("id_anuncio")
+        .then(function(id_anuncios){
+            anuncios = [];
+            for (id_anuncio of id_anuncios){
+                anuncios.push(id_anuncio["id_anuncio"]);
+            }
+            return knex.select("*").from("anuncio_servicio").whereIn("id", anuncios);
+        })
+        .catch((err) => {
+            console.log("No se han encontrado los anuncios con el area de servicio con id ", id_areaServicio);
+            throw err;
+        });
+}
+/***************/
 function obtenerIdsAreas(nombre_areas) {
     return knex("area_servicio")
         .whereIn("nombre", nombre_areas)
@@ -738,4 +756,5 @@ module.exports = {
     actualizarAnuncio,
     eliminarAnuncio,
     contarTodasOfertasServicio,
+    obtenerAnuncioPorAreaServicio,
 };

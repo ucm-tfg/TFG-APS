@@ -104,10 +104,33 @@ const obtenerOfertas = async (req, res = response) => {
         })
     }
 }
+/*****/
+
+const getOfertasAreaServicio = async(req, res = response) => {
+    console.log("aaaaaaaa");
+    try{
+        const id = req.params.id;
+        console.log("IDD: " + id);
+        let ofertas = [];
+        ofertas = await daoOferta.obtenerAnuncioPorAreaServicio(id);
+        console.log("ofertas = " + ofertas);
+        return res.status(200).json({
+            ok: true,
+            ofertas
+        })
+    } catch(error){
+        console.log(error);
+        return res.status(500).json({
+            ok: false,
+            msg: "Error inesperado",
+        })
+    }
+}
 
 module.exports = {
     getAreasServicio,
     crearOferta,
     obtenerOferta,
-    obtenerOfertas
+    obtenerOfertas,
+    getOfertasAreaServicio
 }

@@ -19,6 +19,8 @@ app.use("/api/auth", require("./routes/auth"));
 app.use("/api/mails", require("./routes/mails"));
 app.use("/api/home", require("./routes/home"));
 app.use("/api/ofertas", require("./routes/ofertas"));
+app.use("/api/ofertasAreaServicio", require("./routes/ofertas"));/**/
+app.use("/api/demandasAreaServicio", require("./routes/demandas"));/**/
 app.use("/api/demandas", require("./routes/demandas"));
 app.use("/api/usuarios", require("./routes/usuarios"));
 app.use("/api/iniciativas", require("./routes/iniciativas"));
