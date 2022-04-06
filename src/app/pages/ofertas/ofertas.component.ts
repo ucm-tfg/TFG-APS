@@ -96,8 +96,7 @@ export class OfertasComponent implements OnInit {
   }
 
   onItemSelectedArea(item: any){
-    console.log("ID item: " + item.id);
-    console.log("Item: " + item.nombre );
+
     this.ofertaService.cargarOfertasPorAreaServicio(item.id).subscribe(({ ok, ofertas }) => {
       this.ofertas = ofertas
     });
