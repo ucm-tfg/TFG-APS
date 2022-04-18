@@ -7,6 +7,8 @@ import { Profesor } from '../../models/profesor.model'
 import { OfertaCrearGuard } from 'src/app/guards/oferta-crear.guard'
 import { Router } from '@angular/router'
 import { CUATRIMESTRE } from '../../models/cuatrimestre.model'
+import { PartenariadoService } from 'src/app/services/partenariado.service'
+import { IDropdownSettings } from 'ng-multiselect-dropdown';
 
 @Component({
   selector: 'app-ofertas',
@@ -14,9 +16,14 @@ import { CUATRIMESTRE } from '../../models/cuatrimestre.model'
   styleUrls: ['./ofertas.component.scss'],
 })
 export class OfertasComponent implements OnInit {
-  public PROFESORES = Profesor
+
   public CUATRIMESTRES = CUATRIMESTRE
   public cuatrimestres = ['a', 'b', 'c']
+
+  public pageTitle = 'Ofertas'
+  
+
+  public dropdownSettings: IDropdownSettings = {};
 
   public offset = 0
   public limit = 50
@@ -24,6 +31,7 @@ export class OfertasComponent implements OnInit {
 
   public totalOfertas = 0
   public ofertas: Oferta[]
+  public profesores: Profesor[]
 
   public terminoBusqueda = ''
   public totalOfertasBuscadas = 0
@@ -38,15 +46,20 @@ export class OfertasComponent implements OnInit {
   public tags = []
   public tagInput = []; 
 
+
+  public areasServicio: any;
+
   constructor(
     public ofertaCrearGuard: OfertaCrearGuard,
     public ofertaService: OfertaService,
     public usuarioService: UsuarioService,
     public utilsService: UtilsService,
+    public partenarioService: PartenariadoService,
     private router: Router,
   ) {
     if (this.router.url === '/mis-ofertas') {
       this.filterCreador = this.usuarioService.usuario.uid
+      this.pageTitle = 'Mis Ofertas'
     }
   }
 
@@ -66,11 +79,28 @@ export class OfertasComponent implements OnInit {
   }
 
   get lastPageRecord(): number {
-    return this.totalOfertas
+    return this.ofertas.length ?  this.ofertas.length  : 0
   }
 
   ngOnInit(): void {
+    this.cargarProfesores()
     this.cargarOfertas()
+    this.obtenerAreasServicio();
+    this.dropdownSettings = {
+      singleSelection: true,
+      idField: 'id',
+      textField: 'nombre',
+      itemsShowLimit: 10,
+      allowSearchFilter: true,
+    };
+  }
+
+  onItemSelectedArea(item: any){
+    console.log("ID item: " + item.id);
+    console.log("Item: " + item.nombre );
+    this.ofertaService.cargarOfertasPorAreaServicio(item.id).subscribe(({ ok, ofertas }) => {
+      this.ofertas = ofertas
+    });
   }
 
   cambiarPagina(): void {
@@ -100,6 +130,14 @@ export class OfertasComponent implements OnInit {
         this.cargando = false
       })
   }
+
+  cargarProfesores(): void {
+    this.partenarioService
+      .obtenerProfesores()
+      .subscribe(({ok, profesores}) => {
+        this.profesores = profesores 
+      })
+  }
  
   async computePossibleTags($event) {
     this.utilsService
@@ -110,5 +148,11 @@ export class OfertasComponent implements OnInit {
         })
       })
   }
- 
+
+  async obtenerAreasServicio(){
+    return this.ofertaService.obtenerAreasServicio().subscribe((resp: any)=>{
+      this.areasServicio = resp.areasServicio;
+      return this.areasServicio;
+    });
+  }
 }

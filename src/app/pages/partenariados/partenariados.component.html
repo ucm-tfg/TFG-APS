@@ -1,7 +1,7 @@
 <app-navbar></app-navbar>
 <div class="container mt-4 animate__animated animate__fadeIn animate__faster">
     <h5 class="px-4 py-2 mb-4 text-white display-block bg-secondary d-flex justify-content-between">
-        <strong>Partenariados</strong>
+        <strong>{{pageTitle}}</strong>
     </h5>
 
     <div *ngIf="!this.usuarioService.usuario" class="alert alert-warning" role="alert">
@@ -75,26 +75,7 @@
                         </label>
                     </div>
                 </div>
-
-                <!--
-                <div class="filtro">
-                    <header class="card-header border-top rounded-0">
-                        <h6 class="title mb-0">Creador </h6>
-                    </header>
-
-                    <div class="card-body">
-                        <label class="form-check">
-                            <input class="form-check-input" type="radio" name="creador" value="" (change)="cargarPartenariados()" [(ngModel)]="filterCreador">
-                            <span class="form-check-label">Todas</span>
-                        </label>
-
-                        <label class="form-check">
-                            <input class="form-check-input" type="radio" name="creador" [value]="usuarioService.usuario.uid" (change)="cargarPartenariados()" [(ngModel)]="filterCreador">
-                            <span class="form-check-label">Ver mis partenariados</span>
-                        </label>
-                    </div>
-                </div>
-                -->
+ 
 
 
             </div>
@@ -129,7 +110,75 @@
                         <button (click)="cambiarPagina(nextLimit)" class="btn btn-outline-secondary">Siguientes</button>
                     </div>
 
-                    <table aria-describedby="" class="table table-sm table-bordered">
+                    <div class="row">
+                        <app-partenariado-card class="col-sm-6 col-lg-4 mb-3" *ngFor="let partenariado of partenariados" [partenariado]="partenariado"></app-partenariado-card> 
+                      
+                        <div class="col-sm-6 col-lg-4 mb-3">
+                            <div class="card mb-3 h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title">Partenariado Example</h5>
+                                    <p class="card-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                                </div>
+                                <div class="card-footer">
+                                    <fa-icon
+                                        [icon]="['fas', 'eye']" 
+                                        class="text-primary cursor-pointer"
+                                        title="Ver oferta"
+                                    ></fa-icon>
+                                    <fa-icon
+                                        *ngIf="usuarioService.usuario?.esGestor"
+                                        [icon]="['fas', 'edit']" 
+                                        class="text-primary cursor-pointer"
+                                        title="Editar oferta"
+                                    ></fa-icon>
+                                </div>  
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-lg-4 mb-3">
+                            <div class="card mb-3 h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title">Partenariado Example</h5>
+                                    <p class="card-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                                </div>
+                                <div class="card-footer">
+                                    <fa-icon
+                                        [icon]="['fas', 'eye']" 
+                                        class="text-primary cursor-pointer"
+                                        title="Ver oferta"
+                                    ></fa-icon>
+                                    <fa-icon
+                                        *ngIf="usuarioService.usuario?.esGestor"
+                                        [icon]="['fas', 'edit']" 
+                                        class="text-primary cursor-pointer"
+                                        title="Editar oferta"
+                                    ></fa-icon>
+                                </div>  
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-lg-4 mb-3">
+                            <div class="card mb-3 h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title">Partenariado Example</h5>
+                                    <p class="card-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                                </div>
+                                <div class="card-footer">
+                                    <fa-icon
+                                        [icon]="['fas', 'eye']" 
+                                        class="text-primary cursor-pointer"
+                                        title="Ver oferta"
+                                    ></fa-icon>
+                                    <fa-icon
+                                        *ngIf="usuarioService.usuario?.esGestor"
+                                        [icon]="['fas', 'edit']" 
+                                        class="text-primary cursor-pointer"
+                                        title="Editar oferta"
+                                    ></fa-icon>
+                                </div>  
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- <table aria-describedby="" class="table table-sm table-bordered">
 
                         <thead>
                         <tr aria-describedby="" class="">
@@ -164,7 +213,7 @@
                             </td>
                         </tr>
                         </tbody>
-                    </table>
+                    </table> -->
 
 
                 </div>

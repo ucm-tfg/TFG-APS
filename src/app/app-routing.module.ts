@@ -70,6 +70,7 @@ import {ProyectosVerComponent} from './pages/proyectos-ver/proyectos-ver.compone
 // varios y error pages routes
 import {CondicionesComponent} from './pages/condiciones/condiciones.component';
 import {Code404Component} from './errors/code404/code404.component';
+import { ResumenComponent } from './pages/resumen/resumen.component';
 
 
 const routes: Routes = [
@@ -163,7 +164,7 @@ const routes: Routes = [
             },
 
             // Ofertas
-            // { path: 'mis-ofertas', component: OfertasComponent, data: { titulo: 'Mis Ofertas' } },
+             { path: 'mis-ofertas', component: OfertasComponent, data: { titulo: 'Mis Ofertas' } },
              { path: 'ofertas/ver/:id', component: OfertasVerComponent, data: { titulo: 'Ver Oferta' } },
             // { path: 'ofertas/editar/:id', canActivate:[OfertaEditarGuard], component: OfertasEditarComponent, data: { titulo: 'Editar Oferta' } },
             {
@@ -207,6 +208,9 @@ const routes: Routes = [
             {path: 'proyectos', component: ProyectosComponent, data: {titulo: 'Proyectos'}},
             {path: 'mis-proyectos', component: ProyectosComponent, data: {titulo: 'Mis Proyectos'}},
             {path: 'proyectos/ver/:id', component: ProyectosVerComponent, data: {titulo: 'Ver Proyecto'}},
+
+            //Resumen
+            {path: 'mi-resumen', component: ResumenComponent, data: {titulo: 'Resumen'}},
 
             // varios
             {

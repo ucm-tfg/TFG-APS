@@ -9,6 +9,7 @@ import { NECESIDAD_SOCIAL } from '../../models/necesidadSocial.model';
 import { ENTIDAD_DEMANDANTE} from '../../models/entidadDemandante.model';
 import { DemandaCrearGuard } from 'src/app/guards/demanda-crear.guard';
 import { Router } from '@angular/router';
+import { IDropdownSettings } from 'ng-multiselect-dropdown';
 
 @Component({
     selector: 'app-demandas', // Selector para definir objetos de la clase
@@ -22,6 +23,11 @@ export class DemandasComponent implements OnInit{
     public NECESIDAD_SOCIAL = NECESIDAD_SOCIAL;
     public ENTIDAD_DEMANDANTE = ENTIDAD_DEMANDANTE;
     
+    //public selectDemanda: any;
+
+    public dropdownSettings: IDropdownSettings = {};
+    public areasServicio: any;
+    public necesidades: any;
     public limit = 5;
     public paginaActual = 1;
     public offset = 0;
@@ -75,11 +81,35 @@ export class DemandasComponent implements OnInit{
     }
 
     ngOnInit(): void {
+        this.obtenerNecesidadesSociales();
+        this.obtenerAreasServicio();
         this.cargarDemandas();
+        this.dropdownSettings = {
+            singleSelection: true,
+            idField: 'id',
+            textField: 'nombre',
+            itemsShowLimit: 10,
+            allowSearchFilter: true,
+        };
+    }
+
+    onItemSelected(item: any){
+        console.log("ID item: " + item.id);
+        console.log("Item: " + item.nombre );
+        this.demandaService.cargarDemandasPorNecesidadSocial(item.id).subscribe(({ok, demandas}) =>{
+            this.demandas = demandas;
+        });
     }
 
     cambiarPagina(): void {
         this.cargarDemandas();
+    }
+
+    onItemSelectedArea(item: any){
+        console.log("ID: " + item.id + "Item: " + item.nombre);
+        this.demandaService.cargarDemandasPorAreaServicio(item.id).subscribe(({ok, demandas}) =>{
+            this.demandas = demandas;
+        });
     }
 
     getFiltros() {
@@ -101,5 +131,19 @@ export class DemandasComponent implements OnInit{
             this.demandas = demandas;
             this.cargando = false;
         });
+    }
+
+    async obtenerAreasServicio(){
+        return this.demandaService.obtenerAreasServicio().subscribe((resp: any)=>{
+            this.areasServicio = resp.areasServicio;
+            return this.areasServicio;
+        });
+    }
+    
+    async obtenerNecesidadesSociales(){
+        return this.demandaService.obtenerNecesidades().subscribe((resp: any)=>{
+            this.necesidades = resp.necesidadSocial;
+            return this.necesidades;
+        })
     }
 }

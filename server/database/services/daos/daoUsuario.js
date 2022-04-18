@@ -1527,6 +1527,22 @@ function obtenerEstudianteExternoPorDatosPersonales(id) {
 
 //ACTUALIZAR--------------------------------------------------------------------------------------------------
 
+
+function updateAvatar(id, avatar) {
+  return knex("datos_personales_interno")
+    .where("id", id)
+    .update({
+      avatar: avatar,
+    })
+    .then(() => {
+      return id;
+    })
+    .catch((err) => {
+      console.log(err);
+      console.log("Se ha producido un error al intentar actualizar el avatar del usuario interno");
+    });
+}
+
 function actualizarUsuario(usuario) {
   return knex("usuario")
     .where("id", usuario.getId())
@@ -2101,5 +2117,6 @@ module.exports = {
   actualizarUsuario,
   obtenerUniversidades,
   obtenerAreasConocimiento,
+  updateAvatar,
   knex,
 };

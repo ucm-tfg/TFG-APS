@@ -3,7 +3,7 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
 const { validarCampos } = require('./../middlewares/validar-campos');
-const { getAreasservicio, crearDemanda, getTitulaciones, getNecesidades, obtenerDemanda, obtenerDemandas} = require('../controllers/demandas');
+const { getAreasservicio, crearDemanda, getTitulaciones, getNecesidades, obtenerDemanda, obtenerDemandas, getDemandasAreaServicio, getDemandasNecesidadSocial} = require('../controllers/demandas');
 const { opcionalJWT, validarJWT, validarEsSocioComunitarioOrEsGestor } = require('../middlewares/validar-jwt');
 
 const router = Router();
@@ -22,6 +22,17 @@ router.get(
     getNecesidades
 );
 
+// Obtener las demandas que contienen una determinada area de servicio
+router.get(
+    '/demandasAreaServicio/:id', [], 
+    getDemandasAreaServicio
+)
+
+// Obtener las demandas que contienen una determinada necesidad social
+router.get(
+    '/demandasNecesidadSocial/:id', [],
+    getDemandasNecesidadSocial
+)
 router.get(
     '/:id', [],
     obtenerDemanda

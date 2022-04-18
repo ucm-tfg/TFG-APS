@@ -23,6 +23,7 @@ export class Usuario {
         public telefono?: Number,
         public url?: string,
         public mision?: string,
+        public avatar?: string,
     ) {}
 
     get imagenUrl() {
