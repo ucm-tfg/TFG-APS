@@ -61,12 +61,6 @@ import { SobreApsUnedQuienesSomosComponent } from './pages/sobre-aps-uned-quiene
 import { SobreApsUnedHistoriaComponent } from './pages/sobre-aps-uned-historia/sobre-aps-uned-historia.component';
 import { SobreApsUnedContactaComponent } from './pages/sobre-aps-uned-contacta/sobre-aps-uned-contacta.component';
 
-// iniciativas
-import { IniciativasComponent } from './pages/iniciativas/iniciativas.component';
-import { IniciativasVerComponent } from './pages/iniciativas-ver/iniciativas-ver.component';
-import { IniciativasCrearComponent } from './pages/iniciativas-crear/iniciativas-crear.component';
-import { IniciativasEditarComponent } from './pages/iniciativas-editar/iniciativas-editar.component';
-
 // ofertas
 import { OfertasComponent } from './pages/ofertas/ofertas.component';
 import { OfertasVerComponent } from './pages/ofertas-ver/ofertas-ver.component';
@@ -110,7 +104,7 @@ import { FaqComponent } from './pages/faq/faq.component';
 import { CheckboxNotificacionesComponent } from './pages/checkbox-notificaciones/checkbox-notificaciones.component';
 import { ProyectosCardComponent } from './pages/proyectos-card/proyectos-card.component';
 import { ServicioOfertadoComponent } from './pages/servicio-ofertado/servicio-ofertado.component';
-import { IniciativaRespaldadaComponent } from './pages/iniciativa-respaldada/iniciativa-respaldada.component'; 
+import {OfertaRespaldadaComponent} from './pages/oferta-respaldada/oferta-respaldada.component';
 
 TagInputModule.withDefaults({
     tagInput: {
@@ -161,12 +155,6 @@ TagInputModule.withDefaults({
         SobreApsUnedHistoriaComponent,
         SobreApsUnedContactaComponent,
 
-        // iniciativas
-        IniciativasComponent,
-        IniciativasVerComponent,
-        IniciativasCrearComponent,
-        IniciativasEditarComponent,
-
         // ofertas
         OfertasCrearComponent,
         OfertasComponent,
@@ -196,6 +184,7 @@ TagInputModule.withDefaults({
         ResumenComponent,
         OfertaCardComponent,
         PartenariadosCardComponent,
+        OfertaRespaldadaComponent,
         ResumenEstudianteExternoComponent,
         ResumenEstudianteInternoComponent,
         ResumenProfesorExternoComponent,
@@ -207,8 +196,6 @@ TagInputModule.withDefaults({
         CheckboxNotificacionesComponent,
         ProyectosCardComponent,
         ServicioOfertadoComponent,
-        IniciativaRespaldadaComponent
-        
     ],
     imports: [
         BrowserModule,

@@ -26,7 +26,6 @@ export class PartenariadoService {
           partenariado.descripcion,
           partenariado.rama,
           partenariado.ciudad,
-          partenariado.iniciativa,
           //meter atributos
           partenariado.proyecto,
           this.usuarioService.mapearUsuarios(partenariado.profesores),

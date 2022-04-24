@@ -77,7 +77,7 @@ export class DemandaService {
   }
   /**/
   cargarDemandasPorAreaServicio(id){
-    console.log("Dentro de demanda.service");
+    console.log("Dentro de demanda.service  areaServicio");
         return this.http.get<{ok: Boolean, demandas: Demanda[] }>(`${base_url}/demandas/demandasAreaServicio/${id}`, this.usuarioService.headers)
         .pipe(
           map(resp => {
@@ -87,6 +87,7 @@ export class DemandaService {
   }
   /**/
   cargarDemandasPorNecesidadSocial(id){
+    console.log("Dentro de demanda.service  necesidadSocial");
     return this.http.get<{ok: Boolean, demandas: Demanda[] }>(`${base_url}/demandas/demandasNecesidadSocial/${id}`, this.usuarioService.headers)
     .pipe(
       map(resp => {

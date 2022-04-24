@@ -13,7 +13,8 @@
         "lint": "ng lint",
         "e2e": "ng e2e",
         "seed": "node ./server/database/seeds/seed.js",
-        "sonar": "sonar-scanner"
+        "sonar": "sonar-scanner",
+        "compodoc": "npx compodoc -p tsconfig.doc.json"
     },
     "private": true,
     "dependencies": {

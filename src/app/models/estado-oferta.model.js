@@ -1,4 +1,4 @@
-module.exports.ESTADOS_INICIATIVAS = [
+module.exports.ESTADOS_OFERTAS = [
     'Abierta',
     'Archivada',
 ];

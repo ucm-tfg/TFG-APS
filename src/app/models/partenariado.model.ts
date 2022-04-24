@@ -39,7 +39,6 @@ export class Partenariado {
         public titulacionesLocales: Array<Object>,
 
 
-        public iniciativa: string,
         public proyecto: Proyecto,
         public profesores: Usuario[],
         public entidades: Usuario[],

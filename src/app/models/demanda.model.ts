@@ -38,14 +38,14 @@ export class Demanda {
     get imagenUrl() {
 
         if(!this.imagen) {
-            return `${ base_url }/upload/default/iniciativa`;
+            return `${ base_url }/upload/default/oferta`;
         }
 
         if(this.imagen.includes('https')) {
             return this.imagen;
         }
 
-        return `${ base_url }/upload/${ this.imagen }/iniciativa`;
+        return `${ base_url }/upload/${ this.imagen }/oferta`;
     }
     get displayProponedorTableInfo() {
 

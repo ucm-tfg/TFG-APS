@@ -248,7 +248,7 @@ export class PartenariadoCrearProfesorComponent implements OnInit {
     borrarFichero(id: string) {
 
         if (id == '') {
-            Swal.fire('Error', 'No hay ninguna imagen definida para la iniciativa.', 'error');
+            Swal.fire('Error', 'No hay ninguna imagen definida para la oferta.', 'error');
             return;
         }
 
@@ -284,7 +284,7 @@ export class PartenariadoCrearProfesorComponent implements OnInit {
 
     actualizarImagen() {
         this.fileUploadService
-            .subirFichero(this.imagenSubir, 'default', 'iniciativas', this.partenariado._id)
+            .subirFichero(this.imagenSubir, 'default', 'ofertas', this.partenariado._id)
             .then(resp => {
                 const {ok, msg, upload_id} = resp;
                 if (ok) {
@@ -299,26 +299,6 @@ export class PartenariadoCrearProfesorComponent implements OnInit {
             });
     }
 
-    /* borrarImagen() {
-
-      if(this.partenariado.imagen == '') {
-          Swal.fire('Error', 'No hay ninguna imagen definida para la iniciativa.', 'error');
-          return;
-      }
-
-      this.fileUploadService
-          .borrarFichero(this.partenariado.imagen)
-          .then( resp => {
-            const {ok, msg } = resp;
-            if(ok) {
-              this.cargarPartenariado();
-              Swal.fire('Ok', 'Imagen de partenariado borrada correctamente', 'success');
-            } else {
-              Swal.fire('Error', msg, 'error');
-            }
-          });
-          (<HTMLInputElement>document.getElementById("file-upload")).value="";
-    } */
     get getItems() {
         return this.profesoresList.reduce((acc, curr) => {
             acc[curr.id] = curr;
