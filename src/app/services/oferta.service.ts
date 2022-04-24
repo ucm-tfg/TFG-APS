@@ -16,8 +16,8 @@ export class OfertaService {
     constructor(private http: HttpClient, private usuarioService: UsuarioService, private fileUploadService: FileUploadService) {
     }
 
-    obtenerOferta() {
-        return this.http.get<{ ok: boolean, oferta: any }>(`${base_url}/ofertas/100`, this.usuarioService.headers)
+    obtenerOferta(id: number) {
+        return this.http.get<{ ok: boolean, oferta: any }>(`${base_url}/ofertas/${id}`, this.usuarioService.headers)
             .pipe(
                 map((resp) => resp)
             );
@@ -86,7 +86,7 @@ export class OfertaService {
             })
         );
     }
-    
+
     computeTags(id: string) {
         return this.http.get<{ ok: boolean, oferta: Oferta }>(`${base_url}/ofertas/${id}`, this.usuarioService.headers)
             .pipe(
