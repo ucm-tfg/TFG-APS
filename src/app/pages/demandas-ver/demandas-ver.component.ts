@@ -24,6 +24,8 @@ export class DemandasVerComponent implements OnInit {
 
     cargarDemanda(id: string) {
         this.demandaService.cargarDemanda(id).subscribe((demanda: Demanda) => {
+            console.log('pesao -> ', demanda)
+
             if (!demanda) {
                 return this.router.navigateByUrl(`/demandas`);
             }

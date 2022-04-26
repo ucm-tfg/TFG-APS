@@ -1,6 +1,8 @@
 const daoDemanda = require('./../database/services/daos/daoDemanda');
 const TDemanda = require('./../database/services/transfers/TDemandaServicio');
 
+const UNEXPECTED_ERROR = 'Error inesperado';
+
 const getAreasservicio = async (req, res) => {
     try {
         areasServicio = await daoDemanda.obtenerListaAreasServicio();
@@ -162,22 +164,19 @@ const obtenerDemandas = async (req, res = response) => {
         });
     }
 };
+
 const obtenerDemanda = async (req, res) => {
     try {
-        const id = req.params.id;
-        const demanda = await daoDemanda.obtenerDemandaServicio(id);
-
+        const demanda = await daoDemanda.obtenerDemandaServicio(req.params.id);
         return res.status(200).json({
             ok: true,
             demanda
         });
-
-        console.error(error);
     } catch (error) {
-
+        console.error(error);
         return res.status(500).json({
             ok: false,
-            msg: 'Error inesperado'
+            msg: UNEXPECTED_ERROR
         });
     }
 };

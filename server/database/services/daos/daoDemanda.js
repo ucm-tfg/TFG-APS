@@ -236,7 +236,7 @@ function obtenerDemandaServicio(id_demanda) {
                                             anuncio.getImagen(),
                                             anuncio.getCreated_at(),
                                             anuncio.getUpdated_at(),
-                                            socio.getNombreSocioComunitario(),
+                                            socio.getNombre() + ' ' + socio.getApellidos(),
                                             demanda[0]['ciudad'],
                                             demanda[0]['finalidad'],
                                             demanda[0]['periodo_definicion_ini'],
@@ -247,7 +247,7 @@ function obtenerDemandaServicio(id_demanda) {
                                             demanda[0]['observaciones_temporales'],
                                             necesidad_social,
                                             titulaciones_ref,
-                                            anuncio.getArea_servicio(),
+                                            demanda[0]['comunidad_beneficiaria'],
                                             anuncio.dummy
                                         );
                                     });
