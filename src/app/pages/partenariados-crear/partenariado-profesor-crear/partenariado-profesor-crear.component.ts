@@ -4,8 +4,6 @@ import { UsuarioService } from '../../../services/usuario.service';
 import { FileUploadService } from '../../../services/file-upload.service';
 import { Partenariado } from '../../../models/partenariado.model';
 import * as moment from 'moment';
-import { RAMAS } from '../../../models/rama.model';
-import { CIUDADES } from '../../../models/ciudad.model';
 import { PartenariadoService } from '../../../services/partenariado.service';
 import Swal from 'sweetalert2';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -20,6 +18,7 @@ import { Demanda } from '../../../../app/models/demanda.model';
     templateUrl: './partenariado-profesor-crear.component.html',
     styleUrls: ['./partenariado-profesor-crear.component.scss']
 })
+
 export class PartenariadoCrearProfesorComponent implements OnInit {
 
     public formSubmitted = false;
@@ -34,7 +33,6 @@ export class PartenariadoCrearProfesorComponent implements OnInit {
     public responsable_data: any;
     public crearPartenariadoProfesorForm: FormGroup;
 
-
     constructor(public fb: FormBuilder, public demandaService: DemandaService, public ofertaService: OfertaService, public partenariadoService: PartenariadoService, public usuarioService: UsuarioService, public fileUploadService: FileUploadService, public router: Router, public activatedRoute: ActivatedRoute) {
     }
 
@@ -44,7 +42,6 @@ export class PartenariadoCrearProfesorComponent implements OnInit {
 
     async ngOnInit() {
         this.activatedRoute.params.subscribe(({ id }) => {
-            //this.activatedRoute.snapshot.queryParams.demanda_id !== undefined
             this.load(this.activatedRoute.snapshot.queryParams.demanda, this.activatedRoute.snapshot.queryParams.oferta);
         });
     }
@@ -53,9 +50,10 @@ export class PartenariadoCrearProfesorComponent implements OnInit {
         await this.cargarPartenariado();
         await this.obtenerOferta(oferta);
         await this.obtenerDemanda(demanda);
-        //await this.obtenerProfesores();
+        await this.obtenerProfesores();
 
-        this.oferta = new Oferta('', '', '', '', '', '', '', '', '', '', undefined, [], [], [], []);
+        // TODO: only to testing
+        this.oferta.area_servicio = ['1'];
 
         this.crearPartenariadoProfesorForm = this.fb.group({
             anioAcademico: [this.oferta.anio_academico || '', Validators.required],
