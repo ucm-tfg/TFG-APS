@@ -7,14 +7,16 @@ import { Oferta } from 'src/app/models/oferta.model';
 import { OfertaService } from 'src/app/services/oferta.service';
 import Swal from 'sweetalert2';
 import { Router, ActivatedRoute } from '@angular/router';
+
 export interface AutoCompleteModel {
     value: any;
     display: string;
 }
+
 @Component({
     selector: 'app-ofertas-crear',
     templateUrl: './ofertas-crear.component.html',
-    styleUrls: ['./ofertas-crear.component.scss'],
+    styleUrls: ['./ofertas-crear.component.scss']
 })
 export class OfertasCrearComponent implements OnInit {
     public formSubmitted = false;
@@ -29,16 +31,16 @@ export class OfertasCrearComponent implements OnInit {
     public htmlStr: string;
     public aux_cuatrimestre: string;
     public dropdownSettings: any = {};
-    public USUARIOS; 
+    public USUARIOS;
     public tags: any = [];
-    
+
     constructor(
         public fb: FormBuilder,
         public ofertaService: OfertaService,
         public usuarioService: UsuarioService,
         public fileUploadService: FileUploadService,
         public router: Router,
-        public activatedRoute: ActivatedRoute, 
+        public activatedRoute: ActivatedRoute,
         public utilsService: UtilsService
     ) {
         if (this.usuarioService.usuario.esGestor) {
@@ -49,7 +51,7 @@ export class OfertasCrearComponent implements OnInit {
                         [
                             'ROL_SOCIO_COMUNITARIO',
                             'ROL_PROFESOR',
-                            'ROL_GESTOR',
+                            'ROL_GESTOR'
                         ].includes(usuario.rol)
                     );
                 });
@@ -57,6 +59,7 @@ export class OfertasCrearComponent implements OnInit {
     }
 
     async ngOnInit() {
+
         this.obtenerAreasServicio();
         await this.cargarOferta();
         this.dropdownSettings = {
@@ -66,31 +69,31 @@ export class OfertasCrearComponent implements OnInit {
             selectAllText: 'Select All',
             unSelectAllText: 'UnSelect All',
             itemsShowLimit: 10,
-            allowSearchFilter: true,
+            allowSearchFilter: true
         };
         this.crearOfertaForm = this.fb.group({
             titulo: [this.oferta.titulo || '', Validators.required],
             descripcion: [this.oferta.descripcion || '', Validators.required],
             creador: [
                 this.oferta.creador?.uid || this.usuarioService.usuario.uid,
-                Validators.required,
+                Validators.required
             ],
             area_servicio: [
                 this.oferta.area_servicio || '',
-                Validators.required,
+                Validators.required
             ],
             asignatura: [
                 this.oferta.asignatura_objetivo || '',
-                Validators.required,
+                Validators.required
             ],
             fecha_limite: [this.oferta.fecha_limite || '', Validators.required],
             cuatrimestre: [this.oferta.cuatrimestre || '', Validators.required],
             anio_academico: [
                 this.oferta.anio_academico || '',
-                Validators.required,
+                Validators.required
             ],
             observaciones: this.oferta.observaciones,
-            tags: this.tags,
+            tags: this.tags
         });
     }
 
@@ -122,7 +125,9 @@ export class OfertasCrearComponent implements OnInit {
                 return this.areasServicio;
             });
     }
-    nuevaAsign() {}
+
+    nuevaAsign() {
+    }
 
     enviarOferta() {
         this.formSubmitted = true;
@@ -148,14 +153,20 @@ export class OfertasCrearComponent implements OnInit {
             (resp) => {
                 this.oferta_id
                     ? Swal.fire(
-                          'Ok',
-                          'Oferta actualizada correctamente',
-                          'success'
-                      )
+                        'Ok',
+                        'Oferta actualizada correctamente',
+                        'success'
+                    )
                     : Swal.fire('Ok', 'Oferta creada correctamente', 'success');
 
                 this.router.routeReuseStrategy.shouldReuseRoute = () => false;
-                this.router.onSameUrlNavigation = 'reload';
+
+                if (this.activatedRoute.snapshot.queryParams.demanda_id !== undefined) {
+                    this.router.navigate(['/partenariados/profesor/crear'], { queryParams: { demanda: this.activatedRoute.snapshot.queryParams.demanda_id, oferta: resp.oferta.id } });
+                    return;
+                }
+
+                // this.activatedRoute.params.this.router.onSameUrlNavigation = 'reload';
                 this.router.navigate(['/ofertas/crear']);
                 this.formSubmitted = false;
                 this.formSending = false;
@@ -208,9 +219,8 @@ export class OfertasCrearComponent implements OnInit {
     }
 
     async computeTags() {
-      this.utilsService.computeTags(`${this.crearOfertaForm.value.titulo} ${this.crearOfertaForm.value.descripcion}`).subscribe((resp: any) => {
-        this.tags = resp.tags;
-      });
-      
+        this.utilsService.computeTags(`${this.crearOfertaForm.value.titulo} ${this.crearOfertaForm.value.descripcion}`).subscribe((resp: any) => {
+            this.tags = resp.tags;
+        });
     }
 }

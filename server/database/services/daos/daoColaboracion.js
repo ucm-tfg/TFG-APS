@@ -629,6 +629,7 @@ function obtenerTodosPartenariados() {
       );
     });
 }
+
 function crearPrevioPartenariado(
   id_demanda,
   id_oferta,

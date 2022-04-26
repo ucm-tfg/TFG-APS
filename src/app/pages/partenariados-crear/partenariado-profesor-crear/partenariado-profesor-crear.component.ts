@@ -1,30 +1,28 @@
-import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {UsuarioService} from '../../../services/usuario.service';
-import {FileUploadService} from '../../../services/file-upload.service';
-import {Partenariado} from '../../../models/partenariado.model';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UsuarioService } from '../../../services/usuario.service';
+import { FileUploadService } from '../../../services/file-upload.service';
+import { Partenariado } from '../../../models/partenariado.model';
 import * as moment from 'moment';
-import {RAMAS} from '../../../models/rama.model';
-import {CIUDADES} from '../../../models/ciudad.model';
-import {PartenariadoService} from '../../../services/partenariado.service';
+import { PartenariadoService } from '../../../services/partenariado.service';
 import Swal from 'sweetalert2';
-import {Router, ActivatedRoute} from '@angular/router';
-import {Oferta} from '../../../../app/models/oferta.model';
-import {OfertaService} from '../../../../app/services/oferta.service';
-import {DemandaService} from '../../../../app/services/demanda.service';
-import {first} from 'rxjs/operators';
-import {Demanda} from '../../../../app/models/demanda.model';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Oferta } from '../../../../app/models/oferta.model';
+import { OfertaService } from '../../../../app/services/oferta.service';
+import { DemandaService } from '../../../../app/services/demanda.service';
+import { first } from 'rxjs/operators';
+import { Demanda } from '../../../../app/models/demanda.model';
 
 @Component({
     selector: 'app-partenariado-crear-profesor',
     templateUrl: './partenariado-profesor-crear.component.html',
     styleUrls: ['./partenariado-profesor-crear.component.scss']
 })
+
 export class PartenariadoCrearProfesorComponent implements OnInit {
 
     public formSubmitted = false;
     public formSending = false;
-
 
     public parteneriado_id: string = null;
     public partenariado: Partenariado;
@@ -35,7 +33,6 @@ export class PartenariadoCrearProfesorComponent implements OnInit {
     public responsable_data: any;
     public crearPartenariadoProfesorForm: FormGroup;
 
-
     constructor(public fb: FormBuilder, public demandaService: DemandaService, public ofertaService: OfertaService, public partenariadoService: PartenariadoService, public usuarioService: UsuarioService, public fileUploadService: FileUploadService, public router: Router, public activatedRoute: ActivatedRoute) {
     }
 
@@ -44,16 +41,24 @@ export class PartenariadoCrearProfesorComponent implements OnInit {
     public selProfesores: any;
 
     async ngOnInit() {
+        this.activatedRoute.params.subscribe(({ id }) => {
+            this.load(this.activatedRoute.snapshot.queryParams.demanda, this.activatedRoute.snapshot.queryParams.oferta);
+        });
+    }
+
+    async load(demanda: number, oferta: number) {
         await this.cargarPartenariado();
-        await this.obtenerOferta();
-        await this.obtenerDemanda();
+        await this.obtenerOferta(oferta);
+        await this.obtenerDemanda(demanda);
         await this.obtenerProfesores();
 
+        // TODO: only to testing
+        this.oferta.area_servicio = ['1'];
 
         this.crearPartenariadoProfesorForm = this.fb.group({
             anioAcademico: [this.oferta.anio_academico || '', Validators.required],
-            titulo: [this.demanda.titulo + " | " + this.oferta.titulo || '', Validators.required],
-            descripcion: [this.demanda.descripcion + " | " + this.oferta.descripcion || '', Validators.required],
+            titulo: [this.demanda.titulo + ' | ' + this.oferta.titulo || '', Validators.required],
+            descripcion: [this.demanda.descripcion + ' | ' + this.oferta.descripcion || '', Validators.required],
             socio: [this.demanda.creador || ''],
             necesidadSocial: [this.demanda.necesidad_social],
             finalidad: [this.demanda.objetivo],
@@ -76,17 +81,15 @@ export class PartenariadoCrearProfesorComponent implements OnInit {
             periodo_ejecucion_ini: [this.demanda.periodoEjecucionIni],
             profesores: [new FormControl(''), Validators.required],
             fecha_limite: [this.oferta.fecha_limite, Validators.required],
-            fecha_fin: [this.demanda.fechaFin],
-
+            fecha_fin: [this.demanda.fechaFin]
         });
-
 
         this.dropdownSettings = {
             singleSelection: false,
-            idField: "id",
-            textField: "nombreCompleto",
-            selectAllText: "Select All",
-            unSelectAllText: "UnSelect All",
+            idField: 'id',
+            textField: 'nombreCompleto',
+            selectAllText: 'Select All',
+            unSelectAllText: 'UnSelect All',
             itemsShowLimit: 10,
             allowSearchFilter: true
         };
@@ -97,17 +100,16 @@ export class PartenariadoCrearProfesorComponent implements OnInit {
         this.partenariado = new Partenariado('', '', '', '', '', '', '', '', null, null, null, null, null, null);
     }
 
-    async obtenerOferta() {
+    async obtenerOferta(id: number) {
 
-        await this.ofertaService.obtenerOferta().pipe(first()).toPromise().then((resp: any) => {
+        await this.ofertaService.obtenerOferta(id).pipe(first()).toPromise().then((resp: any) => {
             let value = resp.oferta;
-            let arrayP = []
+            let arrayP = [];
             for (let val of value.profesores) {
                 arrayP.push({
                     id: val.id,
-                    nombreCompleto: val.nombre + " " + val.apellidos
-                })
-
+                    nombreCompleto: val.nombre + ' ' + val.apellidos
+                });
             }
             this.selProfesores = arrayP;
 
@@ -121,20 +123,20 @@ export class PartenariadoCrearProfesorComponent implements OnInit {
     async obtenerProfesores() {
         return this.partenariadoService.obtenerProfesores()
             .subscribe((resp: any) => {
-                let arrayProfesores = []
+                let arrayProfesores = [];
                 for (let value of resp.profesores) {
                     arrayProfesores.push({
                         id: value.id,
-                        nombreCompleto: value.nombre + " " + value.apellidos
-                    })
+                        nombreCompleto: value.nombre + ' ' + value.apellidos
+                    });
                 }
-                this.profesoresList = arrayProfesores
+                this.profesoresList = arrayProfesores;
                 return arrayProfesores;
             });
     }
 
-    async obtenerDemanda() {
-        await this.demandaService.obtenerDemanda().pipe(first()).toPromise().then((resp: any) => {
+    async obtenerDemanda(id: number) {
+        await this.demandaService.obtenerDemanda(id).pipe(first()).toPromise().then((resp: any) => {
             let value = resp.demanda;
             let periodo_definicion_ini = moment(value.periodo_definicion_ini).format('YYYY-MM-DD');
             let periodo_definicion_fin = moment(value.periodo_definicion_fin).format('YYYY-MM-DD');
@@ -164,7 +166,7 @@ export class PartenariadoCrearProfesorComponent implements OnInit {
         let id_responsable = this.obtenerIdResponsable();
         if (id_responsable == -1) {
             let msg = [];
-            msg.push("El responsable debe ser un valor válido");
+            msg.push('El responsable debe ser un valor válido');
             Swal.fire('Error', msg.join('<br>'), 'error');
             this.formSubmitted = false;
             this.formSending = false;
@@ -235,7 +237,7 @@ export class PartenariadoCrearProfesorComponent implements OnInit {
         this.fileUploadService
             .subirFichero(file, 'archivos', 'partenariados', this.partenariado._id)
             .then(resp => {
-                const {ok, msg, upload_id} = resp;
+                const { ok, msg, upload_id } = resp;
                 if (ok) {
                     this.cargarPartenariado();
                     Swal.fire('Ok', 'Fichero subido correctamente', 'success');
@@ -255,7 +257,7 @@ export class PartenariadoCrearProfesorComponent implements OnInit {
         this.fileUploadService
             .borrarFichero(id)
             .then(resp => {
-                const {ok, msg} = resp;
+                const { ok, msg } = resp;
                 if (ok) {
                     this.cargarPartenariado();
                     Swal.fire('Ok', 'Fichero borrado correctamente', 'success');
@@ -263,7 +265,7 @@ export class PartenariadoCrearProfesorComponent implements OnInit {
                     Swal.fire('Error', msg, 'error');
                 }
             });
-        (<HTMLInputElement>document.getElementById("file-upload-2")).value = "";
+        (<HTMLInputElement>document.getElementById('file-upload-2')).value = '';
     }
 
     cambiarImagen(file: File) {
@@ -279,14 +281,14 @@ export class PartenariadoCrearProfesorComponent implements OnInit {
 
         reader.onloadend = () => {
             this.imagenPreview = reader.result;
-        }
+        };
     }
 
     actualizarImagen() {
         this.fileUploadService
             .subirFichero(this.imagenSubir, 'default', 'ofertas', this.partenariado._id)
             .then(resp => {
-                const {ok, msg, upload_id} = resp;
+                const { ok, msg, upload_id } = resp;
                 if (ok) {
                     this.cargarPartenariado();
                     Swal.fire('Ok', 'Imagen de partenariado actualizada correctamente', 'success');
@@ -307,11 +309,10 @@ export class PartenariadoCrearProfesorComponent implements OnInit {
     }
 
     onItemSelect(item: any) {
-        console.log("onItemSelect", item);
+        console.log('onItemSelect', item);
     }
 
     onSelectAll(items: any) {
-        console.log("onSelectAll", items);
+        console.log('onSelectAll', items);
     }
-
 }
