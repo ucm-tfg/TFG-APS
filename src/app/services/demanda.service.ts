@@ -11,13 +11,14 @@ const base_url = environment.base_url;
 @Injectable({
     providedIn: 'root'
 })
+
 export class DemandaService {
 
     constructor(private http: HttpClient, private usuarioService: UsuarioService, private fileUploadService: FileUploadService) {
     }
 
     obtenerDemanda(id: number) {
-        return this.http.get<{ ok: boolean, demanda: any }>(`${base_url}/demandas/demanda/${id}`, this.usuarioService.headers)
+        return this.http.get<{ ok: boolean, demanda: any }>(`${base_url}/demandas/${id}`, this.usuarioService.headers)
             .pipe(
                 map((resp) => resp)
             );
@@ -65,7 +66,7 @@ export class DemandaService {
     }
 
     crearDemanda(body: Object) {
-        return this.http.post<{ ok: boolean, Demanda: Demanda }>(`${base_url}/demandas`, body, this.usuarioService.headers)
+        return this.http.post<{ ok: boolean, demanda: Demanda }>(`${base_url}/demandas`, body, this.usuarioService.headers)
             .pipe(
                 map((resp) => {
                     return resp;
@@ -73,32 +74,34 @@ export class DemandaService {
             );
     }
 
-  obtenerAreasServicio() {
-    return this.http.get<{ ok: boolean, areaServicio: any }>(`${base_url}/demandas/areasservicio`, this.usuarioService.headers)
-      .pipe(
-        map((resp) => resp)
-      );
-  }
-  /**/
-  cargarDemandasPorAreaServicio(id){
-    console.log("Dentro de demanda.service  areaServicio");
-        return this.http.get<{ok: Boolean, demandas: Demanda[] }>(`${base_url}/demandas/demandasAreaServicio/${id}`, this.usuarioService.headers)
-        .pipe(
-          map(resp => {
-              return {ok: resp.ok, demandas: this.mapearDemandas(resp.demandas)};
-          })
-        );
-  }
-  /**/
-  cargarDemandasPorNecesidadSocial(id){
-    console.log("Dentro de demanda.service  necesidadSocial");
-    return this.http.get<{ok: Boolean, demandas: Demanda[] }>(`${base_url}/demandas/demandasNecesidadSocial/${id}`, this.usuarioService.headers)
-    .pipe(
-      map(resp => {
-        return {ok: resp.ok, demandas: this.mapearDemandas(resp.demandas)};
-      })
-    );
-  }
+    obtenerAreasServicio() {
+        return this.http.get<{ ok: boolean, areaServicio: any }>(`${base_url}/demandas/areasservicio`, this.usuarioService.headers)
+            .pipe(
+                map((resp) => resp)
+            );
+    }
+
+    /**/
+    cargarDemandasPorAreaServicio(id) {
+        console.log('Dentro de demanda.service  areaServicio');
+        return this.http.get<{ ok: Boolean, demandas: Demanda[] }>(`${base_url}/demandas/demandasAreaServicio/${id}`, this.usuarioService.headers)
+            .pipe(
+                map(resp => {
+                    return { ok: resp.ok, demandas: this.mapearDemandas(resp.demandas) };
+                })
+            );
+    }
+
+    /**/
+    cargarDemandasPorNecesidadSocial(id) {
+        console.log('Dentro de demanda.service  necesidadSocial');
+        return this.http.get<{ ok: Boolean, demandas: Demanda[] }>(`${base_url}/demandas/demandasNecesidadSocial/${id}`, this.usuarioService.headers)
+            .pipe(
+                map(resp => {
+                    return { ok: resp.ok, demandas: this.mapearDemandas(resp.demandas) };
+                })
+            );
+    }
 
     obtenerNecesidades() {
         return this.http.get<{ ok: boolean, necesidadSocial: any }>(`${base_url}/demandas/necesidadsocial`, this.usuarioService.headers)

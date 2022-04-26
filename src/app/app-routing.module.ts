@@ -2,14 +2,14 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 // guarda
-import {GuestGuard} from './guards/guest.guard';
-import {AuthGuard} from './guards/auth.guard';
-import {ProtectedGuard} from './guards/protected.guard';
-import {GestorGuard} from './guards/gestor.guard';
-import {OfertaCrearGuard} from './guards/oferta-crear.guard';
-import {PartenariadoVerGuard} from './guards/partenariado-ver.guard';
-import {PartenariadoCrearProfesorGuard} from './guards/partenariado-crear-profesor.guard'
-import {DemandaCrearGuard} from './guards/demanda-crear.guard';
+import { GuestGuard } from './guards/guest.guard';
+import { AuthGuard } from './guards/auth.guard';
+import { ProtectedGuard } from './guards/protected.guard';
+import { GestorGuard } from './guards/gestor.guard';
+import { OfertaCrearGuard } from './guards/oferta-crear.guard';
+import { PartenariadoVerGuard } from './guards/partenariado-ver.guard';
+import { PartenariadoCrearProfesorGuard } from './guards/partenariado-crear-profesor.guard';
+import { DemandaCrearGuard } from './guards/demanda-crear.guard';
 
 // auth routes
 import { LoginComponent } from './auth/login/login.component';
@@ -171,13 +171,7 @@ const routes: Routes = [
                 data: { titulo: 'Ver Partenariado' }
             },
             {
-                path: 'partenariados/profesor/crear/:id',
-                canActivate: [PartenariadoCrearProfesorGuard],
-                component: PartenariadoCrearProfesorComponent,
-                data: { titulo: 'Crear Partenariado' }
-            },
-            {
-                path: 'partenariados/sociocomunitario/crear/:id',
+                path: 'partenariados/profesor/crear',
                 canActivate: [PartenariadoCrearProfesorGuard],
                 component: PartenariadoCrearProfesorComponent,
                 data: { titulo: 'Crear Partenariado' }

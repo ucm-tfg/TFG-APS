@@ -44,6 +44,7 @@ const crearOferta = async (req, res = response) => {
             req.current_user.uid);
 
         let ofertaId = await daoOferta.crearOferta(oferta);
+        oferta.id = ofertaId;
         for (tagName of req.body.tags) {
             await daoUtils.createAndLinkedTags(tagName, ofertaId, 'oferta');
         }

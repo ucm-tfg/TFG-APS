@@ -1,7 +1,7 @@
 <app-navbar></app-navbar>
-<div class="container mt-4 animate__animated animate__fadeIn animate__faster">
+<div class='container mt-4 animate__animated animate__fadeIn animate__faster'>
     <h5
-        class="
+        class='
             px-4
             py-2
             mb-4
@@ -11,69 +11,70 @@
             d-flex
             justify-content-between
             align-items-center
-        "
+        '
     >
-        <strong *ngIf="this.oferta_id">Actualizar Oferta</strong>
-        <strong *ngIf="!this.oferta_id">Crear Oferta</strong>
+        <strong *ngIf='this.oferta_id'>Actualizar Oferta</strong>
+        <strong *ngIf='!this.oferta_id'>Crear Oferta</strong>
+        <strong *ngIf='!this.oferta_id'>Crear Oferta para un partenariado</strong>
         <!-- <a class="btn btn-light border-white btn-sm" [routerLink]="['/ofertas']" role="button">Volver</a> -->
     </h5>
 
-    <div class="row">
-        <div class="col-12">
-            <div class="card">
+    <div class='row'>
+        <div class='col-12'>
+            <div class='card'>
                 <form
-                    (ngSubmit)="enviarOferta()"
-                    *ngIf="crearOfertaForm"
-                    [formGroup]="crearOfertaForm"
-                    autocomplete="off"
-                    id="form-oferta"
-                    role="form"
+                    (ngSubmit)='enviarOferta()'
+                    *ngIf='crearOfertaForm'
+                    [formGroup]='crearOfertaForm'
+                    autocomplete='off'
+                    id='form-oferta'
+                    role='form'
                 >
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col">
-                                <div class="form-group">
+                    <div class='card-body'>
+                        <div class='row'>
+                            <div class='col'>
+                                <div class='form-group'>
                                     <label>Título *</label>
                                     <input
-                                        autocapitalize="none"
-                                        autocorrect="off"
-                                        class="form-control"
-                                        formControlName="titulo"
-                                        id="titulo"
-                                        name="titulo"
-                                        placeholder="Título corto y descriptivo"
-                                        spellcheck="false"
-                                        type="text"
+                                        autocapitalize='none'
+                                        autocorrect='off'
+                                        class='form-control'
+                                        formControlName='titulo'
+                                        id='titulo'
+                                        name='titulo'
+                                        placeholder='Título corto y descriptivo'
+                                        spellcheck='false'
+                                        type='text'
                                     />
                                 </div>
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label for="area_servicio"
+                        <div class='form-group'>
+                            <label for='area_servicio'
                             >Area de implementación *</label
                             >
                             <ng-multiselect-dropdown
-                                [data]="areasServicio"
+                                [data]='areasServicio'
                                 [placeholder]="'Selecciona el area de servicio'"
-                                [settings]="dropdownSettings"
-                                formControlName="area_servicio"
-                                name="area_servicio"
+                                [settings]='dropdownSettings'
+                                formControlName='area_servicio'
+                                name='area_servicio'
                             >
                                 <ng-template
                                     #optionsTemplate
-                                    let-id="id"
-                                    let-isSelected="isSelected"
+                                    let-id='id'
+                                    let-isSelected='isSelected'
                                     let-item
-                                    let-option="option"
+                                    let-option='option'
                                 >
                                     <div
-                                        style="
+                                        style='
                                             padding: 1px 10px;
                                             margin: 40px;
                                             right: 2px;
                                             top: -2px;
-                                        "
+                                        '
                                     >
                                         <label
                                             [ngStyle]="{
@@ -84,19 +85,19 @@
                                                     ? 'lightgrey'
                                                     : ''
                                             }"
-                                            style="
+                                            style='
                                                 color: #333;
                                                 min-width: 130px;
                                                 font-weight: normal;
-                                            "
+                                            '
                                         >{{ getItems[id].nombre }}</label
                                         >
                                     </div>
                                 </ng-template>
                                 <ng-template
                                     #optionSelectedTemplate
-                                    let-id="id"
-                                    let-option="option"
+                                    let-id='id'
+                                    let-option='option'
                                 >
                                     <div>
                                         {{ option }}
@@ -105,37 +106,37 @@
                             </ng-multiselect-dropdown>
                         </div>
 
-                        <div class="row">
-                            <div class="col">
-                                <div class="form-group">
-                                    <label for="descripcion"
+                        <div class='row'>
+                            <div class='col'>
+                                <div class='form-group'>
+                                    <label for='descripcion'
                                     >Descripción *</label
                                     >
                                     <textarea
-                                        class="form-control"
-                                        formControlName="descripcion"
-                                        id="descripcion"
-                                        name="descripcion"
-                                        placeholder="Escribe una descripción sobre la oferta"
-                                        rows="8"
+                                        class='form-control'
+                                        formControlName='descripcion'
+                                        id='descripcion'
+                                        name='descripcion'
+                                        placeholder='Escribe una descripción sobre la oferta'
+                                        rows='8'
                                     ></textarea>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="row">
-                            <div class="col">
-                                <div class="form-group">
-                                    <label for="tags">Tags (Click para asignarlo automaticamente)</label>
+                        <div class='row'>
+                            <div class='col'>
+                                <div class='form-group'>
+                                    <label for='tags'>Tags (Click para asignarlo automaticamente)</label>
                                     <tag-input
-                                        (click)="computeTags()"
-                                        [ngModel]="tags"
-                                        formControlName="tags"
+                                        (click)='computeTags()'
+                                        [ngModel]='tags'
+                                        formControlName='tags'
                                     >
                                         <tag-input-dropdown
-                                            [autocompleteItems]="tags"
-                                            [dynamicUpdate]="false"
-                                            [showDropdownIfEmpty]="true"
+                                            [autocompleteItems]='tags'
+                                            [dynamicUpdate]='false'
+                                            [showDropdownIfEmpty]='true'
                                         >
                                         </tag-input-dropdown>
                                     </tag-input>
@@ -143,114 +144,114 @@
                             </div>
                         </div>
 
-                        <div class="row">
-                            <div class="col">
-                                <div class="form-group">
+                        <div class='row'>
+                            <div class='col'>
+                                <div class='form-group'>
                                     <label
                                     >Asignatura objetivo (Tenga en cuenta
                                         que también se consideran asignaturas un
                                         TFG o un TFM) *</label
                                     >
                                     <input
-                                        autocapitalize="none"
-                                        autocorrect="off"
-                                        class="form-control"
-                                        formControlName="asignatura"
-                                        id="asignatura"
-                                        name="asignatura"
-                                        placeholder="Asignatura objetivo"
-                                        spellcheck="false"
-                                        type="text"
+                                        autocapitalize='none'
+                                        autocorrect='off'
+                                        class='form-control'
+                                        formControlName='asignatura'
+                                        id='asignatura'
+                                        name='asignatura'
+                                        placeholder='Asignatura objetivo'
+                                        spellcheck='false'
+                                        type='text'
                                     />
                                 </div>
                             </div>
                         </div>
 
-                        <div class="row">
-                            <div class="col">
-                                <div class="form-group">
+                        <div class='row'>
+                            <div class='col'>
+                                <div class='form-group'>
                                     <label
                                     >Fecha límite para terminar la
                                         definición del proyecto</label
                                     >
                                     <input
-                                        aria-label="Fecha limite"
-                                        autocapitalize="none"
-                                        autocorrect="off"
-                                        class="form-control"
-                                        formControlName="fecha_limite"
-                                        id="fecha_limite"
-                                        name="fecha_limite"
-                                        spellcheck="false"
-                                        type="date"
-                                        value="2021-07-01"
+                                        aria-label='Fecha limite'
+                                        autocapitalize='none'
+                                        autocorrect='off'
+                                        class='form-control'
+                                        formControlName='fecha_limite'
+                                        id='fecha_limite'
+                                        name='fecha_limite'
+                                        spellcheck='false'
+                                        type='date'
+                                        value='2021-07-01'
                                     />
                                 </div>
                             </div>
                         </div>
 
-                        <div class="row">
-                            <div class="col">
-                                <div class="form-group">
-                                    <label for="cuatrimestre"
+                        <div class='row'>
+                            <div class='col'>
+                                <div class='form-group'>
+                                    <label for='cuatrimestre'
                                     >Cuatrimestre Objetivo</label
                                     >
                                     <select
-                                        class="form-control"
-                                        formControlName="cuatrimestre"
-                                        id="cuatrimestre"
-                                        name="cuatrimestre"
-                                        placeholder="Elige un cuatrimestre"
+                                        class='form-control'
+                                        formControlName='cuatrimestre'
+                                        id='cuatrimestre'
+                                        name='cuatrimestre'
+                                        placeholder='Elige un cuatrimestre'
                                     >
-                                        <option value="Primer cuatrimestre">
+                                        <option value='Primer cuatrimestre'>
                                             Primer cuatrimestre
                                         </option>
-                                        <option value="Segundo cuatrimestre">
+                                        <option value='Segundo cuatrimestre'>
                                             Segundo cuatrimestre
                                         </option>
-                                        <option value="Anual">Anual</option>
+                                        <option value='Anual'>Anual</option>
                                     </select>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="row">
-                            <div class="col">
-                                <div class="form-group">
+                        <div class='row'>
+                            <div class='col'>
+                                <div class='form-group'>
                                     <label>Año académico objetivo</label>
                                     <input
-                                        autocapitalize="none"
-                                        autocorrect="off"
-                                        class="form-control"
-                                        formControlName="anio_academico"
-                                        id="anio_academico"
-                                        min="2021"
-                                        name="anio_academico"
-                                        placeholder="Año académico"
-                                        spellcheck="false"
-                                        type="number"
-                                        value="2021"
-                                        value="2022"
+                                        autocapitalize='none'
+                                        autocorrect='off'
+                                        class='form-control'
+                                        formControlName='anio_academico'
+                                        id='anio_academico'
+                                        min='2021'
+                                        name='anio_academico'
+                                        placeholder='Año académico'
+                                        spellcheck='false'
+                                        type='number'
+                                        value='2021'
+                                        value='2022'
                                     />
                                 </div>
                             </div>
                         </div>
 
-                        <div class="row">
-                            <div class="col">
-                                <div class="form-group">
-                                    <label for="observaciones"
+                        <div class='row'>
+                            <div class='col'>
+                                <div class='form-group'>
+                                    <label for='observaciones'
                                     >Si tiene alguna peticion especial en
                                         cuanto a las fechas, escribala
                                         aqui</label
                                     >
                                     <textarea
-                                        class="form-control"
-                                        formControlName="observaciones"
-                                        id="observaciones"
-                                        name="observaciones"
-                                        placeholder="Escribe cualquier observación temporal que consideres adecuada"
-                                        rows="8"
+                                        class='form-control'
+                                        formControlName='observaciones'
+                                        id='observaciones'
+                                        name='observaciones'
+                                        placeholder='Escribe cualquier observación temporal que consideres adecuada'
+                                        rows='8'
                                     ></textarea>
                                 </div>
                             </div>
@@ -316,34 +317,34 @@
                         <!-- </div> -->
 
                         <div
-                            *ngIf="
+                            *ngIf='
                                 this.usuarioService.usuario.esGestor && USUARIOS
-                            "
-                            class="row"
+                            '
+                            class='row'
                         >
-                            <div class="col">
-                                <div class="form-group">
-                                    <label for="creador"
+                            <div class='col'>
+                                <div class='form-group'>
+                                    <label for='creador'
                                     >creador (solo modificable por el gestor
                                         del portal)</label
                                     >
                                     <select
-                                        class="form-control"
-                                        formControlName="creador"
-                                        id="creador"
-                                        name="area"
+                                        class='form-control'
+                                        formControlName='creador'
+                                        id='creador'
+                                        name='area'
                                     >
-                                        <option value="">
+                                        <option value=''>
                                             Elije un usuario que se haga cargo
                                             de la oferta
                                         </option>
                                         <option
-                                            *ngFor="let USUARIO of USUARIOS"
-                                            [selected]="
+                                            *ngFor='let USUARIO of USUARIOS'
+                                            [selected]='
                                                 this.oferta.creador ==
                                                 USUARIO.uid
-                                            "
-                                            value="{{ USUARIO.uid }}"
+                                            '
+                                            value='{{ USUARIO.uid }}'
                                         >
                                             {{ USUARIO.email }} -
                                             {{ USUARIO.displayRol }}
@@ -353,20 +354,20 @@
                             </div>
                         </div>
 
-                        <div class="row">
-                            <div class="col">
+                        <div class='row'>
+                            <div class='col'>
                                 <div
-                                    *ngIf="!this.oferta_id"
-                                    class="card text-white bg-info mb-3"
+                                    *ngIf='!this.oferta_id'
+                                    class='card text-white bg-info mb-3'
                                 >
-                                    <div class="card-body">
-                                        <h5 class="card-title text-center">
+                                    <div class='card-body'>
+                                        <h5 class='card-title text-center'>
                                             <fa-icon
                                                 [icon]="['fas', 'info-circle']"
                                             ></fa-icon>
                                             Info
                                         </h5>
-                                        <p class="card-text">
+                                        <p class='card-text'>
                                             Una vez creados los datos básicos de
                                             la oferta, se podrán subir archivos
                                             e imágenes a la misma, así como
@@ -385,58 +386,58 @@
                             </div> -->
                         </div>
 
-                        <label style="color: green; margin-top: 0.5cm"
+                        <label style='color: green; margin-top: 0.5cm'
                         >Los campos obligatorios tienen asterisco.</label
                         >
 
-                        <div class="d-flex">
+                        <div class='d-flex'>
                             <div
-                                *ngIf="
+                                *ngIf='
                                     this.crearOfertaForm.invalid &&
                                     this.formSubmitted
-                                "
-                                class="flex-fill alert alert-danger mr-3"
-                                role="alert"
+                                '
+                                class='flex-fill alert alert-danger mr-3'
+                                role='alert'
                             >
                                 <div
                                     *ngIf="campoNoValido('titulo')"
-                                    class="col"
+                                    class='col'
                                 >
                                     {{ campoNoValido("titulo") }}
                                 </div>
                                 <div
                                     *ngIf="campoNoValido('area_servicio')"
-                                    class="col"
+                                    class='col'
                                 >
                                     {{ campoNoValido("area_servicio") }}
                                 </div>
                                 <div
                                     *ngIf="campoNoValido('descripcion')"
-                                    class="col"
+                                    class='col'
                                 >
                                     {{ campoNoValido("descripcion") }}
                                 </div>
                                 <div
                                     *ngIf="campoNoValido('asignatura')"
-                                    class="col"
+                                    class='col'
                                 >
                                     {{ campoNoValido("asignatura") }}
                                 </div>
                                 <div
                                     *ngIf="campoNoValido('fecha_limite')"
-                                    class="col"
+                                    class='col'
                                 >
                                     {{ campoNoValido("fecha_limite") }}
                                 </div>
                                 <div
                                     *ngIf="campoNoValido('cuatrimestre')"
-                                    class="col"
+                                    class='col'
                                 >
                                     {{ campoNoValido("cuatrimestre") }}
                                 </div>
                                 <div
                                     *ngIf="campoNoValido('anio_academico')"
-                                    class="col"
+                                    class='col'
                                 >
                                     {{ campoNoValido("anio_academico") }}
                                 </div>
@@ -444,36 +445,36 @@
                                 <!-- <div *ngIf="campoNoValido('terminos_aceptados')" class="col">{{ campoNoValido('terminos_aceptados') }}</div> -->
                             </div>
 
-                            <div class="ml-auto mb-2">
+                            <div class='ml-auto mb-2'>
                                 <input
-                                    *ngIf="!this.oferta_id"
-                                    [disabled]="
+                                    *ngIf='!this.oferta_id'
+                                    [disabled]='
                                         this.formSending ||
                                         (this.formSubmitted &&
                                             this.crearOfertaForm.invalid)
-                                    "
+                                    '
                                     [value]="
                                         this.formSending
                                             ? 'Creando...'
                                             : 'Crear oferta'
                                     "
-                                    class="btn btn-default btn-secondary m-4"
-                                    type="submit"
+                                    class='btn btn-default btn-secondary m-4'
+                                    type='submit'
                                 />
                                 <input
-                                    *ngIf="this.oferta_id"
-                                    [disabled]="
+                                    *ngIf='this.oferta_id'
+                                    [disabled]='
                                         this.formSending ||
                                         (this.formSubmitted &&
                                             this.crearOfertaForm.invalid)
-                                    "
+                                    '
                                     [value]="
                                         this.formSending
                                             ? 'Actualizando...'
                                             : 'Actualizar oferta'
                                     "
-                                    class="btn btn-default btn-secondary m-4"
-                                    type="submit"
+                                    class='btn btn-default btn-secondary m-4'
+                                    type='submit'
                                 />
                             </div>
                         </div>

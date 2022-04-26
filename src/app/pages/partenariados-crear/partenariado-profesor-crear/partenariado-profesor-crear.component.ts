@@ -44,14 +44,15 @@ export class PartenariadoCrearProfesorComponent implements OnInit {
 
     async ngOnInit() {
         this.activatedRoute.params.subscribe(({ id }) => {
-            this.load(id);
+            //this.activatedRoute.snapshot.queryParams.demanda_id !== undefined
+            this.load(this.activatedRoute.snapshot.queryParams.demanda, this.activatedRoute.snapshot.queryParams.oferta);
         });
     }
 
-    async load(id: number) {
+    async load(demanda: number, oferta: number) {
         await this.cargarPartenariado();
-        //await this.obtenerOferta(id);
-        await this.obtenerDemanda(id);
+        await this.obtenerOferta(oferta);
+        await this.obtenerDemanda(demanda);
         //await this.obtenerProfesores();
 
         this.oferta = new Oferta('', '', '', '', '', '', '', '', '', '', undefined, [], [], [], []);

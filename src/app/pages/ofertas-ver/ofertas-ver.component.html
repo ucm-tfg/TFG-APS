@@ -71,7 +71,7 @@
                     al listado
                 </button>
                 <button class='btn btn-info' style='width: 200px' type='button'>Ir a gestión de la oferta</button>
-                <button [routerLink]="['/partenariados/profesor/crear/',oferta.id]" class='btn btn-info' style='width: 200px' type='button'>Crear partenariado</button>
+                <button [routerLink]="['/demandas/crear']" [queryParams]='{oferta_id: oferta.id}' class='btn btn-info' style='width: 200px' type='button'>Crear partenariado</button>
             </div>
         </div>
     </div>
