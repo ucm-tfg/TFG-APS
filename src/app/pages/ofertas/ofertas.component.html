@@ -80,7 +80,56 @@
                         <h6 class="title mb-0">Profesor</h6>
                     </header>
                     <div class="card-body">
-                        <label
+                        <ng-multiselect-dropdown
+                                [data]="profesores"
+                                [placeholder]="'Seleccione el profedor'"
+                                [settings]="dropdownSettings"
+                                (onSelect)="onItemProfesor($event)" 
+                            >
+                                <ng-template
+                                    #optionsTemplate
+                                    let-id="id"
+                                    let-isSelected="isSelected"
+                                    let-item
+                                    let-option="option"
+                                >
+                                    <div
+                                        style="
+                                            padding: 1px 10px;
+                                            margin: 40px;
+                                            right: 2px;
+                                            top: -2px;
+                                        "
+                                    >
+                                    <label
+                                            [ngStyle]="{
+                                                'font-weight': isSelected
+                                                    ? 'bold'
+                                                    : ' normal',
+                                                color: getItems[id].isDisabled
+                                                    ? 'lightgrey'
+                                                    : ''
+                                            }"
+                                            style="
+                                                color: #333;
+                                                min-width: 130px;
+                                                font-weight: normal;
+                                            "
+                                        >{{getItems[id].nombre}}</label>
+                                    </div>
+                                </ng-template>
+                                <ng-template
+                                    #optionSelectedTemplate
+                                    let-id="id"
+                                    let-option="option"
+                                >
+                                    <div>
+                                        {{ option }}
+                                    </div>
+                                </ng-template>
+                            </ng-multiselect-dropdown>
+
+                        <!-- <label
                             *ngFor="let prof of profesores"
                             class="form-check"
                         >
@@ -90,9 +139,10 @@
                                 [value]="true"
                                 class="form-check-input"
                                 type="checkbox"
+                                name="{{prof.id}}"
                             />
                             <span class="form-check-label">{{ prof.nombre + ' ' + prof.apellidos }}</span>
-                        </label>
+                        </label> -->
                     </div>
                 </div>
 

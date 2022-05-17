@@ -25,28 +25,10 @@ export class Partenariado {
         public archivos: Upload[],
         public proponedor: Usuario,
         public creador: Usuario,
+        public idDemanda:Number,
+        public idOferta:Number,
 
 
-        /* public necesidadSocial: String,
-        public externo: Boolean,
-        public finalidad: String,
-        public comunidadBeneficiaria: String,
-        public responsable: Usuario,
-        public fechaInicio: Date,
-        public fechaFin: Date,
-        public entidad: Usuario,
-        public asignaturaObjetivo: String,
-        public titulacionesLocales: Array<Object>,
-
-
-        public proyecto: Proyecto,
-        public profesores: Usuario[],
-        public entidades: Usuario[],
-        public mensajes: Object,
-        public archivos: Upload[],
-        public proponedor: Usuario,
-
-        public createdAt: string, */
     ) {}
 
     get parsedCreatedAt() {

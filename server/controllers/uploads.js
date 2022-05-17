@@ -154,136 +154,149 @@ const puedeSubirFichero = async (campo, tipo, tipo_id, creador) => {
 const subirFichero =  async (req, res = response) => {
     // ESTO SOLO SE ESTA UTILIZANDO PARA LA CARGA DE LA IMAGEN DE PROFILE
 
-    try {
-        const imagen = req.files.imagen;
+//     try {
+//         const imagen = req.files.imagen;
 
-        result = await daoUsuario.updateAvatar(115, new Buffer(imagen.data).toString('base64'));
-
-        return res.status(200).json({
-            ok: result ? true : false,
-        });
-    } catch (error) {
-        console.error(error);
-
-        return res.status(500).json({
-            ok: false,
-            msg: "Error inesperado",
-        });
-    }
-};
-
-// try {
-//     const campo = req.params.campo;
-//     const tipo = req.params.tipo;
-//     const tipo_id = req.params.tipo_id;
-//     const creador = req.current_user;
-
-//     const tiposPermitidos = ['usuarios', 'iniciativas', 'partenariados', 'proyectos'];
-//     let extensionesPermitidas = [];
-
-//     if(campo == 'default') {
-//         extensionesPermitidas = ['gif','jpg','jpeg','png'];
-//     } else {
-
-//         switch (tipo) {
-//             case 'usuarios':
-//                 extensionesPermitidas = ['gif','jpg','jpeg','png'];
-//                 break;
-
-//             case 'iniciativas':
-//                 extensionesPermitidas = ['pdf'];
-//                 break;
-
-//             case 'partenariados':
-//                 extensionesPermitidas = ['pdf'];
-//                 break;
-
-//             case 'proyectos':
-//                 extensionesPermitidas = ['pdf'];
-//                 break;
-
-//             default:
-//                 break;
-//         }
-//     }
-
-//     // validar permisos de usuario
-//     if( !puedeSubirFichero(campo, tipo, tipo_id, creador) ) {
-//         return res.status(400).json({
-//             ok: false,
-//             msg: 'No tienes permisos para subir este archivo',
-//         });
-//     }
-
-//     // validar tipo de subida
-//     if( !tiposPermitidos.includes(tipo) ) {
-//         return res.status(400).json({
-//             ok: false,
-//             msg: 'El tipo de subida no está admitido',
-//         });
-//     }
-
-//     // validar que se envie un archivo para subir
-//     if (!req.files || Object.keys(req.files).length === 0) {
-//         return res.status(400).json({
-//             ok: false,
-//             msg: 'No se envió ningún archivo',
-//         });
-//     }
-
-//     // Procesar la imagen
-//     const imagen = req.files.imagen;
-//     const filename_array = imagen.name.split('.');
-//     const extension = filename_array[ filename_array.length - 1];
-
-//     if( !extensionesPermitidas.includes(extension)) {
-//         return res.status(400).json({
-//             ok: false,
-//             msg: 'El tipo de archivo no está admitido',
-//         });
-//     }
-
-//     const client_name = imagen.name;
-//     const filename_uuid = `${ uuidv4() }.${ extension }`;
-//     const filename_path = `./server/uploads/${ tipo }/${ filename_uuid }`;
-
-//     // mover la imagen
-//     imagen.mv(filename_path, function(err) {
-
-//         if(err) {
-//             console.log(err);
-//             return res.status(500).json({
-//                 ok: false,
-//                 msg: 'Error al mover la imagen',
-//             });
-//         }
-
-//         // comprobar si tengo que subir al s3
-//         if(process.env.FILE_STORAGE === 's3') {
-//             uploadFileToS3(filename_path);
-//         }
-
-//         // generar upload en bbdd
-//         crearUpload(campo, tipo, tipo_id, filename_path, filename_uuid, client_name, creador.uid).then(resp => {
+//         fs.writeFile("path/to/file", data, function(err) {
+//             if(err) {
+//                 return console.log(err);
+//             }
 //             return res.status(200).json({
-//                 ok: true,
-//                 msg: 'Archivo subido',
-//                 upload: resp
+//                 ok: result ? true : false,
 //             });
-//         });
+//         }); 
 
-//     });
+        
+//         // result = await daoUsuario.updateAvatar(115, new Buffer(imagen.data).toString('base64'));
 
+//         // return res.status(200).json({
+//         //     ok: result ? true : false,
+//         // });
 //     } catch (error) {
 //         console.error(error);
 
 //         return res.status(500).json({
 //             ok: false,
-//             msg: 'Error inesperado',
+//             msg: "Error inesperado",
 //         });
 //     }
+// };
 
-// }
+try {
+    const campo = req.params.campo;
+    const tipo = req.params.tipo;
+    const tipo_id = req.params.tipo_id;
+    const creador = req.current_user;
+
+    const tiposPermitidos = ['usuarios', 'iniciativas', 'partenariados', 'proyectos'];
+    let extensionesPermitidas = [];
+
+    if(campo == 'default') {
+        extensionesPermitidas = ['gif','jpg','jpeg','png'];
+    } else {
+
+        switch (tipo) {
+            case 'usuarios':
+                extensionesPermitidas = ['gif','jpg','jpeg','png'];
+                break;
+
+            case 'iniciativas':
+                extensionesPermitidas = ['pdf'];
+                break;
+
+            case 'partenariados':
+                extensionesPermitidas = ['pdf'];
+                break;
+
+            case 'proyectos':
+                extensionesPermitidas = ['pdf'];
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    // validar permisos de usuario
+    if( !puedeSubirFichero(campo, tipo, tipo_id, creador) ) {
+        return res.status(400).json({
+            ok: false,
+            msg: 'No tienes permisos para subir este archivo',
+        });
+    }
+
+    // validar tipo de subida
+    if( !tiposPermitidos.includes(tipo) ) {
+        return res.status(400).json({
+            ok: false,
+            msg: 'El tipo de subida no está admitido',
+        });
+    }
+
+    // validar que se envie un archivo para subir
+    if (!req.files || Object.keys(req.files).length === 0) {
+        return res.status(400).json({
+            ok: false,
+            msg: 'No se envió ningún archivo',
+        });
+    }
+
+    // Procesar la imagen
+    const imagen = req.files.imagen;
+    const filename_array = imagen.name.split('.');
+    const extension = filename_array[ filename_array.length - 1];
+
+    if( !extensionesPermitidas.includes(extension)) {
+        return res.status(400).json({
+            ok: false,
+            msg: 'El tipo de archivo no está admitido',
+        });
+    }
+
+    const client_name = imagen.name;
+    const filename_uuid = `${ uuidv4() }.${ extension }`;
+    const filename_path = `./server/uploads/${ tipo }/${ filename_uuid }`;
+
+    // mover la imagen
+    imagen.mv(filename_path, async function(err) {
+
+        if(err) {
+            console.log(err);
+            return res.status(500).json({
+                ok: false,
+                msg: 'Error al mover la imagen',
+            });
+        }
+        await daoUsuario.updateAvatar(creador.uid, filename_uuid);
+        // comprobar si tengo que subir al s3
+        // if(process.env.FILE_STORAGE === 's3') {
+        //     uploadFileToS3(filename_path);
+        // }
+
+        // // generar upload en bbdd
+        // crearUpload(campo, tipo, tipo_id, filename_path, filename_uuid, client_name, creador.uid).then(resp => {
+        //     return res.status(200).json({
+        //         ok: true,
+        //         msg: 'Archivo subido',
+        //         upload: resp
+        //     });
+        // });
+        return res.status(200).json({
+            ok: true,
+            msg: 'Archivo subido' 
+        });
+    });
+
+    } catch (error) {
+        console.error(error);
+
+        return res.status(500).json({
+            ok: false,
+            msg: 'Error inesperado',
+        });
+    }
+
+}
 
 const borrarFichero = async (req, res = response) => {
     try {

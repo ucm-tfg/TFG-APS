@@ -80,11 +80,33 @@ const getUsuarios = async (req, res) => {
 const getUsuario = async (req, res) => {
     try {
         const uid = req.params.uid;
-        const usuario = await dao_usuario.obtenerUsuarioSinRolPorId(uid);
-
+        let usuario = await dao_usuario.obtenerUsuarioSinRolPorId(uid);
+        let usuarioPath = await dao_usuario.getPathAvatar(uid);
+        usuario.origin_img = usuarioPath;
         return res.status(200).json({
             ok: true,
             usuario,
+        });
+
+    } catch (error) {
+        console.error(error);
+
+        return res.status(500).json({
+            ok: false,
+            msg: 'Error inesperado',
+        });
+    }
+}
+
+
+const getUsuarioPath = async (req, res) => {
+    try {
+        const uid = req.params.uid;
+        const usuarioPath = await dao_usuario.getPathAvatar(uid);
+
+        return res.status(200).json({
+            ok: true,
+            usuarioPath,
         });
 
     } catch (error) {
@@ -427,6 +449,7 @@ const borrarUsuario = async (req, res = response) => {
 module.exports = {
     getUsuarios,
     getUsuario,
+    getUsuarioPath,
     crearUsuario,
     actualizarUsuario,
     borrarUsuario,
