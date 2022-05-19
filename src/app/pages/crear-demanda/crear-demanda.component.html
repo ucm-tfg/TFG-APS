@@ -4,7 +4,71 @@
         <strong *ngIf="this.Demanda_id">Actualizar Demanda</strong>
         <strong *ngIf="!this.Demanda_id">Crear Demanda</strong>
     </h5>
-
+    <button
+        style="margin-left: auto; margin-right: auto; margin-bottom: 10px;"
+        type="button"
+        class="btn btn-primary"
+        (click)="openPopup()">Mostrar más info
+    </button>
+    <div
+  class="modal"
+  tabindex="-1"
+  role="dialog"
+  [ngStyle]="{'display':displayStyle}">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Información sobre los campos del formulario</h4>
+      </div>
+      <div class="modal-body">
+        <ul>
+            <li>
+                Titulo: Titulo de la demanda. Recomendable que sea corto y descriptivo.
+            </li>
+            <li>
+                Descripción: Descripción detallada sobre una demanda.
+            </li>
+            <li>
+                Area de implementación: Área de servicio en la que se implementará una demanda concreta
+            </li>
+            <li>
+                Localización: Indica la localización donde se va a realizar el servicio. Si va a ser de manera remota, escriba online
+            </li>
+            <li>
+                Objetivo: Objetivo que va a cumplir la demanda.
+            </li>
+            <li>
+                Comienzo del periodo de disponibilidad para definir el proyecto: Inicio del periodo de definición de un proyecto.
+            </li>
+            <li>
+                Fin del periodo de disponibilidad para definir el proyecto: Fin del periodo de definición de un proyecto.
+            </li>
+            <li>
+                Comienzo del periodo de disponibilidad para trabajar en el proyecto: Inicio del periodo de implementación de un proyecto.
+            </li>
+            <li>
+                Fin del periodo de disponibilidad para trabajar en el proyecto: Fin del periodo de inplementación de un proyecto.
+            </li>
+            <li>
+                Fecha límite para el fin de la realización del proyecto: Fecha límite para terminar el proyecto.
+            </li>
+            <li>
+                Necesidad social: Indica la necesidad social que se va a cubrir con el proyecto.
+            </li>
+            <li>
+                Comunidad beneficiaria: Indica la comunidad que se va a beneficiar de la realización del proyecto.
+            </li>
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" 
+                (click)="closePopup()">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
     <main class="container">
         <section role="main">
 

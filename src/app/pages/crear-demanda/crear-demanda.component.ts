@@ -349,6 +349,14 @@ observableEnviarDemanda() {
     }
   }
 
+  displayStyle = "none";
+  
+  openPopup() {
+    this.displayStyle = "block";
+  }
+  closePopup() {
+    this.displayStyle = "none";
+  }
 
   async cargarDemanda() {
     this.Demanda = new Demanda('', '', '', '', '', '', [],'','','','','','',[],[],null, '','','');
