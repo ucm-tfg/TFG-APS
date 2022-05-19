@@ -17,7 +17,12 @@
         <strong *ngIf="!this.oferta_id">Crear Oferta</strong>
         <!-- <a class="btn btn-light border-white btn-sm" [routerLink]="['/ofertas']" role="button">Volver</a> -->
     </h5>
-
+    <button
+        style="margin-left: auto; margin-right: auto; margin-bottom: 10px;"
+        type="button"
+        class="btn btn-primary"
+        (click)="openPopup()">Mostrar más info
+    </button>
     <div class="row">
         <div class="col-12">
             <div class="card">
@@ -34,6 +39,53 @@
                             <div class="col">
                                 <div class="form-group">
                                     <label>Título *</label>
+<div
+  class="modal"
+  tabindex="-1"
+  role="dialog"
+  [ngStyle]="{'display':displayStyle}">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Información sobre los campos del formulario</h4>
+      </div>
+      <div class="modal-body">
+        <ul>
+            <li>
+                Titulo: Titulo de la oferta. Recomendable que sea corto y descriptivo.
+            </li>
+            <li>
+                Area de implementación: Área de servicio en la que se implementará una oferta concreta
+            </li>
+            <li>
+                Descripción: Descripción detallada sobre una oferta.
+            </li>
+            <li>
+                Tags: Etiquetas creadas a partir de una oferta. Se crean automáticamente
+            </li>
+            <li>
+                Asignatura objetivo: Asignatura a la que va dirigida una oferta concreta.
+            </li>
+            <li>
+                Fecha límite para terminar la definición del proyecto: Plazo máximo para definir un proyecto 
+            </li>
+            <li>
+                Año académico objetivo: Año académico en el que queda establecida la oferta.
+            </li>
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" 
+                (click)="closePopup()">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
                                     <input
                                         autocapitalize="none"
                                         autocorrect="off"
@@ -53,6 +105,7 @@
                             <label for="area_servicio"
                             >Area de implementación *</label
                             >
+                            
                             <ng-multiselect-dropdown
                                 [data]="areasServicio"
                                 [placeholder]="'Selecciona el area de servicio'"

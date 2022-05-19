@@ -31,7 +31,7 @@ export class OfertasCrearComponent implements OnInit {
     public dropdownSettings: any = {};
     public USUARIOS; 
     public tags: any = [];
-    
+
     constructor(
         public fb: FormBuilder,
         public ofertaService: OfertaService,
@@ -207,6 +207,14 @@ export class OfertasCrearComponent implements OnInit {
         return '';
     }
 
+    displayStyle = "none";
+  
+  openPopup() {
+    this.displayStyle = "block";
+  }
+  closePopup() {
+    this.displayStyle = "none";
+  }
     async computeTags() {
       this.utilsService.computeTags(`${this.crearOfertaForm.value.titulo} ${this.crearOfertaForm.value.descripcion}`).subscribe((resp: any) => {
         this.tags = resp.tags;
