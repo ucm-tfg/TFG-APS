@@ -18,6 +18,10 @@ router.get(
 );
 
 // Obtener las ofertas que contienen un determinado area de servicio
+router.get(
+    '/ofertasAreaServicio/:id', [],
+    getOfertasAreaServicio
+)
 
 router.get(
     '/ofertasAreaServicio/:id', [],

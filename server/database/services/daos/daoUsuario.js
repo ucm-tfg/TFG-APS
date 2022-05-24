@@ -720,6 +720,22 @@ function obtenerUsuarioSinRolPorEmail(email) {
     });
 }
 
+
+function getPathAvatar(id) {
+  return knex("datos_personales_interno")
+    .from("datos_personales_interno")
+    .innerJoin("profesor_interno", "profesor_interno.datos_personales_Id", "datos_personales_interno.id")
+    .where("profesor_interno.id", id)
+    .select("*")
+    .then(function (response) {
+      return response.length > 0 ? response[0]: undefined;
+    })
+    .catch((err) => {
+      console.log(err);
+      console.log("Se ha producido un error al intentar actualizar el avatar del usuario interno");
+    });
+}
+
 function obtenerUsuarioSinRolPorId(id) {
   // internos
   return obtenerProfesorInterno(id).then((result) => {
@@ -1528,11 +1544,11 @@ function obtenerEstudianteExternoPorDatosPersonales(id) {
 //ACTUALIZAR--------------------------------------------------------------------------------------------------
 
 
-function updateAvatar(id, avatar) {
-  return knex("datos_personales_interno")
+function updateAvatar(id, photo) {
+  return knex("usuario") 
     .where("id", id)
     .update({
-      avatar: avatar,
+      origin_img: photo,
     })
     .then(() => {
       return id;
@@ -2094,6 +2110,7 @@ module.exports = {
   obtenerProfesores,
   obtenerSocioComunitario,
   obtenerAdmin,
+  getPathAvatar,
   obtenerAreasConocimientoUsuario,
   actualizarAdmin,
   actualizarSocioComunitario,

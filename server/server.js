@@ -14,7 +14,9 @@ app.use(cors());
 // Lectura y parsear json
 app.use(express.json());
 
-// Rutas
+// Rutas 
+app.use('/api/photos', express.static(__dirname + '/uploads/usuarios')); 
+
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/mails", require("./routes/mails"));
 app.use("/api/home", require("./routes/home"));
@@ -31,6 +33,7 @@ app.use("/api/tags", require("./routes/tags"));
 
 // Cuando la peticion no es para el backend, servimos el frontend
 app.use(express.static(__dirname + "/../dist/portal-aps"));
+
 
 app.listen(process.env.PORT, () => {
     console.info("Servidor escuchando en puerto " + process.env.PORT);

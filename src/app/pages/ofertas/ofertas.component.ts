@@ -96,11 +96,18 @@ export class OfertasComponent implements OnInit {
   }
 
   onItemSelectedArea(item: any){
-
     this.ofertaService.cargarOfertasPorAreaServicio(item.id).subscribe(({ ok, ofertas }) => {
       this.ofertas = ofertas
     });
   }
+
+
+
+  // onItemSelectedProfesor(profesor: any){ 
+  //   this.ofertaService.cargarOfertasPorProfesor(profesor.id).subscribe(({ ok, ofertas }) => {
+  //     this.ofertas = ofertas
+  //   });
+  // }
 
   cambiarPagina(): void {
     this.cargarOfertas()
@@ -129,6 +136,20 @@ export class OfertasComponent implements OnInit {
         this.cargando = false
       })
   }
+ 
+
+  onItemProfesor(profesor: any){
+    var filters = this.getFiltros();
+    filters.creador = profesor.id;
+    this.ofertaService
+      .cargarOfertas(this.offset, this.limit, filters)
+      .subscribe(({ total, filtradas, ofertas }) => {
+        this.totalOfertas = total.valueOf()
+        this.totalOfertasBuscadas = filtradas.valueOf()
+        this.ofertas = ofertas
+        this.cargando = false
+      })
+  }
 
   cargarProfesores(): void {
     this.partenarioService
@@ -138,6 +159,7 @@ export class OfertasComponent implements OnInit {
       })
   }
  
+  
   async computePossibleTags($event) {
     this.utilsService
       .computePossibleTags($event.target.value)

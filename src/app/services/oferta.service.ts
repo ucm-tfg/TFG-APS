@@ -87,6 +87,8 @@ export class OfertaService {
         );
     }
 
+   /****/ 
+
     computeTags(id: string) {
         return this.http.get<{ ok: boolean, oferta: Oferta }>(`${base_url}/ofertas/${id}`, this.usuarioService.headers)
             .pipe(

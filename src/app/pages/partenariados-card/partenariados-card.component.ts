@@ -5,7 +5,7 @@ import { OfertaService } from 'src/app/services/oferta.service';
 import { UsuarioService } from 'src/app/services/usuario.service';
 
 @Component({
-  selector: 'app-partenariados-card',
+  selector: 'app-partenariado-card',
   templateUrl: './partenariados-card.component.html',
   styleUrls: ['./partenariados-card.component.scss']
 })

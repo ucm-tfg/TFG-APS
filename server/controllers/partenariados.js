@@ -4,6 +4,7 @@ const dao_tentativa = require('./../database/services/daos/daoTentativa');
 const TOfertaServicio = require('./../database/services/transfers/TOfertaServicio');
 const TDemandaServicio = require('./../database/services/transfers/TDemandaServicio');
 const daoOferta = require('../database/services/daos/daoOferta');
+const daoPartenariados = require('../database/services/daos/daoPartenariados');
 
 // Common errors
 const UNEXPECTED_ERROR = 'Error inesperado';
@@ -165,96 +166,19 @@ const crearPartenariadoSocioComunitario = async (req, res = response) => {
 
 const getPartenariados = async (req, res) => {
     try {
-
-        const skip = Number(req.query.skip) || 0;
-        const limit = Number(req.query.limit) || Number.MAX_SAFE_INTEGER;
-
-        const filtros = JSON.parse(req.query.filtros || '{}');
-
-        let conditions = [];
-
-        // filtro por texto (titulo)
-        if (filtros.terminoBusqueda && filtros.terminoBusqueda.trim() !== '') {
-            conditions.push({
-                titulo: new RegExp(filtros.terminoBusqueda.trim(), 'i')
-            });
-        }
-
-        // filtro por rama
-        let ramaFilter = [];
-        Object.entries(filtros.ramas).forEach((entry) => {
-            const [rama, selected] = entry;
-            if (selected) {
-                ramaFilter.push(rama);
-            }
-        });
-        if (ramaFilter.length) {
-            conditions.push({ rama: { $in: ramaFilter } });
-        }
-
-        // filtro por ciudad
-        let ciudadFilter = [];
-        Object.entries(filtros.ciudades).forEach((entry) => {
-            const [ciudad, selected] = entry;
-            if (selected) {
-                ciudadFilter.push(ciudad);
-            }
-        });
-        if (ciudadFilter.length) {
-            conditions.push({ ciudad: { $in: ciudadFilter } });
-        }
-
-        // filtro por estado
-        if (filtros.estado !== '') {
-            conditions.push({ estado: filtros.estado });
-        }
-
-        // filtro por usuario creador, profesores o socios
-        if (filtros.creador !== '') {
-            conditions.push({
-                $or: [
-                    { profesores: { $in: filtros.creador } },
-                    { sociosComunitarios: { $in: new ObjectId(filtros.creador) } },
-                    { creador: { $in: filtros.creador } }
-                ]
-            });
-        }
-
-        const [partenariados, filtradas, total] = await Promise.all([
-            Partenariado.find(conditions.length ? { $and: conditions } : {})
-                .sort('-createdAt')
-                .skip(skip)
-                .limit(limit)
-                .populate(
-                    'profesores',
-                    '_id nombre apellidos email sector universidad titulacion rol'
-                )
-                .populate(
-                    'entidades',
-                    '_id nombre apellidos email sector universidad titulacion rol'
-                ),
-
-            Partenariado.find(
-                conditions.length ? { $and: conditions } : {}
-            ).countDocuments(),
-
-            Partenariado.countDocuments()
-        ]);
-
+        let partenariados = await daoPartenariados.obtenerPartenariados(req.query.limit, req.query.skip, req.query.filtros);
+        console.log("total de partenariados"); 
         return res.status(200).json({
             ok: true,
             partenariados,
-            filtradas: filtradas,
-            total: total,
-            filtros
+            total: partenariados.length
         });
     } catch (error) {
-        console.error(error);
-
+        console.log(error);
         return res.status(500).json({
             ok: false,
-            msg: UNEXPECTED_ERROR
-        });
+            msg: 'Error inesperado',
+        })
     }
 };
 

@@ -97,7 +97,7 @@ export class PartenariadoCrearProfesorComponent implements OnInit {
 
 
     async cargarPartenariado() {
-        this.partenariado = new Partenariado('', '', '', '', '', '', '', '', null, null, null, null, null, null);
+        this.partenariado = new Partenariado('', '', '', '', '', '', '', '', null, null, null, null, null, null,null,null);
     }
 
     async obtenerOferta(id: number) {
