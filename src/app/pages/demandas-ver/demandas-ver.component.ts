@@ -3,6 +3,7 @@ import { Demanda } from 'src/app/models/demanda.model';
 import { DemandaService } from 'src/app/services/demanda.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UsuarioService } from 'src/app/services/usuario.service';
+import Swal from 'sweetalert2';
 
 @Component({
     selector: 'app-demandas-ver',
@@ -31,5 +32,14 @@ export class DemandasVerComponent implements OnInit {
             }
             this.demanda = this.demandaService.mapearDemandas([demanda])[0];
         });
+    }
+
+    crearPartenariado() {
+        Swal.fire(
+            'Atención',
+            'Antes de crear un partenariado debes completar los datos de la oferta',
+            'warning'
+        );
+        return this.router.navigate(['/ofertas/crear'], { queryParams: { demanda_id: this.demanda.id } });
     }
 }
